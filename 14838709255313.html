@@ -1,0 +1,452 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+    
+  图的遍历（DFS && BFS） - 挂在树上的兔子
+  
+  </title>
+  
+  
+  <link href="atom.xml" rel="alternate" title="挂在树上的兔子" type="application/atom+xml">
+    <link rel="stylesheet" href="asset/css/foundation.min.css" />
+    <link rel="stylesheet" href="asset/css/docs.css" />
+    <script src="asset/js/vendor/modernizr.js"></script>
+    <script src="asset/js/vendor/jquery.js"></script>
+  <script src="asset/highlightjs/highlight.pack.js"></script>
+  <link href="asset/highlightjs/styles/github.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script>hljs.initHighlightingOnLoad();</script>
+<script type="text/javascript">
+  function before_search(){
+    var searchVal = 'site:blog.yanzl.net ' + document.getElementById('search_input').value;
+    document.getElementById('search_q').value = searchVal;
+    return true;
+  }
+</script>
+  </head>
+  <body class="antialiased hide-extras">
+    
+    <div class="marketing off-canvas-wrap" data-offcanvas>
+      <div class="inner-wrap">
+
+
+<nav class="top-bar docs-bar hide-for-small" data-topbar>
+
+
+  <section class="top-bar-section">
+  <div class="row">
+      <div style="position: relative;width:100%;"><div style="position: absolute; width:100%;">
+        <ul id="main-menu" class="left">
+        
+        <li id=""><a target="self" href="index.html">Home</a></li>
+        
+        <li id=""><a target="_self" href="archives.html">Archives</a></li>
+        
+        </ul>
+
+        <ul class="right" id="search-wrap">
+          <li>
+<form target="_blank" onsubmit="return before_search();" action="http://google.com/search" method="get">
+    <input type="hidden" id="search_q" name="q" value="" />
+    <input tabindex="1" type="search" id="search_input"  placeholder="Search"/>
+</form>
+</li>
+          </ul>
+      </div></div>
+  </div>
+  </section>
+
+</nav>
+
+        <nav class="tab-bar show-for-small">
+  <a href="javascript:void(0)" class="left-off-canvas-toggle menu-icon">
+    <span> &nbsp; 挂在树上的兔子</span>
+  </a>
+</nav>
+
+<aside class="left-off-canvas-menu">
+      <ul class="off-canvas-list">
+       
+       <li><a href="index.html">HOME</a></li>
+    <li><a href="archives.html">Archives</a></li>
+    <li><a href="about.html">ABOUT</a></li>
+
+    <li><label>Categories</label></li>
+
+        
+            <li><a href="%E6%95%B0%E6%8D%AE%E5%BA%93.html">数据库</a></li>
+        
+            <li><a href="Python.html">Python</a></li>
+        
+            <li><a href="%E9%9A%8F%E6%83%B3.html">随想</a></li>
+        
+            <li><a href="%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84&%E7%AE%97%E6%B3%95.html">数据结构&算法</a></li>
+        
+            <li><a href="PHP.html">PHP</a></li>
+        
+            <li><a href="Ubuntu.html">Ubuntu</a></li>
+         
+
+      </ul>
+    </aside>
+
+<a class="exit-off-canvas" href="#"></a>
+
+
+        <section id="main-content" role="main" class="scroll-container">
+        
+       
+
+ <script type="text/javascript">
+  $(function(){
+    $('#menu_item_index').addClass('is_active');
+  });
+</script>
+<div class="row">
+  <div class="large-8 medium-8 columns">
+      <div class="markdown-body article-wrap">
+       <div class="article">
+          
+          <h1>图的遍历（DFS && BFS）</h1>
+     
+        <div class="read-more clearfix">
+          <span class="date">2015/1/26</span>
+
+          <span>posted in&nbsp;</span> 
+          
+              <span class="posted-in"><a href='%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84&%E7%AE%97%E6%B3%95.html'>数据结构&算法</a></span>
+           
+         
+          <span class="comments">
+            
+
+            
+          </span>
+
+        </div>
+      </div><!-- article -->
+
+      <div class="article-content">
+      <p>DFS遍历（深度优先搜索）</p>
+
+<p>算法思想：对一个无向连通图，在访问图中某一起始顶点v之后，由v出发，访问它的某一邻接顶点w1，再从w1出发，访问w1的某一邻接但还没有访问过的顶点w2，然后从w2出发，依次类推地访问；。。。。。。；直到到达的顶点的所有邻接顶点都被访问过了，然后回退一步，看看上一个访问的顶点还有没有没有访问过的邻接点，如果有，则访问此顶点，如果没有，继续回退，直到退到起始点v为止。重复上述过程，直到所有顶点都被访问到了为止。</p>
+
+<p>用图片说话</p>
+
+<p><img src="media/14838709255313/DFS.jpg" alt="DFS"/></p>
+
+<p>图2.1描述的是对于图2.1.a从A点开始进行DFS搜索，实线表示递进，虚线表示回归 。2.1.c是递归遍历之后对应的二叉树。</p>
+
+<p>DFS</p>
+
+<p>DFS的伪代码表示</p>
+
+<p>该遍历需要一个标记数组visited[i]，记录哪些点已经被访问，哪些点没有被访问，n代表顶点数，m代表边数。</p>
+
+<p>如果用邻接表来存储图结构，DGS的实现伪代码为</p>
+
+<pre><code>void DFS(顶点i)
+{
+    visited[i] = 1;
+    p = 顶点i的边链表表头指针；
+    while(p != NULL)
+    {
+        //假设指针p所指向的边节点所表示的边中，另一个顶点为顶点j
+        if(visited[j] == 0)
+        {
+            //这里写递归搜索前的准备工作
+            DFS(顶点j);
+            //dfs的回退位置，要处理的在这里写
+        }
+        p = p-&gt;next;//移向下一个节点
+    }
+}
+</code></pre>
+
+<p>可以看出，在邻接表的存储下，DFS的时间复杂度为： O(n + 2 * m)。</p>
+
+<p>如果用邻接矩阵存储图结构，DFS的实现算法为</p>
+
+<pre><code>void DFS(顶点i)
+{
+    visited[i] = 1;
+    for(int j = 0;j &lt; n;j++)
+    {
+        if(mapp[i][j] == 1 &amp;&amp; visited[j] == 0)
+        {
+            //递归前的准备工作
+            DFS(j);
+            //回归后的各种操作
+        }
+    }
+}
+</code></pre>
+
+<p>可以看出，如果采用邻接矩阵存储图结构，时间复杂度为：O(n * n)。</p>
+
+<p>不过要注意，DFS是利用了栈的原理，如果递归的太多的话容易超时，所以在这种情况下，可以选择广度优先搜索BFS。</p>
+
+<p>BFS遍历（广度优先搜索）</p>
+
+<p>广度优先搜索是一个分层的搜索过程，没有回退过程，是非递归的。</p>
+
+<p>算法思想对一个无向连通图，在访问图中某一起始顶点v后，有v出发，依次访问v的所有未访问过的邻接顶点w1,w2,w3,w4......，然后再顺序访问w1,w2,w,3,w4....的所有还未访问过的邻接顶点，再从这些顶点出发，进行下一轮的访问进队列。。。。。。</p>
+
+<p>可以看出，BFS是一个循环的过程。</p>
+
+<p>图片说话：</p>
+
+<p><img src="media/14838709255313/BFS.jpg" alt="BFS"/></p>
+
+<p>BFS的伪代码表示</p>
+
+<p>如果图的存储为邻接链表的形式</p>
+
+<pre><code>void BFS(顶点i)//从顶点进行广度优先搜索
+{
+  visited[i] = 1;//将顶点i的访问标记为已访问
+  //将顶点i进队列
+  while(/*队列不为空*/)
+  {
+      //取出队列的顶点，设为k
+      //p = 顶点k的边表表头指针
+      while(/*p不为空*/)
+      {
+          //设指针p所指向的边结点所表示的边的另一个顶点为顶点i
+            if(/*顶点j未被访问过*/)
+            {
+                //将顶点j的访问标志置为1，并将顶点j入队列
+            }
+            p = p-&gt;next;
+      }
+  }
+}
+</code></pre>
+
+<p>如果图的存储是邻接矩阵，那么BFS的伪代码表示为</p>
+
+<pre><code>void BFS(/*顶点i*/)
+{
+    visited[i] = 1;
+    //顶点进入队列
+    while(/*队列不为空*/)
+    {
+       //取出队列头的顶点，设为k
+       for(j = 0;j &lt; n;j++)
+        {
+            //j是k的邻接顶点，并且j没有被访问过
+            if(edge[k][j] == 1 &amp;&amp; !visited[k][j])
+            {
+                //将顶点j标记为已访问，并且将j入队列
+            }
+        }
+    }
+}
+</code></pre>
+
+
+    
+
+      </div>
+
+      <div class="row">
+        <div class="large-6 columns">
+        <p class="text-left" style="padding:15px 0px;">
+      
+          <a href="14838710892101.html" 
+          title="Previous Post: Union-Find（并查集）总结">&laquo; Union-Find（并查集）总结</a>
+      
+        </p>
+        </div>
+        <div class="large-6 columns">
+      <p class="text-right" style="padding:15px 0px;">
+      
+          <a  href="14838706264843.html" 
+          title="Next Post: 二叉树总结">二叉树总结 &raquo;</a>
+      
+      </p>
+        </div>
+      </div>
+      <div class="comments-wrap">
+        <div class="share-comments">
+          
+
+          
+
+          
+        </div>
+      </div>
+    </div><!-- article-wrap -->
+  </div><!-- large 8 -->
+
+
+
+
+ <div class="large-4 medium-4 columns">
+  <div class="hide-for-small">
+    <div id="sidebar" class="sidebar">
+          <div id="site-info" class="site-info">
+            
+                <h1>挂在树上的兔子</h1>
+                <div class="site-des"></div>
+                <div class="social">
+
+
+
+
+
+
+
+
+
+
+
+  <a target="_blank" class="rss" href="atom.xml" title="RSS">RSS</a>
+                
+              	 </div>
+          	</div>
+
+             
+
+              <div id="site-categories" class="side-item ">
+                <div class="side-header">
+                  <h2>Categories</h2>
+                </div>
+                <div class="side-content">
+
+      	<p class="cat-list">
+        
+            <a href="%E6%95%B0%E6%8D%AE%E5%BA%93.html"><strong>数据库</strong></a>
+        
+            <a href="Python.html"><strong>Python</strong></a>
+        
+            <a href="%E9%9A%8F%E6%83%B3.html"><strong>随想</strong></a>
+        
+            <a href="%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84&%E7%AE%97%E6%B3%95.html"><strong>数据结构&算法</strong></a>
+        
+            <a href="PHP.html"><strong>PHP</strong></a>
+        
+            <a href="Ubuntu.html"><strong>Ubuntu</strong></a>
+         
+        </p>
+
+
+                </div>
+              </div>
+
+              <div id="site-categories" class="side-item">
+                <div class="side-header">
+                  <h2>Recent Posts</h2>
+                </div>
+                <div class="side-content">
+                <ul class="posts-list">
+	      
+		      
+			      <li class="post">
+			        <a href="14830907697555.html">MySQL数据库☞数据库编码</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="14830842110487.html">MySQL数据库☞中文乱码问题</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="14819928857822.html">MySQL的基本命令☞数据表的基本管理</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="14745361920074.html">python容器数据类型☞collections</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="14724629382123.html">python对列表进行操作</a>
+			      </li>
+		     
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		   
+		  		</ul>
+                </div>
+              </div>
+        </div><!-- sidebar -->
+      </div><!-- hide for small -->
+</div><!-- large 4 -->
+
+</div><!-- row -->
+
+ <div class="page-bottom clearfix">
+  <div class="row">
+   <p class="copyright">Copyright &copy; 2015
+Powered by <a target="_blank" href="http://www.mweb.im">MWeb</a>,&nbsp; 
+Theme used <a target="_blank" href="http://github.com">GitHub CSS</a>.</p>
+  </div>
+</div>
+
+        </section>
+      </div>
+    </div>
+
+  
+    
+
+    <script src="asset/js/foundation.min.js"></script>
+    <script>
+      $(document).foundation();
+      function fixSidebarHeight(){
+        var w1 = $('.markdown-body').height();
+          var w2 = $('#sidebar').height();
+          if (w1 > w2) { $('#sidebar').height(w1); };
+      }
+      $(function(){
+        fixSidebarHeight();
+      })
+      $(window).load(function(){
+          fixSidebarHeight();
+      });
+     
+    </script>
+
+    <script src="asset/chart/all-min.js"></script><script type="text/javascript">$(function(){    var mwebii=0;    var mwebChartEleId = 'mweb-chart-ele-';    $('pre>code').each(function(){        mwebii++;        var eleiid = mwebChartEleId+mwebii;        if($(this).hasClass('language-sequence')){            var ele = $(this).addClass('nohighlight').parent();            $('<div id="'+eleiid+'"></div>').insertAfter(ele);            ele.hide();            var diagram = Diagram.parse($(this).text());            diagram.drawSVG(eleiid,{theme: 'simple'});        }else if($(this).hasClass('language-flow')){            var ele = $(this).addClass('nohighlight').parent();            $('<div id="'+eleiid+'"></div>').insertAfter(ele);            ele.hide();            var diagram = flowchart.parse($(this).text());            diagram.drawSVG(eleiid);        }    });});</script>
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script type="text/x-mathjax-config">MathJax.Hub.Config({TeX: { equationNumbers: { autoNumber: "AMS" } }});</script>
+
+
+  </body>
+</html>

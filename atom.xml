@@ -1,0 +1,2625 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[挂在树上的兔子]]></title>
+  <link href="http://blog.yanzl.net/atom.xml" rel="self"/>
+  <link href="http://blog.yanzl.net/"/>
+  <updated>2017-07-04T23:23:27+08:00</updated>
+  <id>http://blog.yanzl.net/</id>
+  <author>
+    <name><![CDATA[]]></name>
+    
+  </author>
+  <generator uri="http://www.mweb.im/">MWeb</generator>
+  
+  <entry>
+    <title type="html"><![CDATA[MySQL数据库☞数据库编码]]></title>
+    <link href="http://blog.yanzl.net/14830907697555.html"/>
+    <updated>2016-12-30T17:39:29+08:00</updated>
+    <id>http://blog.yanzl.net/14830907697555.html</id>
+    <content type="html"><![CDATA[
+<h2 id="toc_0">概述</h2>
+
+<p>MySQL是平时常用的数据库之一，在存储中文的时候，经常出现乱码的情况，今天总结一下关于乱码出现的原因以及解决方法。</p>
+
+<h2 id="toc_1">数据的存入取出</h2>
+
+<p>我们知道，MySQL的逻辑架构包括三层，最上表面一层是客户端，我们也是通过各类客户端来操作MySQL；中间一层是MySQL的核心所在，一般包括了查询解析、分析、优化、缓存、所有的内置函数、所有的跨存储引擎的功能（存储过程、触发器、视图等）都在这一层实现；最下面一层就是MySQL的存储引擎，包括我们熟悉的（InnoDB，MyIsAM等MySQL的内建存储引擎和第三方存储引擎）</p>
+
+<p>将数据存入MySQL的时候，</p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[MySQL数据库☞中文乱码问题]]></title>
+    <link href="http://blog.yanzl.net/14830842110487.html"/>
+    <updated>2016-12-30T15:50:11+08:00</updated>
+    <id>http://blog.yanzl.net/14830842110487.html</id>
+    <content type="html"><![CDATA[
+<h2 id="toc_0">背景</h2>
+
+<pre><code>show variables like &#39;character_set_%&#39;;
+</code></pre>
+
+<p>结果为：</p>
+
+<table>
+<thead>
+<tr>
+<th>Variable_name</th>
+<th>Value</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>character_set_client</td>
+<td>utf8</td>
+</tr>
+<tr>
+<td>character_set_connection</td>
+<td>utf8</td>
+</tr>
+<tr>
+<td>character_set_database</td>
+<td>utf8</td>
+</tr>
+<tr>
+<td>character_set_filesystem</td>
+<td>binary</td>
+</tr>
+<tr>
+<td>character_set_results</td>
+<td>utf8</td>
+</tr>
+<tr>
+<td>character_set_server</td>
+<td>utf8</td>
+</tr>
+<tr>
+<td>character_set_system</td>
+<td>utf8</td>
+</tr>
+<tr>
+<td>character_sets_dir</td>
+<td>/usr/local/Cellar/mysql/5.7.13/share/mysql/charsets/</td>
+</tr>
+</tbody>
+</table>
+
+<p><strong>测试数据库的编码为：</strong> utf8</p>
+
+<p><strong>创建数据表</strong></p>
+
+<pre><code class="language-mysql">CREATE TABLE `one` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(32) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=226 DEFAULT CHARSET=utf8 |
+</code></pre>
+
+<p>在该状态下写入一条语句：</p>
+
+<pre><code class="language-mysql">insert into one (name) values(&quot;测试姓名&quot;);
+</code></pre>
+
+<p>&quot;测试名字&quot;数据是在所有的字符集都是utf8的情况下插入的<br/>
+&quot;测试名字123&quot;数据是在表的字符集属于latin1的情况下插入的<br/>
+“测试名字abc”数据是在表和连接的字符集是latin1的情况下插入的<br/>
+&quot;测试名字456&quot;数据是在连接的字符集是latin1的情况下插入的，</p>
+
+<h2 id="toc_1">开始测试</h2>
+
+<h3 id="toc_2">测试单一非正常字符集对中文的影响</h3>
+
+<p>分别执行以下操作：</p>
+
+<pre><code>alter table one default character set latin1;
+set character_set_connection=latin1;
+alter database test default character set latin1;
+set character_set_client=latin1;
+</code></pre>
+
+<p>然后分别查询表中的中文数据，发现能够正常显示中文数据&quot;测试名字&quot;，可见中文乱码与其中一个非正常字符集是没有关系的。</p>
+
+<h3 id="toc_3">测试组合非正常字符集对中文的影响</h3>
+
+<p>一起执行如下语句：</p>
+
+<pre><code>alter table one default character set latin1;
+set character_set_connection=latin1;
+alter database test default character set latin1;
+set character_set_client=latin1;
+</code></pre>
+
+<p>查询表中中文数据，发现能够正常显示数据“测试名字”,&quot;测试名字123&quot;</p>
+
+<pre><code>set character_set_connection=latin1;
+alter table one default character set latin1;
+</code></pre>
+
+<p>查询表中中文数据，发现“测试名字”，“测试名字123”显示正常， “测试名字abc”乱码</p>
+
+<pre><code>set character_set_connection=latin1;
+</code></pre>
+
+<p>查询表中数据，发现&quot;测试名字&quot;， “测试名字123”显示正常， “测试名字abc”乱码</p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[MySQL的基本命令☞数据表的基本管理]]></title>
+    <link href="http://blog.yanzl.net/14819928857822.html"/>
+    <updated>2016-12-18T00:41:25+08:00</updated>
+    <id>http://blog.yanzl.net/14819928857822.html</id>
+    <content type="html"><![CDATA[
+<h2 id="toc_0">创建数据表</h2>
+
+<pre><code>CREATE TABLE `table_name` (
+  `name` varchar(30) NOT NULL DEFAULT &#39;&#39;,
+  `age` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `user` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `first_name` varchar(64) DEFAULT NULL,
+  `last_name` varchar(64) DEFAULT NULL,
+  `email` varchar(128) DEFAULT NULL,
+  `phone` varchar(32) DEFAULT NULL,
+  `city` varchar(128) DEFAULT NULL,
+  `country` varchar(128) DEFAULT NULL,
+  `notes` text,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=226 DEFAULT CHARSET=utf8;
+</code></pre>
+
+<h2 id="toc_1">添加一个主键字段</h2>
+
+<p>添加主键其实是两个操作，一个是添加一个字段，另一个操作是设置该字段为主键</p>
+
+<pre><code>alter table table_name add id int not null auto_increment,
+add primary key (id);
+</code></pre>
+
+<h2 id="toc_2">为一个字段添加主键</h2>
+
+<pre><code>alter table table_name add primary key (age);
+</code></pre>
+
+<h2 id="toc_3">添加一个普通字段</h2>
+
+<pre><code>alter table table_name add user_id int not null;
+</code></pre>
+
+<h2 id="toc_4">删除一个字段</h2>
+
+<pre><code>alter table user drop column phone;
+</code></pre>
+
+<h2 id="toc_5">修改一个字段</h2>
+
+<p>只修改一个字段的类型：</p>
+
+<pre><code>alter table user modify city varchar(100);
+</code></pre>
+
+<p>修改字段的全部定义,该方法也用于重命名：</p>
+
+<pre><code>alter table user change city user_city varchar(128) not null default &#39;&#39;;
+</code></pre>
+
+<h2 id="toc_6">添加外键</h2>
+
+<p><strong>注意这里设置的外键字段（user_id）必须在表中存在</strong></p>
+
+<pre><code>alter table table_name add CONSTRAINT `table_name_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user`(`id`);
+</code></pre>
+
+<h2 id="toc_7">删除外键</h2>
+
+<p>删除外键用到的外键名是添加外键时指定的外键符号，即constraint 后面的单词，如果建表时没有指定外键符号，MySQL会自动创建，只需要通过<code>show create table table_name;</code> 进行查看就可以了。</p>
+
+<pre><code>alter table table_name drop foreign key table_name_ibfk_1;
+</code></pre>
+
+<p><strong>这里顺便写一下修改外键的方法：先删除原来的外键，再添加新的外键</strong></p>
+
+<h2 id="toc_8">添加唯一索引</h2>
+
+<pre><code>alter table table_name add unique (name);
+create unique index unique_index_name on table_name (name);
+</code></pre>
+
+<h2 id="toc_9">添加普通索引</h2>
+
+<pre><code>alter table table_name add index name_index (name);
+create index name_index on table_name (name);
+</code></pre>
+
+<h2 id="toc_10">添加全文索引</h2>
+
+<pre><code>ALTER TABLE `table_name` ADD FULLTEXT ( `name`);
+</code></pre>
+
+<h2 id="toc_11">添加联合索引</h2>
+
+<p><strong>注意联合索引是有顺序的</strong></p>
+
+<pre><code>ALTER TABLE `table_name` ADD INDEX union_index_name (`id`, `name`);
+</code></pre>
+
+<h2 id="toc_12">删除索引</h2>
+
+<p>除了删除主键索引需要用到<code>alter table table_name primary key</code>语句之外，删除其它索引都可以使用如下两种方法：</p>
+
+<pre><code>drop index union_index_name on table_name;
+alter table table_name drop index union_index_name;
+alter table table_name drop index name_index;
+alter table table_name drop index name;
+alter table table_name drop index name_2;
+</code></pre>
+
+<h2 id="toc_13">查看所有索引</h2>
+
+<pre><code>show index from table_name;
+show keys from table_name;
+</code></pre>
+
+<ul>
+<li>Table :表的名称。</li>
+<li>Non_unique :如果索引不能包括重复词，则为0。如果可以，则为1。</li>
+<li>Key_name :索引的名称。</li>
+<li>Seq_in_index :索引中的列序列号，从1开始。</li>
+<li>Column_name :列名称。</li>
+<li>Collation :列以什么方式存储在索引中。在MySQL中，有值‘A’（升序）或NULL（无分类）。</li>
+<li>Cardinality :索引中唯一值的数目的估计值。通过运行ANALYZE TABLE或myisamchk -a可以更新。基数根据被存储为整数的统计数据来计数，所以即使对于小型表，该值也没有必要是精确的。基数越大，当进行联合时，MySQL使用该索引的机会就越大。</li>
+<li>Sub_part :如果列只是被部分地编入索引，则为被编入索引的字符的数目。如果整列被编入索引，则为NULL。</li>
+<li>Packed :指示关键字如何被压缩。如果没有被压缩，则为NULL。</li>
+<li>Null :如果列含有NULL，则含有YES。如果没有，则该列含有NO。</li>
+<li>Index_type :用过的索引方法（BTREE, FULLTEXT, HASH, RTREE）。</li>
+<li>Comment</li>
+</ul>
+
+<h2 id="toc_14">修改表名</h2>
+
+<pre><code>ALTER  TABLE table_name RENAME TO test_table;
+</code></pre>
+
+<h2 id="toc_15">删除表</h2>
+
+<pre><code>drop table table_name
+</code></pre>
+
+<h2 id="toc_16">创建包含各种索引类型的表</h2>
+
+<pre><code>CREATE TABLE `test_table` (
+  `name` varchar(30) NOT NULL DEFAULT &#39;&#39;,
+  `age` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `unique_index_name` (`name`),
+  KEY `table_name_ibfk_1` (`user_id`),
+  KEY `name_index` (`name`),
+  KEY `union_index_name` (`id`,`name`),
+  FULLTEXT KEY `name` (`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8
+</code></pre>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[python容器数据类型☞collections]]></title>
+    <link href="http://blog.yanzl.net/14745361920074.html"/>
+    <updated>2016-09-22T17:23:12+08:00</updated>
+    <id>http://blog.yanzl.net/14745361920074.html</id>
+    <content type="html"><![CDATA[
+<h2 id="toc_0">namedtuple(命名元组)</h2>
+
+<p>元组tuple是python内置的数据类型，其特点是一次写入不可修改，元组内每个元素的数据类型都是可以不一样的。但有时候，我们需要给每个元素起一个名字，以便更好地区分每个元素的身份。命名元组namedtuple就可以完美的实现这个功能,它用来创建一个自定义的元组对象，规定元组对象的个数，可以用属性名来读取对象元素的值。<br/>
+命名元组会返回一个元组的基类，数据类型已经变成class，而不再是tuple</p>
+
+<h3 id="toc_1">函数原型</h3>
+
+<pre><code class="language-python">collections.namedtuple(typename, field_names, verbose=False, rename=False)
+</code></pre>
+
+<ul>
+<li>field_names:命名元组中各属性的名称，可以是字母，数字，下划线表示，但只能以字母开头。定义方法有多种形式，可以是一个字符串，以空格或者逗号分割，也可以是一个列表。有几个需要注意的地方：
+
+<ul>
+<li>属性名不能够重复</li>
+<li>属性名不能够使用python关键字</li>
+</ul></li>
+<li>verbose：布尔值类型数据，默认为False，如果为True。则会在命名元组创建之后打印类的定义，但是这种访问类定义的方法已经很少会被用到了，更多的是使用_source属性，后面会讲。</li>
+<li>rename：布尔值类型数据，默认为False，如果为True，则会将field_names中不合法的命名进行自动替换，在False的情况下，遇到不合法的命名程序会报错。</li>
+</ul>
+
+<h3 id="toc_2">类属性</h3>
+
+<p>上面已经说过，namedtuple会返回一个元组基类，这里介绍几个类属性：</p>
+
+<ul>
+<li>namedtuplename._make(iterable): 把一个变量内容赋值给namedtuple</li>
+<li>namedtuplename.asdict(): 把命名元组转换成字典类型</li>
+<li>namedtuplename._source: 打印命名元组的定义语句</li>
+<li>namedtuplename._replace(kwargs）：为命名元组的元素重置值</li>
+<li>namedtuplename._fields:返回namedtuple的所有属性名</li>
+</ul>
+
+<h3 id="toc_3">示例代码</h3>
+
+<pre><code class="language-python"># 引入模块
+from collections import namedtuple
+# namedtuple的定义和基本使用
+Users = namedtuple(&quot;Users&quot;, [&quot;name&quot;, &quot;age&quot;, &quot;weight&quot;, &quot;height&quot;, &quot;hobby&quot;], False)
+user_info = Users(&quot;zhangsan&quot;, 12, 82, 156, &quot;basketball&quot;)
+print(user_info)
+print(type(user_info))
+
+# rename的开启和关闭和打印namedtuple的属性名
+Users = namedtuple(&quot;Users&quot;, [&quot;name&quot;, &quot;age&quot;, &quot;def&quot;, &quot;height&quot;, &quot;age&quot;], False, True)
+Users1 = namedtuple(&quot;Users&quot;, [&quot;name&quot;, &quot;age&quot;, &quot;weight&quot;, &quot;height&quot;, &quot;hobby&quot;], False)
+Users2 = namedtuple(&quot;Users&quot;, [&quot;name&quot;, &quot;age&quot;, &quot;def&quot;, &quot;2dhfv&quot;, &quot;age&quot;], False, True)
+print(Users._fields)
+print(Users1._fields)
+print(Users2._fields)
+
+# 整体给namedtuple赋值
+Users = namedtuple(&quot;Users&quot;, [&quot;name&quot;, &quot;age&quot;, &quot;weight&quot;, &quot;height&quot;, &quot;hobby&quot;], False)
+user_info = (&quot;zhangsan&quot;, 12, 82, 155, &quot;football&quot;) # 可以是列表,也可以是元组
+print(Users._make(user_info))
+
+# 命名元组转换成字典类型
+Users = namedtuple(&quot;Users&quot;, [&quot;name&quot;, &quot;age&quot;, &quot;weight&quot;, &quot;height&quot;, &quot;hobby&quot;], False)
+user_info = Users(&quot;zhangsan&quot;, 12, 82, 156, &quot;basketball&quot;)
+print(type(user_info))
+print(type(user_info._asdict()))
+
+# 查看namedtuple的定义语句
+Users = namedtuple(&quot;Users&quot;, [&quot;name&quot;, &quot;age&quot;, &quot;weight&quot;, &quot;height&quot;, &quot;hobby&quot;], False)
+print(Users._source)
+
+# 更改namedtuple的元素值
+Users = namedtuple(&quot;Users&quot;, [&quot;name&quot;, &quot;age&quot;, &quot;weight&quot;, &quot;height&quot;, &quot;hobby&quot;], False)
+user_info = Users(&quot;zhangsan&quot;, 12, 82, 156, &quot;basketball&quot;)
+print(user_info)
+user_info2 = user_info ._replace(hobby=&quot;football&quot;)
+print(user_info)
+print(user_info2)
+</code></pre>
+
+<h3 id="toc_4">参考结果</h3>
+
+<pre><code class="language-python"># 命名元组的基本赋值应用
+Users(name=&#39;zhangsan&#39;, age=12, weight=82, height=156, hobby=&#39;basketball&#39;)
+&lt;class &#39;__main__.Users&#39;&gt;
+# 开启rename模式与不开启的对比,开启之后会将不合法的命名自动改为合法的命名，使用_fields类方法可以查看属性名
+(&#39;name&#39;, &#39;age&#39;, &#39;_2&#39;, &#39;height&#39;, &#39;_4&#39;)
+(&#39;name&#39;, &#39;age&#39;, &#39;weight&#39;, &#39;height&#39;, &#39;hobby&#39;)
+(&#39;name&#39;, &#39;age&#39;, &#39;_2&#39;, &#39;_3&#39;, &#39;_4&#39;)
+# 使用_make()方法整体给namedtuple赋值，可以看出和分开赋值并没有什么区别
+Users(name=&#39;zhangsan&#39;, age=12, weight=82, height=155, hobby=&#39;football&#39;)
+# 使用_asdict()方法将命名元组转换成字典类型
+&lt;class &#39;__main__.Users&#39;&gt;
+&lt;class &#39;collections.OrderedDict&#39;&gt;
+# 查看namedtuple的定义语句运行结果比较长，可以自行运行查看结果
+# 使用_replace()方法对属性值进行更改，该方法会返回一个新的对象，而不是从原来的对象上面进行修改
+Users(name=&#39;zhangsan&#39;, age=12, weight=82, height=156, hobby=&#39;basketball&#39;)
+Users(name=&#39;zhangsan&#39;, age=12, weight=82, height=156, hobby=&#39;basketball&#39;)
+Users(name=&#39;zhangsan&#39;, age=12, weight=82, height=156, hobby=&#39;football&#39;)
+</code></pre>
+
+<h2 id="toc_5">deque（双端队列）</h2>
+
+<p>deque的全称是double-ended queue，可以实现从队列的头部快速添加和取出元素，这是一个双向列表，可以从右端操作元素，也可以从左端操作元素，且时间复杂度都为O(1)</p>
+
+<h3 id="toc_6">函数原型</h3>
+
+<p>class collections.deque([iterable[, maxlen]]）</p>
+
+<ul>
+<li>interable： 可选参数，在队列创建的时候根据数值从左往右初始化队列,如果是多个元素，必须用括号括起来，否则会报错。没有该参数时会初始化一个空的队列</li>
+<li>maxlen：指定队列的最大长度,如果超出长度，则会自动丢掉左边超出的部分，如果采用左添加时元素长度超出，会舍掉右端的元素</li>
+</ul>
+
+<p>示例代码</p>
+
+<pre><code class="language-python">from collections import deque
+data = [&quot;one&quot;, &quot;two&quot;, &quot;three&quot;, 123, &quot;yes&quot;]
+d = deque(data)
+d1 = deque(data, 2)
+print(&quot;正常初始化队列:{}&quot;.format(d))
+print(&quot;超出长度限制的初始化队列:{}&quot;.format(d1))
+
+d.append(&quot;abc&quot;)
+print(&quot;执行正常添加操作:{}&quot;.format(d))
+d1.append(&quot;no&quot;)
+print(&quot;超出长度限制的右添加操作:{}&quot;.format(d1))
+d1.appendleft(&quot;ok&quot;)
+print(&quot;超出长度限制的左添加操作:{}&quot;.format(d1))
+</code></pre>
+
+<p>参考结果</p>
+
+<pre><code class="language-python">正常初始化队列:deque([&#39;one&#39;, &#39;two&#39;, &#39;three&#39;, 123, &#39;yes&#39;])
+超出长度限制的初始化队列:deque([123, &#39;yes&#39;], maxlen=2)
+执行正常添加操作:deque([&#39;one&#39;, &#39;two&#39;, &#39;three&#39;, 123, &#39;yes&#39;, &#39;abc&#39;])
+超出长度限制的右添加操作:deque([&#39;yes&#39;, &#39;no&#39;], maxlen=2)
+超出长度限制的左添加操作:deque([&#39;ok&#39;, &#39;yes&#39;], maxlen=2)
+</code></pre>
+
+<h3 id="toc_7">常用方法</h3>
+
+<h4 id="toc_8">添加元素</h4>
+
+<ul>
+<li>添加一个值的情况：分为左添加（appendleft()）和右添加（append()）,操作是对原对象进行操作，并且不会返回任何值</li>
+<li>添加多个制的情况：分为左添加（extendleft()）和右添加(extend()),注意左添加多个元素时，是按照顺序依次向队列左端进行添加，所以先加入的数据会在右边</li>
+</ul>
+
+<p>示例代码</p>
+
+<pre><code class="language-pyton">from collections import deque
+data = [&quot;one&quot;, &quot;two&quot;, &quot;three&quot;, 123, &quot;yes&quot;]
+d = deque(data)
+d.append(&quot;right&quot;)
+print(&quot;执行右添加之后的结果:{}&quot;.format(d))
+d.appendleft(&quot;left&quot;)
+print(&quot;执行左添加之后的结果:{}&quot;.format(d))
+d.extendleft((&quot;left1&quot;, &quot;left2&quot;))
+print(&quot;向左边添加多个元素:{}&quot;.format(d))
+d.extend((&quot;right1&quot;, &quot;right2&quot;))
+print(&quot;向右边添加多个元素:{}&quot;.format(d))
+</code></pre>
+
+<p>参考结果</p>
+
+<pre><code class="language-python">执行右添加之后的结果:deque([&#39;one&#39;, &#39;two&#39;, &#39;three&#39;, 123, &#39;yes&#39;, &#39;right&#39;])
+执行左添加之后的结果:deque([&#39;left&#39;, &#39;one&#39;, &#39;two&#39;, &#39;three&#39;, 123, &#39;yes&#39;, &#39;right&#39;])
+向左边添加多个元素:deque([&#39;left2&#39;, &#39;left1&#39;, &#39;left&#39;, &#39;one&#39;, &#39;two&#39;, &#39;three&#39;, 123, &#39;yes&#39;, &#39;right&#39;])
+向右边添加多个元素:deque([&#39;left2&#39;, &#39;left1&#39;, &#39;left&#39;, &#39;one&#39;, &#39;two&#39;, &#39;three&#39;, 123, &#39;yes&#39;, &#39;right&#39;, &#39;right1&#39;, &#39;right2&#39;])
+</code></pre>
+
+<h4 id="toc_9">清空队列</h4>
+
+<p>clear()方法可以将队列进行清空</p>
+
+<p>示例代码</p>
+
+<pre><code class="language-python">from collections import deque
+data = [&quot;one&quot;, &quot;two&quot;, &quot;three&quot;, 123, &quot;yes&quot;]
+d = deque(data)
+print(&quot;初始化之后的队列:{}&quot;.format(d))
+d.clear()
+print(&quot;清空之后的队列:{}&quot;.format(d))
+</code></pre>
+
+<p>参考结果</p>
+
+<pre><code class="language-python">初始化之后的队列:deque([&#39;one&#39;, &#39;two&#39;, &#39;three&#39;, 123, &#39;yes&#39;])
+清空之后的队列:deque([])
+</code></pre>
+
+<h4 id="toc_10">拷贝队列</h4>
+
+<p>copy（）方法可用于拷贝队列，返回一个新的队列，可将这个新的队列赋值给一个变量，两个队列虽然值相同，但存储位置是不一样的。<br/>
+示例代码</p>
+
+<pre><code class="language-python">from collections import deque
+data = [&quot;one&quot;, &quot;two&quot;, &quot;three&quot;, 123, &quot;yes&quot;]
+d = deque(data)
+print(&quot;拷贝之前的队列:{}, 存储位置为:{}&quot;.format(d, id(d)))
+d_c = d.copy()
+print(&quot;拷贝之后的队列:{},存储位置为:{}&quot;.format(d_c, id(d_c)))
+</code></pre>
+
+<p>参考结果</p>
+
+<pre><code class="language-python">拷贝之前的队列:deque([&#39;one&#39;, &#39;two&#39;, &#39;three&#39;, 123, &#39;yes&#39;]), 存储位置为:4315002048
+拷贝之后的队列:deque([&#39;one&#39;, &#39;two&#39;, &#39;three&#39;, 123, &#39;yes&#39;]),存储位置为:4315002152
+</code></pre>
+
+<h4 id="toc_11">计算某元素出现的次数</h4>
+
+<p>count(x)方法可用来计算队列中x元素一共出现了多少次<br/>
+示例代码</p>
+
+<pre><code class="language-python">from collections import deque
+data = [&quot;one&quot;, &quot;two&quot;, &quot;three&quot;, 123, &quot;yes&quot;, &quot;yes&quot;]
+d = deque(data, maxlen=6)
+print(&quot;队列中的元素出现的次数为:{}&quot;.format(d.count(&quot;yes&quot;)))
+</code></pre>
+
+<p>参考结果</p>
+
+<pre><code class="language-python">队列中的元素个数为:2
+</code></pre>
+
+<h4 id="toc_12">查看某个元素的索引</h4>
+
+<p>index（）方法可用于查找某个元素的索引位置，从0开始索引。如果队列中有多个相同元素，则返回第一个的位置。也可以用于查找某个元素在某一段位置区间下的索引位置，如果找不到会抛出元素不在队列的错误</p>
+
+<p>示例代码</p>
+
+<pre><code class="language-python">from collections import deque
+data = [&quot;one&quot;, &quot;two&quot;, &quot;three&quot;, 123, &quot;yes&quot;, &quot;yes&quot;]
+d = deque(data)
+print(&quot;查找整个队列中某元素的索引位置:{}&quot;.format(d.index(&quot;yes&quot;)))
+print(&quot;查找第一个位置到第三个位置中某元素的索引位置:{}&quot;.format(d.index(&quot;yes&quot;, 1, 3)))
+</code></pre>
+
+<p>参考结果</p>
+
+<pre><code class="language-python">Traceback (most recent call last):
+  File &quot;/Users/yanzilu/Project/Test/collection_test.py&quot;, line 91, in &lt;module&gt;
+    print(&quot;查找第一个位置到第三个位置中某元素的索引位置:{}&quot;.format(d.index(&quot;yes&quot;, 1, 3)))
+ValueError: &#39;yes&#39; is not in deque
+查找整个队列中某元素的索引位置:4
+</code></pre>
+
+<h4 id="toc_13">向某位置插入元素</h4>
+
+<p>insert()方法可以实现向队列中某个索引位置插入某个元素，且只能插入一个元素,插入多个元素会报错</p>
+
+<p>示例代码</p>
+
+<pre><code class="language-python">from collections import deque
+data = [&quot;one&quot;, &quot;two&quot;, &quot;three&quot;, 123, &quot;yes&quot;, &quot;yes&quot;]
+d = deque(data)
+
+d.insert(3, &quot;add&quot;)
+print(&quot;向索引为3的位置插入元素:{}&quot;.format(d))
+d.insert(4, [&quot;four&quot;, &quot;five&quot;])
+print(&quot;向索引为4的位置插入多个元素:{}&quot;.format(d))
+d.insert(4, &quot;four&quot;, &quot;five&quot;)
+print(&quot;向索引为4的位置插入多个元素:{}&quot;.format(d))
+</code></pre>
+
+<p>参考结果</p>
+
+<pre><code class="language-python">向索引为3的位置插入元素:deque([&#39;one&#39;, &#39;two&#39;, &#39;three&#39;, &#39;add&#39;, 123, &#39;yes&#39;, &#39;yes&#39;])
+向索引为4的位置插入多个元素:deque([&#39;one&#39;, &#39;two&#39;, &#39;three&#39;, &#39;add&#39;, [&#39;four&#39;, &#39;five&#39;], 123, &#39;yes&#39;, &#39;yes&#39;])
+Traceback (most recent call last):
+  File &quot;/Users/yanzilu/Project/Test/collection_test.py&quot;, line 100, in &lt;module&gt;
+    d.insert(4, &quot;four&quot;, &quot;five&quot;)
+TypeError: insert() takes exactly 2 arguments (3 given)
+</code></pre>
+
+<h4 id="toc_14">取出和移除元素</h4>
+
+<ul>
+<li>取出元素分为从左边取出元素（popleft()）和从右边取出元素（pop()）,函数会将取出的值返回出来并在队列中删除</li>
+<li>移除元素可以使用remove(value)方法，该方法指定要移除的元素值，并且直接移除元素，不会进行返回，如果该元素不存在，则会报元素不在队列中的错误</li>
+</ul>
+
+<p>示例代码</p>
+
+<pre><code class="language-python">from collections import deque
+data = [&quot;one&quot;, &quot;two&quot;, &quot;three&quot;, 123, &quot;yes&quot;, &quot;yes&quot;]
+d = deque(data)
+
+print(&quot;操作之前的数据:{}&quot;.format(d))
+print(&quot;执行从队列右侧取出元素的返回值:{},队列变成:{}&quot;.format(d.pop(), d))
+print(&quot;执行从队列左侧取出元素返回值:{}, 队列变成:{}&quot;.format(d.popleft(), d))
+print(&quot;移除值为three的元素:{}, 队列变成:{}&quot;.format(d.remove(&quot;three&quot;), d))
+print(&quot;移除一个不存在的值:{}&quot;.format(d.remove(&quot;four&quot;)))
+</code></pre>
+
+<p>参考结果</p>
+
+<pre><code class="language-python">操作之前的数据:deque([&#39;one&#39;, &#39;two&#39;, &#39;three&#39;, 123, &#39;yes&#39;, &#39;yes&#39;])
+执行从队列右侧取出元素的返回值:yes,队列变成:deque([&#39;one&#39;, &#39;two&#39;, &#39;three&#39;, 123, &#39;yes&#39;])
+执行从队列左侧取出元素返回值:one, 队列变成:deque([&#39;two&#39;, &#39;three&#39;, 123, &#39;yes&#39;])
+移除值为three的元素:None, 队列变成:deque([&#39;two&#39;, 123, &#39;yes&#39;])
+Traceback (most recent call last):
+  File &quot;/Users/yanzilu/Project/Test/collection_test.py&quot;, line 111, in &lt;module&gt;
+    print(&quot;移除一个不存在的值:{}&quot;.format(d.remove(&quot;four&quot;)))
+ValueError: deque.remove(x): x not in deque
+</code></pre>
+
+<h4 id="toc_15">反转队列和旋转队列</h4>
+
+<ul>
+<li>反转：reverse()方法可以实现队列的反转</li>
+<li>旋转: rotate(n)方法可以向右旋转n个元素，如果n是负值，则为向左旋转n个元素</li>
+</ul>
+
+<p>示例代码</p>
+
+<pre><code class="language-python">from collections import deque
+data = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+d = deque(data)
+
+print(&quot;反转之前的队列:{}&quot;.format(d))
+d.reverse()
+print(&quot;反转之后的队列:{}&quot;.format(d))
+d.rotate(4)
+print(&quot;旋转队列4个元素:{}&quot;.format(d))
+d.rotate(-2)
+print(&quot;旋转队列-4个元素:{}&quot;.format(d))
+</code></pre>
+
+<p>参考结果</p>
+
+<pre><code class="language-python">反转之前的队列:deque([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11])
+反转之后的队列:deque([11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1])
+旋转队列4个元素:deque([4, 3, 2, 1, 11, 10, 9, 8, 7, 6, 5])
+旋转队列-4个元素:deque([2, 1, 11, 10, 9, 8, 7, 6, 5, 4, 3])
+</code></pre>
+
+<h2 id="toc_16">Counter(计数器)</h2>
+
+<p>用来跟踪值出现的次数。它是一个无序的容器类型，以字典的键值对形式存储，其中元素作为key，其计数作为value。计数值可以是任意的Interger（包括0和负数）。</p>
+
+<h3 id="toc_17">类的创建</h3>
+
+<p>Counter类有四种常用的创建方法：</p>
+
+<pre><code class="language-python">from collections import Counter
+
+c = Counter()
+print(&quot;这是一个空的Counter类:{}&quot;.format(c))
+c = Counter(&#39;iterable object&#39;)
+print(&quot;从一个可迭代的对象(list、tuple、dict、字符串等)创建Counter类:{}&quot;.format(c))
+c = Counter({&quot;one&quot;: 1, &quot;two&quot;: 2})
+print(&quot;从一个字典对象创建Counter类:{}&quot;.format(c))
+c = Counter(one=1, two=2)
+print(&quot;从一组键值对创建:{}&quot;.format(c))
+</code></pre>
+
+<p>创建结果如下：</p>
+
+<pre><code class="language-python">这是一个空的Counter类:Counter()
+从一个可迭代的对象(list、tuple、dict、字符串等)创建Counter类:Counter({&#39;e&#39;: 3, &#39;t&#39;: 2, &#39;b&#39;: 2, &#39;c&#39;: 1, &#39;r&#39;: 1, &#39;j&#39;: 1, &#39;o&#39;: 1, &#39;l&#39;: 1, &#39; &#39;: 1, &#39;a&#39;: 1, &#39;i&#39;: 1})
+从一个字典对象创建Counter类:Counter({&#39;two&#39;: 2, &#39;one&#39;: 1})
+从一组键值对创建:Counter({&#39;two&#39;: 2, &#39;one&#39;: 1})
+</code></pre>
+
+<h3 id="toc_18">计数器的更新和值的访问</h3>
+
+<ul>
+<li>访问分为两种情况，一种是访问的键存在，返回该键所对应的值；另一种是键不存在的情况，返回的是0</li>
+<li>使用update方法增加计数器，有两种方法，一种是通过可迭代对象，另一种是通过另一个Counter对象</li>
+<li>使用subtract()方法减少计数器，有两种方法，一种是通过可迭代对象，另一种是通过另一个Counter对象</li>
+</ul>
+
+<p>示例代码</p>
+
+<pre><code class="language-python">from collections import Counter
+
+c = Counter(one=1, two=2)
+print(&quot;访问一个存在的键:{}&quot;.format(c[&quot;one&quot;]))
+# 即使访问不存在的键，键名也不会添加进计数器中
+print(&quot;访问一个不存在的键:{},访问过后计数器变成:{}&quot;.format(c[&quot;three&quot;], c))
+# 注意这里如果不加中括号，则添加的就不是&quot;one&quot;和“two”的次数，而是每个字符
+c.update([&quot;one&quot;, &quot;two&quot;])
+print(&quot;通过另一个迭代器进行更新:{}&quot;.format(c))
+c1 = Counter({&quot;one&quot;: 10, &quot;two&quot;: 20})
+c.update(c1)
+print(&quot;通过另一个Counter对象进行计数器的增加:{}&quot;.format(c))
+# 减少计数器的使用和增加很像,需要注意的是减少到0时不会将键删除，而是继续减少，即次数可以是赋值
+c1 = Counter({&quot;one&quot;: 30, &quot;two&quot;: 40})
+c.subtract(c1)
+print(&quot;通过另一个Counter对象进行计数器的减少:{}&quot;.format(c))
+</code></pre>
+
+<p>参考结果</p>
+
+<pre><code class="language-python">访问一个存在的键:1
+访问一个不存在的键:0,访问过后计数器变成:Counter({&#39;two&#39;: 2, &#39;one&#39;: 1})
+通过另一个迭代器进行更新:Counter({&#39;two&#39;: 3, &#39;one&#39;: 2})
+通过另一个Counter对象进行计数器的增加:Counter({&#39;two&#39;: 23, &#39;one&#39;: 12})
+通过另一个Counter对象进行计数器的减少:Counter({&#39;two&#39;: -17, &#39;one&#39;: -18})
+</code></pre>
+
+<h3 id="toc_19">键的删除</h3>
+
+<p>使用del对键进行删除，可以使用update()方法在更新时把没有的键添加进去</p>
+
+<p>示例代码</p>
+
+<pre><code class="language-python">from collections import Counter
+
+c = Counter(one=1, two=2)
+del c[&quot;one&quot;]
+print(&quot;删除one键之后的计数器变成:{}&quot;.format(c))
+</code></pre>
+
+<p>参考结果</p>
+
+<pre><code class="language-python">删除one键之后的计数器变成:Counter({&#39;two&#39;: 2})
+</code></pre>
+
+<h3 id="toc_20">elements()方法</h3>
+
+<p>该方法返回一个迭代器。元素被重复了多少次，在该迭代器中就包含多少个该元素。所有元素按照字母序排序，个数小于1的元素不被包含。</p>
+
+<p>示例代码</p>
+
+<pre><code class="language-python">from collections import Counter
+c = Counter(one=5, two=3)
+print(&quot;迭代之后的元素:{}&quot;.format(list(c.elements())))
+print(&quot;迭代之后的元素:{}&quot;.format(set(c.elements())))
+</code></pre>
+
+<p>参考结果</p>
+
+<pre><code class="language-python">迭代之后的元素:[&#39;two&#39;, &#39;two&#39;, &#39;two&#39;, &#39;one&#39;, &#39;one&#39;, &#39;one&#39;, &#39;one&#39;, &#39;one&#39;]
+迭代之后的元素:{&#39;two&#39;, &#39;one&#39;}
+</code></pre>
+
+<h3 id="toc_21">most_common([n])方法</h3>
+
+<p>该方法返回一个含前n个元素计数的列表。如果n没有被指定，则返回所有元素。当多个元素计数值相同时，按照字母序排列。</p>
+
+<p>示例代码</p>
+
+<pre><code class="language-python">from collections import Counter
+c = Counter(one=5, two=3, three=12)
+print(&quot;返回所有元素的计数:{}&quot;.format(c.most_common()))
+print(&quot;返回前2个元素的计数:{}&quot;.format(c.most_common(2)))
+</code></pre>
+
+<p>参考结果</p>
+
+<pre><code class="language-python">返回所有元素的计数:[(&#39;three&#39;, 12), (&#39;one&#39;, 5), (&#39;two&#39;, 3)]
+返回前2个元素的计数:[(&#39;three&#39;, 12), (&#39;one&#39;, 5)]
+</code></pre>
+
+<h2 id="toc_22">OrderedDict（排序字典）</h2>
+
+<p>在Python中，dict这个数据结构由于hash的特性，是无序的，有时候我们会用到键的顺序，collections模块为我们提供了OrderedDict，当要获得一个有序的字典对象时，就可以使用OrderedDict。<br/>
+OrderedDict的数据都是以每个键值对作为一个元组组成的列表。</p>
+
+<h3 id="toc_23">类的原型</h3>
+
+<pre><code class="language-python">class collections.OrderedDict([items])
+</code></pre>
+
+<h3 id="toc_24">初始化</h3>
+
+<p>有序字典的顺序是元素添加的顺序.初始化的时候如果有多个元素，注意初始值之间的顺序，列表，元组等有序数据结构都是可以的，但是字典是无序的，在初始的时候顺序有可能不会是写的顺序。</p>
+
+<p>示例代码</p>
+
+<pre><code class="language-python">from collections import OrderedDict
+
+od = OrderedDict([(&quot;one&quot;, 1), (&#39;two&#39;, 2), (&#39;three&#39;, 3)])
+print(od)
+di = {&quot;one&quot;:1, &quot;two&quot;: 2, &quot;three&quot;: 3}
+print(&quot;对比普通字典: {}&quot;.format(di))
+od[&quot;four&quot;] = 4
+print(&quot;添加一个元素之后的字典:{}&quot;.format(od))
+</code></pre>
+
+<p>参考结果</p>
+
+<pre><code class="language-python">OrderedDict([(&#39;one&#39;, 1), (&#39;two&#39;, 2), (&#39;three&#39;, 3)])
+对比普通字典: {&#39;two&#39;: 2, &#39;one&#39;: 1, &#39;three&#39;: 3}
+添加一个元素之后的字典:OrderedDict([(&#39;one&#39;, 1), (&#39;two&#39;, 2), (&#39;three&#39;, 3), (&#39;four&#39;, 4)])
+</code></pre>
+
+<h3 id="toc_25">popitem(last=True)方法</h3>
+
+<p>该方法用来移除字典中的元素，如果last值为真，则采取先进后出的原则，移除最后的元素，last值为假时，采取先进先出的原则，移除最开始的元素</p>
+
+<p>示例代码</p>
+
+<pre><code class="language-python">from collections import OrderedDict
+
+od = OrderedDict([(&quot;one&quot;, 1), (&#39;two&#39;, 2), (&#39;three&#39;, 3), (&quot;four&quot;, 4)])
+print(&quot;移除元素之前的字典:{}&quot;.format(od))
+od.popitem()
+print(&quot;先进后出移除元素之后的字典:{}&quot;.format(od))
+od.popitem(False)
+print(&quot;先进先出移除元素之后的字典:{}&quot;.format(od))
+</code></pre>
+
+<p>参考结果</p>
+
+<pre><code class="language-python">移除元素之前的字典:OrderedDict([(&#39;one&#39;, 1), (&#39;two&#39;, 2), (&#39;three&#39;, 3), (&#39;four&#39;, 4)])
+先进后出移除元素之后的字典:OrderedDict([(&#39;one&#39;, 1), (&#39;two&#39;, 2), (&#39;three&#39;, 3)])
+先进先出移除元素之后的字典:OrderedDict([(&#39;two&#39;, 2), (&#39;three&#39;, 3)])
+</code></pre>
+
+<h3 id="toc_26">move_to_end(key, last=True)方法</h3>
+
+<p>将字典中的某个元素移动到最后的位置，需要注意的是最后的位置是根据last值决定的，值为True时，为先进后出（栈）模式，则最后进来的那一端为后端，值为False时，为先进先出（队列）模式,最先进来的一端为后端。<br/>
+总之，后端的确定是popitem()时，从哪一边开始移除元素，哪一边就是后端</p>
+
+<p>示例代码</p>
+
+<pre><code class="language-python">from collections import OrderedDict
+
+od = OrderedDict([(&quot;one&quot;, 1), (&#39;two&#39;, 2), (&#39;three&#39;, 3), (&quot;four&quot;, 4)])
+print(&quot;移动元素之前的字典:{}&quot;.format(od))
+od.move_to_end(&quot;one&quot;)
+print(&quot;先进后出移动元素之后的字典:{}&quot;.format(od))
+od.move_to_end(&quot;three&quot;, last=False)
+print(&quot;先进先出移动元素之后的字典:{}&quot;.format(od))
+</code></pre>
+
+<p>参考结果</p>
+
+<pre><code class="language-python">移动元素之前的字典:OrderedDict([(&#39;one&#39;, 1), (&#39;two&#39;, 2), (&#39;three&#39;, 3), (&#39;four&#39;, 4)])
+先进后出移动元素之后的字典:OrderedDict([(&#39;two&#39;, 2), (&#39;three&#39;, 3), (&#39;four&#39;, 4), (&#39;one&#39;, 1)])
+先进先出移动元素之后的字典:OrderedDict([(&#39;three&#39;, 3), (&#39;two&#39;, 2), (&#39;four&#39;, 4), (&#39;one&#39;, 1)])
+</code></pre>
+
+<h2 id="toc_27">defaultdict(默认字典)</h2>
+
+<p>使用字典的时候，如果某个key不存在而被访问，程序会报错。如果希望如果希望key不存在时，返回一个默认值，就可以用defaultdict。</p>
+
+<h3 id="toc_28">defaultdict()方法的使用</h3>
+
+<p>该方法接受两个参数，第一个参数是一个数据类型，代表当访问的key不存在时，默认返回一个什么类型的数据，第二个参数是初始化的字典数据</p>
+
+<p>示例代码</p>
+
+<pre><code class="language-python">from collections import defaultdict
+
+di = defaultdict(tuple, {&quot;one&quot;: 1, &quot;two&quot;: 2, &quot;three&quot;: 3})
+print(di[&quot;four&quot;])
+print(di)
+</code></pre>
+
+<p>参考结果</p>
+
+<pre><code class="language-python">()
+defaultdict(&lt;class &#39;tuple&#39;&gt;, {&#39;two&#39;: 2, &#39;four&#39;: (), &#39;one&#39;: 1, &#39;three&#39;: 3})
+</code></pre>
+
+<h2 id="toc_29">个人感悟</h2>
+
+<p>collections模块中常用的功能有namedtuple, deque, Counter, OrderedDict和defaultdict.</p>
+
+<ul>
+<li>namedtuple一般用于对元素不会进行修改，并且需要对每个元素有一个属性名。</li>
+<li>deque是一个双列表，解决列表两端读取和删除的性能问题，和列表的绝大多数操作方法一致，有一些是队列特有的左端元素操作方法。</li>
+<li>Counter类用于对元素出现的次数进行计算，可以用于统计一个字符串中每个字符出现的次数。</li>
+<li>OrderedDict类用于对字典进行顺序确定，能够保证字典中元素的顺序是元素添加的顺序。</li>
+<li>defaultdict类用于给字典中没有出现的元素一个默认值类型，保证在获取不到某个元素值的时候程序能够正常运行。</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[python对列表进行操作]]></title>
+    <link href="http://blog.yanzl.net/14724629382123.html"/>
+    <updated>2016-08-29T17:28:58+08:00</updated>
+    <id>http://blog.yanzl.net/14724629382123.html</id>
+    <content type="html"><![CDATA[
+<p><strong>:Python3不可以对类似于[1,2,&#39;sjsu&#39;]列表进行排序，而2是支持的～</strong></p>
+
+<p>列表是可以被改变的,所以当对列表进行修改的时候,所对应的id是不变的,这和字符串不同</p>
+
+<h4 id="toc_0">定义列表</h4>
+
+<ul>
+<li>l[]</li>
+<li>l = [&#39;22&#39;,&#39;erer&#39;,[1,2]]</li>
+<li>l = list(&#39;cjdhfy&#39;)</li>
+<li>l = [x**2 for x in range(l[2:6])]
+#### 查找元素</li>
+<li>l[i],若i大于len(l),则返回错误(IndexError)</li>
+<li>l[i][j]</li>
+<li>顺便查看元素下标：for index, value in enumerate(I): print(index, value)
+#### 查看长度
+len(l)
+#### 切片
+l[x:y],如果x大于y,或者读取的范围大于l的长度,则返回空列表  .
+#### 列表拼接:</li>
+<li>+代表两个列表进行拼接，两边必须是相同类型的序列，比如一个列表，一个是字符串，这样是没有办法直接相加的，必须转换成相同类型</li>
+<li>*代表将列表重复
+#### 判断是否存在
+x in l
+#### 添加元素:</li>
+<li>append()  l.append(),添加一个元素</li>
+<li>extend()    l.extend(),可以添加多个元素,[]括起来,元素之间以,分割
+#### 插入元素:insert()<br/>
+l.insert(x,y),在索引为x的地方插入元素y
+#### 查找元素所在位置
+index()     l.index(y),查找元素y的索引,如果没有该元素,则会报错(ValueError)
+#### 查看某一个元素出现的次数
+count()   l.count(),只能查找某一个元素,如果没有返回0
+#### 反转列表:</li>
+<li>reversed()     list(reversed(l)),该方法转换之后的格式并不是list,需要进行转换格式</li>
+<li>reverse()  l.reverse()
+#### 删除元素:del</li>
+<li>del l[k] 删除l的第k个元素</li>
+<li>del l[k:m] 删除从第k个元素开始,到第m(不包括m)个元素,如果没有m,则删除k之后的内容.</li>
+<li>l[i:j] = []    删除从第i个元素开始,到第j(不包括j)个元素</li>
+<li>l.pop()   删除列表的最后一个元素</li>
+<li>l.remove(s) 移除s元素
+#### 修改元素: 
+l[索引] = 修改的值
+#### 排序:    l.sort(),默认会从小到大排序,如果要从大到小排序,则l.sort(reverse=True)</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Python Time模块]]></title>
+    <link href="http://blog.yanzl.net/14720317525979.html"/>
+    <updated>2016-08-24T17:42:32+08:00</updated>
+    <id>http://blog.yanzl.net/14720317525979.html</id>
+    <content type="html"><![CDATA[
+<h2 id="toc_0">常用方法介绍</h2>
+
+<ul>
+<li><strong>time.localtime()：</strong>将一个时间戳转换成一个当前时区的struct_time</li>
+<li><strong>time.mktime()：</strong>将struct_time类型时间转换成时间戳</li>
+<li><strong>time.sleep(secs)：</strong>进程休眠secs秒</li>
+<li><strong>time.strftime(format, t)：</strong>将指定的struct_time(默认为当前时间)，根据指定的格式化字符串输出，t未指定，传入time.localtime()作为默认参数</li>
+<li><strong>time.strptime(str_t, format)：</strong>将格式化字符串转换成struct_time数据，format参数的格式必须与str_t的格式对应</li>
+<li><strong>time.time()：</strong>获取当前时间的时间戳</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[python3  获取中文的首字母]]></title>
+    <link href="http://blog.yanzl.net/14857054898000.html"/>
+    <updated>2017-01-29T23:58:09+08:00</updated>
+    <id>http://blog.yanzl.net/14857054898000.html</id>
+    <content type="html"><![CDATA[
+<p>前话</p>
+
+<p>python 3中只有unicode str，所以把decode方法去掉了，所以如果要获取中文的首字母就不需要繁琐的decode转换方法。<br/>
+encode()方法可以将Unicode编码转换成指定的编码格式，这里是将Unicode转换成gbk的编码，如果是中文的话，也可以指定gb2312，不过gbk支持的中文会更多<br/>
+应该知道的一点是每个中文占两个字节<br/>
+基本思路</p>
+
+<p>首先把中文字符串转换成gbk格式的编码，这个时候会是一串字节码<br/>
+循环遍历字节码,每一个循环会得到每个字节相应的ascii码,判断是否对应大小写字母，如果是字母，则直接转换<br/>
+如果是汉字，则每两个字节做一次汉字转换，获取首字母<br/>
+存在的问题</p>
+
+<p>因为不熟悉汉字中的每个字节对应的ascii关系，所以这里只处理了汉字和字母，如果字符串中存在英文字符，则无法显示正确结果，如果有大神知道解决方案，欢迎给出评论指导，博主也会尽快查找资料填补这部分漏洞。</p>
+
+<p>执行代码</p>
+
+<p>def get_head_letter(str_input):<br/>
+    str_input = str_input.encode(&#39;gbk&#39;)<br/>
+    print(type(str_input))<br/>
+    print(str_input)<br/>
+    return_list = []<br/>
+    num = 0<br/>
+    for one_unicode in str_input:<br/>
+        if (one_unicode &gt;= 97 and one_unicode &lt;= 122) or (one_unicode &gt;= 65 and one_unicode &lt;= 90):<br/>
+            return_list.append(chr(one_unicode))<br/>
+            continue<br/>
+        print(type(one_unicode))<br/>
+        print(one_unicode)<br/>
+        if num == 0:<br/>
+            first = one_unicode<br/>
+            num += 1<br/>
+        elif num == 1:<br/>
+            last = one_unicode<br/>
+            num += 1<br/>
+        if num == 2:<br/>
+            num = 0<br/>
+            return_list.append(single_letter(first, last))<br/>
+    return return_list</p>
+
+<p>def single_letter(first, last):<br/>
+    asc = first * 256 + last - 65536<br/>
+    if asc &gt;= -20319 and asc &lt;= -20284:<br/>
+        return &#39;a&#39;<br/>
+    if asc &gt;= -20283 and asc &lt;= -19776:<br/>
+        return &#39;b&#39;<br/>
+    if asc &gt;= -19775 and asc &lt;= -19219:<br/>
+        return &#39;c&#39;<br/>
+    if asc &gt;= -19218 and asc &lt;= -18711:<br/>
+        return &#39;d&#39;<br/>
+    if asc &gt;= -18710 and asc &lt;= -18527:<br/>
+        return &#39;e&#39;<br/>
+    if asc &gt;= -18526 and asc &lt;= -18240:<br/>
+        return &#39;f&#39;<br/>
+    if asc &gt;= -18239 and asc &lt;= -17923:<br/>
+        return &#39;g&#39;<br/>
+    if asc &gt;= -17922 and asc &lt;= -17418:<br/>
+        return &#39;h&#39;<br/>
+    if asc &gt;= -17417 and asc &lt;= -16475:<br/>
+        return &#39;j&#39;<br/>
+    if asc &gt;= -16474 and asc &lt;= -16213:<br/>
+        return &#39;k&#39;<br/>
+    if asc &gt;= -16212 and asc &lt;= -15641:<br/>
+        return &#39;l&#39;<br/>
+    if asc &gt;= -15640 and asc &lt;= -15166:<br/>
+        return &#39;m&#39;<br/>
+    if asc &gt;= -15165 and asc &lt;= -14923:<br/>
+        return &#39;n&#39;<br/>
+    if asc &gt;= -14922 and asc &lt;= -14915:<br/>
+        return &#39;o&#39;<br/>
+    if asc &gt;= -14914 and asc &lt;= -14631:<br/>
+        return &#39;p&#39;<br/>
+    if asc &gt;= -14630 and asc &lt;= -14150:<br/>
+        return &#39;q&#39;<br/>
+    if asc &gt;= -14149 and asc &lt;= -14091:<br/>
+        return &#39;r&#39;<br/>
+    if asc &gt;= -14090 and asc &lt;= -13119:<br/>
+        return &#39;s&#39;<br/>
+    if asc &gt;= -13118 and asc &lt;= -12839:<br/>
+        return &#39;t&#39;<br/>
+    if asc &gt;= -12838 and asc &lt;= -12557:<br/>
+        return &#39;w&#39;<br/>
+    if asc &gt;= -12556 and asc &lt;= -11848:<br/>
+        return &#39;x&#39;<br/>
+    if asc &gt;= -11847 and asc &lt;= -11056:<br/>
+        return &#39;y&#39;<br/>
+    if asc &gt;= -11055 and asc &lt;= -10247:<br/>
+        return &#39;z&#39;<br/>
+    return &#39;&#39;</p>
+
+<p>def main(str_input):<br/>
+    a = get_head_letter(str_input)<br/>
+    print(a)<br/>
+    b = &#39;&#39;<br/>
+    for i in a:<br/>
+        b = b + i<br/>
+    print(b)</p>
+
+<p>if <strong>name</strong> == &quot;__main__&quot;:<br/>
+    str_input = &#39;A测试获取c中文首字母,js&#39;<br/>
+    main(str_input)</p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[jQuery中的ajax实现异步请求]]></title>
+    <link href="http://blog.yanzl.net/14702800236946.html"/>
+    <updated>2016-08-04T11:07:03+08:00</updated>
+    <id>http://blog.yanzl.net/14702800236946.html</id>
+    <content type="html"><![CDATA[
+<h2 id="toc_0">使用背景</h2>
+
+<p>在页面显示中，我们希望点击一个按钮获取到相应数据后，在当前页面显示数据而不是跳转到新的页面去显示数据。或者在做一个操作后（比如删除，修改等操作），当前页面不会重新加载，但是会将操作传递到后台进行操作，这个时候我们就会用到异步请求。使用jQuery集成的ajax进行异步操作还是蛮方便的。</p>
+
+<h2 id="toc_1">常用参数</h2>
+
+<p><strong>注 ajax的请求参数都是以键值对的方式存在的</strong></p>
+
+<ul>
+<li>url：发送请求的路径</li>
+<li>type：请求的类型，get，post（jQuery有对这两种请求类型的封装：\(.get()，\).post()），delete，put，head，trach，请求类型是可以自定义的，但有的浏览器是不支持的</li>
+<li>dataType：告诉服务器要返回的数据类型，一般类型为：xml, html, json(必须是正确的格式，否则会抛出解析错误异常), script(响应结果当做javascript执行，在跨域请求时，请求方式强制为GET)，text，jsonp</li>
+<li>async：默认会为True，即发送异步请求，如果发送同步请求，将此项改为False（不过此方法在jQuery1.8之后好像过时了）</li>
+<li>cache：默认会为True，即浏览器缓存此页面，如果是False（dataType为script和jsonp会默认False）</li>
+<li>contentType：发送信息至服务器时内容编码类型，默认值是“application/x-www-form-urlencoded; charset=UTF-8”，有时要在服务器端进行适当的解码</li>
+<li>crossDomain：同域请求为False，跨域请求为True，默认为False</li>
+<li>data：发送到服务器的数据，会自动转化为请求字符串格式，键值对形式存在</li>
+<li>beforeSend：请求发送前的回调函数，一般会用来设置自定义和http请求头信息，在该函数中返回false会取消这个请求</li>
+<li>success：请求成功后会回调该函数</li>
+<li>error：请求失败后会回调该函数</li>
+<li>headers：设置请求头的信息，如果在beforeSend中也设置了相应头信息，则headers中会被覆盖</li>
+<li>password：用于响应http访问认证请求的密码</li>
+<li>username：用于响应http访问认证请求的用户名。</li>
+</ul>
+
+<h2 id="toc_2">使用示例</h2>
+
+<pre><code class="language-javascript">&lt;script language=&quot;javascript&quot; type=&quot;text/javascript&quot;&gt;
+        function get_comment(button) {
+            var id = button.getAttribute(&quot;id&quot;);
+            $.ajax({
+                type: &quot;GET&quot;,
+                url: &quot;/api/user/detail&quot;,
+                data: {
+                    &#39;id&#39;: id
+                },
+                dataType: &#39;json&#39;,
+                success: function (result) {
+                    console.log(&quot;请求成功，获取数据&quot;)
+                }
+            });
+        }
+    &lt;/script&gt;
+</code></pre>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Flask-RESTful 请求解析 ☞ reqparse]]></title>
+    <link href="http://blog.yanzl.net/14701068705193.html"/>
+    <updated>2016-08-02T11:01:10+08:00</updated>
+    <id>http://blog.yanzl.net/14701068705193.html</id>
+    <content type="html"><![CDATA[
+<h2 id="toc_0">使用背景</h2>
+
+<p>对于一个请求中的参数，我们可以使用request.form,request.args,request.get_json()等方法将需要的数据提取出来，但是很多情况下这些数据都是不可信的，所以我们需要一一验证，在参数比较多的情况下，依次验证就显得麻烦很多，这个时候我们可以使用Flask-RESTful提供的请求解析模块——reqparse</p>
+
+<h2 id="toc_1">定义对象</h2>
+
+<pre><code class="language-python">from flask_restful import reqparse
+
+parser = reqparse.RequestParser()
+</code></pre>
+
+<h2 id="toc_2">添加解析器</h2>
+
+<pre><code class="language-python">parser.add_argument(&#39;name&#39;, type=str, default=1, required=True, ignore=True, 
+location=&#39;args&#39;, choices=(&#39;bob&#39;,&#39;since&#39;), case_sensitive=False, 
+store_missing=True)
+</code></pre>
+
+<p>对添加数据约束时的各个参数做一个简单的介绍：</p>
+
+<ul>
+<li>type:数据的类型，int，str，text，werkzeug.datastructures.FileStorage（files中读数据）等</li>
+<li>default:如果请求中不带有该参数，则取该默认值作为参数值</li>
+<li>required:值为True的情况下，规定必须包含该参数，否则报请求错误</li>
+<li>ignore：值为True的情况下，如果参数类型发生转变，则会忽略该参数，即参数值为None</li>
+<li>choices: 参数值在选择池中，如果不在选择池中，则报请求错误</li>
+<li>case_sensitive: 值为True的情况下，会区分大小写，值为False的情况下，大写转小写</li>
+<li>store_missing:个人测试好像和default配合使用才会起作用， 在没有默认值的情况下，无论该变量的值是True还是False，其数据的值都是None，在有默认值的情况下，store_missing为True时，如果请求中没有出现该参数，则存储默认值。</li>
+<li>location：指明参数的位置，比如：form, args, headers, cookies, files等，需要注意的是有的位置要指明参数的类型，如果一个参数可能存在多个位置，可以以列表的形式指明location，最后的结果会先在列表指定的位置查找，找不到的话或在其他地方查找</li>
+<li>trim:设置为True的情况下，会清除参数中的前置后置空格</li>
+<li>nullable：设置为True的情况下，会允许接受的值为None</li>
+<li>help：帮助文字，在参数出问题的情况下会显示该内容</li>
+<li>action：The basic type of action to be taken when this argument is encountered in the request. Valid options are “store” and “append”.</li>
+<li>dest：参数解析时返回的参数名</li>
+<li>name：参数名，有可选和必选之分。</li>
+</ul>
+
+<h2 id="toc_3">解析器继承</h2>
+
+<p>有时候会有多个公共参数，这时候如果没每个请求都写一个解析器，则可能会有很多代码是重复的，所以可以指定一个父解析器，然后去继承这个解析器。</p>
+
+<pre><code class="language-python">from flask_restful import reqparse
+
+parser = reqparse.RequestParser()
+
+parser.add_argument(&#39;name&#39;, type=str)
+parser.add_argument(&#39;weight&#39;, type=int, required=True)
+parser.add_argument(&#39;height&#39;, type=int)
+
+# 使用parser.copy()方法扩展parser解析器
+parser_copy = parser.copy()
+#添加新的参数
+parser_copy.add_argument(&#39;age&#39;, type=int)
+#replace_argument()方法重写某个参数的解析约束
+parser_copy.replace_argument(&#39;weight&#39;, type=int)
+#remove_argument()方法删除某个参数
+parser_copy.remove_argument(&#39;height&#39;)
+</code></pre>
+
+<h2 id="toc_4">执行参数解析与获取参数值</h2>
+
+<p>这里直接写参数解析，上文请参考定义对象和添加解析器</p>
+
+<pre><code class="language-python">args = parser.parse_args()
+name = args.get(&quot;name&quot;)
+</code></pre>
+
+<p><strong>注</strong> python中还有一个命令解析模块，请求解析是仿照命令解析编写的</p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Python Datatime模块]]></title>
+    <link href="http://blog.yanzl.net/14700447941589.html"/>
+    <updated>2016-08-01T17:46:34+08:00</updated>
+    <id>http://blog.yanzl.net/14700447941589.html</id>
+    <content type="html"><![CDATA[
+<h2 id="toc_0">datetime.timedelta</h2>
+
+<p>用于表示两个datetime.date, datetime.time或者datetime.datetime之间的时间差,类的原型为：</p>
+
+<pre><code class="language-python">class datetime.timedelta(days=0, seconds=0, microseconds=0, milliseconds=0,
+ minutes=0, hours=0, weeks=0)
+</code></pre>
+
+<p>timedelta可以指定一个时间段，规定该时间段有多少天、秒、毫秒、微秒、分钟、小时、周，从而对该时间段进行一些操作，整理了以下几点：</p>
+
+<ul>
+<li><strong>加减法：</strong>可以将两个时间段做加减法，得到一个新的时间段。另外，可以将datetime.datetime类型或者datetime.date类型的数据进行加减法</li>
+<li><strong>乘法：</strong>可以将一个时间段和一个常数进行乘法操作，像普通乘法一样</li>
+<li><strong>除法：</strong>可以将一个时间段与一个常数进行除法操作,返回是一个timedelta类型的数据</li>
+<li><strong>取正数结果：</strong>abs()函数可以在运行结果为负数时返回正数结果,注意这里不是绝对值，而是会将两个操作数交换顺序进行运算。（比如a-b&lt;0,则返回的结果为b-a的结果）</li>
+<li><strong>返回字符串类型数据：</strong>以上的操作返回的数据类型都是timedelta类型的，如果希望返回字符串类型，可以使用str()函数</li>
+<li><strong>返回所有秒数：</strong>可以设定一个时间段，返回该时间段的所有秒数</li>
+<li><strong>获取可取时间段的最大值：</strong>可以使用timedelta.max方法进行获取</li>
+<li><p><strong>获取可取时间段的最小值：</strong>可以使用timedelta.min方法进行获取</p>
+
+<p><strong>注 除法不能执行数字除以timedelta类型的操作， 乘法和除法操作都不能是两个timedelta类型的数据</strong></p></li>
+</ul>
+
+<h3 id="toc_1">示例代码</h3>
+
+<pre><code class="language-python">from datetime import timedelta
+
+timedelta1 = timedelta(days=1, hours=2, minutes=10)
+timedelta2 = timedelta(days=2, hours=4, minutes=20, seconds=10)
+
+print(timedelta1 + timedelta2)
+print (timedelta2 - timedelta1)
+print (timedelta2 * 2)
+print (2 * timedelta2)
+print (timedelta2 / 2)
+print (abs(timedelta1 - timedelta2))
+print (str(timedelta1 - timedelta2))
+print (type(timedelta2 / 2))
+print (type(str(timedelta2 / 2)))
+print (type(repr(timedelta2 / 2)))
+print (timedelta2.total_seconds())
+print timedelta.max
+print timedelta.min
+</code></pre>
+
+<h3 id="toc_2">示例运行结果</h3>
+
+<pre><code>3 days, 6:30:10
+1 day, 2:10:10
+1 day, 2:10:10
+-2 days, 21:49:50
+4 days, 8:40:20
+4 days, 8:40:20
+1 day, 2:10:05
+&lt;type &#39;datetime.timedelta&#39;&gt;
+&lt;type &#39;str&#39;&gt;
+&lt;type &#39;str&#39;&gt;
+188410.0
+999999999 days, 23:59:59.999999
+-999999999 days, 0:00:00
+</code></pre>
+
+<h2 id="toc_3">datetime.time</h2>
+
+<p>表示时间信息，类的原型为：</p>
+
+<pre><code class="language-python">class datetime.time(hour=0, minute=0, second=0, microsecond=0, tzinfo=None)
+</code></pre>
+
+<h3 id="toc_4">类的属性</h3>
+
+<ul>
+<li>time.min</li>
+<li>time.max</li>
+<li>time.resolution</li>
+<li>time.hour</li>
+<li>time.minute</li>
+<li>time.second</li>
+<li>time.microsecond</li>
+<li>time.tzinfo</li>
+</ul>
+
+<h3 id="toc_5">运算操作</h3>
+
+<ol>
+<li>进行两个time类型数据的比较</li>
+</ol>
+
+<h3 id="toc_6">对象操作</h3>
+
+<ul>
+<li><strong>修改time类型数据：</strong> time_data.replace(hour=13, minute=25)</li>
+<li><strong>转换成ISO格式数据:</strong> time_data.isoformat()</li>
+<li><strong>格式化time类型数据：</strong> time_data.strftime(&#39;%Y/%m/%d %H:%M:%S&#39;),注意，因为time类型数据没有年月日，所以在数据类型转换时如果出现年月日，默认为1900/01/01</li>
+</ul>
+
+<h3 id="toc_7">对象操作示例</h3>
+
+<pre><code class="language-python">time_data = time(12, 13, 14, 15)
+print time_data
+time_data_replace = time_data.replace(hour=13, minute=25)
+print time_data_replace
+time_data_isoformat = time_data.isoformat()
+print time_data_isoformat
+time_data_strftime = time_data.strftime(&#39;%Y/%m/%d %H:%M:%S&#39;)
+print time_data_strftime
+</code></pre>
+
+<h3 id="toc_8">示例参考结果</h3>
+
+<pre><code>12:13:14.000015
+13:25:14.000015
+12:13:14.000015
+1900/01/01 12:13:14
+</code></pre>
+
+<h2 id="toc_9">datatime.date</h2>
+
+<p>用于返回日期的时间（年，月，日），类的原型为：</p>
+
+<pre><code class="language-python">class datetime.date(year, month, day)
+</code></pre>
+
+<h3 id="toc_10">类的属性</h3>
+
+<ul>
+<li>date.min</li>
+<li>date.max</li>
+<li>date.resolution 计算date类型的精度</li>
+<li>date.year</li>
+<li>date.month</li>
+<li>date.day</li>
+</ul>
+
+<h3 id="toc_11">运算操作</h3>
+
+<ol>
+<li>date类型数据与timedelta类型数据进行加减运算,得到的数据类型为date</li>
+<li>两个date类型数据相减，得到的数据类型为timedelta</li>
+<li>比较大小，返回布尔值</li>
+</ol>
+
+<h3 id="toc_12">常见类操作</h3>
+
+<ul>
+<li><strong>计算当天日期：</strong> date.today()</li>
+<li><strong>根据时间戳获取某一时间：</strong> date.fromtimestamp(timestamp)</li>
+<li><strong>根据天数返回对应的日期：</strong>date.fromordinal(),与对象方法toordinal()相对应</li>
+</ul>
+
+<h3 id="toc_13">类操作示例</h3>
+
+<pre><code class="language-python">today = date.today()
+today_from_timestamp = date.fromtimestamp(time.time())
+date_from_ordinal = date.fromordinal(736191)
+print date.today()
+print today_from_timestamp
+print date.fromordinal(736191)
+</code></pre>
+
+<h3 id="toc_14">示例参考结果</h3>
+
+<pre><code>2016-08-15
+2016-08-15
+2016-08-15
+</code></pre>
+
+<h3 id="toc_15">常见对象方法</h3>
+
+<ul>
+<li><strong>修改某个日期：</strong> 可以通过date.replace()方法重写year,month,day参数改变日期</li>
+<li><strong>转换成time.struct_time类型数据：</strong>date.timetuple()方法可以实现该转换，等同于time.localtime()</li>
+<li><strong>计算当天是一周的第几天：</strong>date.weekday(),返回0~6; date.isoweekday()，返回1~7</li>
+<li><strong>计算当天是哪一年第几周的周几：</strong> date.isocalendar(),返回一个元组。</li>
+<li><strong>将日期转换成iso格式：</strong>date.isoformat(),格式为：2016-08-14</li>
+<li><strong>格式化日期：</strong> date.strftime()</li>
+<li><strong>返回某日期距离1年1月1日的天数：</strong>date.toordinal()</li>
+</ul>
+
+<p><strong>这里有一个疑问：isocalendar方法中一年的第一周到底是如何计算的~~</strong></p>
+
+<h3 id="toc_16">示例代码</h3>
+
+<pre><code class="language-python">today = date.today()
+today_replace = today.replace(month=12, day=14)
+print today
+print today_replace
+today_timetuple = today.timetuple()
+time_localtime = time.localtime()
+print today_timetuple
+print time_localtime
+print type(today_timetuple), type(time_localtime)
+today_weekday = today.weekday()
+today_iso_weekday = today.isoweekday()
+print today_weekday
+print today_iso_weekday
+today_iso_format = today.isoformat()
+print today_iso_format
+today_strftime = today.strftime(&#39;%Y-%m-%d %H:%M:%S&#39;)
+print today_strftime
+today_toordinal = today.toordinal()
+print today_toordinal
+today_iso_calendar = today.isocalendar()
+print today_iso_calendar
+print date(2014, 1, 1).isocalendar()
+print date(2016, 1, 1).isocalendar()
+</code></pre>
+
+<h3 id="toc_17">示例参考结果</h3>
+
+<pre><code>2016-08-15
+2016-12-14
+time.struct_time(tm_year=2016, tm_mon=8, tm_mday=15, tm_hour=0, tm_min=0,
+ tm_sec=0, tm_wday=0, tm_yday=228, tm_isdst=-1)
+time.struct_time(tm_year=2016, tm_mon=8, tm_mday=15, tm_hour=13, tm_min=48,
+ tm_sec=35, tm_wday=0, tm_yday=228, tm_isdst=0)
+&lt;type &#39;time.struct_time&#39;&gt; &lt;type &#39;time.struct_time&#39;&gt;
+0
+1
+2016-08-15
+2016-08-15 00:00:00
+736191
+(2016, 33, 1)
+(2014, 1, 3)
+(2015, 53, 5)
+</code></pre>
+
+<h2 id="toc_18">datetime.datetime</h2>
+
+<p>用于返回日期和时间，相当于date和time的合体，类的原型为：</p>
+
+<pre><code class="language-python">class datetime.datetime(year, month, day, hour=0, minute=0, second=0,
+ microsecond=0, tzinfo=None)
+</code></pre>
+
+<h3 id="toc_19">类的属性包括：</h3>
+
+<ul>
+<li>datetime.min</li>
+<li>datetime.max</li>
+<li>datetime.year</li>
+<li>datetime.month</li>
+<li>datetime.day</li>
+<li>datetime.hour</li>
+<li>datetime.minute</li>
+<li>datetime.second</li>
+<li>datetime.microsecond</li>
+<li>datetime.tzinfo</li>
+<li>datetime.resolution: 计算类的精确度</li>
+</ul>
+
+<h3 id="toc_20">类的运算</h3>
+
+<ol>
+<li>datetime类型与timedelta类型做加减运算</li>
+<li>两个datetime类型数据做减法运算，得到timedelta类型的结果</li>
+<li><p>比较两个datetime类型数据的大小</p>
+
+<h3 id="toc_21">常见类操作如下：</h3></li>
+</ol>
+
+<ul>
+<li><strong>计算当天日期时间：</strong> datetime.today(),该方法不包含时区信息</li>
+<li><strong>计算当前日期时间：</strong> datetime.now([tz]),该方法中有一个参数用来接收时区，如果没有，则结果和today()相同，如果有时区信息，则该时区必须是tzinfo的一个具体实例</li>
+<li><strong>计算当时UTC时间：</strong> datetime.utcnow(),UTC时间是世界标准时间，比北京时间慢8小时，因为北京处于东八区</li>
+<li><strong>将时间戳转换成datetime格式：</strong> datetime.fromtimestamp(timestamp),这里第二个参数可以设置转换时区，默认会是本地日期和时间</li>
+<li><strong>将时间戳转化为UTC时间：</strong> datetime.utcfromtimestamp(timestamp)，返回的是世界标准时间</li>
+<li><strong>根据天数获取对应的日期：</strong> datetime.fromordinal(days)</li>
+<li><strong>合并日期和时间为日期时间：</strong> datetime.combine(date, time)</li>
+<li><strong>将字符串类型转换成datetime类型：</strong> datetime.strptime(today_strftime, &#39;%Y-%m-%d %H:%M:%S&#39;)，注意这里的第二个参数，与第一个参数的格式必须一致才能够成功转换</li>
+</ul>
+
+<h3 id="toc_22">类操作示例</h3>
+
+<pre><code class="language-python">today = datetime.today()
+now = datetime.now(tz=None)
+utcnow = datetime.utcnow()
+print today
+print now
+print utcnow
+today_from_timestamp = datetime.fromtimestamp(1471230039.49)
+print today_from_timestamp
+today_from_utctimestamp = datetime.utcfromtimestamp(1471230039.49)
+print today_from_utctimestamp
+days = datetime.fromordinal(736199)
+print days
+type_date = date.today()
+type_time = date_time(11,30,59)
+combine_date_time = datetime.combine(type_date, type_time)
+print combine_date_time
+today_strftime = today.strftime(&#39;%Y/%m/%d %H:%M:%S&#39;)
+today_strptime = datetime.strptime(today_strftime, &#39;%Y/%m/%d %H:%M:%S&#39;)
+print today_strftime
+print today_strptime
+print type(today_strftime)
+print type(today_strptime)
+</code></pre>
+
+<h3 id="toc_23">类操作示例参考结果</h3>
+
+<pre><code>2016-08-15 11:28:41.109749
+2016-08-15 11:28:41.109829
+2016-08-15 03:28:41.109832
+2016-08-15 11:00:39.490000
+2016-08-15 03:00:39.490000
+2016-08-23 00:00:00
+2016-08-15 11:30:59
+2016/08/15 11:28:41
+2016-08-15 11:28:41
+&lt;type &#39;str&#39;&gt;
+&lt;type &#39;datetime.datetime&#39;&gt;
+</code></pre>
+
+<h3 id="toc_24">常见对象操作方法如下：</h3>
+
+<p>先来创建一个对象：<code>today = datetime.today()</code></p>
+
+<ul>
+<li><strong>返回datetime的日期值：</strong>today.date()可以返回日期值,返回值为date类型</li>
+<li><strong>返回detetime的时间值：</strong>today.time()可以相同的时间返回时间值; today.timetz()，使用相同的时间和时区返回时间值，时区为None时不返回时区。两种方法返回值类型都为time类型。</li>
+<li><strong>修改日期时间：</strong> today.replace()方法可以实现对日期时间进行修改，没有修改的属性还是维持原来的值</li>
+<li><strong>将datetime类型数据解析成struc_time结构体返回：</strong> today.timetuple()返回当前时间的解析结构体；today.utctimetuple()返回utc时间的解析结构体</li>
+<li><strong>获取当前日期距离1年1月1日的天数：</strong> today.toordinal(),与类方法datetime.fromordinal(days)相对应</li>
+<li><strong>返回当前日期的星期：</strong> today.weekday(),返回值0~6；today_isoweekday（），返回值1~7</li>
+<li><strong>返回当前年份，周数，星期：</strong>today.isocalendar(),返回一个三元组，包括年，第几周，周几</li>
+<li><strong>返回ISO格式日期时间：</strong>datetime.isoformat(today)，个人认为这更像一个类方法。</li>
+<li><strong>转换成time.ctime的数据格式:</strong> today.ctime()</li>
+<li><strong>根据格式转换成字符串类型：</strong> today.strftime(&#39;%Y-%m-%d %H:%M:%S&#39;),默认格式为ISO-8601,与类方法datetime.strptime()相对应</li>
+</ul>
+
+<h3 id="toc_25">对象方法示例</h3>
+
+<pre><code class="language-python">today = datetime.today()
+today_date = today.date()
+today_time = today.time()
+today_timetz = today.timetz()
+print today_date
+print today_time
+print today_timetz
+today_replace = today.replace(year=2016, day=23, minute=34, second=34)
+print today_replace
+today_struct_time = today.timetuple()
+today_utc_struct_time = today.utctimetuple()
+print today_struct_time
+print today_utc_struct_time
+today_days = today.toordinal()
+print today_days
+today_weekday = today.weekday()
+today_isoweekday = today.isoweekday()
+print today_weekday
+print today_isoweekday
+today_isoclaendar = today.isocalendar()
+print today_isoclaendar
+today_isoformat = datetime.isoformat(today)
+print today_isoformat
+today_ctime = today.ctime()
+print today_ctime
+today_strftime = today.strftime(&#39;%Y/%m/%d %H:%M:%S&#39;)
+print today_strftime
+</code></pre>
+
+<h3 id="toc_26">对象操作方法示例参考结果</h3>
+
+<pre><code>2016-08-15
+13:15:15.692802
+13:15:15.692802
+2016-08-23 13:34:34.692802
+time.struct_time(tm_year=2016, tm_mon=8, tm_mday=15, tm_hour=13, tm_min=15,
+ tm_sec=15, tm_wday=0, tm_yday=228, tm_isdst=-1)
+time.struct_time(tm_year=2016, tm_mon=8, tm_mday=15, tm_hour=13, tm_min=15,
+ tm_sec=15, tm_wday=0, tm_yday=228, tm_isdst=0)
+736191
+0
+1
+(2016, 33, 1)
+2016-08-15T13:15:15.692802
+Mon Aug 15 13:15:15 2016
+2016/08/15 13:15:15
+</code></pre>
+
+<h3 id="toc_27">格式转换</h3>
+
+<h3 id="toc_28">符号说明表</h3>
+
+<table>
+<thead>
+<tr>
+<th>符号</th>
+<th>说明</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>%y</td>
+<td>两位数的年份表示（0~99）</td>
+</tr>
+<tr>
+<td>%Y</td>
+<td>四位数的年份表示（000~9999）</td>
+</tr>
+<tr>
+<td>%m</td>
+<td>月份</td>
+</tr>
+<tr>
+<td>%d</td>
+<td>月中的一天</td>
+</tr>
+<tr>
+<td>%I</td>
+<td>十二小时制的小时（1~12）</td>
+</tr>
+<tr>
+<td>%H</td>
+<td>二十四小时制的小时（0~23）</td>
+</tr>
+<tr>
+<td>%M</td>
+<td>每小时内的分钟（0~59）</td>
+</tr>
+<tr>
+<td>%S</td>
+<td>每分钟的秒（0~59）</td>
+</tr>
+<tr>
+<td>%b</td>
+<td>当地月份简写</td>
+</tr>
+<tr>
+<td>%B</td>
+<td>当地月份全称</td>
+</tr>
+<tr>
+<td>%c</td>
+<td>本地相应的日期表示和时间表示</td>
+</tr>
+<tr>
+<td>%x</td>
+<td>本地相应的日期表示</td>
+</tr>
+<tr>
+<td>%X</td>
+<td>本地相应的时间表示</td>
+</tr>
+<tr>
+<td>%a</td>
+<td>本地星期简写</td>
+</tr>
+<tr>
+<td>%A</td>
+<td>本地星期全称</td>
+</tr>
+<tr>
+<td>%U</td>
+<td>一年中的星期数（00-53）星期天为星期的开始</td>
+</tr>
+<tr>
+<td>%W</td>
+<td>一年中的星期数（00-53）星期一为星期的开始</td>
+</tr>
+<tr>
+<td>%w</td>
+<td>星期（0-6），星期天为星期的开始</td>
+</tr>
+<tr>
+<td>%j</td>
+<td>当天是全年的第几天</td>
+</tr>
+<tr>
+<td>%z</td>
+<td>该时间使用的时区，如果没有指定，则为None</td>
+</tr>
+<tr>
+<td>%%</td>
+<td>%本身</td>
+</tr>
+</tbody>
+</table>
+
+<h3 id="toc_29">转换符示例</h3>
+
+<pre><code class="language-python">today = datetime.today()
+print today.strftime(&#39;%y-%m-%d %p.%I:%M:%S&#39;)
+date_strftime = today.replace(hour=0, minute=12, second=0).strftime(&#39;%Y-%m-%d %I:%M:%S&#39;)
+print date_strftime
+print today.strftime(&#39;%Y/%m%d %H:%M:%S&#39;)
+print today.strftime(&#39;%b / %B&#39;)
+print today.strftime(&#39;%c&#39;)
+print today.strftime(&#39;%x&#39;)
+print today.strftime(&#39;%X&#39;)
+print today.strftime(&#39;%a / %A&#39;)
+print today.strftime(&#39;%Y %U %w&#39;)
+print today.strftime(&#39;%Y %W %w&#39;)
+print today.strftime(&#39;%j&#39;)
+print today.strftime(&#39;%Z&#39;)
+print today.strftime(&quot;%%&quot;)
+</code></pre>
+
+<h3 id="toc_30">示例参考结果</h3>
+
+<pre><code>16-08-15 PM.02:51:32
+2016-08-15 12:12:00
+2016/0815 14:51:32
+Aug / August
+Mon Aug 15 14:51:32 2016
+08/15/16
+14:51:32
+Mon / Monday
+2016 33 1
+2016 33 1
+228
+
+%
+</code></pre>
+
+<h2 id="toc_31">个人感悟</h2>
+
+<p>datetime模块包含timedelta，date，datetime，time， tzinfo， 五个类构成,timedelta提供日期时间计算的中间量；date用于对日期进行操作；time用于对时间进行操作（但是没有获取当前时间的操作），datetime是日期和时间的合体，既有日期也有时间，并且可以单独获取某个日期时间的日期和时间，是继承自date类的类；tzinfo类用于对时区进行操作，但这个类是一个基类，如果要使用，必须创建实体类.<br/>
+无论是date类，datetime类，还是time类，都有一些实现相同功能的方法，不过不同的类具体的参数不同：<br/>
+obj.replace():用来修改日期时间<br/>
+obj.rsoformat():用来显示ISO-8601格式的时间<br/>
+obj.strftime():将相应对象转换成所接受的格式的字符串</p>
+
+<p>datetime类继承自date类，有些方法名称和效果是一样的：<br/>
+cls.today()，获取当前时间<br/>
+cls.fromtimestamp(),根据时间戳获取时间<br/>
+cls.fromordinal(),根据天数获取相应时间<br/>
+obj.toordinal(),获取当前日期距离1年1月1日的总天数<br/>
+obj.timetuple(),获取当前日期的time.struct_time格式数据<br/>
+obj.weekday(),获取当前日期的星期，0~6<br/>
+obj.isoweekday(),获取当前日期的星期，1~7<br/>
+obj.isocalendar(),以三元组的形式获取日期年份，在这一年的星期数，当前星期的星期几</p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Python命令行参数解析☞argparse、请求解析☞reqparse]]></title>
+    <link href="http://blog.yanzl.net/14696161345629.html"/>
+    <updated>2016-07-27T18:42:14+08:00</updated>
+    <id>http://blog.yanzl.net/14696161345629.html</id>
+    <content type="html"><![CDATA[
+<p>这篇文章是对命令行参数解析和请求解析的总结，因为都是对传递的参数进行的解析，所以写在了一起，可以对比一下。但是两种解析的来源是不一样的，argparse来自python的自带模块，reqparse来自于Flask-RESTful扩展</p>
+
+<h1 id="toc_0">Python命令行参数解析☞argparse</h1>
+
+<h2 id="toc_1">简介</h2>
+
+<p>对于命令行参数解析，最原始的方法是手动解析，解析过程如下所示：</p>
+
+<pre><code class="language-python">import sys
+def TestSys():
+  for arg in sys.argv[1:]:
+    print (arg)
+</code></pre>
+
+<p>argparse是python自带的模块，利用argparse，可以完成对命令行的参数定义、解析以及后续的处理。</p>
+
+<h2 id="toc_2">创建一个解析器</h2>
+
+<pre><code class="language-python">import argparse
+parser = argparse.ArgumentParser(description=&#39;Process some integers.&#39;)
+</code></pre>
+
+<h2 id="toc_3">添加解析参数前置知识☞属性</h2>
+
+<ul>
+<li>help：帮助信息</li>
+<li>type：数据类型，str,int等</li>
+<li>choices：参数值可选范围</li>
+<li>action：参数动作，在解析到一个参数时进行触发的动作
+
+<ul>
+<li>store 保存参数值，可能会先将参数值转换成另一个数据类型。若没有显式指定动作，则默认为该动作。</li>
+<li>store_const 保存一个被定义为参数规格一部分的值，而不是一个来自参数解析而来的值。这通常用于实现非布尔值的命令行标记。</li>
+<li>store_ture/store_false 保存相应的布尔值。这两个动作被用于实现布尔开关。</li>
+<li>append 将值保存到一个列表中。若参数重复出现，则保存多个值。</li>
+<li>append_const 将一个定义在参数规格中的值保存到一个列表中。</li>
+<li>version 打印关于程序的版本信息，然后退出</li>
+<li>count 记录参数出现的次数,不指定即为None</li>
+</ul></li>
+<li>default：参数没有赋值时，会采用默认值，必选参数除外</li>
+</ul>
+
+<h2 id="toc_4">添加解析参数</h2>
+
+<h3 id="toc_5">添加必选参数</h3>
+
+<p>必选参数的特点</p>
+
+<ul>
+<li>添加参数时参数名直接命名，不需要特殊符号</li>
+<li>在启动文件的时候必须按照顺序赋值参数，不需要指定参数名，参数之间以空格分隔。</li>
+</ul>
+
+<p>示例代码：</p>
+
+<pre><code class="language-python">parser.add_argument(&quot;name&quot;, help=&quot;user name&quot;)
+parser.add_argument(&quot;age&quot;, type=int, choices=[1, 2, 6, 18, 24], help=&quot;user age&quot;)
+print(parser.parse_args())
+</code></pre>
+
+<p>示例结果：</p>
+
+<pre><code class="language-python">python3 argparse_test.py xiaoming 24
+Namespace(age=24, name=&#39;xiaoming&#39;)
+# 如果age没有不在choices中，会报以下错误：
+python3 argparse_test.py xiaoming 23
+usage: argparse_test.py [-h] name {1,2,6,18,24}
+argparse_test.py: error: argument age: invalid choice: 23 (choose from 1, 2, 6, 18, 24)
+</code></pre>
+
+<h3 id="toc_6">添加可选参数</h3>
+
+<p>可选参数的特点</p>
+
+<ul>
+<li>添加参数时参数名前面有两个“--”（注意不是下划线，是短线）</li>
+<li>可选参数在启动文件时可以不赋值，如果参数有默认值，会选择默认值进行赋值，如果没有，则为None</li>
+<li>在启动文件时不需要按照顺序执行，只需要指定参数名和参数值，以空格分隔。</li>
+</ul>
+
+<p>示例代码：</p>
+
+<pre><code class="language-python">parser.add_argument(&quot;--name&quot;, action=&quot;store_true&quot;)
+parser.add_argument(&quot;--age&quot;, action=&quot;store_const&quot;, const=&#39;this is age&#39;)
+parser.add_argument(&quot;--weight1&quot;, action=&quot;count&quot;, default=0)
+parser.add_argument(&quot;--weight2&quot;, action=&quot;append&quot;, type=int)
+parser.add_argument(&quot;--height1&quot;, action=&quot;append_const&quot;, const=42, dest=&quot;w_h&quot;)
+parser.add_argument(&quot;--height2&quot;, action=&quot;append_const&quot;, const=1, dest=&quot;w_h&quot;)
+parser.add_argument(&quot;--version&quot;, action=&quot;version&quot;, version=&#39;%(prog)s 0.1&#39;)
+args = parser.parse_args()
+print(args)
+print(args.weight1 &gt;= 0)
+print(type(args.w_h))
+</code></pre>
+
+<p>示例结果</p>
+
+<pre><code class="language-python"># name的动作决定启动时如果有--name,值为真，没有为假
+python3 argparse_test.py --name
+Namespace(age=None, name=True, w_h=None, weight1=0, weight2=None)
+</code></pre>
+
+<p><strong>注：可选参数可以有简写，会以&quot;-&quot;开头，后面紧接简写，如下所示</strong></p>
+
+<pre><code class="language-python">parser.add_argument(&quot;-w&quot;, &quot;--weight&quot;, action=&quot;append&quot;, type=int)
+</code></pre>
+
+<h3 id="toc_7">混合使用必选参数和可选参数</h3>
+
+<p>有时候在启动脚本时会有一些必选参数，也会有一些可选参数。混合使用的时候，各自特点仍然不变，顺序是可以改变的，不过必选参数因为不指定参数名，所以必选参数之间的顺序是不能调换的。</p>
+
+<p>示例代码：</p>
+
+<pre><code class="language-python">parser.add_argument(&quot;name&quot;, help=&quot;user name&quot;)
+parser.add_argument(&quot;-a&quot;, &quot;--age&quot;, type=int, help=&quot;increase output verbosity&quot;)
+parser.add_argument(&quot;-w&quot;, &quot;--weight&quot;, type=int)
+parser.add_argument(&quot;tall&quot;, type=int)
+parser.add_argument(&quot;hobby&quot;, type=str)
+args = parser.parse_args()
+print(args)
+print(args.weight)
+</code></pre>
+
+<p>示例结果：</p>
+
+<pre><code class="language-python"># 正常使用的情况：
+python3 argparse_test.py xiaoming -w 287 167 hobby -a 25
+Namespace(age=25, hobby=&#39;hobby&#39;, name=&#39;xiaoming&#39;, tall=167, weight=287)
+287
+# 如果必选参数位置改变的情况，可以看到赋值是不一样的：
+python3 argparse_test.py hobby -w 287 2167  xiaoming -a 25
+Namespace(age=25, hobby=&#39;xiaoming&#39;, name=&#39;hobby&#39;, tall=2167, weight=287)
+287
+# 如果顺序的调换导致参数类型不能对应，则会报错：
+python3 argparse_test.py hobby -w 287  xiaoming -a 25 167
+usage: argparse_test.py [-h] [-a AGE] [-w WEIGHT] name tall hobby
+argparse_test.py: error: argument tall: invalid int value: &#39;xiaoming&#39;
+</code></pre>
+
+<h3 id="toc_8">添加参数冲突</h3>
+
+<p>有时候会根据不同的使用场景，设置几个不同的参数，而这几个参数之间是互斥的，即有他没我，有我没他的关系，所以就用到了参数冲突。几个冲突的参数放在一个集合中，就能够保证只能出现其中的一个，如代码示例所示：</p>
+
+<p>代码示例：</p>
+
+<pre><code class="language-python">group = parser.add_mutually_exclusive_group()
+group.add_argument(&quot;-fn&quot;, &quot;--full_name&quot;)
+group.add_argument(&quot;-sn&quot;, &quot;--short_name&quot;)
+parser.add_argument(&quot;-a&quot;, &quot;--age&quot;, type=int)
+parser.add_argument(&quot;-w&quot;, &quot;--weight&quot;, type=int)
+args = parser.parse_args()
+print(args)
+</code></pre>
+
+<p>示例结果：</p>
+
+<pre><code class="language-python"># 如果命令行参数中出现冲突，程序将会报错：
+python3 argparse_test.py -fn full_name -sn short_name -a 25
+usage: argparse_test.py [-h] [-fn FULL_NAME | -sn SHORT_NAME] [-a AGE]
+                        [-w WEIGHT]
+argparse_test.py: error: argument -sn/--short_name: not allowed with argument -fn/--full_name
+# 只有当冲突参数只出现一个的时候，才能够正常执行：
+python3 argparse_test.py -fn full_name -a 25
+Namespace(age=25, full_name=&#39;full_name&#39;, short_name=None, weight=None)
+</code></pre>
+
+<h1 id="toc_9">请求解析☞reqparse</h1>
+
+<h2 id="toc_10">使用背景</h2>
+
+<p>对于一个请求中的参数，我们可以使用request.form,request.args,request.get_json()等方法将需要的数据提取出来，但是很多情况下这些数据都是不可信的，所以我们需要一一验证，在参数比较多的情况下，依次验证就显得麻烦很多，这个时候我们可以使用Flask-RESTful提供的请求解析模块——reqparse</p>
+
+<h2 id="toc_11">定义对象</h2>
+
+<pre><code class="language-python">from flask_restful import reqparse
+
+parser = reqparse.RequestParser()
+</code></pre>
+
+<h2 id="toc_12">添加解析器</h2>
+
+<pre><code class="language-python">parser.add_argument(&#39;name&#39;, type=str, default=1, required=True, ignore=True, 
+location=&#39;args&#39;, choices=(&#39;bob&#39;,&#39;since&#39;), case_sensitive=False, 
+store_missing=True)
+</code></pre>
+
+<p>对添加数据约束时的各个参数做一个简单的介绍：</p>
+
+<ul>
+<li>type:数据的类型，int，str，text，werkzeug.datastructures.FileStorage（files中读数据）等</li>
+<li>default:如果请求中不带有该参数，则取该默认值作为参数值</li>
+<li>required:值为True的情况下，规定必须包含该参数，否则报请求错误</li>
+<li>ignore：值为True的情况下，如果参数类型发生转变，则会忽略该参数，即参数值为None</li>
+<li>choices: 参数值在选择池中，如果不在选择池中，则报请求错误</li>
+<li>case_sensitive: 值为True的情况下，会区分大小写，值为False的情况下，大写转小写</li>
+<li>store_missing:个人测试好像和default配合使用才会起作用， 在没有默认值的情况下，无论该变量的值是True还是False，其数据的值都是None，在有默认值的情况下，store_missing为True时，如果请求中没有出现该参数，则存储默认值。</li>
+<li>location：指明参数的位置，比如：form, args, headers, cookies, files等，需要注意的是有的位置要指明参数的类型，如果一个参数可能存在多个位置，可以以列表的形式指明location，最后的结果会先在列表指定的位置查找，找不到的话或在其他地方查找</li>
+</ul>
+
+<h2 id="toc_13">解析器继承</h2>
+
+<p>有时候会有多个公共参数，这时候如果每个请求都写一个解析器，则可能会有很多代码是重复的，所以可以指定一个父解析器，然后去继承这个解析器。</p>
+
+<pre><code class="language-python">from flask_restful import reqparse
+
+parser = reqparse.RequestParser()
+
+parser.add_argument(&#39;name&#39;, type=str)
+parser.add_argument(&#39;weight&#39;, type=int, required=True)
+parser.add_argument(&#39;height&#39;, type=int)
+
+# 使用parser.copy()方法扩展parser解析器
+parser_copy = parser.copy()
+#添加新的参数
+parser_copy.add_argument(&#39;age&#39;, type=int)
+#replace_argument()方法重写某个参数的解析约束
+parser_copy.replace_argument(&#39;weight&#39;, type=int)
+#remove_argument()方法删除某个参数
+parser_copy.remove_argument(&#39;height&#39;)
+</code></pre>
+
+<h2 id="toc_14">执行参数解析与获取参数值</h2>
+
+<p>这里直接写参数解析，上文请参考定义对象和添加解析器</p>
+
+<pre><code class="language-python">args = parser.parse_args()
+name = args.get(&quot;name&quot;)
+</code></pre>
+
+<p><strong>注：请求解析是仿照命令行解析编写的</strong></p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Python发送邮件☞smtplib]]></title>
+    <link href="http://blog.yanzl.net/14696115775601.html"/>
+    <updated>2016-07-27T17:26:17+08:00</updated>
+    <id>http://blog.yanzl.net/14696115775601.html</id>
+    <content type="html"><![CDATA[
+<h2 id="toc_0">简介</h2>
+
+<p>python的smtplib模块通过对smtp协议进行封装，实现了发送电子邮件的方式</p>
+
+<h2 id="toc_1">创建SMTP对象</h2>
+
+<pre><code class="language-python">import smtplib
+
+#参数依次为SMTP服务器主机，端口，主机名，都是可选参数
+smtpObj = smtplib.SMTP(host, port, local_hostname)
+</code></pre>
+
+<h2 id="toc_2">发送邮件</h2>
+
+<pre><code class="language-python">#可以看出，msg是发送的邮件，包含了标题，收件人，发件人，邮件内容，有时还会有附件，msg的格式必须是smtp协议中定义的格式
+smtpObj.sendmail(from_addr, to_addr, msg)
+</code></pre>
+
+<h2 id="toc_3">发送文本消息的邮件</h2>
+
+<p>这里接着上面的代码继续写，对没有的部分进行补充。</p>
+
+<pre><code class="language-python">from email.mime.text import MIMEText
+from email.header import Header
+
+#如果使用的是本地邮件服务，这里可以不用登录
+smtpObj.login(‘服务器用户名’, ‘用户名密码’)
+#添加邮件消息,三个参数，文本内容，文本格式（如果是html类型，这里要写html），设置编码
+msg = MIMEText(‘this is test email’, ‘plain’, ‘utf-8’)
+#添加发件人，收件人，主题
+msg[&quot;Form&quot;] = &quot;发件人邮箱&lt;test@test.com&gt;&quot;
+msg[&quot;To&quot;] = &quot;收件人邮箱&lt;receiver@receiver.com&gt;&quot;
+msg[&quot;Subject&quot;] = Header(&quot;这里是标题&quot;， &quot;utf-8&quot;).encode()
+
+#发送
+smtpObj.sendmail(&quot;发送者邮箱&quot;, [接受者邮箱，是列表类型，可以有多个接受者], msg.as_string())
+</code></pre>
+
+<h2 id="toc_4">发送带附件的邮件</h2>
+
+<p>这里直接写与发送文本消息不同的部分，和发送文本消息不同的部分是消息对象的创建不是MIMEText，而是MIMEMultipart，添加邮件消息采用attach()方法</p>
+
+<pre><code class="language-python">from email.mime.multipart import MIMEMultipart
+#创建消息对象
+msg = MIMEMultipart()
+
+#添加邮件消息
+msg.attach(MIMEText(&quot;this is test email&quot;, &quot;plain&quot;, &quot;utf-8&quot;))
+
+#构造附件
+att1 = MIMEText(open(&#39;test.txt&#39;, &#39;rb&#39;).read(), &#39;base64&#39;, &#39;utf-8&#39;)
+att1[&quot;Content-Type&quot;] = &#39;application/octet-stream&#39;
+# 这里的filename可以任意写，写什么名字，邮件中显示什么名字
+att1[&quot;Content-Disposition&quot;] = &#39;attachment; filename=&quot;test.txt&quot;&#39;
+msg.attach(att1)
+#可以使用此方法添加多个附件
+
+#发送,和发送文本邮件相同
+smtpObj.sendmail(&quot;发送者邮箱&quot;, [接受者邮箱，是列表类型，可以有多个接受者], msg.as_string())
+</code></pre>
+
+<h2 id="toc_5">扩展☞HTML类型的邮件内容中显示图片</h2>
+
+<p>这里直接上一个完整的例子</p>
+
+<pre><code class="language-python">import smtplib
+from email.mime.image import MIMEImage
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from email.header import Header
+
+sender = &quot;发送者邮箱&quot;
+receivers = &quot;接收者列表&quot; # 接收邮件，可设置为你的QQ邮箱或者其他邮箱
+
+msg = MIMEMultipart(&#39;related&#39;)
+msg[&#39;From&#39;] = Header(&quot;发送者信息&quot;, &#39;utf-8&#39;)
+msg[&#39;To&#39;] =  Header(&quot;接收者信息&quot;, &#39;utf-8&#39;)
+msg[&#39;Subject&#39;] = Header(&quot;Python SMTP 邮件测试&quot;, &#39;utf-8&#39;)
+
+msgAlternative = MIMEMultipart(&#39;alternative&#39;)
+msg.attach(msgAlternative)
+
+
+mail_msg = &quot;&quot;&quot;
+&lt;p&gt;Python 邮件发送测试...&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;则是超链接地址&quot;&gt;这是一个超链接&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;图片演示：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;cid:image1&quot;&gt;&lt;/p&gt;
+&quot;&quot;&quot;
+msgAlternative.attach(MIMEText(mail_msg, &#39;html&#39;, &#39;utf-8&#39;))
+
+# 指定图片为当前目录
+fp = open(&#39;test.png&#39;, &#39;rb&#39;)
+msgImage = MIMEImage(fp.read())
+fp.close()
+
+# 定义图片 ID，在 HTML 文本中引用
+msgImage.add_header(&#39;Content-ID&#39;, &#39;&lt;image1&gt;&#39;)
+msg.attach(msgImage)
+
+#在本机有邮件服务的情况下进行发送
+smtpObj = smtplib.SMTP(&#39;localhost&#39;)
+smtpObj.sendmail(sender, receivers, msg.as_string())
+
+</code></pre>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[python发送邮件☞flask-mail扩展]]></title>
+    <link href="http://blog.yanzl.net/14690965374529.html"/>
+    <updated>2016-07-21T18:22:17+08:00</updated>
+    <id>http://blog.yanzl.net/14690965374529.html</id>
+    <content type="html"><![CDATA[
+<h2 id="toc_0">简介</h2>
+
+<p>Python的扩展库，采用SMTP协议完成邮件的发送，需要自己安装。</p>
+
+<h2 id="toc_1">安装方法</h2>
+
+<p>一种方法是通过pip进行安装</p>
+
+<pre><code class="language-python">pip install Flask-Mail
+</code></pre>
+
+<p>另一种方法是下载源码，通过python解释安装</p>
+
+<pre><code class="language-python">python setup.py install
+</code></pre>
+
+<h2 id="toc_2">选项配置</h2>
+
+<p>通过配置，可以指定邮件发送的参数选项</p>
+
+<pre><code>MAIL_SERVER: SMTP服务器主机，可以指定主机IP地址，也可以是域名
+MAIL_PORT: SMTP服务使用的端口号，一般会是25
+MAIL_USERNAME:登录服务器的账号名
+MAIL_PASSWORD:登录服务器的密码
+MAIL_DEFAULT_SENDER:默认发送方
+MAIL_MAX_EMAILS:支持一次连接时最大发送邮件数目，默认会是None，即无限制
+</code></pre>
+
+<h2 id="toc_3">创建邮件发送实例</h2>
+
+<pre><code class="language-python">from flask import Flask
+from flask_mail import Mail
+
+app = Flask(__name__)
+mail = Mail()
+mail.init_app(app)#使用Flask的current_app中的配置项进行发送
+</code></pre>
+
+<h2 id="toc_4">创建文本文件内容</h2>
+
+<pre><code class="language-python">from flask.ext.mail import Message
+#创建消息对象，参数依次为标题，发送方（如果配置中有默认发送方，这里可以不写.另外，sender可以是一个二元组，代表姓名和邮件地址），接收方（列表类型，可以有多个接收者）
+msg = Message(&#39;title&#39;, sender=([sender_name], sender_email), recipients=receivers)
+#可以通过add_recipient()方法添加接收者
+msg.add_recipient(&quot;new_email@email.com&quot;)
+msg.body = &quot;这里是邮件体，即要发送的邮件的内容&quot;
+msg.html = &quot;如果是html格式，使用html属性进行添加邮件体&quot;
+</code></pre>
+
+<h2 id="toc_5">创建带有附件的邮件内容</h2>
+
+<pre><code class="language-python">from ××× import app
+with app.open_resource(&quot;附件路径&quot;) as fp:
+    msg.attach(&quot;附件名，可更换&quot;, &quot;附件类型&quot;, fp.read())
+#附件类型这里可以说一下，博主一共用到了两种类型，一种是图片：image/png;另一种是文件：application/octet-stream；如有问题，欢迎更正，如要添加，更是欢迎！！
+</code></pre>
+
+<h2 id="toc_6">直接发送邮件</h2>
+
+<pre><code class="language-python">mail.send(msg)
+</code></pre>
+
+<h2 id="toc_7">扩展☞发送大量邮件</h2>
+
+<p>有时候会向多人发送邮件，并且邮件的内容会稍有不同，比如称呼什么的，这时候可以采用以下方式进行发送</p>
+
+<pre><code class="language-python">with mail.connect() as conn:
+    for user in users:
+        message = &quot;.....一堆邮件body&quot;
+        subject = &quot;hello, {}&quot;.format(user.name)
+        msg = Message(recipients=user.email,body=message, subject=subject)
+        conn.send(msg)
+</code></pre>
+
+<p>参考文档：<a href="https://pythonhosted.org/Flask-Mail/">Flask-Mail</a></p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Laravel5 自定义路由页面无法访问]]></title>
+    <link href="http://blog.yanzl.net/14857055156581.html"/>
+    <updated>2017-01-29T23:58:35+08:00</updated>
+    <id>http://blog.yanzl.net/14857055156581.html</id>
+    <content type="html"><![CDATA[
+<p>最近准备使用Laravel5框架搭建一个cms的项目.于是将Laravel源码下载安装好之后,就开始熟悉框架.首先是看看路由,控制器,模型在这个框架中应该怎么用.</p>
+
+<p>遇到问题</p>
+
+<p>按照文档中所说的,我自定义了一个路由,如下所示:</p>
+
+<p>Route::get(&#39;/&#39;,&#39;WelcomeController@index&#39;);</p>
+
+<p>Route::get(&#39;/contact&#39;, &#39;WelcomeController@contact&#39;);<br/>
+然后打开浏览器,先测试根目录,输入localhost,可以正常显示页面,当输入localhost/contact的时候,就会显示该路由找不到.刚开始还以为是权限问题,后来证实不是.于是各种百度,各种谷歌,看到有人也遇到了这种问题,通过别人给的回复&quot;rewrite 没有配置好&quot;又回到文档,发现文档有这么一句话&quot;Laravel 框架通过 public/.htaccess 文件来让网址中不需要 index.php。如果你的服务器是使用 Apache，请确认是否有开启 mod_rewrite 模块&quot;.</p>
+
+<p>解决问题</p>
+
+<p>开启apache的rewrite模块</p>
+
+<p>在终端输入命令</p>
+
+<p>sudo a2enmod rewrite<br/>
+打开/etc/apache2/mods-enabled/这个目录就会发现目录下多了一个</p>
+
+<p>rewrite.load -&gt; ../mods-available/rewrite.load<br/>
+这就说明rewrite服务已经开启了。</p>
+
+<p>然后打开/etc/apache2/apache2.conf文件里，在配置localhost的xml标签下，添上</p>
+
+<p><Directory {localhost的绝对路径}/><br/>
+        Options FollowSymLinks MultiViews<br/>
+        AllowOverride All<br/>
+        Order allow,deny<br/>
+        allow from all<br/>
+</Directory><br/>
+这里的路径按照自己的情况填写.输入service apache2 restart命令重启apache,如果还不能访问,则查看自己的localhost的绝对路径是否填写正确.</p>
+
+<p>关于rewrite拓展</p>
+
+<p>rewrite的主要功能就是实线url的跳转，它的正则表达式是基于perl语言。而且实现有两种方式，一种是在服务器那里写规则，还有一种就是在具体项目文件里面写.htacess文件来写规则</p>
+
+<p>laravel框架用的是后者，而且public文件夹下就已经配好了.htacess文件，所以只要服务器开启了rewrite功能，还有指明哪个路径允许重写就行.</p>
+
+<p>以下是laravel框架里的.htacess文件的rewrite配置</p>
+
+<h1 id="toc_0">Redirect Trailing Slashes If Not A Folder...</h1>
+
+<p>RewriteCond %{REQUEST_FILENAME} !-d<br/><br/>
+RewriteRule <sup>.*</sup>/\( /\)1 [L,R=301]  </p>
+
+<h1 id="toc_1">Handle Front Controller...</h1>
+
+<p>RewriteCond %{REQUEST_FILENAME} !-d #请求的路径不存在<br/>
+RewriteCond %{REQUEST_FILENAME} !-f #请求的文件不存在<br/>
+RewriteRule ^ index.php [L]  #满足上述条件则跳转到index.php<br/>
+上述的规则表示，请求的文件或路径不存在则跳转到index.php，比如说请求的是localhost/contact,这个在文件系统中是找不到的，于是就跳转到localhost/index.php这个文件。然而获取$_SERVER[&#39;REQUEST_URI&#39;]里后面的contact这个参数，交给route处理。</p>
+
+<p>也就说，主要输入的路径在实际的文件系统中找不到，就一律跳转到index.php,至于后面具体的哪个页面，则交给route来判断。</p>
+
+<p>能够解决这个问题,还要感谢May&#39;s Blog</p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Ubuntu15.04 composer和laravel的安装]]></title>
+    <link href="http://blog.yanzl.net/14857044216435.html"/>
+    <updated>2017-01-29T23:40:21+08:00</updated>
+    <id>http://blog.yanzl.net/14857044216435.html</id>
+    <content type="html"><![CDATA[
+<p>composer简介</p>
+
+<p>Composer 是 PHP 的一个依赖管理工具。它允许你申明项目所依赖的代码库，它会在你的项目中为你安装他们。</p>
+
+<p>Composer 不是一个包管理器。它在每个项目的基础上进行管理，在你项目的某个目录中（例如 vendor）进行安装。默认情况下它不会在全局安装任何东西。因此，这仅仅是一个依赖管理。</p>
+
+<p>安装composer</p>
+
+<p>curl -sS <a href="https://getcomposer.org/installer">https://getcomposer.org/installer</a> | php <br/>
+mv composer.phar /usr/local/bin/composer <br/>
+chmod +x /usr/local/bin/composer<br/>
+没错,上面几行命令就可以成功安装composer了</p>
+
+<p>安装Laravel</p>
+
+<p>github源码安装</p>
+
+<p>可以运行以下命令在github上下载源码进行安装</p>
+
+<p>wget <a href="https://github.com/laravel/laravel/archive/develop.zip">https://github.com/laravel/laravel/archive/develop.zip</a><br/>
+运行以下命令解压安装包并且移动 document 的根目录。</p>
+
+<p>unzip develop.zip<br/>
+mv laravel-develop /var/www/<br/>
+现在使用 compose 命令来安装目录下所有 Laravel 所需要的依赖。</p>
+
+<p>cd /var/www/laravel-develop/<br/>
+composer install<br/>
+一键安装包进行安装</p>
+
+<p>一键安装包非常简单,因为各种依赖都已经安装好了,不需要像上面一样安装依赖.通过以下网址进行下载</p>
+
+<p><a href="http://www.golaravel.com/download/">http://www.golaravel.com/download/</a></p>
+
+<p>下载成功后解压,将框架放在自己的程序目录中.</p>
+
+<p>加密</p>
+
+<p>为了加密服务器，我们使用以下命令来生成一个加密后的 32 位的密钥。</p>
+
+<p>php artisan key:generate</p>
+
+<p>Application key [xYqE9iCDmAQ6ohtghHqKzAkDhkid3uHv] set successfully<br/>
+现在把这个密钥放到 ‘config/app.php’ 文件下,如下所示</p>
+
+<p>/*<br/>
+|--------------------------------------------------------------------------<br/>
+| Encryption Key<br/>
+|--------------------------------------------------------------------------<br/>
+|<br/>
+| This key is used by the Illuminate encrypter service and should be set<br/>
+| to a random, 32 character string, otherwise these encrypted strings<br/>
+| will not be safe. Please do this before deploying an application!<br/>
+|<br/>
+*/</p>
+
+<p>&#39;key&#39; =&gt; env(&#39;APP_KEY&#39;,&#39;xYqE9iCDmAQ6ohtghHqKzAkDhkid3uHv&#39;),</p>
+
+<p>&#39;cipher&#39; =&gt; &#39;AES-256-CBC&#39;,</p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[一天都在debug]]></title>
+    <link href="http://blog.yanzl.net/14857043940556.html"/>
+    <updated>2017-01-29T23:39:54+08:00</updated>
+    <id>http://blog.yanzl.net/14857043940556.html</id>
+    <content type="html"><![CDATA[
+<p>今天真是苦逼的一天......最近写的项目还有几个小功能就能把逻辑写完了,然后今天早上很早就来到了实验室,准备收收尾,然后就收到了现在,刚把自己开的bug整理好......其实所有的问题都源于一个问题--字段不能成功更新.</p>
+
+<p>先来说说第一个问题:</p>
+
+<p>我用的数据库是mongo,早上发现字段不能更新,以为是更新函数出错了.于是就去官网找文档.文档是这样写的:</p>
+
+<p>result = db.restaurants.update_one(<br/>
+    {&quot;name&quot;: &quot;Juni&quot;},<br/>
+    {<br/>
+        &quot;\(set&quot;: {<br/>
+            &quot;cuisine&quot;: &quot;American (New)&quot;<br/>
+        },<br/>
+        &quot;\)currentDate&quot;: {&quot;lastModified&quot;: True}<br/>
+    }<br/>
+)<br/>
+然后大脑一抽抽就全搬下来了.不过情况并没有得到改善,仍然是从浏览器请求时修改不了,从终端利用curl请求是可以修改.修改完成后,问题就来了...</p>
+
+<p>当再次进行获取数据请求时,就出现了下面这个错误:</p>
+
+<p>TypeError: datetime.datetime(2016, 3, 30, 0, 28, 38, 255000) is not JSON serializable<br/>
+然后我就郁闷了,整个项目除了添加数据时用到了datetime,其它地方都没有用到,而且添加数据是没有问题的.于是试验各种json转换,期间还以为昨天删除了不该删除的文件,还回滚了2次,然而并没有什么卵用.整个上午各种Google,各种排除,始终找不到问题的所在.</p>
+
+<p>后来无意间点到了单一数据查询,发现除了返回的数据中包含早上修改过的数据之外,其他数据都可以正常查询到.恩,不错,范围缩小了很多</p>
+
+<p>于是进入数据库,调出修改的数据,瞬间就无语了,datetime赤裸裸地躺在那里了,于是果断删除.问题解决了~~~~</p>
+
+<p>但是修改问题还是没有解决啊......</p>
+
+<p>通过各种断点测试,打印输出测试,终于将范围控制在了数据库查找要修改的数据查找不到......当时知道了这个原因,却不知道怎样修改,为什么传递的参数都是一样的,然而查询的结果却是不一样的.收到大神的提醒,打印查询的结果,然后发现返回的数据地址根本就不一样!!!</p>
+
+<p>这可怎么办呀......</p>
+
+<p>郁闷啊郁闷,郁闷到了晚上,忽然间想到虽然传递的参数打印出来的结果都是一样的,但是类型不一定相同啊.转折点就在这里,我发现通过浏览器传递的数据是unicode类型,终端传递的数据是int类型,这就解决了嘛,强制转换类型,加个int(),郁闷了一天的问题就这么解决了......</p>
+
+<p>仅此纪念苦逼的一天,我要去完成剩下的功能了.......</p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Redis]]></title>
+    <link href="http://blog.yanzl.net/14857043647727.html"/>
+    <updated>2017-01-29T23:39:24+08:00</updated>
+    <id>http://blog.yanzl.net/14857043647727.html</id>
+    <content type="html"><![CDATA[
+<p>第一次使用redis进行数据缓存,现在把从安装到使用做一下笔记,方便以后看.</p>
+
+<p>安装redis</p>
+
+<p>通过wget下载压缩包,可以先查询最新的redis版本,然后再修改版本号下载</p>
+
+<p>wget <a href="http://download.redis.io/releases/redis-3.0.7.tar.gz">http://download.redis.io/releases/redis-3.0.7.tar.gz</a><br/>
+解压</p>
+
+<p>tar -xvf redis-3.0.7.tar.gz<br/>
+进入到文件夹,执行编译</p>
+
+<p>make<br/>
+进入到src文件夹下,这里介绍6个可执行文件:</p>
+
+<p>redis-server:  Redis服务器的deamon启动程序</p>
+
+<p>redis-cli:     Redis命令行执行操作</p>
+
+<p>redis-benchmark:    Redis性能测试工具</p>
+
+<p>redis-check-aof:     更新日志检测</p>
+
+<p>redis-check-dump:    用于本地数据库监测</p>
+
+<p>redis-sentinel:   Redis实例的监控工具,通知和实例失效备援服务,是Redis集群的管理工具</p>
+
+<p>回到redis-3.0.7目录下执行安装</p>
+
+<p>make install<br/>
+输入red并按下Teb键后会看到刚才介绍的执行文件.</p>
+
+<p>修改配置文件</p>
+
+<p>将源码目录下redis配置文件redis.conf拷贝到/etc/redis目录下。</p>
+
+<p>修改配置项，根据需要；如果不修改，使用默认配置也可以；</p>
+
+<p>运行数据库</p>
+
+<p>执行redis-server命令就可以成功启动数据库了(特别注意:数据库只有成功启动了才能够进行连接,写入数据,取出数据等一系列操作.因为该数据库是运行在内存中的,所以当数据库关闭之后,存储的数据也会删除.)</p>
+
+<p>PHP安装redis扩展</p>
+
+<p>如果不安装扩展,就会显示系统不支持的错误,Ubuntu下使用apt-get安装扩展很方便.</p>
+
+<p>sudo apt-get install php5-redis <br/>
+然后重启下apache </p>
+
+<p>sudo /etc/init.d/apache2 restart<br/>
+ThinkPHP使用redis配置</p>
+
+<p>在配置文件中写入以下配置就可以正常使用redis了.</p>
+
+<pre><code>//数据缓存设置 
+&#39;DATA_CACHE_TIME&#39;       =&gt;  1,             //长连接时间,REDIS_PERSISTENT为1时有效
+&#39;DATA_CACHE_PREFIX&#39;     =&gt;  &#39;&#39;,            // 缓存前缀
+&#39;DATA_CACHE_TYPE&#39;       =&gt;  &#39;Redis&#39;,       //数据缓存类型
+&#39;DATA_EXPIRE&#39;           =&gt;  0,               //数据缓存有效期(单位:秒) 0表示永久缓存
+&#39;DATA_PERSISTENT&#39;      =&gt;  1,               //是否长连接
+
+//Redis缓存配置
+&#39;DATA_REDIS_HOST&#39;            =&gt;  &#39;127.0.0.1&#39;, //分布式Redis,默认第一个为主服务器
+&#39;DATA_REDIS_PORT&#39;            =&gt;  &#39;6379&#39;,           //端口,如果相同只填一个,用英文逗号分隔
+&#39;DATA_REDIS_AUTH&#39;            =&gt;  &#39;&#39;,    //Redis auth认证(密钥中不能有逗号),如果相同只填一个,用英文逗号分隔
+&#39;REDIS_CTYPE&#39;           =&gt; 1, //连接类型 1:普通连接 2:长连接
+&#39;REDIS_TIMEOUT&#39;         =&gt; 0, //连接超时时间(S) 0:永不超时
+&#39;REDIS_PERSISTENT&#39;      =&gt;1,
+</code></pre>
+
+<p>ThinkPHP3.2.X 使用Redis进行缓存数据</p>
+
+<p>//添加缓存数据<br/><br/>
+ S(&#39;name&#39;,&quot;This is test value&quot;);<br/>
+//读取缓存数据<br/>
+\(value = S(&#39;name&#39;);<br/>
+//打印缓存数据<br/>
+print_r(\)value);<br/>
+//删除缓存数据<br/>
+S(&#39;name&#39;,null);</p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[curl命令传递请求数据]]></title>
+    <link href="http://blog.yanzl.net/14857043305129.html"/>
+    <updated>2017-01-29T23:38:50+08:00</updated>
+    <id>http://blog.yanzl.net/14857043305129.html</id>
+    <content type="html"><![CDATA[
+<p>最近常常用到curl命令发送请求来测试程序服务端,无奈脑仁子不太好使,总是记不住应该怎么用,好记性不如烂笔头,看来还是写篇博客记录下来比较好.</p>
+
+<p>默认curl使用get方式请求数据,所以这种方式下可以通过URL传递数据</p>
+
+<p>curl <a href="http://yanzl.net">http://yanzl.net</a><br/>
+post方式传递数据是通过--data/-d方式来指定使用的</p>
+
+<p>除了通过get和post协议之外,还可以通过-X来指定其他的协议</p>
+
+<p>使用-X指定put协议</p>
+
+<p>在这里,-H是自定义头信息,因为传递给服务器的是json数据</p>
+
+<p>curl -H &#39;Content-Type: application/json&#39; -X PUT -d &#39;{&quot;word_id&quot;:1,&quot;paraphrase&quot;:&quot;测试,释义&quot;}&#39; <a href="http://127.0.0.1:5000/words">http://127.0.0.1:5000/words</a></p>
+
+<p>post方式</p>
+
+<p>post方式和put类似</p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[pymongo操作]]></title>
+    <link href="http://blog.yanzl.net/14857042974079.html"/>
+    <updated>2017-01-29T23:38:17+08:00</updated>
+    <id>http://blog.yanzl.net/14857042974079.html</id>
+    <content type="html"><![CDATA[
+<p>最近在写一个小项目,其中用到了mongodb数据库,python中使用pymongo操作mongodb数据库.所以将学习的一些知识点记录下来,方便以后查阅.</p>
+
+<p>引用pymongo</p>
+
+<p>import pymongo<br/>
+建立连接</p>
+
+<p>client = pymongo.MongoClient()<br/>
+连接数据库</p>
+
+<p>db = client.数据库名<br/>
+db = client.words<br/>
+选择集合</p>
+
+<p>collect = db.集合名<br/>
+collect = db.word<br/>
+添加数据</p>
+
+<h1 id="toc_0">添加一条数据</h1>
+
+<p>word = {&quot;word_name&quot;:&quot;beaytiful&quot;,&quot;paraphrase&quot;:&quot;adj,美丽的,出色的,迷人的&quot;,&quot;exam_sent&quot;:&quot;She was a beautiful girl&quot;}<br/>
+collect.insert(word)</p>
+
+<h1 id="toc_1">添加多条数据</h1>
+
+<p>words = [{&quot;word_name&quot;:&quot;like&quot;,&quot;paraphrase&quot;:&quot;vt,喜欢,愿意;vi,喜欢,希望;adv,可能&quot;,&quot;exam_sent&quot;:&quot;What did she look like?&quot;},{&quot;word_name&quot;:&quot;handsome&quot;,&quot;paraphrase&quot;:&quot;adj,英俊的,大方的,慷慨的,健美而端庄的&quot;,&quot;exam_sent&quot;:&quot;They will make a handsome profit on the property&quot;,&quot;exam_sent2&quot;:&quot;He is a handsomw sheep farmer.&quot;}]<br/>
+collect.insert(words)<br/>
+修改数据</p>
+
+<h1 id="toc_2">更新数据,为handsome单词所在的记录添加一个唯一标识</h1>
+
+<p>collect.update({&quot;word_name&quot;:&quot;handsome&quot;},{&quot;$set&quot;:{&quot;word_id&quot;:1}})</p>
+
+<h1 id="toc_3">更新数据,为word_id为1的数据修改名字为China</h1>
+
+<p>collect.update({&quot;word_id&quot;:1},{&quot;$set&quot;:{&quot;word_name&quot;:&quot;China&quot;}})<br/>
+删除数据</p>
+
+<h1 id="toc_4">删除所选择的集合中的指定数据</h1>
+
+<p>collect.remove({&quot;word_id&quot;:1})</p>
+
+<h1 id="toc_5">删除所选择的集合中的所有数据</h1>
+
+<p>collect.remove()<br/>
+查询数据</p>
+
+<h1 id="toc_6">查看集合中的指定数据</h1>
+
+<p>collect.find_one({&quot;word_id&quot;:1})</p>
+
+<h1 id="toc_7">查看集合中某个数据的某些字段的值.前一个花括号写查找的数据的查找条件,后一个花括号写查询那些字段值,1为显示,0为不显示默,认_id默认显示如果不想显示则可置为0</h1>
+
+<p>collect.find_one({&quot;word_id&quot;:2},{&quot;word_name&quot;:1,&quot;_id&quot;:0})<br/>
+collect.find_one({&quot;word_id&quot;:2},{&quot;word_name&quot;:1,&quot;exam_sent&quot;:1})</p>
+
+<h1 id="toc_8">查看多条数据</h1>
+
+<p>for i in collect.find():<br/>
+    i</p>
+
+<h1 id="toc_9">查看word_id大于1的数据的word_name,如果结果数目不止一个,采用循环打印</h1>
+
+<p>collect.find({&quot;word_id&quot;:{&quot;$gt&quot;:1}},{&quot;word_name&quot;:1,&quot;_id&quot;:0})</p>
+
+<h1 id="toc_10">查看word_id大于等于1的数据的word_name,如果结果数目不止一个,采用循环打印</h1>
+
+<p>collect.find({&quot;word_id&quot;:{&quot;$gte&quot;:1}},{&quot;word_name&quot;:1,&quot;_id&quot;:0})</p>
+
+<h1 id="toc_11">查看word_id小于等于1的数据的word_name,如果结果数目不止一个,采用循环打印</h1>
+
+<p>collect.find({&quot;word_id&quot;:{&quot;$lte&quot;:1}},{&quot;word_name&quot;:1,&quot;_id&quot;:0})</p>
+
+<h1 id="toc_12">查看word_id小于3的数据的word_name,如果结果数目不止一个,采用循环打印</h1>
+
+<p>collect.find({&quot;word_id&quot;:{&quot;$lt&quot;:3}},{&quot;word_name&quot;:1,&quot;_id&quot;:0})</p>
+
+<h1 id="toc_13">查看word_id不等于2的数据的word_name,如果结果数目不止一个,采用循环打印</h1>
+
+<p>collect.find({&quot;word_id&quot;:{&quot;$ne&quot;:2}},{&quot;word_name&quot;:1,&quot;_id&quot;:0})</p>
+
+<h1 id="toc_14">对查询结果进行升序排序,默认为升序</h1>
+
+<p>for i in collect.find().sort(&quot;word_id&quot;,pymongo.ASCENDING):<br/>
+    i</p>
+
+<h1 id="toc_15">对查询结果进行降序排序</h1>
+
+<p>for i in collect.find().sort(&quot;word_id&quot;,pymongo.DESCENDING):<br/>
+    i</p>
+
+<h1 id="toc_16">对查询的结果进行多列排序</h1>
+
+<p>for i in collect.find({},{&quot;word_id&quot;:1,&quot;word_name&quot;:1,&quot;_id&quot;:0}).sort([(&quot;word_name&quot;,pymongo.DESCENDING),(&quot;word_id&quot;,pymongo.DESCENDING)]):<br/>
+    i<br/>
+查看一个集合中的数据总数</p>
+
+<p>collect.find().count()<br/>
+模糊查询</p>
+
+<h1 id="toc_17">和更新数据是一样,$regex是指定该查询为模糊查询的关键,同时指定对哪一个字段进行模糊查询</h1>
+
+<p>Word = collect.find({&quot;word_name&quot;:{&quot;$regex&quot;:&quot;l&quot;}})</p>
+
+<h1 id="toc_18">多条件模糊查询</h1>
+
+<p>Word = collect.find({&quot;word_name&quot;:{&quot;\(regex&quot;:&quot;l&quot;},&quot;exam_sent&quot;:{&quot;\)regex&quot;:&quot;like&quot;}})<br/>
+Word = collect.find({&quot;word_name&quot;:{&quot;\(regex&quot;:&quot;l&quot;},&quot;word_name&quot;:{&quot;\)regex&quot;:&quot;b&quot;}})</p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[一年又一年]]></title>
+    <link href="http://blog.yanzl.net/14857042660628.html"/>
+    <updated>2017-01-29T23:37:46+08:00</updated>
+    <id>http://blog.yanzl.net/14857042660628.html</id>
+    <content type="html"><![CDATA[
+<p>时光荏苒,伴随着一阵阵的爆竹声,我又迎来了新的一年.一年又一年,随着年龄的增长,我也从当初那个期盼着过年的小女孩变成了有些害怕,有些担心,有些期待,各种感情交织在一起的大女孩......马上就要大学毕业的我,回想起来还是一心只要认真读书的学生年代,真是觉得还是那时候轻松啊.那时的期末考试成绩比起现在的男女朋友,工作薪资什么的又算的了什么,哎╮(╯▽╰)╭.</p>
+
+<p>过去的一年里,感觉自己并没有做多少东西,就像脑子里总有一块橡皮擦,把之前曾经做过的事情都给擦掉了一样.其实当在写这句话的时候,我的心声在告诉我:&quot;哪里是有橡皮擦,分明就是自己不够上心,把该做的,重要的没有放在心上,所以才没有多大印象的......&quot;真是可笑.回想起来,总是觉得自己的付出和别人的比起来是多么的微不足道.我感觉自己真的是很奇怪,明明知道什么重要,什么不重要,可是为什么会不由自主的在行动上分不清主次.真是讨厌我这样讨厌自己,不管怎么说,我身上总是有发光点的吧,可是为什么找不到呢??</p>
+
+<p>胡言乱语一通,其实写这篇文章也不知道是为什么而写,总想在新年的第一天写点什么,原因很简单,因为去年没写,我现在都不知道去年的这个时候我在想些什么...所以以后我要记录下来,看看一年又一年地过去,我心中所想的,当时所做的有没有什么变化.我也期待自己能够变得越来越有主见,不想做一个小女人,就从开阔眼界,了解最新信息做起吧.</p>
+
+<p>加油,新年快乐!!不求以后能够顺顺利利,但求我能够一直坚强,勇敢,自主地走下去,遇到困难不是抱怨,而是想办法解决,逐渐地充实自我.就像有人对我所期望的:品味,独特而不庸俗;涵养,任何场合不要失礼;言行,让人舒适不觉低俗;知识,有广度,有深度!!</p>
+
+]]></content>
+  </entry>
+  
+</feed>

@@ -1,0 +1,530 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+    
+  随想 - 挂在树上的兔子
+  
+  </title>
+  
+  
+  <link href="atom.xml" rel="alternate" title="挂在树上的兔子" type="application/atom+xml">
+    <link rel="stylesheet" href="asset/css/foundation.min.css" />
+    <link rel="stylesheet" href="asset/css/docs.css" />
+    <script src="asset/js/vendor/modernizr.js"></script>
+    <script src="asset/js/vendor/jquery.js"></script>
+  <script src="asset/highlightjs/highlight.pack.js"></script>
+  <link href="asset/highlightjs/styles/github.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script>hljs.initHighlightingOnLoad();</script>
+<script type="text/javascript">
+  function before_search(){
+    var searchVal = 'site:blog.yanzl.net ' + document.getElementById('search_input').value;
+    document.getElementById('search_q').value = searchVal;
+    return true;
+  }
+</script>
+  </head>
+  <body class="antialiased hide-extras">
+    
+    <div class="marketing off-canvas-wrap" data-offcanvas>
+      <div class="inner-wrap">
+
+
+<nav class="top-bar docs-bar hide-for-small" data-topbar>
+
+
+  <section class="top-bar-section">
+  <div class="row">
+      <div style="position: relative;width:100%;"><div style="position: absolute; width:100%;">
+        <ul id="main-menu" class="left">
+        
+        <li id=""><a target="self" href="index.html">Home</a></li>
+        
+        <li id=""><a target="_self" href="archives.html">Archives</a></li>
+        
+        </ul>
+
+        <ul class="right" id="search-wrap">
+          <li>
+<form target="_blank" onsubmit="return before_search();" action="http://google.com/search" method="get">
+    <input type="hidden" id="search_q" name="q" value="" />
+    <input tabindex="1" type="search" id="search_input"  placeholder="Search"/>
+</form>
+</li>
+          </ul>
+      </div></div>
+  </div>
+  </section>
+
+</nav>
+
+        <nav class="tab-bar show-for-small">
+  <a href="javascript:void(0)" class="left-off-canvas-toggle menu-icon">
+    <span> &nbsp; 挂在树上的兔子</span>
+  </a>
+</nav>
+
+<aside class="left-off-canvas-menu">
+      <ul class="off-canvas-list">
+       
+       <li><a href="index.html">HOME</a></li>
+    <li><a href="archives.html">Archives</a></li>
+    <li><a href="about.html">ABOUT</a></li>
+
+    <li><label>Categories</label></li>
+
+        
+            <li><a href="%E6%95%B0%E6%8D%AE%E5%BA%93.html">数据库</a></li>
+        
+            <li><a href="Python.html">Python</a></li>
+        
+            <li><a href="%E9%9A%8F%E6%83%B3.html">随想</a></li>
+        
+            <li><a href="%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84&%E7%AE%97%E6%B3%95.html">数据结构&算法</a></li>
+        
+            <li><a href="PHP.html">PHP</a></li>
+        
+            <li><a href="Ubuntu.html">Ubuntu</a></li>
+         
+
+      </ul>
+    </aside>
+
+<a class="exit-off-canvas" href="#"></a>
+
+
+        <section id="main-content" role="main" class="scroll-container">
+        
+       
+
+ <script type="text/javascript">
+	$(function(){
+		$('#menu_item_index').addClass('is_active');
+	});
+</script>
+<div class="row">
+	<div class="large-8 medium-8 columns">
+		<div class="markdown-body home-categories">
+		
+			<div class="article">
+                <a class="clearlink" href="14857043940556.html">
+                
+                  <h1>一天都在debug</h1>
+                  <div class="a-content">
+                      
+                      <div class="a-content-text">
+                        
+                        	<p>今天真是苦逼的一天......最近写的项目还有几个小功能就能把逻辑写完了,然后今天早上很早就来到了实验室,准备收收尾,然后就收到了现在,刚把自己开的bug整理好......其实所有的问题都源于一个问题--字段不能成功更新.</p>
+
+<p>先来说说第一个问题:</p>
+
+<p>我用的数据库是mongo,早上发现字段不能更新,以为是更新函数出错了.于是就去官网找文档.文档是这样写的:</p>
+
+<p>result = db.restaurants.update_one(<br/>
+    {&quot;name&quot;: &quot;Juni&quot;},<br/>
+    {<br/>
+        &quot;\(set&quot;: {<br/>
+            &quot;cuisine&quot;: &quot;American (New)&quot;<br/>
+        },<br/>
+        &quot;\)currentDate&quot;: {&quot;lastModified&quot;: True}<br/>
+    }<br/>
+)<br/>
+然后大脑一抽抽就全搬下来了.不过情况并没有得到改善,仍然是从浏览器请求时修改不了,从终端利用curl请求是可以修改.修改完成后,问题就来了...</p>
+
+<p>当再次进行获取数据请求时,就出现了下面这个错误:</p>
+
+<p>TypeError: datetime.datetime(2016, 3, 30, 0, 28, 38, 255000) is not JSON serializable<br/>
+然后我就郁闷了,整个项目除了添加数据时用到了datetime,其它地方都没有用到,而且添加数据是没有问题的.于是试验各种json转换,期间还以为昨天删除了不该删除的文件,还回滚了2次,然而并没有什么卵用.整个上午各种Google,各种排除,始终找不到问题的所在.</p>
+
+<p>后来无意间点到了单一数据查询,发现除了返回的数据中包含早上修改过的数据之外,其他数据都可以正常查询到.恩,不错,范围缩小了很多</p>
+
+<p>于是进入数据库,调出修改的数据,瞬间就无语了,datetime赤裸裸地躺在那里了,于是果断删除.问题解决了~~~~</p>
+
+<p>但是修改问题还是没有解决啊......</p>
+
+<p>通过各种断点测试,打印输出测试,终于将范围控制在了数据库查找要修改的数据查找不到......当时知道了这个原因,却不知道怎样修改,为什么传递的参数都是一样的,然而查询的结果却是不一样的.收到大神的提醒,打印查询的结果,然后发现返回的数据地址根本就不一样!!!</p>
+
+<p>这可怎么办呀......</p>
+
+<p>郁闷啊郁闷,郁闷到了晚上,忽然间想到虽然传递的参数打印出来的结果都是一样的,但是类型不一定相同啊.转折点就在这里,我发现通过浏览器传递的数据是unicode类型,终端传递的数据是int类型,这就解决了嘛,强制转换类型,加个int(),郁闷了一天的问题就这么解决了......</p>
+
+<p>仅此纪念苦逼的一天,我要去完成剩下的功能了.......</p>
+
+                        
+                      </div>
+                  </div>
+                </a>
+                <div class="read-more clearfix">
+                  <div class="more-left left">
+                  
+                    <span class="date">2016/3/30</span>
+                    <span>posted in&nbsp;</span> 
+          				  
+          					    <span class="posted-in"><a href='%E9%9A%8F%E6%83%B3.html'>随想</a></span>
+          				   
+                  </div>
+                  <div class="more-right right">
+                  <span class="comments">
+                      
+
+                       
+                  </span>
+                  </div>
+                </div>
+              </div><!-- article -->
+        
+			<div class="article">
+                <a class="clearlink" href="14857042660628.html">
+                
+                  <h1>一年又一年</h1>
+                  <div class="a-content">
+                      
+                      <div class="a-content-text">
+                        
+                        	<p>时光荏苒,伴随着一阵阵的爆竹声,我又迎来了新的一年.一年又一年,随着年龄的增长,我也从当初那个期盼着过年的小女孩变成了有些害怕,有些担心,有些期待,各种感情交织在一起的大女孩......马上就要大学毕业的我,回想起来还是一心只要认真读书的学生年代,真是觉得还是那时候轻松啊.那时的期末考试成绩比起现在的男女朋友,工作薪资什么的又算的了什么,哎╮(╯▽╰)╭.</p>
+
+<p>过去的一年里,感觉自己并没有做多少东西,就像脑子里总有一块橡皮擦,把之前曾经做过的事情都给擦掉了一样.其实当在写这句话的时候,我的心声在告诉我:&quot;哪里是有橡皮擦,分明就是自己不够上心,把该做的,重要的没有放在心上,所以才没有多大印象的......&quot;真是可笑.回想起来,总是觉得自己的付出和别人的比起来是多么的微不足道.我感觉自己真的是很奇怪,明明知道什么重要,什么不重要,可是为什么会不由自主的在行动上分不清主次.真是讨厌我这样讨厌自己,不管怎么说,我身上总是有发光点的吧,可是为什么找不到呢??</p>
+
+<p>胡言乱语一通,其实写这篇文章也不知道是为什么而写,总想在新年的第一天写点什么,原因很简单,因为去年没写,我现在都不知道去年的这个时候我在想些什么...所以以后我要记录下来,看看一年又一年地过去,我心中所想的,当时所做的有没有什么变化.我也期待自己能够变得越来越有主见,不想做一个小女人,就从开阔眼界,了解最新信息做起吧.</p>
+
+<p>加油,新年快乐!!不求以后能够顺顺利利,但求我能够一直坚强,勇敢,自主地走下去,遇到困难不是抱怨,而是想办法解决,逐渐地充实自我.就像有人对我所期望的:品味,独特而不庸俗;涵养,任何场合不要失礼;言行,让人舒适不觉低俗;知识,有广度,有深度!!</p>
+
+                        
+                      </div>
+                  </div>
+                </a>
+                <div class="read-more clearfix">
+                  <div class="more-left left">
+                  
+                    <span class="date">2016/2/8</span>
+                    <span>posted in&nbsp;</span> 
+          				  
+          					    <span class="posted-in"><a href='%E9%9A%8F%E6%83%B3.html'>随想</a></span>
+          				   
+                  </div>
+                  <div class="more-right right">
+                  <span class="comments">
+                      
+
+                       
+                  </span>
+                  </div>
+                </div>
+              </div><!-- article -->
+        
+			<div class="article">
+                <a class="clearlink" href="14857039606285.html">
+                
+                  <h1>一直迷茫中</h1>
+                  <div class="a-content">
+                      
+                      <div class="a-content-text">
+                        
+                        	<p>已经很久很久没有打开我的博客了，久到我自己差点忘记了密码是什么。自从开通了博客，写的文章都是自己学习的过程中一些知识点的总结，然而我认为我的总结并没有多大的特色，我学习到的东西都很基础，甚至挖掘不到更好的信息。有时候去逛v2ex，看到别人提出来的很新奇的点子，总是感叹别人是怎么想到的，或许是我敏锐性不够高，或许是学到的东西不够深入，亦或许是我一直不善于收集资料。。。。。。</p>
+
+<p>记得刚刚开始学习的时候，我连百度都不怎么会用，遇到什么问题只是会向别人请教，后来，慢慢的学会了自己解决问题。不知道为什么，每次和别人交流，总是特别不自信，不敢把自己的想法说出来，因为总是觉得很幼稚，也许事实就是如此吧。大学三年马上就要过去了，回想这三年的时光，除了学习专业课程之外，剩下的都是一些很零碎的东西，根本就不成体系，我不知道，现在的这种状态，我还要如何走出学校，甚至连投简历的勇气都没有。我讨厌自己的不知所措，讨厌自己的迷茫，讨厌自己的不自信，这样的生活让我觉得糟糕透了。</p>
+
+<p>哎，我也不知道自己应该说些什么，不知道下一步具体应该做些什么，这种迷茫的状态什么时候才能打破。一个没有自我见解，无法把握全局的人，注定不会成功，然而，我不想就此堕落。那就努力地寻找新的目标，去实现吧！</p>
+
+                        
+                      </div>
+                  </div>
+                </a>
+                <div class="read-more clearfix">
+                  <div class="more-left left">
+                  
+                    <span class="date">2016/1/15</span>
+                    <span>posted in&nbsp;</span> 
+          				  
+          					    <span class="posted-in"><a href='%E9%9A%8F%E6%83%B3.html'>随想</a></span>
+          				   
+                  </div>
+                  <div class="more-right right">
+                  <span class="comments">
+                      
+
+                       
+                  </span>
+                  </div>
+                </div>
+              </div><!-- article -->
+        
+			<div class="article">
+                <a class="clearlink" href="14857039929117.html">
+                
+                  <h1>资源网站收藏</h1>
+                  <div class="a-content">
+                      
+                      <div class="a-content-text">
+                        
+                        	<p>今天逛v2ex，看到有关优秀网站的资源共享，自己曾经也做过相应的网站收藏，不过后来都弄丢了，然后反反复复，于是决定慢慢的将这些资源都积累下来。今天就先写一点在v2ex上看到的好的网站。</p>
+
+<p>关于Python</p>
+
+<p><a href="http://foofish.net/blog/">http://foofish.net/blog/</a></p>
+
+<p><a href="http://www.linuxzen.com/">http://www.linuxzen.com/</a></p>
+
+<p>程序员思维</p>
+
+<p><a href="http://timyang.net/">http://timyang.net/</a><br/>
+<a href="http://coolshell.cn/">http://coolshell.cn/</a></p>
+
+<p>IT书籍网站</p>
+
+<p><a href="http://www.it-ebooks.info/">http://www.it-ebooks.info/</a></p>
+
+<p>个人博客</p>
+
+<p><a href="http://justjavac.com/">http://justjavac.com/</a></p>
+
+<p><a href="http://www.ruanyifeng.com/home.html">http://www.ruanyifeng.com/home.html</a></p>
+
+                        
+                      </div>
+                  </div>
+                </a>
+                <div class="read-more clearfix">
+                  <div class="more-left left">
+                  
+                    <span class="date">2015/12/27</span>
+                    <span>posted in&nbsp;</span> 
+          				  
+          					    <span class="posted-in"><a href='%E9%9A%8F%E6%83%B3.html'>随想</a></span>
+          				   
+                  </div>
+                  <div class="more-right right">
+                  <span class="comments">
+                      
+
+                       
+                  </span>
+                  </div>
+                </div>
+              </div><!-- article -->
+        
+			<div class="article">
+                <a class="clearlink" href="14857051817013.html">
+                
+                  <h1>近日小感</h1>
+                  <div class="a-content">
+                      
+                      <div class="a-content-text">
+                        
+                        	<p>好久没有来网站发表文章了，这一段时间，接了一个做学生会网站的项目，现在正在恶补知识的阶段，我很清楚，以我现在的能力写出一个网站真的是很难的事情，我想抓住这次的机会，从学习网站开发到现在，我还没有写过一个项目，我学完了PHP，HTML，CSS，JavaScript，数据库操作，但是我清楚，基础知识归基础知识，没有实践学得再多也没有用，我一定要学会运用。最近一段时间，我在学习thinkphp框架，准备用这个框架写后台。</p>
+
+<p>其实，我很迷茫，学习这些，是出于兴趣，还是为了以后更好的生活，我甚至自己也分不清楚，我努力的想要学得更好，在别人眼里我是一名好学生，可是如果只为了好地生活而强迫自己学习又是多么的可悲；值得庆幸的是，我并不是完全没有兴趣，我喜欢敲代码，喜欢自己设计一些东西，但是，我深知，在我的身上，缺乏的就是创造力，思维能力。最近在读古典的《拆掉思维里的墙》，这给我很大的感触，我的这些致命的缺点，我所谓的那些“应该是”，把我紧紧的包围，让我无法冲破。我锻炼自己以发散的观念思考问题，可是这对于我一个小女生来说，似乎真的很难。这样说，大概也只是为了发发牢骚，我不是那种知难而退的人，我有着很强的上进心，总是迷茫，不知所措，我依然会坚持，也许冲出这片云雾，我就能够见到彩虹。</p>
+
+<p>对于这一行业，我有一定的兴趣，有时候，单单只有兴趣是不够的，我还需要能力，需要发现新事物的能力，需要独立思考的能力，在众多事情面前，我更需要比别人看得更长远的能力，在IT界，永远要走在别人的前面，它要引领大众，做别人的指明灯。</p>
+
+<p>告诉自己，如果兔子离开了地面，挂在了树上，它会看到很多之前看不到了事物，从迷茫，到熟练，这是一个过程，只有坚持，才能圆梦！！</p>
+
+                        
+                      </div>
+                  </div>
+                </a>
+                <div class="read-more clearfix">
+                  <div class="more-left left">
+                  
+                    <span class="date">2015/4/23</span>
+                    <span>posted in&nbsp;</span> 
+          				  
+          					    <span class="posted-in"><a href='%E9%9A%8F%E6%83%B3.html'>随想</a></span>
+          				   
+                  </div>
+                  <div class="more-right right">
+                  <span class="comments">
+                      
+
+                       
+                  </span>
+                  </div>
+                </div>
+              </div><!-- article -->
+        
+              
+
+
+			<div class="row">
+			  <div class="large-6 columns">
+			  <p class="text-left" style="padding-top:25px;">
+			   
+			  </p>
+			  </div>
+			  <div class="large-6 columns">
+			<p class="text-right" style="padding-top:25px;">
+			 <a href="随想_1.html">&raquo; Next Page</a> 
+			</p>
+			  </div>
+			</div>
+		</div>
+	</div><!-- large 8 -->
+
+ <div class="large-4 medium-4 columns">
+  <div class="hide-for-small">
+    <div id="sidebar" class="sidebar">
+          <div id="site-info" class="site-info">
+            
+                <h1>挂在树上的兔子</h1>
+                <div class="site-des"></div>
+                <div class="social">
+
+
+
+
+
+
+
+
+
+
+
+  <a target="_blank" class="rss" href="atom.xml" title="RSS">RSS</a>
+                
+              	 </div>
+          	</div>
+
+             
+
+              <div id="site-categories" class="side-item ">
+                <div class="side-header">
+                  <h2>Categories</h2>
+                </div>
+                <div class="side-content">
+
+      	<p class="cat-list">
+        
+            <a href="%E6%95%B0%E6%8D%AE%E5%BA%93.html"><strong>数据库</strong></a>
+        
+            <a href="Python.html"><strong>Python</strong></a>
+        
+            <a href="%E9%9A%8F%E6%83%B3.html"><strong>随想</strong></a>
+        
+            <a href="%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84&%E7%AE%97%E6%B3%95.html"><strong>数据结构&算法</strong></a>
+        
+            <a href="PHP.html"><strong>PHP</strong></a>
+        
+            <a href="Ubuntu.html"><strong>Ubuntu</strong></a>
+         
+        </p>
+
+
+                </div>
+              </div>
+
+              <div id="site-categories" class="side-item">
+                <div class="side-header">
+                  <h2>Recent Posts</h2>
+                </div>
+                <div class="side-content">
+                <ul class="posts-list">
+	      
+		      
+			      <li class="post">
+			        <a href="14830907697555.html">MySQL数据库☞数据库编码</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="14830842110487.html">MySQL数据库☞中文乱码问题</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="14819928857822.html">MySQL的基本命令☞数据表的基本管理</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="14745361920074.html">python容器数据类型☞collections</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="14724629382123.html">python对列表进行操作</a>
+			      </li>
+		     
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		   
+		  		</ul>
+                </div>
+              </div>
+        </div><!-- sidebar -->
+      </div><!-- hide for small -->
+</div><!-- large 4 -->
+
+</div><!-- row -->
+
+ <div class="page-bottom clearfix">
+  <div class="row">
+   <p class="copyright">Copyright &copy; 2015
+Powered by <a target="_blank" href="http://www.mweb.im">MWeb</a>,&nbsp; 
+Theme used <a target="_blank" href="http://github.com">GitHub CSS</a>.</p>
+  </div>
+</div>
+
+        </section>
+      </div>
+    </div>
+
+  
+    
+
+    <script src="asset/js/foundation.min.js"></script>
+    <script>
+      $(document).foundation();
+      function fixSidebarHeight(){
+        var w1 = $('.markdown-body').height();
+          var w2 = $('#sidebar').height();
+          if (w1 > w2) { $('#sidebar').height(w1); };
+      }
+      $(function(){
+        fixSidebarHeight();
+      })
+      $(window).load(function(){
+          fixSidebarHeight();
+      });
+     
+    </script>
+
+    <script src="asset/chart/all-min.js"></script><script type="text/javascript">$(function(){    var mwebii=0;    var mwebChartEleId = 'mweb-chart-ele-';    $('pre>code').each(function(){        mwebii++;        var eleiid = mwebChartEleId+mwebii;        if($(this).hasClass('language-sequence')){            var ele = $(this).addClass('nohighlight').parent();            $('<div id="'+eleiid+'"></div>').insertAfter(ele);            ele.hide();            var diagram = Diagram.parse($(this).text());            diagram.drawSVG(eleiid,{theme: 'simple'});        }else if($(this).hasClass('language-flow')){            var ele = $(this).addClass('nohighlight').parent();            $('<div id="'+eleiid+'"></div>').insertAfter(ele);            ele.hide();            var diagram = flowchart.parse($(this).text());            diagram.drawSVG(eleiid);        }    });});</script>
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script type="text/x-mathjax-config">MathJax.Hub.Config({TeX: { equationNumbers: { autoNumber: "AMS" } }});</script>
+
+
+  </body>
+</html>

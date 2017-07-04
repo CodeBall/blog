@@ -1,0 +1,547 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+    
+  字典树 - 挂在树上的兔子
+  
+  </title>
+  
+  
+  <link href="atom.xml" rel="alternate" title="挂在树上的兔子" type="application/atom+xml">
+    <link rel="stylesheet" href="asset/css/foundation.min.css" />
+    <link rel="stylesheet" href="asset/css/docs.css" />
+    <script src="asset/js/vendor/modernizr.js"></script>
+    <script src="asset/js/vendor/jquery.js"></script>
+  <script src="asset/highlightjs/highlight.pack.js"></script>
+  <link href="asset/highlightjs/styles/github.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script>hljs.initHighlightingOnLoad();</script>
+<script type="text/javascript">
+  function before_search(){
+    var searchVal = 'site:blog.yanzl.net ' + document.getElementById('search_input').value;
+    document.getElementById('search_q').value = searchVal;
+    return true;
+  }
+</script>
+  </head>
+  <body class="antialiased hide-extras">
+    
+    <div class="marketing off-canvas-wrap" data-offcanvas>
+      <div class="inner-wrap">
+
+
+<nav class="top-bar docs-bar hide-for-small" data-topbar>
+
+
+  <section class="top-bar-section">
+  <div class="row">
+      <div style="position: relative;width:100%;"><div style="position: absolute; width:100%;">
+        <ul id="main-menu" class="left">
+        
+        <li id=""><a target="self" href="index.html">Home</a></li>
+        
+        <li id=""><a target="_self" href="archives.html">Archives</a></li>
+        
+        </ul>
+
+        <ul class="right" id="search-wrap">
+          <li>
+<form target="_blank" onsubmit="return before_search();" action="http://google.com/search" method="get">
+    <input type="hidden" id="search_q" name="q" value="" />
+    <input tabindex="1" type="search" id="search_input"  placeholder="Search"/>
+</form>
+</li>
+          </ul>
+      </div></div>
+  </div>
+  </section>
+
+</nav>
+
+        <nav class="tab-bar show-for-small">
+  <a href="javascript:void(0)" class="left-off-canvas-toggle menu-icon">
+    <span> &nbsp; 挂在树上的兔子</span>
+  </a>
+</nav>
+
+<aside class="left-off-canvas-menu">
+      <ul class="off-canvas-list">
+       
+       <li><a href="index.html">HOME</a></li>
+    <li><a href="archives.html">Archives</a></li>
+    <li><a href="about.html">ABOUT</a></li>
+
+    <li><label>Categories</label></li>
+
+        
+            <li><a href="%E6%95%B0%E6%8D%AE%E5%BA%93.html">数据库</a></li>
+        
+            <li><a href="Python.html">Python</a></li>
+        
+            <li><a href="%E9%9A%8F%E6%83%B3.html">随想</a></li>
+        
+            <li><a href="%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84&%E7%AE%97%E6%B3%95.html">数据结构&算法</a></li>
+        
+            <li><a href="PHP.html">PHP</a></li>
+        
+            <li><a href="Ubuntu.html">Ubuntu</a></li>
+         
+
+      </ul>
+    </aside>
+
+<a class="exit-off-canvas" href="#"></a>
+
+
+        <section id="main-content" role="main" class="scroll-container">
+        
+       
+
+ <script type="text/javascript">
+  $(function(){
+    $('#menu_item_index').addClass('is_active');
+  });
+</script>
+<div class="row">
+  <div class="large-8 medium-8 columns">
+      <div class="markdown-body article-wrap">
+       <div class="article">
+          
+          <h1>字典树</h1>
+     
+        <div class="read-more clearfix">
+          <span class="date">2015/1/17</span>
+
+          <span>posted in&nbsp;</span> 
+          
+              <span class="posted-in"><a href='%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84&%E7%AE%97%E6%B3%95.html'>数据结构&算法</a></span>
+           
+         
+          <span class="comments">
+            
+
+            
+          </span>
+
+        </div>
+      </div><!-- article -->
+
+      <div class="article-content">
+      <p>定义</p>
+
+<p>字典树又称单词查找树，Trie树，是一种如图1所示的树形结构。</p>
+
+<p>字典树</p>
+
+<p><img src="media/14838699157833/zidianshu.jpg" alt="zidianshu"/></p>
+
+<p>图1</p>
+
+<p>动态存储</p>
+
+<p>结构</p>
+
+<p>每棵字典树都有一个根节点，每一个结点都有26个指针，分别指向a到z26个字母，有一个数据域，存储要记录的数据，有一个标记域，标记字符串是否结束。</p>
+
+<pre><code>struct Trie
+{
+    //因为next与字符有一一对应的关系，所以不需要存储数据
+    int sign;//标记字符串结尾
+    struct Trie *next[26];//指向下一个字符
+}*head,*p,*now;
+开辟新的存储空间
+
+Trie *new()
+{
+    Trie *p = new Trie;//开辟内存
+    for(i = 0;i &lt; 26;i++)//初始化操作
+    {
+        p-&gt;next[i] = NULL;
+    }
+    p-&gt;sign = 0;
+    return p;
+}
+</code></pre>
+
+<p>字典树的初始化</p>
+
+<p>下面的代码只是添加一个字符串，如果添加多个字符串，可以在调用函数中进行修改，也可以在下面的函数中加循环进行控制。</p>
+
+<pre><code>void init()
+{
+    char sz[30];
+    int i,j,k,l;
+    scanf(&quot;%s&quot;,sz);
+    l = strlen(sz);
+    head = new();
+    p = head;
+    for(i = 0;i &lt; l;i++)
+    {
+        j = sz[i] - &#39;a&#39;;
+        if(p-&gt;next[j] == NULL)
+        {
+            now = new();
+            now-&gt;data = sz[i];
+            p-&gt;next[j] = now;//将新建的节点连接在字典树上
+        }
+            p = p-&gt;next[j];
+    }
+    p-&gt;sign = 1;
+}
+</code></pre>
+
+<p>字符串的查找</p>
+
+<p>给定一个字符串，询问该字符串是否已经出现过，即在原来建立的字典树上进行查找的过程。</p>
+
+<p>字符串查找的过程和建树的过程很相似，只不过需要判断节点是不是字符串的结束。</p>
+
+<pre><code>bool lookup()
+{
+    char sz[30];
+    int i,j,l;
+    scanf(&quot;%s&quot;,sz);
+    p = head;
+    l = strlen(sz);
+    for(i = 0;i &lt; l;i++)
+    {
+        j = sz[i] - &#39;a&#39;;
+        //没有这个字符，则下面都没有，返回失败
+        if(p-&gt;next[j] == NULL)
+            return false;
+        else
+            p = p-&gt;next[j];
+        //如果已是要查询的字符串最后一个字符，判断有没有结束标志
+        if(i == l - 1)
+        {
+            if(p-&gt;sign == 1)
+                return true;
+            else
+                return false;
+        }
+    }
+}
+</code></pre>
+
+<p>释放内存</p>
+
+<p>所有的这一组数据使用完之后，就要对其进行释放内存。</p>
+
+<pre><code>void delet(Trie *head)
+{
+    if(head)
+    {
+        for(int i = 0;i &lt; 26;i++)
+        {
+            if(head-&gt;next[i]!=NULL)
+                delet(head-&gt;next[i]);
+        }
+    }
+    delete head;
+    head = NULL;
+}
+</code></pre>
+
+<p>静态存储</p>
+
+<p>以上所讲述的字典树是动态开辟内存的方式，用完之后一定不要忘记释放内存，不然很容易就会MLE，当然，有些题目卡的就是动态存储，所以我们就要用到静态存储，接下来讲解静态存储。</p>
+
+<p>结构</p>
+
+<pre><code>//定义结构
+struct Trie
+{
+    int sign;
+    int next[26];
+}trie[MAX];
+int top = 0;
+</code></pre>
+
+<p>初始化新建的节点 并返回位置</p>
+
+<pre><code>Trie *newTrie()
+{
+    memset(trie[top].next,-1,sizeof(trie[top].next));
+    trie[top].sign = 0;
+    return top++;
+}
+</code></pre>
+
+<p>建立字典树</p>
+
+<pre><code>void init(int k,char *sz)
+{
+    int i,j,l;
+    l = strlen(sz);
+    for(i = 0;i &lt; l;i++)
+    {
+        j = sz[i] - &#39;a&#39;;
+        if(trie[k].next[j] == -1)
+        {
+            trie[k].next[j] = newTrie();
+        }
+        k = trie[k].next[j]; 
+    }
+    trie[k].sign = 1;
+}
+</code></pre>
+
+<p>查询有没有该字符串</p>
+
+<pre><code>int lookup(int k,char *sz)
+{
+    int i,j,l;
+    l = strlen(sz);
+    for(i = 0;i &lt; l;i++)
+    {
+        j = sz[i] - &#39;a&#39;;
+        if(trie[k].next[j] == -1)
+            return -1;
+        k = trie[k].next[j];
+    }
+    return trie[k].sign;
+}
+</code></pre>
+
+<p>字典树的性质</p>
+
+<p>（1）根节点不包含字符，除根节点外每一个结点都只包含一个字符</p>
+
+<p>（2）从根节点到某一个节点，路径上的节点连接起来就是一个字符串</p>
+
+<p>（3）每个节点的所有子节点包含的字符都不相同</p>
+
+<p>字典树的应用</p>
+
+<p>（1）串的检索</p>
+
+<p>给出一些已有的单词作为熟词，再给出一些词汇，找出这些词汇中没有在熟词里出现的词。</p>
+
+<p>可以用枚举，哈希，字典树进行搜索</p>
+
+<p>（2）“串”的排序</p>
+
+<p>给出一些互不相同的单词，按照字典序进行排列</p>
+
+<p>采用数组的方式创建字典树，这棵树的每个结点的儿子按照字母大小排序，再对这棵树进行先序遍历。</p>
+
+<p>（3）最长公共前缀</p>
+
+<p>查找任意两个字符串的最长公共前缀</p>
+
+<p>对所有串建立字典树，对于两个串的最长公共前缀的长度即他们所在的结点的公共祖先个数，于是，问题就转化为当时公共祖先问题。</p>
+
+<p>拓展：</p>
+
+<p>本文中用到的函数memset()</p>
+
+<p>void *memset(void *s, int ch, size_t n);<br/>
+函数解释：将s中前n个字节 （typedef unsigned int size_t ）用 ch 替换并返回 s 。<br/>
+memset：作用是在一段内存块中填充某个给定的值，它是对较大的结构体或数组进行清零操作的一种最快方法</p>
+
+
+    
+
+      </div>
+
+      <div class="row">
+        <div class="large-6 columns">
+        <p class="text-left" style="padding:15px 0px;">
+      
+          <a href="14838700446484.html" 
+          title="Previous Post: 图的基本概念及图的存储">&laquo; 图的基本概念及图的存储</a>
+      
+        </p>
+        </div>
+        <div class="large-6 columns">
+      <p class="text-right" style="padding:15px 0px;">
+      
+          <a  href="14838698180972.html" 
+          title="Next Post: 哈希表">哈希表 &raquo;</a>
+      
+      </p>
+        </div>
+      </div>
+      <div class="comments-wrap">
+        <div class="share-comments">
+          
+
+          
+
+          
+        </div>
+      </div>
+    </div><!-- article-wrap -->
+  </div><!-- large 8 -->
+
+
+
+
+ <div class="large-4 medium-4 columns">
+  <div class="hide-for-small">
+    <div id="sidebar" class="sidebar">
+          <div id="site-info" class="site-info">
+            
+                <h1>挂在树上的兔子</h1>
+                <div class="site-des"></div>
+                <div class="social">
+
+
+
+
+
+
+
+
+
+
+
+  <a target="_blank" class="rss" href="atom.xml" title="RSS">RSS</a>
+                
+              	 </div>
+          	</div>
+
+             
+
+              <div id="site-categories" class="side-item ">
+                <div class="side-header">
+                  <h2>Categories</h2>
+                </div>
+                <div class="side-content">
+
+      	<p class="cat-list">
+        
+            <a href="%E6%95%B0%E6%8D%AE%E5%BA%93.html"><strong>数据库</strong></a>
+        
+            <a href="Python.html"><strong>Python</strong></a>
+        
+            <a href="%E9%9A%8F%E6%83%B3.html"><strong>随想</strong></a>
+        
+            <a href="%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84&%E7%AE%97%E6%B3%95.html"><strong>数据结构&算法</strong></a>
+        
+            <a href="PHP.html"><strong>PHP</strong></a>
+        
+            <a href="Ubuntu.html"><strong>Ubuntu</strong></a>
+         
+        </p>
+
+
+                </div>
+              </div>
+
+              <div id="site-categories" class="side-item">
+                <div class="side-header">
+                  <h2>Recent Posts</h2>
+                </div>
+                <div class="side-content">
+                <ul class="posts-list">
+	      
+		      
+			      <li class="post">
+			        <a href="14830907697555.html">MySQL数据库☞数据库编码</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="14830842110487.html">MySQL数据库☞中文乱码问题</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="14819928857822.html">MySQL的基本命令☞数据表的基本管理</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="14745361920074.html">python容器数据类型☞collections</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="14724629382123.html">python对列表进行操作</a>
+			      </li>
+		     
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		   
+		  		</ul>
+                </div>
+              </div>
+        </div><!-- sidebar -->
+      </div><!-- hide for small -->
+</div><!-- large 4 -->
+
+</div><!-- row -->
+
+ <div class="page-bottom clearfix">
+  <div class="row">
+   <p class="copyright">Copyright &copy; 2015
+Powered by <a target="_blank" href="http://www.mweb.im">MWeb</a>,&nbsp; 
+Theme used <a target="_blank" href="http://github.com">GitHub CSS</a>.</p>
+  </div>
+</div>
+
+        </section>
+      </div>
+    </div>
+
+  
+    
+
+    <script src="asset/js/foundation.min.js"></script>
+    <script>
+      $(document).foundation();
+      function fixSidebarHeight(){
+        var w1 = $('.markdown-body').height();
+          var w2 = $('#sidebar').height();
+          if (w1 > w2) { $('#sidebar').height(w1); };
+      }
+      $(function(){
+        fixSidebarHeight();
+      })
+      $(window).load(function(){
+          fixSidebarHeight();
+      });
+     
+    </script>
+
+    <script src="asset/chart/all-min.js"></script><script type="text/javascript">$(function(){    var mwebii=0;    var mwebChartEleId = 'mweb-chart-ele-';    $('pre>code').each(function(){        mwebii++;        var eleiid = mwebChartEleId+mwebii;        if($(this).hasClass('language-sequence')){            var ele = $(this).addClass('nohighlight').parent();            $('<div id="'+eleiid+'"></div>').insertAfter(ele);            ele.hide();            var diagram = Diagram.parse($(this).text());            diagram.drawSVG(eleiid,{theme: 'simple'});        }else if($(this).hasClass('language-flow')){            var ele = $(this).addClass('nohighlight').parent();            $('<div id="'+eleiid+'"></div>').insertAfter(ele);            ele.hide();            var diagram = flowchart.parse($(this).text());            diagram.drawSVG(eleiid);        }    });});</script>
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script type="text/x-mathjax-config">MathJax.Hub.Config({TeX: { equationNumbers: { autoNumber: "AMS" } }});</script>
+
+
+  </body>
+</html>

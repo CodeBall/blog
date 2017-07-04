@@ -1,0 +1,451 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+    
+  MySQL学习笔记（3）——修改数据表及写数据 - 挂在树上的兔子
+  
+  </title>
+  
+  
+  <link href="atom.xml" rel="alternate" title="挂在树上的兔子" type="application/atom+xml">
+    <link rel="stylesheet" href="asset/css/foundation.min.css" />
+    <link rel="stylesheet" href="asset/css/docs.css" />
+    <script src="asset/js/vendor/modernizr.js"></script>
+    <script src="asset/js/vendor/jquery.js"></script>
+  <script src="asset/highlightjs/highlight.pack.js"></script>
+  <link href="asset/highlightjs/styles/github.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script>hljs.initHighlightingOnLoad();</script>
+<script type="text/javascript">
+  function before_search(){
+    var searchVal = 'site:blog.yanzl.net ' + document.getElementById('search_input').value;
+    document.getElementById('search_q').value = searchVal;
+    return true;
+  }
+</script>
+  </head>
+  <body class="antialiased hide-extras">
+    
+    <div class="marketing off-canvas-wrap" data-offcanvas>
+      <div class="inner-wrap">
+
+
+<nav class="top-bar docs-bar hide-for-small" data-topbar>
+
+
+  <section class="top-bar-section">
+  <div class="row">
+      <div style="position: relative;width:100%;"><div style="position: absolute; width:100%;">
+        <ul id="main-menu" class="left">
+        
+        <li id=""><a target="self" href="index.html">Home</a></li>
+        
+        <li id=""><a target="_self" href="archives.html">Archives</a></li>
+        
+        </ul>
+
+        <ul class="right" id="search-wrap">
+          <li>
+<form target="_blank" onsubmit="return before_search();" action="http://google.com/search" method="get">
+    <input type="hidden" id="search_q" name="q" value="" />
+    <input tabindex="1" type="search" id="search_input"  placeholder="Search"/>
+</form>
+</li>
+          </ul>
+      </div></div>
+  </div>
+  </section>
+
+</nav>
+
+        <nav class="tab-bar show-for-small">
+  <a href="javascript:void(0)" class="left-off-canvas-toggle menu-icon">
+    <span> &nbsp; 挂在树上的兔子</span>
+  </a>
+</nav>
+
+<aside class="left-off-canvas-menu">
+      <ul class="off-canvas-list">
+       
+       <li><a href="index.html">HOME</a></li>
+    <li><a href="archives.html">Archives</a></li>
+    <li><a href="about.html">ABOUT</a></li>
+
+    <li><label>Categories</label></li>
+
+        
+            <li><a href="%E6%95%B0%E6%8D%AE%E5%BA%93.html">数据库</a></li>
+        
+            <li><a href="Python.html">Python</a></li>
+        
+            <li><a href="%E9%9A%8F%E6%83%B3.html">随想</a></li>
+        
+            <li><a href="%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84&%E7%AE%97%E6%B3%95.html">数据结构&算法</a></li>
+        
+            <li><a href="PHP.html">PHP</a></li>
+        
+            <li><a href="Ubuntu.html">Ubuntu</a></li>
+         
+
+      </ul>
+    </aside>
+
+<a class="exit-off-canvas" href="#"></a>
+
+
+        <section id="main-content" role="main" class="scroll-container">
+        
+       
+
+ <script type="text/javascript">
+  $(function(){
+    $('#menu_item_index').addClass('is_active');
+  });
+</script>
+<div class="row">
+  <div class="large-8 medium-8 columns">
+      <div class="markdown-body article-wrap">
+       <div class="article">
+          
+          <h1>MySQL学习笔记（3）——修改数据表及写数据</h1>
+     
+        <div class="read-more clearfix">
+          <span class="date">2016/1/21</span>
+
+          <span>posted in&nbsp;</span> 
+          
+              <span class="posted-in"><a href='%E6%95%B0%E6%8D%AE%E5%BA%93.html'>数据库</a></span>
+           
+         
+          <span class="comments">
+            
+
+            
+          </span>
+
+        </div>
+      </div><!-- article -->
+
+      <div class="article-content">
+      <p>操作字段</p>
+
+<p>添加单个字段：</p>
+
+<p>alter table  表名 add [column]  字段名称 字段定义 [first|after 字段名称]<br/>
+first指明将该字段添加到表定义的最前端，after指明将该字段添加到某个字段的后面，默认情况下是添加到最后。</p>
+
+<p>添加多个字段：</p>
+
+<p>alter table 表名 add <a href="%E5%88%97%E5%90%8D%E7%A7%B01%20%E5%88%97%E5%AE%9A%E4%B9%891,%E5%88%97%E5%90%8D%E7%A7%B02%20%E5%88%97%E5%AE%9A%E4%B9%892,...">column</a><br/>
+添加多个字段是不能够指定位置的，很显然，没法指定。。。</p>
+
+<p>删除一个字段：</p>
+
+<p>alter table 表名 drop 字段名称<br/>
+删除多个字段：</p>
+
+<p>alter table 表名 drop 字段名称,drop 字段名称<br/>
+删除字段的同时添加字段：</p>
+
+<p>alter table 表名 drop 字段名称,drop 字段名称,add 字段名称 字段定义<br/>
+操作约束</p>
+
+<p>添加主键约束：</p>
+
+<p>alter table 表名 [constraint [约束名称]] primary key <a href="%E5%AD%97%E6%AE%B5%E5%90%8D">约束类型</a><br/>
+添加唯一约束：</p>
+
+<p>alter table 表名 [constraint [约束名称]] unique key <a href="%E5%AD%97%E6%AE%B5%E5%90%8D">约束类型</a><br/>
+添加外键约束：</p>
+
+<p>alter table 表名 [constraint [约束名称]] foreign key (外键字段名) references 从表名（字段）<br/>
+添加|删除默认约束：</p>
+
+<p>alter table 表名 later [column] 字段名 {set default 默认值|drop default}<br/>
+删除主键约束：</p>
+
+<p>alter table 表名 drop primary key<br/>
+删除唯一约束：</p>
+
+<p>alter table 表名 drop {index|key} 约束名<br/>
+删除外键约束：</p>
+
+<p>alter table 表名 drop foreign key 约束名<br/>
+操作数据表</p>
+
+<p>修改字段定义：</p>
+
+<p>alter table 表名 modify [column] 字段名 字段定义 [first|after 字段名]<br/>
+修改字段名称：</p>
+
+<p>alter table 表名 change [column] 旧字段名称 新字段名称 字段定义 [first|after 字段名]<br/>
+修改数据表名称：</p>
+
+<p>alter table 表名 rename [to|as] 新名称<br/>
+rename table 表名 to 新名 [,表名1 to 新名1]...<br/>
+插入数据</p>
+
+<p>方法一</p>
+
+<p>插入多条数据</p>
+
+<p>insert [into] 表名 [(字段名称)] values(字段值)<br/>
+字段名称可写可不写，如果不写，则字段值必须包含所有字段的值，如果字段是自动编号，则可以写为null或者default；如果写字段名，则按照给定的字段顺序依次填入相应的字段值，字段值可以是表达式，如果该字段有默认值，也可以是默认值（default）</p>
+
+<p>插入多条数据</p>
+
+<p>insert [into] 表名 [(字段名称)] values(字段值1),(字段值2),...<br/>
+如果插入多条数据，则必须有相同个字段，即不能第一条数据有3个值，第二条数据有5个值。</p>
+
+<p>方法二</p>
+
+<p>insert 表名 set 字段名1 = &#39;字段值1&#39;,字段名2 = &#39;字段值2&#39;,...<br/>
+这种方法只能插入一条语句，可以进行子查询，具体来说是比较运算符=引发的子查询</p>
+
+<p>方法三</p>
+
+<p>insert [into] 表名 [(字段名称)] select 选择语句<br/>
+这种方法借助查询语句来从另外一张表中查找到相应数据插入到该表中</p>
+
+<p>比如在产品表中查询产品的分类，将查询的结果写入到分类表中</p>
+
+<p>insert goods_cates (cate_name) select<br/>
+goods_cate from goods group by goods_cate;<br/>
+修改数据</p>
+
+<p>单表修改</p>
+
+<p>update 表名 set 字段名=’更新的该字段的值’[,字段名1=’更新的该字段的值1’,...] [where 更新条件]<br/>
+如果不写更新条件，则所有的数据都将更新</p>
+
+<p>多表修改</p>
+
+<p>多表更新涉及到表与表之间的连接，根据一张表的内容更新另一张表的内容</p>
+
+<p>例如：根据产品类型表(goods_cate)更新产品表(goods)中的产品类型</p>
+
+<p>Update goods inner join goods_cate on goods_cate = cate_name set goods_cate = cate_id;<br/>
+删除数据</p>
+
+<p>单表删除</p>
+
+<p>Delete from 表名 [where 删除条件]<br/>
+如果不写删除条件，则该表中所有的数据都会被删除。</p>
+
+<p>多表删除</p>
+
+<p>所谓的多表删除，就是通过多张表的连接来确定删除的内容。</p>
+
+<p>例如：在一张表(goods)中，有很多重复的记录，如果想删除重复的记录，不可能找到它们的id一个一个的删除，这就用到了多表删除。把这张表和由重复数据组成的虚拟的表进行连接，进而进行删除操作。</p>
+
+<p>Delete t1 from goods as t1 left join(<br/>
+select goods_id,goods_name from goods group by goods_name having count(goods_name)&gt;=2) as t2 <br/>
+on t1.goods_name = t2.goods_name <br/>
+where t1.goods_id &gt; t2.goods_id;</p>
+
+
+    
+
+      </div>
+
+      <div class="row">
+        <div class="large-6 columns">
+        <p class="text-left" style="padding:15px 0px;">
+      
+          <a href="14857038899615.html" 
+          title="Previous Post: MySQL学习笔记（4）——查询">&laquo; MySQL学习笔记（4）——查询</a>
+      
+        </p>
+        </div>
+        <div class="large-6 columns">
+      <p class="text-right" style="padding:15px 0px;">
+      
+          <a  href="14857038289810.html" 
+          title="Next Post: MySQL学习笔记（2）——数据类型及数据表操作">MySQL学习笔记（2）——数据类型及数据表操作 &raquo;</a>
+      
+      </p>
+        </div>
+      </div>
+      <div class="comments-wrap">
+        <div class="share-comments">
+          
+
+          
+
+          
+        </div>
+      </div>
+    </div><!-- article-wrap -->
+  </div><!-- large 8 -->
+
+
+
+
+ <div class="large-4 medium-4 columns">
+  <div class="hide-for-small">
+    <div id="sidebar" class="sidebar">
+          <div id="site-info" class="site-info">
+            
+                <h1>挂在树上的兔子</h1>
+                <div class="site-des"></div>
+                <div class="social">
+
+
+
+
+
+
+
+
+
+
+
+  <a target="_blank" class="rss" href="atom.xml" title="RSS">RSS</a>
+                
+              	 </div>
+          	</div>
+
+             
+
+              <div id="site-categories" class="side-item ">
+                <div class="side-header">
+                  <h2>Categories</h2>
+                </div>
+                <div class="side-content">
+
+      	<p class="cat-list">
+        
+            <a href="%E6%95%B0%E6%8D%AE%E5%BA%93.html"><strong>数据库</strong></a>
+        
+            <a href="Python.html"><strong>Python</strong></a>
+        
+            <a href="%E9%9A%8F%E6%83%B3.html"><strong>随想</strong></a>
+        
+            <a href="%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84&%E7%AE%97%E6%B3%95.html"><strong>数据结构&算法</strong></a>
+        
+            <a href="PHP.html"><strong>PHP</strong></a>
+        
+            <a href="Ubuntu.html"><strong>Ubuntu</strong></a>
+         
+        </p>
+
+
+                </div>
+              </div>
+
+              <div id="site-categories" class="side-item">
+                <div class="side-header">
+                  <h2>Recent Posts</h2>
+                </div>
+                <div class="side-content">
+                <ul class="posts-list">
+	      
+		      
+			      <li class="post">
+			        <a href="14830907697555.html">MySQL数据库☞数据库编码</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="14830842110487.html">MySQL数据库☞中文乱码问题</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="14819928857822.html">MySQL的基本命令☞数据表的基本管理</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="14745361920074.html">python容器数据类型☞collections</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="14724629382123.html">python对列表进行操作</a>
+			      </li>
+		     
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		   
+		  		</ul>
+                </div>
+              </div>
+        </div><!-- sidebar -->
+      </div><!-- hide for small -->
+</div><!-- large 4 -->
+
+</div><!-- row -->
+
+ <div class="page-bottom clearfix">
+  <div class="row">
+   <p class="copyright">Copyright &copy; 2015
+Powered by <a target="_blank" href="http://www.mweb.im">MWeb</a>,&nbsp; 
+Theme used <a target="_blank" href="http://github.com">GitHub CSS</a>.</p>
+  </div>
+</div>
+
+        </section>
+      </div>
+    </div>
+
+  
+    
+
+    <script src="asset/js/foundation.min.js"></script>
+    <script>
+      $(document).foundation();
+      function fixSidebarHeight(){
+        var w1 = $('.markdown-body').height();
+          var w2 = $('#sidebar').height();
+          if (w1 > w2) { $('#sidebar').height(w1); };
+      }
+      $(function(){
+        fixSidebarHeight();
+      })
+      $(window).load(function(){
+          fixSidebarHeight();
+      });
+     
+    </script>
+
+    <script src="asset/chart/all-min.js"></script><script type="text/javascript">$(function(){    var mwebii=0;    var mwebChartEleId = 'mweb-chart-ele-';    $('pre>code').each(function(){        mwebii++;        var eleiid = mwebChartEleId+mwebii;        if($(this).hasClass('language-sequence')){            var ele = $(this).addClass('nohighlight').parent();            $('<div id="'+eleiid+'"></div>').insertAfter(ele);            ele.hide();            var diagram = Diagram.parse($(this).text());            diagram.drawSVG(eleiid,{theme: 'simple'});        }else if($(this).hasClass('language-flow')){            var ele = $(this).addClass('nohighlight').parent();            $('<div id="'+eleiid+'"></div>').insertAfter(ele);            ele.hide();            var diagram = flowchart.parse($(this).text());            diagram.drawSVG(eleiid);        }    });});</script>
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script type="text/x-mathjax-config">MathJax.Hub.Config({TeX: { equationNumbers: { autoNumber: "AMS" } }});</script>
+
+
+  </body>
+</html>

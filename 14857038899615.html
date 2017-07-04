@@ -1,0 +1,431 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+    
+  MySQL学习笔记（4）——查询 - 挂在树上的兔子
+  
+  </title>
+  
+  
+  <link href="atom.xml" rel="alternate" title="挂在树上的兔子" type="application/atom+xml">
+    <link rel="stylesheet" href="asset/css/foundation.min.css" />
+    <link rel="stylesheet" href="asset/css/docs.css" />
+    <script src="asset/js/vendor/modernizr.js"></script>
+    <script src="asset/js/vendor/jquery.js"></script>
+  <script src="asset/highlightjs/highlight.pack.js"></script>
+  <link href="asset/highlightjs/styles/github.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script>hljs.initHighlightingOnLoad();</script>
+<script type="text/javascript">
+  function before_search(){
+    var searchVal = 'site:blog.yanzl.net ' + document.getElementById('search_input').value;
+    document.getElementById('search_q').value = searchVal;
+    return true;
+  }
+</script>
+  </head>
+  <body class="antialiased hide-extras">
+    
+    <div class="marketing off-canvas-wrap" data-offcanvas>
+      <div class="inner-wrap">
+
+
+<nav class="top-bar docs-bar hide-for-small" data-topbar>
+
+
+  <section class="top-bar-section">
+  <div class="row">
+      <div style="position: relative;width:100%;"><div style="position: absolute; width:100%;">
+        <ul id="main-menu" class="left">
+        
+        <li id=""><a target="self" href="index.html">Home</a></li>
+        
+        <li id=""><a target="_self" href="archives.html">Archives</a></li>
+        
+        </ul>
+
+        <ul class="right" id="search-wrap">
+          <li>
+<form target="_blank" onsubmit="return before_search();" action="http://google.com/search" method="get">
+    <input type="hidden" id="search_q" name="q" value="" />
+    <input tabindex="1" type="search" id="search_input"  placeholder="Search"/>
+</form>
+</li>
+          </ul>
+      </div></div>
+  </div>
+  </section>
+
+</nav>
+
+        <nav class="tab-bar show-for-small">
+  <a href="javascript:void(0)" class="left-off-canvas-toggle menu-icon">
+    <span> &nbsp; 挂在树上的兔子</span>
+  </a>
+</nav>
+
+<aside class="left-off-canvas-menu">
+      <ul class="off-canvas-list">
+       
+       <li><a href="index.html">HOME</a></li>
+    <li><a href="archives.html">Archives</a></li>
+    <li><a href="about.html">ABOUT</a></li>
+
+    <li><label>Categories</label></li>
+
+        
+            <li><a href="%E6%95%B0%E6%8D%AE%E5%BA%93.html">数据库</a></li>
+        
+            <li><a href="Python.html">Python</a></li>
+        
+            <li><a href="%E9%9A%8F%E6%83%B3.html">随想</a></li>
+        
+            <li><a href="%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84&%E7%AE%97%E6%B3%95.html">数据结构&算法</a></li>
+        
+            <li><a href="PHP.html">PHP</a></li>
+        
+            <li><a href="Ubuntu.html">Ubuntu</a></li>
+         
+
+      </ul>
+    </aside>
+
+<a class="exit-off-canvas" href="#"></a>
+
+
+        <section id="main-content" role="main" class="scroll-container">
+        
+       
+
+ <script type="text/javascript">
+  $(function(){
+    $('#menu_item_index').addClass('is_active');
+  });
+</script>
+<div class="row">
+  <div class="large-8 medium-8 columns">
+      <div class="markdown-body article-wrap">
+       <div class="article">
+          
+          <h1>MySQL学习笔记（4）——查询</h1>
+     
+        <div class="read-more clearfix">
+          <span class="date">2016/1/23</span>
+
+          <span>posted in&nbsp;</span> 
+          
+              <span class="posted-in"><a href='%E6%95%B0%E6%8D%AE%E5%BA%93.html'>数据库</a></span>
+           
+         
+          <span class="comments">
+            
+
+            
+          </span>
+
+        </div>
+      </div><!-- article -->
+
+      <div class="article-content">
+      <p>为什么要存储数据呢？当然是为了查询啦~~~嘿嘿，小小无聊一下。。。接下来进入正题——查询的各种方法</p>
+
+<p>where条件查询</p>
+
+<p>条件查询的适用范围比较广，更新，删除都用到了where条件查询，只需要在where之后添加要查询的条件即可。</p>
+
+<p>group by语句对查询结果进行分组</p>
+
+<p>group by {字段名|字段位置}[asc|desc]<br/>
+该语句是对查询结果进行分组，分组完成之后也可以进行排序，asc是升序（默认），desc是降序，可以按照多个字段作为分组条件，字段之间以逗号分隔。</p>
+
+<p>字段位置是select 语句中查询字段所在的位置（从1开始），并不是表中字段所在的位置，不建议这么做。</p>
+
+<p>group by语句有时也需要对分组进行条件确定，这时候配合使用having语句，在having之后设置分组条件，从而确定要进行分组的都有那些数据。</p>
+
+<p>group by {字段名|字段位置} [asc|desc] having 分组条件<br/>
+having语句进行条件选择的时候，只有两种情况，一种是条件涉及到的字段出现在select语句中（即是查询的字段之一），另一种是聚合函数（比如sum(),count()等等，这些函数之所以称为聚合函数，是因为它们永远只有一个返回值）。如果不是这两种情况，查询条件就要使用where条件查询。</p>
+
+<p>order by 语句</p>
+
+<p>order by {字段名|字段位置} [asc|desc]<br/>
+asc是默认的升序，desc是降序。也可以根据多个字段进行排序，进行排序时，先看前面的字段，前面相同再继续往下判断。</p>
+
+<p>limit限制</p>
+
+<p>limit限制查询结果返回的数量，一般语法结构为：</p>
+
+<p>select * from 表名 limit n<br/>
+select * from 表名 limit m,n<br/>
+Limit后面如果只有一个数字，即默认返回前n条数据，如果有两个数字(m,n)（数字之间以逗号分隔），则表示从第m条数据开始（从0开始计数，该计数是物理计数，和任何编号数据没有关系）,显示n条数据（包括第m条）。</p>
+
+<p>查询示例</p>
+
+<p>结合上述所学知识点进行小小的查询测试</p>
+
+<p>select username,age,sex<br/>
+from users<br/>
+group by age having sex is ‘男’<br/>
+order by age desc<br/>
+limit 5 ;<br/>
+子查询</p>
+
+<p>子查询是指嵌套在查询内部，以小括号括起来的完整的查询，子查询的外层查询可以是select,insert,update,delete,set或do都是可以的。</p>
+
+<p>子查询返回可以是一个标量，可以是一行，一列或者是一个子查询。</p>
+
+<p>由比较运算符引发的子查询</p>
+
+<p>比较运算符有：=,&gt;,&lt;,&gt;=,&lt;=,&lt;&gt;,!=,&lt;=&gt;...</p>
+
+<p>例如：查询价格在所有产品平均价格之上的产品名称和价格：</p>
+
+<p>select goods_name as 产品名称,goods_price as 产品价格<br/>
+from goods<br/>
+where goods_price &gt;=(<br/>
+select avg(goods_price) from goods);<br/>
+带有any,some,all修饰的比较运算符引发的子查询</p>
+
+<p>在子查询的返回结果中，有可能会有多个结果，而比较运算符只有确定和哪一个结果进行比较才可以正常运算，这时候就要用到any任何一个，some也是任何一个，all符合全部来进行修饰比较运算符。</p>
+
+<p>例如：查询产品价格比任何一个超极本电脑价格都贵的产品名称和价格:</p>
+
+<p>select goods_name as 产品名称,goods_price as 价格<br/>
+from goods<br/>
+where goods_price &gt; any(<br/>
+select goods_price from goods where goods_cate = &#39;超级本&#39;);<br/>
+由[not] in/exists引发的子查询</p>
+
+<p>In 和 not in代表是否在子查询的结果里面，exists 和 not exists代表查询数据是否存在，如果存在，则返回true，不存在返回false</p>
+
+<p>表的连接</p>
+
+<p>一张表不可能存储所有的数据，在读取表内容的时候，我们需要根据一张表读取另一张表的内容，就用到了表的连接</p>
+
+<p>使用on关键字来设定连接条件，where关键字进行结果集记录的过滤</p>
+
+<p>内连接：inner join，仅显示符合连接条件的记录</p>
+
+<p>左外连接：left join，显示左表中的全部和右表中的符合条件的数据，如果左表中数据在右表中没有符合条件的字段，则显示为null</p>
+
+<p>右外链接：right join，和左外连接相反</p>
+
+<p>无限级分类的表设计</p>
+
+<p>其实也是很简单的，表结构中除了原有的id,name等字段之外，再添加一个字段，那就是该分类的父类id。例如：</p>
+
+<p>CREATE TABLE tdb_goods_types(<br/>
+     type_id   SMALLINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,<br/>
+     type_name VARCHAR(20) NOT NULL,<br/>
+     parent_id SMALLINT UNSIGNED NOT NULL DEFAULT 0<br/>
+  );<br/>
+自身连接进行无限级分类的查找，找出每一个分类的自身id，自身名称，父类名称，这里将一张表想象成两张表进行左外连接（为什么选用左外连接呢？因为顶级分类是没有父级分类的，但是我们不能够不查询出来，所以采用左外连接，将子表设为左表）</p>
+
+<p>Select s.type_id as 自身id,s.type_name as 自身名称,p.type_name as 父类名称<br/>
+From tdb_goods_types as s left join tdb_goods_types as p on s.parent_id = p.type_id;</p>
+
+
+    
+
+      </div>
+
+      <div class="row">
+        <div class="large-6 columns">
+        <p class="text-left" style="padding:15px 0px;">
+      
+          <a href="14857039168906.html" 
+          title="Previous Post: MySQL学习笔记（5）——函数">&laquo; MySQL学习笔记（5）——函数</a>
+      
+        </p>
+        </div>
+        <div class="large-6 columns">
+      <p class="text-right" style="padding:15px 0px;">
+      
+          <a  href="14857038593747.html" 
+          title="Next Post: MySQL学习笔记（3）——修改数据表及写数据">MySQL学习笔记（3）——修改数据表及写数据 &raquo;</a>
+      
+      </p>
+        </div>
+      </div>
+      <div class="comments-wrap">
+        <div class="share-comments">
+          
+
+          
+
+          
+        </div>
+      </div>
+    </div><!-- article-wrap -->
+  </div><!-- large 8 -->
+
+
+
+
+ <div class="large-4 medium-4 columns">
+  <div class="hide-for-small">
+    <div id="sidebar" class="sidebar">
+          <div id="site-info" class="site-info">
+            
+                <h1>挂在树上的兔子</h1>
+                <div class="site-des"></div>
+                <div class="social">
+
+
+
+
+
+
+
+
+
+
+
+  <a target="_blank" class="rss" href="atom.xml" title="RSS">RSS</a>
+                
+              	 </div>
+          	</div>
+
+             
+
+              <div id="site-categories" class="side-item ">
+                <div class="side-header">
+                  <h2>Categories</h2>
+                </div>
+                <div class="side-content">
+
+      	<p class="cat-list">
+        
+            <a href="%E6%95%B0%E6%8D%AE%E5%BA%93.html"><strong>数据库</strong></a>
+        
+            <a href="Python.html"><strong>Python</strong></a>
+        
+            <a href="%E9%9A%8F%E6%83%B3.html"><strong>随想</strong></a>
+        
+            <a href="%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84&%E7%AE%97%E6%B3%95.html"><strong>数据结构&算法</strong></a>
+        
+            <a href="PHP.html"><strong>PHP</strong></a>
+        
+            <a href="Ubuntu.html"><strong>Ubuntu</strong></a>
+         
+        </p>
+
+
+                </div>
+              </div>
+
+              <div id="site-categories" class="side-item">
+                <div class="side-header">
+                  <h2>Recent Posts</h2>
+                </div>
+                <div class="side-content">
+                <ul class="posts-list">
+	      
+		      
+			      <li class="post">
+			        <a href="14830907697555.html">MySQL数据库☞数据库编码</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="14830842110487.html">MySQL数据库☞中文乱码问题</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="14819928857822.html">MySQL的基本命令☞数据表的基本管理</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="14745361920074.html">python容器数据类型☞collections</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="14724629382123.html">python对列表进行操作</a>
+			      </li>
+		     
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		   
+		  		</ul>
+                </div>
+              </div>
+        </div><!-- sidebar -->
+      </div><!-- hide for small -->
+</div><!-- large 4 -->
+
+</div><!-- row -->
+
+ <div class="page-bottom clearfix">
+  <div class="row">
+   <p class="copyright">Copyright &copy; 2015
+Powered by <a target="_blank" href="http://www.mweb.im">MWeb</a>,&nbsp; 
+Theme used <a target="_blank" href="http://github.com">GitHub CSS</a>.</p>
+  </div>
+</div>
+
+        </section>
+      </div>
+    </div>
+
+  
+    
+
+    <script src="asset/js/foundation.min.js"></script>
+    <script>
+      $(document).foundation();
+      function fixSidebarHeight(){
+        var w1 = $('.markdown-body').height();
+          var w2 = $('#sidebar').height();
+          if (w1 > w2) { $('#sidebar').height(w1); };
+      }
+      $(function(){
+        fixSidebarHeight();
+      })
+      $(window).load(function(){
+          fixSidebarHeight();
+      });
+     
+    </script>
+
+    <script src="asset/chart/all-min.js"></script><script type="text/javascript">$(function(){    var mwebii=0;    var mwebChartEleId = 'mweb-chart-ele-';    $('pre>code').each(function(){        mwebii++;        var eleiid = mwebChartEleId+mwebii;        if($(this).hasClass('language-sequence')){            var ele = $(this).addClass('nohighlight').parent();            $('<div id="'+eleiid+'"></div>').insertAfter(ele);            ele.hide();            var diagram = Diagram.parse($(this).text());            diagram.drawSVG(eleiid,{theme: 'simple'});        }else if($(this).hasClass('language-flow')){            var ele = $(this).addClass('nohighlight').parent();            $('<div id="'+eleiid+'"></div>').insertAfter(ele);            ele.hide();            var diagram = flowchart.parse($(this).text());            diagram.drawSVG(eleiid);        }    });});</script>
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script type="text/x-mathjax-config">MathJax.Hub.Config({TeX: { equationNumbers: { autoNumber: "AMS" } }});</script>
+
+
+  </body>
+</html>

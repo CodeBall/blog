@@ -1,0 +1,422 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+    
+  MySQL学习笔记（6）——存储过程 - 挂在树上的兔子
+  
+  </title>
+  
+  
+  <link href="atom.xml" rel="alternate" title="挂在树上的兔子" type="application/atom+xml">
+    <link rel="stylesheet" href="asset/css/foundation.min.css" />
+    <link rel="stylesheet" href="asset/css/docs.css" />
+    <script src="asset/js/vendor/modernizr.js"></script>
+    <script src="asset/js/vendor/jquery.js"></script>
+  <script src="asset/highlightjs/highlight.pack.js"></script>
+  <link href="asset/highlightjs/styles/github.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script>hljs.initHighlightingOnLoad();</script>
+<script type="text/javascript">
+  function before_search(){
+    var searchVal = 'site:blog.yanzl.net ' + document.getElementById('search_input').value;
+    document.getElementById('search_q').value = searchVal;
+    return true;
+  }
+</script>
+  </head>
+  <body class="antialiased hide-extras">
+    
+    <div class="marketing off-canvas-wrap" data-offcanvas>
+      <div class="inner-wrap">
+
+
+<nav class="top-bar docs-bar hide-for-small" data-topbar>
+
+
+  <section class="top-bar-section">
+  <div class="row">
+      <div style="position: relative;width:100%;"><div style="position: absolute; width:100%;">
+        <ul id="main-menu" class="left">
+        
+        <li id=""><a target="self" href="index.html">Home</a></li>
+        
+        <li id=""><a target="_self" href="archives.html">Archives</a></li>
+        
+        </ul>
+
+        <ul class="right" id="search-wrap">
+          <li>
+<form target="_blank" onsubmit="return before_search();" action="http://google.com/search" method="get">
+    <input type="hidden" id="search_q" name="q" value="" />
+    <input tabindex="1" type="search" id="search_input"  placeholder="Search"/>
+</form>
+</li>
+          </ul>
+      </div></div>
+  </div>
+  </section>
+
+</nav>
+
+        <nav class="tab-bar show-for-small">
+  <a href="javascript:void(0)" class="left-off-canvas-toggle menu-icon">
+    <span> &nbsp; 挂在树上的兔子</span>
+  </a>
+</nav>
+
+<aside class="left-off-canvas-menu">
+      <ul class="off-canvas-list">
+       
+       <li><a href="index.html">HOME</a></li>
+    <li><a href="archives.html">Archives</a></li>
+    <li><a href="about.html">ABOUT</a></li>
+
+    <li><label>Categories</label></li>
+
+        
+            <li><a href="%E6%95%B0%E6%8D%AE%E5%BA%93.html">数据库</a></li>
+        
+            <li><a href="Python.html">Python</a></li>
+        
+            <li><a href="%E9%9A%8F%E6%83%B3.html">随想</a></li>
+        
+            <li><a href="%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84&%E7%AE%97%E6%B3%95.html">数据结构&算法</a></li>
+        
+            <li><a href="PHP.html">PHP</a></li>
+        
+            <li><a href="Ubuntu.html">Ubuntu</a></li>
+         
+
+      </ul>
+    </aside>
+
+<a class="exit-off-canvas" href="#"></a>
+
+
+        <section id="main-content" role="main" class="scroll-container">
+        
+       
+
+ <script type="text/javascript">
+  $(function(){
+    $('#menu_item_index').addClass('is_active');
+  });
+</script>
+<div class="row">
+  <div class="large-8 medium-8 columns">
+      <div class="markdown-body article-wrap">
+       <div class="article">
+          
+          <h1>MySQL学习笔记（6）——存储过程</h1>
+     
+        <div class="read-more clearfix">
+          <span class="date">2016/1/25</span>
+
+          <span>posted in&nbsp;</span> 
+          
+              <span class="posted-in"><a href='%E6%95%B0%E6%8D%AE%E5%BA%93.html'>数据库</a></span>
+           
+         
+          <span class="comments">
+            
+
+            
+          </span>
+
+        </div>
+      </div><!-- article -->
+
+      <div class="article-content">
+      <p>MySQL命令的执行流程</p>
+
+<p>对于我们输入的sql命令，MySQL引擎会先进行语法分析，确定语法正确之后对sql命令进行编译，编译成可识别的命令，然后才执行语句，并将执行的结果返回给客户端。</p>
+
+<p>存储过程的定义</p>
+
+<p>存储过程是sql语句和控制语句的预编译集合，以一个名称存储并作为一个存储单元处理，存储过程存储在数据库内，可以由应用程序调用执行，允许用户声明变量以及进行流程控制。</p>
+
+<p>存储过程可以接收输入类型的参数，也可以接收输出类型的参数，并且可以存在多个返回值。</p>
+
+<p>存储过程是预编译的，当第一次调用的时候，MySQL引擎会对其进行语法分析，编译等操作，并把结果存储在内存中。之后再调用，就直接从内存中执行。</p>
+
+<p>存储过程的优点</p>
+
+<p>增强sql语句的功能和灵活性：因为可以写控制语句，所以存储过程可以完成复杂的判断以及较复杂的运算</p>
+
+<p>实现了较快的执行速度</p>
+
+<p>减少网络流量：由原来的传递一整条语句到之后的传递参数，传递的字符量变小了。</p>
+
+<p>存储过程语法结构</p>
+
+<p>create <br/>
+[definer = {当前用户|创建该存储过程的用户}]//如果不写则默认为当前用户<br/>
+procedure 存储过程名称(参数，可以有0个到多个)<br/>
+过程体<br/>
+存储过程参数有3个写法，in代表这个参数的值必须是在调用存储过程时指定，存储过程中，该值不能被返回。out代表该参数的值可以被存储过程中的代码改变，可以返回。Inout表示在调用存储过程时指定，可以被改变和返回.</p>
+
+<p>调用存储过程</p>
+
+<p>Call 存储过程名</p>
+
+<p>Call 存储过程名(参数)</p>
+
+<p>修改存储过程</p>
+
+<p>修改存储过程只能修改注释，内容的类型，不能够修改过程体，如果想修改过程体，则只能删除重建存储过程。</p>
+
+<p>删除存储过程</p>
+
+<p>delete procedure 存储过程名<br/>
+创建不带参数的存储过程</p>
+
+<p>创建存储过程，获取当前MySQL版本</p>
+
+<p>create procedure sp1()select version();<br/>
+创建带有in类型参数的存储过程</p>
+
+<p>创建存储过程，用于删除特定的记录</p>
+
+<p>如果存储体中有多条语句，则记得修改终止符：delimiter //，写完之后再修改回来</p>
+
+<p>特别注意：参数名称和字段名称不要相同，否则会引起歧义而错删数据。</p>
+
+<p>create procedure removeUserById(in id int unsigned)<br/>
+begin<br/>
+delete from tdb_goods where goods_id = id;<br/>
+end//<br/>
+创建带有in类型和out类型的存储过程</p>
+
+<p>删除固定的记录，返回剩余的记录</p>
+
+<p>create procedure removeUserAndRetuen(in p_id int unsigned,out username int unsigned)<br/>
+begin<br/>
+delete from tdb_goods where goods_id = pid;<br/>
+select count(goods_id) from tdb_goods into username;<br/>
+end//<br/>
+在调用该存储方法的时候，因为有一个返回值，所以要使用变量存储，MySQL中声明变量的方法为@符号加变量名，该变量是用户变量，跟MySQL客户端绑定，只对当前用户所使用的客户端。如下所示：</p>
+
+<p>call removeUserAndRetuen(2,@nums);<br/>
+select @nums;<br/>
+创建带有多个out类型参数的存储过程</p>
+
+<p>根据价格进行删除，然后返回删除的数据个数和剩余的数据个数</p>
+
+<p>delimiter //<br/>
+create procedure deleteUserByMoney(in money int,out deleteNum int,out nums int)<br/>
+begin<br/>
+delete from tdb_goods where goods_price = money;<br/>
+select row_count() into deleteNum;<br/>
+select count(goods_id) from tdb_goods into nums;<br/>
+end//<br/>
+delimiter ;<br/>
+row_count()函数</p>
+
+<p>该函数是用来返回受影响的记录总数</p>
+
+
+    
+
+      </div>
+
+      <div class="row">
+        <div class="large-6 columns">
+        <p class="text-left" style="padding:15px 0px;">
+      
+          <a href="14857040510109.html" 
+          title="Previous Post: MySQL学习笔记（7）——存储引擎">&laquo; MySQL学习笔记（7）——存储引擎</a>
+      
+        </p>
+        </div>
+        <div class="large-6 columns">
+      <p class="text-right" style="padding:15px 0px;">
+      
+          <a  href="14857039168906.html" 
+          title="Next Post: MySQL学习笔记（5）——函数">MySQL学习笔记（5）——函数 &raquo;</a>
+      
+      </p>
+        </div>
+      </div>
+      <div class="comments-wrap">
+        <div class="share-comments">
+          
+
+          
+
+          
+        </div>
+      </div>
+    </div><!-- article-wrap -->
+  </div><!-- large 8 -->
+
+
+
+
+ <div class="large-4 medium-4 columns">
+  <div class="hide-for-small">
+    <div id="sidebar" class="sidebar">
+          <div id="site-info" class="site-info">
+            
+                <h1>挂在树上的兔子</h1>
+                <div class="site-des"></div>
+                <div class="social">
+
+
+
+
+
+
+
+
+
+
+
+  <a target="_blank" class="rss" href="atom.xml" title="RSS">RSS</a>
+                
+              	 </div>
+          	</div>
+
+             
+
+              <div id="site-categories" class="side-item ">
+                <div class="side-header">
+                  <h2>Categories</h2>
+                </div>
+                <div class="side-content">
+
+      	<p class="cat-list">
+        
+            <a href="%E6%95%B0%E6%8D%AE%E5%BA%93.html"><strong>数据库</strong></a>
+        
+            <a href="Python.html"><strong>Python</strong></a>
+        
+            <a href="%E9%9A%8F%E6%83%B3.html"><strong>随想</strong></a>
+        
+            <a href="%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84&%E7%AE%97%E6%B3%95.html"><strong>数据结构&算法</strong></a>
+        
+            <a href="PHP.html"><strong>PHP</strong></a>
+        
+            <a href="Ubuntu.html"><strong>Ubuntu</strong></a>
+         
+        </p>
+
+
+                </div>
+              </div>
+
+              <div id="site-categories" class="side-item">
+                <div class="side-header">
+                  <h2>Recent Posts</h2>
+                </div>
+                <div class="side-content">
+                <ul class="posts-list">
+	      
+		      
+			      <li class="post">
+			        <a href="14830907697555.html">MySQL数据库☞数据库编码</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="14830842110487.html">MySQL数据库☞中文乱码问题</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="14819928857822.html">MySQL的基本命令☞数据表的基本管理</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="14745361920074.html">python容器数据类型☞collections</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="14724629382123.html">python对列表进行操作</a>
+			      </li>
+		     
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		   
+		  		</ul>
+                </div>
+              </div>
+        </div><!-- sidebar -->
+      </div><!-- hide for small -->
+</div><!-- large 4 -->
+
+</div><!-- row -->
+
+ <div class="page-bottom clearfix">
+  <div class="row">
+   <p class="copyright">Copyright &copy; 2015
+Powered by <a target="_blank" href="http://www.mweb.im">MWeb</a>,&nbsp; 
+Theme used <a target="_blank" href="http://github.com">GitHub CSS</a>.</p>
+  </div>
+</div>
+
+        </section>
+      </div>
+    </div>
+
+  
+    
+
+    <script src="asset/js/foundation.min.js"></script>
+    <script>
+      $(document).foundation();
+      function fixSidebarHeight(){
+        var w1 = $('.markdown-body').height();
+          var w2 = $('#sidebar').height();
+          if (w1 > w2) { $('#sidebar').height(w1); };
+      }
+      $(function(){
+        fixSidebarHeight();
+      })
+      $(window).load(function(){
+          fixSidebarHeight();
+      });
+     
+    </script>
+
+    <script src="asset/chart/all-min.js"></script><script type="text/javascript">$(function(){    var mwebii=0;    var mwebChartEleId = 'mweb-chart-ele-';    $('pre>code').each(function(){        mwebii++;        var eleiid = mwebChartEleId+mwebii;        if($(this).hasClass('language-sequence')){            var ele = $(this).addClass('nohighlight').parent();            $('<div id="'+eleiid+'"></div>').insertAfter(ele);            ele.hide();            var diagram = Diagram.parse($(this).text());            diagram.drawSVG(eleiid,{theme: 'simple'});        }else if($(this).hasClass('language-flow')){            var ele = $(this).addClass('nohighlight').parent();            $('<div id="'+eleiid+'"></div>').insertAfter(ele);            ele.hide();            var diagram = flowchart.parse($(this).text());            diagram.drawSVG(eleiid);        }    });});</script>
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script type="text/x-mathjax-config">MathJax.Hub.Config({TeX: { equationNumbers: { autoNumber: "AMS" } }});</script>
+
+
+  </body>
+</html>

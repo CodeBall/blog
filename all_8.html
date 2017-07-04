@@ -1,0 +1,891 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+    
+  挂在树上的兔子
+  
+  </title>
+  
+  
+  <link href="atom.xml" rel="alternate" title="挂在树上的兔子" type="application/atom+xml">
+    <link rel="stylesheet" href="asset/css/foundation.min.css" />
+    <link rel="stylesheet" href="asset/css/docs.css" />
+    <script src="asset/js/vendor/modernizr.js"></script>
+    <script src="asset/js/vendor/jquery.js"></script>
+  <script src="asset/highlightjs/highlight.pack.js"></script>
+  <link href="asset/highlightjs/styles/github.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script>hljs.initHighlightingOnLoad();</script>
+<script type="text/javascript">
+  function before_search(){
+    var searchVal = 'site:blog.yanzl.net ' + document.getElementById('search_input').value;
+    document.getElementById('search_q').value = searchVal;
+    return true;
+  }
+</script>
+  </head>
+  <body class="antialiased hide-extras">
+    
+    <div class="marketing off-canvas-wrap" data-offcanvas>
+      <div class="inner-wrap">
+
+
+<nav class="top-bar docs-bar hide-for-small" data-topbar>
+
+
+  <section class="top-bar-section">
+  <div class="row">
+      <div style="position: relative;width:100%;"><div style="position: absolute; width:100%;">
+        <ul id="main-menu" class="left">
+        
+        <li id=""><a target="self" href="index.html">Home</a></li>
+        
+        <li id=""><a target="_self" href="archives.html">Archives</a></li>
+        
+        </ul>
+
+        <ul class="right" id="search-wrap">
+          <li>
+<form target="_blank" onsubmit="return before_search();" action="http://google.com/search" method="get">
+    <input type="hidden" id="search_q" name="q" value="" />
+    <input tabindex="1" type="search" id="search_input"  placeholder="Search"/>
+</form>
+</li>
+          </ul>
+      </div></div>
+  </div>
+  </section>
+
+</nav>
+
+        <nav class="tab-bar show-for-small">
+  <a href="javascript:void(0)" class="left-off-canvas-toggle menu-icon">
+    <span> &nbsp; 挂在树上的兔子</span>
+  </a>
+</nav>
+
+<aside class="left-off-canvas-menu">
+      <ul class="off-canvas-list">
+       
+       <li><a href="index.html">HOME</a></li>
+    <li><a href="archives.html">Archives</a></li>
+    <li><a href="about.html">ABOUT</a></li>
+
+    <li><label>Categories</label></li>
+
+        
+            <li><a href="%E6%95%B0%E6%8D%AE%E5%BA%93.html">数据库</a></li>
+        
+            <li><a href="Python.html">Python</a></li>
+        
+            <li><a href="%E9%9A%8F%E6%83%B3.html">随想</a></li>
+        
+            <li><a href="%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84&%E7%AE%97%E6%B3%95.html">数据结构&算法</a></li>
+        
+            <li><a href="PHP.html">PHP</a></li>
+        
+            <li><a href="Ubuntu.html">Ubuntu</a></li>
+         
+
+      </ul>
+    </aside>
+
+<a class="exit-off-canvas" href="#"></a>
+
+
+        <section id="main-content" role="main" class="scroll-container">
+        
+       
+
+ <script type="text/javascript">
+	$(function(){
+		$('#menu_item_index').addClass('is_active');
+	});
+</script>
+<div class="row">
+	<div class="large-8 medium-8 columns">
+		<div class="markdown-body home-categories">
+		
+			<div class="article">
+                <a class="clearlink" href="14857054477051.html">
+                
+                  <h1>ubuntu文件基本操作命令（增删改查）</h1>
+                  <div class="a-content">
+                      
+                      <div class="a-content-text">
+                        
+                        	<p>创建删除文件及文件夹</p>
+
+<p>mkdir 目录名创建一个目录：格式：  mkdir  [选项]  DirName；</p>
+
+<p>命令中的［选项］一般有以下两种：</p>
+
+<p>-m    用于对新建目录设置存取权限，也可以用 chmod 命令进行设置。<br/>
+-p     需要时创建上层文件夹(或目录)，如果文件夹(或目录)已经存在，则不视为错误。<br/>
+示例：在/home/cc/下面创建以“it.dengchao.org”命名的文件夹，使用以下命令即可。</p>
+
+<p>mkdir /home/cc/it.dengchao.org</p>
+
+<p>rmdir 空目录名        删除一个空目录</p>
+
+<p>rm 文件名文件名      删除一个文件或多个文件。rm命令的一般形式为：</p>
+
+<p>　rm [选项] 文件…</p>
+
+<p>如果没有使用- r选项，则rm不会删除目录。</p>
+
+<p>该命令的各选项含义如下：</p>
+
+<ul>
+<li><p>f 忽略不存在的文件，从不给出提示。</p></li>
+<li><p>r 指示rm将参数中列出的全部目录和子目录均递归地删除。</p></li>
+<li><p>i 进行交互式删除。</p></li>
+</ul>
+
+<p>rm –rf 非空目录名     删除一个非空目录下的一切</p>
+
+<p>touch 文件名               创建一个空文件</p>
+
+<p>重命名文件夹</p>
+
+<p>执行格式： mv source destination</p>
+
+<p>Example: mv file1 file2 将文件 file1，更改文件名为 file2。 mv file1 dir1 将文件 file1，移到目录 dir1下，文件名仍为 file1。 mv dir1 dir2 若目录 dir2 存在，则将目录 dir1，及其所有文件和子目录，移到目录 dir2 下，新目录名称为 dir1。若目录 dir2 不存在，则将dir1，及其所有文件和子目录，更改为目录 dir2。</p>
+
+<p>复制命令（cp）</p>
+
+<p>该命令的功能是将给出的文件或目录拷贝到另一文件或目录中，就如同DOS下的copy命令一样，功能非常强大。 </p>
+
+<p>语法： cp [选项] 源文件或目录 目标文件或目录</p>
+
+<p>说明：该命令把指定的源文件复制到目标文件或把多个源文件复制到目标目录中。</p>
+
+<p>该命令的各选项含义如下：</p>
+
+<ul>
+<li><p>a 该选项通常在拷贝目录时使用。它保留链接、文件属性，并递归地拷贝目录，其作用等于dpR选项的组合。</p></li>
+<li><p>d 拷贝时保留链接。</p></li>
+<li><p>f 删除已经存在的目标文件而不提示。</p></li>
+<li><p>i 和f选项相反，在覆盖目标文件之前将给出提示要求用户确认。回答y时目标文件将被覆盖，是交互式拷贝。</p></li>
+<li><p>p 此时cp除复制源文件的内容外，还将把其修改时间和访问权限也复制到新文件中。</p></li>
+<li><p>r 若给出的源文件是一目录文件，此时cp将递归复制该目录下所有的子目录和文件。此时目标文件必须为一个目录名。</p></li>
+<li><p>l 不作拷贝，只是链接文件。</p></li>
+</ul>
+
+<p>示例：</p>
+
+<p>$ cp - i exam1.c /usr/wang/shiyan1.c </p>
+
+<p>该命令将文件exam1.c拷贝到/usr/wang 这个目录下，并改名为 shiyan1.c。若不希望重新命名，可以使用下面的命令：</p>
+
+<p>$ cp exam1.c /usr/ wang/</p>
+
+<p>$ cp - r /usr/xu/ /usr/liu/ 将/usr/xu目录中的所有文件及其子目录拷贝到目录/usr/liu中。</p>
+
+<p>重命名/移动命令（mv）</p>
+
+<p>用户可以使用mv命令来为文件或目录改名或将文件由一个目录移入另一个目录中。该命令如同DOS下的ren和move的组合。 </p>
+
+<p>语法：mv [选项] 源文件或目录 目标文件或目录</p>
+
+<p>说明：视mv命令中第二个参数类型的不同（是目标文件还是目标目录），mv命令将文件重 命名或将其移至一个新的目录中。当第二个参数类型是文件时，mv命令完成文件重命名，此时，源文件只能有一个（也可以是源目录名），它将所给的源文件或目 录重命名为给定的目标文件名。当第二个参数是已存在的目录名称时，源文件或目录参数可以有多个，mv命令将各参数指定的源文件均移至目标目录中。在跨文件 系统移动文件时，mv先拷贝，再将原有文件删除，而链至该文件的链接也将丢失。</p>
+
+<p>命令中各选项的含义为：</p>
+
+<ul>
+<li><p>I 交互方式操作。如果mv操作将导致对已存在的目标文件的覆盖，此时系统询问是否重写，要求用户回答y或n，这样可以避免误覆盖文件。</p></li>
+<li><p>f 禁止交互操作。在mv操作要覆盖某已有的目标文件时不给任何指示，指定此选项后，i选项将不再起作用。</p></li>
+</ul>
+
+<p>如果所给目标文件（不是目录）已存在，此时该文件的内容将被新文件覆盖。为防止用户在不经意的情况下用mv命令破坏另一个文件，建议用户在使用mv命令移动文件时，最好使用i选项。</p>
+
+<p>需要注意的是，mv与cp的结果不同。mv好象文件“搬家”，文件个数并末增加，而cp对文件进行复制，文件个数增加了。</p>
+
+<p>例1：将/usr/xu中的所有文件移到当前目录（用“.”表示）中：</p>
+
+<p>$ mv /usr/xu/ * .</p>
+
+<p>例2：将文件wch.txt重命名为wjz.doc</p>
+
+<p>$ mv wch.txt wjz.doc</p>
+
+                        
+                      </div>
+                  </div>
+                </a>
+                <div class="read-more clearfix">
+                  <div class="more-left left">
+                  
+                    <span class="date">2015/8/2</span>
+                    <span>posted in&nbsp;</span> 
+          				  
+          					    <span class="posted-in"><a href='Ubuntu.html'>Ubuntu</a></span>
+          				   
+                  </div>
+                  <div class="more-right right">
+                  <span class="comments">
+                      
+
+                       
+                  </span>
+                  </div>
+                </div>
+              </div><!-- article -->
+        
+			<div class="article">
+                <a class="clearlink" href="14857052652778.html">
+                
+                  <h1>ThinkPHP 数据库增删改查</h1>
+                  <div class="a-content">
+                      
+                      <div class="a-content-text">
+                        
+                        	<p>thinkphp框架对于快速开发来说,是一个比较简单而且好用的框架,这里面集成了很多函数可以使用,这篇文章主要是整理一下thinkphp框架中操作MySQL的函数.</p>
+
+<p>连接数据表并获取数据的总数</p>
+
+<p>$count = M(&#39;buys&#39;)-&gt;count();<br/>
+根据数据总数目进行分页处理</p>
+
+<p>\(page = new Page(\)count,10);//总数为$count,按照每页10条数据进行处理</p>
+
+<p>\(limit = \)page-&gt;firstRow.&#39;,&#39;.$page-&gt;listRows;//确定每一页首行和尾行<br/>
+按照某一个规则查询数据</p>
+
+<p>\(buy_book=M(&#39;buys&#39;)-&gt;order(&#39;user_id DESC&#39;)-&gt;limit(\)limit)-&gt;select();//首先按照user_id递减的顺序,然后按照每页显示的数目来查询数据.<br/>
+M(&#39;wish&#39;)-&gt;where(array(&#39;id&#39;=&gt;$id))-&gt;select();//按照id来进行选择数据<br/>
+删除数据</p>
+
+<p>public function delete()<br/>
+    {<br/>
+        //接受要删除的数据的id<br/>
+        \(id = I(&#39;book_id&#39;);<br/>
+        //where寻找到该id的数据,如果找不到则报错;找到之后调用delete()方法执行删除操作,删除成功后会返回删除数据的id<br/>
+        if(M(&#39;books&#39;)-&gt;where(array(&#39;book_id&#39;=&gt;\)id))-&gt;delete())<br/>
+        {<br/>
+            \(this-&gt;success(&#39;删除成功&#39;,U(&#39;Admin/Book/index&#39;));<br/>
+        }<br/>
+        else{<br/>
+            \)this-&gt;error(&#39;删除失败&#39;);<br/>
+        }<br/>
+    }<br/>
+新增数据</p>
+
+<p>//将接收到的数据数组化处理<br/>
+\(buy[&#39;buy_id&#39;] = I(&#39;user_id&#39;);<br/>
+\)buy[&#39;book_name&#39;] = I(&#39;book_id&#39;);<br/>
+\(buy[&#39;book_price&#39;] = I(&#39;book_price&#39;);<br/>
+//连接数据库,将数据添加进去,添加成功之后,就会返回添加的编号<br/>
+\)panduan = M(&#39;buys&#39;)-&gt;add($buy)<br/>
+修改数据</p>
+
+<p>首先要获取需要修改的数据的id,然后将该参数传递到修改页面,重新添加修改之后的信息,将这些信息传递到后台,然后执行更新操作</p>
+
+<pre><code>public function replace(){
+    //获取到需要修改的数据的id
+    $this-&gt;id = I(&#39;book_id&#39;);
+    //调用模板文件
+    $this-&gt;display(&#39;replace&#39;);
+}
+public function replace2(){
+    //将更新的信息实例化
+    $book_xx[&#39;book_id&#39;] = I(&#39;book_id&#39;);
+    $book_xx[&#39;book_name&#39;]=I(&#39;book_name&#39;);
+    $book_xx[&#39;book_auther&#39;]=I(&#39;book_auther&#39;);
+    $book_xx[&#39;book_pub&#39;]=I(&#39;book_pub&#39;);
+    $book_xx[&#39;book_termid&#39;]=I(&#39;book_termid&#39;);
+    $book_xx[&#39;book_price&#39;]=I(&#39;book_price&#39;);
+    $book_xx[&#39;book_info&#39;]=I(&#39;book_info&#39;);
+    $book_xx[&#39;book_grade&#39;]=I(&#39;book_grade&#39;);
+    //通过传递过来的参数id找到该数据,执行save()更新方法
+    if(M(&#39;books&#39;)-&gt;where(array(&#39;book_id&#39;=&gt;$book_xx[&#39;book_id&#39;]))-&gt;save($book_xx)){
+        $this-&gt;success(&#39;书籍信息更新成功&#39;,U(&#39;Admin/Book/index&#39;));
+    }
+    else
+    {
+        $this-&gt;error(&#39;书籍信息更新失败,没有找到要修改数据的id&#39;);
+    }
+}
+</code></pre>
+
+<p>新增和修改比较</p>
+
+<p>新增是在没有的基础上增加新的数据,不需要在数据库中查找信息,调用的是add()方法</p>
+
+<p>修改是在原来已经有数据的基础上进行修改,所以传递的所有信息有包含了不变的id,即保证id不能够被修改。</p>
+
+                        
+                      </div>
+                  </div>
+                </a>
+                <div class="read-more clearfix">
+                  <div class="more-left left">
+                  
+                    <span class="date">2015/7/15</span>
+                    <span>posted in&nbsp;</span> 
+          				  
+          					    <span class="posted-in"><a href='PHP.html'>PHP</a></span>
+          				   
+                  </div>
+                  <div class="more-right right">
+                  <span class="comments">
+                      
+
+                       
+                  </span>
+                  </div>
+                </div>
+              </div><!-- article -->
+        
+			<div class="article">
+                <a class="clearlink" href="14857052295461.html">
+                
+                  <h1>php实现后台登陆功能</h1>
+                  <div class="a-content">
+                      
+                      <div class="a-content-text">
+                        
+                        	<p>最近想借助thinkphp框架写一个关于图书管理的小项目，经过一天对整个项目进行整体的规划之后决定先写后台。</p>
+
+<p>今天用php写了关于后台登陆功能，其中主要涉及到了从前端接收数据，在后台判断用户名和密码是否正确，刷新后台的时候自动判断用户是否已经登陆以及退出功能。</p>
+
+<p>接受数据用的I方法</p>
+
+<p>I方法值input（输入），用于更加方便和安全的获取系统输入的变量，用法格式为:</p>
+
+<p>I(&#39;变量类型.变量名&#39;,[&#39;默认值&#39;],[&#39;过滤方法&#39;])</p>
+
+<p>变量类型指post，get等请求方式或者输入类型，变量类型不区分大小写</p>
+
+<p>默认值和过滤方法属于可选参数，如果写过滤方法，就一定要写默认值，可以为空。</p>
+
+<p>I方法支持获取整个变量类型，比如：I(&#39;get&#39;);//获取整个get数组内容。</p>
+
+<p>I方法中param是特殊的，它可以自动判断当前请求类型的变量获取方式，比如：I(&#39;param.id&#39;);等同于：I(&#39;id&#39;);</p>
+
+<p>所以，可以使用I方法获取从前端传输进来的数据：</p>
+
+<p>\(username = I(&#39;username&#39;);<br/>
+ \)pas = I(&#39;password&#39;);<br/>
+用户信息验证</p>
+
+<p>提取到用户登录数据之后，在数据库中查找用户信息，看用户名和密码是否匹配。</p>
+
+<p>\(user = M(&#39;users&#39;)-&gt;where(array(&#39;user_name&#39;=&gt;\)username))-&gt;find();<br/>
+        if(!\(user || \)user[&#39;user_password&#39;]!=$pas)<br/>
+        {<br/>
+            echo &quot;用户名或密码错误&quot;;<br/>
+        }<br/>
+往session中写入数据</p>
+
+<p>在经过用户验证成功之后，就需要把用户信息写入session中，以减少客户端访问数据库的频率。</p>
+
+<p>Session 的工作机制是：为每个访客创建一个唯一的 id (UID)，并基于这个 UID 来存储变量。UID 存储在 cookie 中，或者通过 URL 进行传导。</p>
+
+<p>//往session中写入数据<br/>
+        session(&#39;uid&#39;,\(user[&#39;user_id&#39;]);<br/>
+        session(&#39;username&#39;,\)user[&#39;user_name&#39;]);<br/>
+        session(&#39;userpwd&#39;,$user[&#39;user_password&#39;]);<br/>
+从登录页面跳转到后台首页面</p>
+
+<p>$this-&gt;redirect(&#39;Admin/Index/index&#39;);<br/>
+判断用户是否登陆</p>
+
+<p>在刷新后台页面或者进入后台的一个页面的过程中，我们都要判断用户是否已经登陆，因为如果用户没有登陆，就只能访问前端而不能访问后台，所以判断用户是否登陆是所有后台都需要执行的功能，为了方便，我们可以在要进入该页面之前自动调用判断方法，那么就需要有一个公共的控制器，然后后台所有页面的控制器都继承这个公共的控制器。</p>
+
+<p>新建控制器名为：CommonAction.class.php，在该控制器中写一个可以自动调用的方法。如果用户没有登陆，那么自动跳转到后台登录页面。</p>
+
+<p>&lt;?php</p>
+
+<p>Class CommonAction extends Action{<br/>
+    public function <u>initialize(){<br/>
+        if(!isset($</u>SESSION[&#39;uid&#39;])||!isset(\(_SESSION[&#39;username&#39;])){<br/>
+            \)this-&gt;redirect(&#39;Admin/Login/index&#39;);<br/>
+        }<br/>
+    }<br/>
+}<br/>
+?&gt;<br/>
+退出登陆</p>
+
+<p>在检测是否已经登陆的时候，我们是检测session中有没有数据，如果要退出登陆的话，就直接清楚session中的所有数据就可以了。</p>
+
+<p>为后台首页退出按钮添加链接，即触发此事件之后就交由控制器的相应方法进行处理。</p>
+
+<p><a href="{:U('Admin/Login/logout')}" target="_self">退出</a><br/>
+清空session数据</p>
+
+<p>public function logout(){<br/>
+        session_unset();<br/>
+        session_destroy();<br/>
+        \(this-&gt;redirect(&#39;Admin/Login/index&#39;);<br/>
+    }<br/>
+//session_unset()释放当前在内存中已经创建的所有\)_SESSION变量，但不删除session文件以及不释放对应的session id</p>
+
+<p>// session_destroy()删除当前用户对应的session文件以及释放session id，内存中的$_SESSION变量内容依然保留,因此，释放用户的session所有资源</p>
+
+<p>在所有数据都清空之后，自动转到后台登录页面。</p>
+
+                        
+                      </div>
+                  </div>
+                </a>
+                <div class="read-more clearfix">
+                  <div class="more-left left">
+                  
+                    <span class="date">2015/7/9</span>
+                    <span>posted in&nbsp;</span> 
+          				  
+          					    <span class="posted-in"><a href='PHP.html'>PHP</a></span>
+          				   
+                  </div>
+                  <div class="more-right right">
+                  <span class="comments">
+                      
+
+                       
+                  </span>
+                  </div>
+                </div>
+              </div><!-- article -->
+        
+			<div class="article">
+                <a class="clearlink" href="14857051817013.html">
+                
+                  <h1>近日小感</h1>
+                  <div class="a-content">
+                      
+                      <div class="a-content-text">
+                        
+                        	<p>好久没有来网站发表文章了，这一段时间，接了一个做学生会网站的项目，现在正在恶补知识的阶段，我很清楚，以我现在的能力写出一个网站真的是很难的事情，我想抓住这次的机会，从学习网站开发到现在，我还没有写过一个项目，我学完了PHP，HTML，CSS，JavaScript，数据库操作，但是我清楚，基础知识归基础知识，没有实践学得再多也没有用，我一定要学会运用。最近一段时间，我在学习thinkphp框架，准备用这个框架写后台。</p>
+
+<p>其实，我很迷茫，学习这些，是出于兴趣，还是为了以后更好的生活，我甚至自己也分不清楚，我努力的想要学得更好，在别人眼里我是一名好学生，可是如果只为了好地生活而强迫自己学习又是多么的可悲；值得庆幸的是，我并不是完全没有兴趣，我喜欢敲代码，喜欢自己设计一些东西，但是，我深知，在我的身上，缺乏的就是创造力，思维能力。最近在读古典的《拆掉思维里的墙》，这给我很大的感触，我的这些致命的缺点，我所谓的那些“应该是”，把我紧紧的包围，让我无法冲破。我锻炼自己以发散的观念思考问题，可是这对于我一个小女生来说，似乎真的很难。这样说，大概也只是为了发发牢骚，我不是那种知难而退的人，我有着很强的上进心，总是迷茫，不知所措，我依然会坚持，也许冲出这片云雾，我就能够见到彩虹。</p>
+
+<p>对于这一行业，我有一定的兴趣，有时候，单单只有兴趣是不够的，我还需要能力，需要发现新事物的能力，需要独立思考的能力，在众多事情面前，我更需要比别人看得更长远的能力，在IT界，永远要走在别人的前面，它要引领大众，做别人的指明灯。</p>
+
+<p>告诉自己，如果兔子离开了地面，挂在了树上，它会看到很多之前看不到了事物，从迷茫，到熟练，这是一个过程，只有坚持，才能圆梦！！</p>
+
+                        
+                      </div>
+                  </div>
+                </a>
+                <div class="read-more clearfix">
+                  <div class="more-left left">
+                  
+                    <span class="date">2015/4/23</span>
+                    <span>posted in&nbsp;</span> 
+          				  
+          					    <span class="posted-in"><a href='%E9%9A%8F%E6%83%B3.html'>随想</a></span>
+          				   
+                  </div>
+                  <div class="more-right right">
+                  <span class="comments">
+                      
+
+                       
+                  </span>
+                  </div>
+                </div>
+              </div><!-- article -->
+        
+			<div class="article">
+                <a class="clearlink" href="14857051137850.html">
+                
+                  <h1>PHP与MySQL（下篇）</h1>
+                  <div class="a-content">
+                      
+                      <div class="a-content-text">
+                        
+                        	<p>连接数据库</p>
+
+<p>对于用户的各种操作，都离不开数据库，所以在操作之前就要连接好数据库</p>
+
+<p>//定义几个常量<br/>
+define(&#39;MYSQL_HOST&#39;,&#39;localhost&#39;);<br/>
+define(&#39;MYSQL_USER&#39;,&#39;root&#39;);<br/>
+define(&#39;MYSQL_PW&#39;,&#39;&#39;);<br/>
+function connectDb()<br/>
+{<br/>
+    \(conn = mysql_connect(MYSQL_HOST,MYSQL_USER,MYSQL_PW);<br/>
+    mysql_select_db(&#39;myapp&#39;);<br/>
+    return \)conn;<br/>
+}</p>
+
+<p>新增用户</p>
+
+<p>在网页中，一般都是通过用户注册来实现用户的增加的，而注册的信息一般是通过表单进行提交，提交过之后交给PHP程序处理。</p>
+
+<p>注册页面</p>
+
+<div style="background-color: #00fafa;width: 400px;height: 400px;margin-top: 10px;margin-left: 500px">
+    <form action="adduser.php" method="post">
+        <br />
+        <div style="margin-left: 50px">
+            <h2>&nbsp;&nbsp;&nbsp;&nbsp;用户注册</h2>
+            用户名称：<input type="text" name = 'name'>
+        </div>
+
+<pre><code>    &lt;br /&gt;&lt;br /&gt;
+    &lt;div style=&quot;margin-left: 50px&quot;&gt;
+        设置密码：&lt;input type=&quot;password&quot; name=&quot;pas&quot;&gt;
+    &lt;/div&gt;
+    &lt;br /&gt;&lt;br /&gt;
+    &lt;div style=&quot;margin-left: 50px&quot;&gt;
+        确认密码：&lt;input type=&quot;password&quot; name = &quot;pass&quot;&gt;
+    &lt;/div&gt;
+    &lt;br /&gt;&lt;br /&gt;
+    &lt;div style=&quot;margin-left: 50px&quot;&gt;
+        用户年龄：&lt;input type=&quot;number&quot; name=&quot;age&quot;&gt;
+    &lt;/div&gt;
+    &lt;br /&gt;&lt;br /&gt;
+    &lt;div style=&quot;margin-left: 50px&quot;&gt;
+        用户学号：&lt;input type=&quot;text&quot; name=&quot;xuehao&quot;&gt;
+    &lt;/div&gt;
+    &lt;br /&gt;
+    &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;
+    &lt;input type=&quot;submit&quot; value=&quot;提交&quot;&gt;&amp;nbsp;
+    &amp;nbsp;&amp;nbsp;&amp;nbsp;
+    &lt;input type=&quot;reset&quot; value=&quot;重置&quot;&gt;
+&lt;/form&gt;
+</code></pre>
+
+<p></div><br/>
+在本示例中，通过post的方式进行提交数据到adduser.php文件，接下来就是该文件的处理</p>
+
+<p>if(\(_POST[&#39;pas&#39;] != \)_POST[&#39;pass&#39;])<br/>
+    echo&#39;密码不统一，<a href="adduser.html">点击这里重新填写</a>&#39;;<br/>
+else<br/>
+{<br/>
+    //将获得的数据分离出来进行赋值操作<br/>
+    \(name = \)_POST[&#39;name&#39;];<br/>
+    \(pas = \)_POST[&#39;pas&#39;];<br/>
+    \(pass = \)_POST[&#39;pass&#39;];<br/>
+    \(age = \)_POST[&#39;age&#39;];<br/>
+    \(xuehao = \)_POST[&#39;xuehao&#39;];<br/>
+    if(empty(\(name) || empty(\)pas) || empty(\(pass) || empty(\)age) || empty(\(xuehao))<br/>
+        echo&#39;信息不完整，&lt;a href=&quot;adduser.html&quot;&gt;点击这里重新填写&lt;/a&gt;&#39;;<br/>
+    else<br/>
+    {<br/>
+        require_once &#39;functions.php&#39;;<br/>
+        \)conn = connectDb();<br/>
+        //echo &quot;\(name &lt;br /&gt;&quot;;<br/>
+        if(\)conn)<br/>
+        {<br/>
+            \(age = intval(\)age);<br/>
+            //注意：name是一个字符串，应该将其引起来再传参数<br/>
+            mysql_query(&quot;INSERT INTO user(name,password,age,xuehao) VALUES (&#39;\(name&#39;,&#39;\)pas&#39;,\(age,&#39;\)xuehao&#39;)&quot;);<br/>
+            //如果需要插入多条数据，则写成以下形式，即value中再写一个小括号<br/>
+            // mysql_query(&quot;INSERT INTO user(name,password,age,xuehao) VALUES (\(name,\)pas,\(age,\)xuehao),($name1...)&quot;);<br/>
+            if(mysql_errno())//判断写入的时候有没有错误<br/>
+            {<br/>
+                echo mysql_error();//如果有错误就输出错误<br/>
+            }<br/>
+                else<br/>
+            header(&quot;Location:index.php&quot;);<br/>
+        }<br/>
+        else<br/>
+            die(&#39;can not connect db&#39;);<br/>
+    }<br/>
+}<br/>
+添加用户对数据库的操作语句为：</p>
+
+<p>mysql_query(&quot;INSERT INTO user(name,password,age,xuehao) VALUES (&#39;\(name&#39;,&#39;\)pas&#39;,\(age,&#39;\)xuehao&#39;)&quot;);<br/>
+修改用户数据</p>
+
+<p>要修改用户信息，一般是要获取用户原来的信息，然后将修改后的信息传到数据库</p>
+
+<p>获取原来信息并修改</p>
+
+<p>if(!empty(\(_GET[&#39;id&#39;]))<br/>
+{<br/>
+    \)conn = connectDb();//连接数据库<br/>
+    \(id = \)_GET[&#39;id&#39;];//获取要修改数据的id<br/>
+    //选择该id的数据<br/>
+    \(result = mysql_query(&quot;SELECT * FROM user WHERE ID = &#39;\)id&#39;&quot;);<br/>
+    if(mysql_errno())<br/>
+        echo mysql_error();<br/>
+    //将数据赋值给数组\(arr<br/>
+    \)arr = mysql_fetch_assoc(\(result);<br/>
+}<br/>
+else<br/>
+    die(&#39;id not define&#39;);<br/>
+?&gt;<br/>
+//用表单的形式显示数据并修改<br/>
+&lt;form action=&quot;adduser_change.php&quot; method=&quot;post&quot;&gt;<br/>
+    &lt;div&gt;<br/>
+       用户ＩＤ：&lt;input type=&quot;text&quot; name=&quot;id&quot; value=&quot;&lt;?php echo\)arr[&#39;ID&#39;];?&gt;&quot;&gt;<br/>
+    </div><br/>
+    <br /><br/>
+    <div><br/>
+        用户名称：<input type="text" name="name" value="<?php echo$arr['name'];?>&quot;&gt;<br/>
+    </div><br/>
+    <br /><br/>
+    <div><br/>
+        用户密码：<input type="password" name="pass" value="<?php echo$arr['password'];?>&quot;&gt;<br/>
+    </div><br/>
+    <br /><br/>
+    <div><br/>
+        用户年龄：<input type="number" name="age" value="<?php echo$arr['age'];?>&quot;&gt;<br/>
+    </div><br/>
+    <br /><br/>
+    <div><br/>
+        用户学号：<input type="text" name="xuehao" value="<?php echo$arr['xuehao'];?>&quot;&gt;<br/>
+    </div><br/>
+    <br /><br/>
+    <input type="submit" value="提交"><br/>
+</form><br/>
+将修改后得到的数据进行上传</p>
+
+<p>require_once&#39;functions.php&#39;;<br/>
+//调用函数，连接数据库<br/>
+\(conn = connectDb();<br/>
+//对于传过来的参数进行判断，如果没有填写完整，给出提示，退出程序的执行<br/>
+if(empty(\)_POST[&#39;id&#39;]) || empty(\(_POST[&#39;name&#39;]) || empty(\)_POST[&#39;pass&#39;]) || empty(\(_POST[&#39;age&#39;]) || empty(\)_POST[&#39;xuehao&#39;]))<br/>
+{<br/>
+    die (&quot;数据不完整!!&quot;);<br/>
+}<br/>
+else<br/>
+{<br/>
+    \(id = intval(\)_POST[&#39;id&#39;]);<br/>
+    \(name = \)_POST[&#39;name&#39;];<br/>
+    \(pass = \)_POST[&#39;pass&#39;];<br/>
+    \(age = intval(\)_POST[&#39;age&#39;]);<br/>
+    \(xuehao = \)_POST[&#39;xuehao&#39;];<br/>
+   if(\(conn)<br/>
+   {<br/>
+       mysql_query(&quot;UPDATE user SET name=&#39;\)name&#39;,password=&#39;\(pass&#39;,age=\)age,xuehao=&#39;\(xuehao&#39; WHERE id = \)id&quot;);<br/>
+       header(&quot;Location:index.php&quot;);//跳转至指定页面<br/>
+   }<br/>
+    else<br/>
+        echo &quot;can not connect db&quot;;<br/>
+}<br/>
+修改数据和数据库相关的语句</p>
+
+<p>mysql_query(&quot;UPDATE user SET name=&#39;\(name&#39;,password=&#39;\)pass&#39;,age=\(age,xuehao=&#39;\)xuehao&#39; WHERE id = $id&quot;);<br/>
+删除数据</p>
+
+<p>删除数据比较简单，只需要根据要删除的数据的id进行删除操作即可</p>
+
+<p>require_once &#39;functions.php&#39;;<br/>
+            if(!empty(\(_GET[&#39;id&#39;]))<br/>
+            {<br/>
+                \)conn = connectDb();<br/>
+                \(id = \)_GET[&#39;id&#39;];<br/>
+                mysql_query(&quot;DELETE FROM user WHERE id=$id&quot;);<br/>
+                if(mysql_errno())<br/>
+                    die(&#39;用户删除失败!!&#39;);<br/>
+                else<br/>
+                    header(&quot;Location:index.php&quot;);<br/>
+            }<br/>
+删除数据的数据库相应语句</p>
+
+<p>mysql_query(&quot;DELETE FROM user WHERE id=$id&quot;);</p>
+
+                        
+                      </div>
+                  </div>
+                </a>
+                <div class="read-more clearfix">
+                  <div class="more-left left">
+                  
+                    <span class="date">2015/3/30</span>
+                    <span>posted in&nbsp;</span> 
+          				  
+          					    <span class="posted-in"><a href='PHP.html'>PHP</a></span>
+          				   
+                  </div>
+                  <div class="more-right right">
+                  <span class="comments">
+                      
+
+                       
+                  </span>
+                  </div>
+                </div>
+              </div><!-- article -->
+        
+              
+
+
+			<div class="row">
+			  <div class="large-6 columns">
+			  <p class="text-left" style="padding-top:25px;">
+			   <a href="all_7.html">&laquo; Prev Page</a>  
+			  </p>
+			  </div>
+			  <div class="large-6 columns">
+			<p class="text-right" style="padding-top:25px;">
+			 <a href="all_9.html">&raquo; Next Page</a> 
+			</p>
+			  </div>
+			</div>
+		</div>
+	</div><!-- large 8 -->
+
+ <div class="large-4 medium-4 columns">
+  <div class="hide-for-small">
+    <div id="sidebar" class="sidebar">
+          <div id="site-info" class="site-info">
+            
+                <h1>挂在树上的兔子</h1>
+                <div class="site-des"></div>
+                <div class="social">
+
+
+
+
+
+
+
+
+
+
+
+  <a target="_blank" class="rss" href="atom.xml" title="RSS">RSS</a>
+                
+              	 </div>
+          	</div>
+
+             
+
+              <div id="site-categories" class="side-item ">
+                <div class="side-header">
+                  <h2>Categories</h2>
+                </div>
+                <div class="side-content">
+
+      	<p class="cat-list">
+        
+            <a href="%E6%95%B0%E6%8D%AE%E5%BA%93.html"><strong>数据库</strong></a>
+        
+            <a href="Python.html"><strong>Python</strong></a>
+        
+            <a href="%E9%9A%8F%E6%83%B3.html"><strong>随想</strong></a>
+        
+            <a href="%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84&%E7%AE%97%E6%B3%95.html"><strong>数据结构&算法</strong></a>
+        
+            <a href="PHP.html"><strong>PHP</strong></a>
+        
+            <a href="Ubuntu.html"><strong>Ubuntu</strong></a>
+         
+        </p>
+
+
+                </div>
+              </div>
+
+              <div id="site-categories" class="side-item">
+                <div class="side-header">
+                  <h2>Recent Posts</h2>
+                </div>
+                <div class="side-content">
+                <ul class="posts-list">
+	      
+		      
+			      <li class="post">
+			        <a href="14830907697555.html">MySQL数据库☞数据库编码</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="14830842110487.html">MySQL数据库☞中文乱码问题</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="14819928857822.html">MySQL的基本命令☞数据表的基本管理</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="14745361920074.html">python容器数据类型☞collections</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="14724629382123.html">python对列表进行操作</a>
+			      </li>
+		     
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		   
+		  		</ul>
+                </div>
+              </div>
+        </div><!-- sidebar -->
+      </div><!-- hide for small -->
+</div><!-- large 4 -->
+
+</div><!-- row -->
+
+ <div class="page-bottom clearfix">
+  <div class="row">
+   <p class="copyright">Copyright &copy; 2015
+Powered by <a target="_blank" href="http://www.mweb.im">MWeb</a>,&nbsp; 
+Theme used <a target="_blank" href="http://github.com">GitHub CSS</a>.</p>
+  </div>
+</div>
+
+        </section>
+      </div>
+    </div>
+
+  
+    
+
+    <script src="asset/js/foundation.min.js"></script>
+    <script>
+      $(document).foundation();
+      function fixSidebarHeight(){
+        var w1 = $('.markdown-body').height();
+          var w2 = $('#sidebar').height();
+          if (w1 > w2) { $('#sidebar').height(w1); };
+      }
+      $(function(){
+        fixSidebarHeight();
+      })
+      $(window).load(function(){
+          fixSidebarHeight();
+      });
+     
+    </script>
+
+    <script src="asset/chart/all-min.js"></script><script type="text/javascript">$(function(){    var mwebii=0;    var mwebChartEleId = 'mweb-chart-ele-';    $('pre>code').each(function(){        mwebii++;        var eleiid = mwebChartEleId+mwebii;        if($(this).hasClass('language-sequence')){            var ele = $(this).addClass('nohighlight').parent();            $('<div id="'+eleiid+'"></div>').insertAfter(ele);            ele.hide();            var diagram = Diagram.parse($(this).text());            diagram.drawSVG(eleiid,{theme: 'simple'});        }else if($(this).hasClass('language-flow')){            var ele = $(this).addClass('nohighlight').parent();            $('<div id="'+eleiid+'"></div>').insertAfter(ele);            ele.hide();            var diagram = flowchart.parse($(this).text());            diagram.drawSVG(eleiid);        }    });});</script>
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script type="text/x-mathjax-config">MathJax.Hub.Config({TeX: { equationNumbers: { autoNumber: "AMS" } }});</script>
+
+
+  </body>
+</html>

@@ -1,0 +1,829 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+    
+  挂在树上的兔子
+  
+  </title>
+  
+  
+  <link href="atom.xml" rel="alternate" title="挂在树上的兔子" type="application/atom+xml">
+    <link rel="stylesheet" href="asset/css/foundation.min.css" />
+    <link rel="stylesheet" href="asset/css/docs.css" />
+    <script src="asset/js/vendor/modernizr.js"></script>
+    <script src="asset/js/vendor/jquery.js"></script>
+  <script src="asset/highlightjs/highlight.pack.js"></script>
+  <link href="asset/highlightjs/styles/github.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script>hljs.initHighlightingOnLoad();</script>
+<script type="text/javascript">
+  function before_search(){
+    var searchVal = 'site:blog.yanzl.net ' + document.getElementById('search_input').value;
+    document.getElementById('search_q').value = searchVal;
+    return true;
+  }
+</script>
+  </head>
+  <body class="antialiased hide-extras">
+    
+    <div class="marketing off-canvas-wrap" data-offcanvas>
+      <div class="inner-wrap">
+
+
+<nav class="top-bar docs-bar hide-for-small" data-topbar>
+
+
+  <section class="top-bar-section">
+  <div class="row">
+      <div style="position: relative;width:100%;"><div style="position: absolute; width:100%;">
+        <ul id="main-menu" class="left">
+        
+        <li id=""><a target="self" href="index.html">Home</a></li>
+        
+        <li id=""><a target="_self" href="archives.html">Archives</a></li>
+        
+        </ul>
+
+        <ul class="right" id="search-wrap">
+          <li>
+<form target="_blank" onsubmit="return before_search();" action="http://google.com/search" method="get">
+    <input type="hidden" id="search_q" name="q" value="" />
+    <input tabindex="1" type="search" id="search_input"  placeholder="Search"/>
+</form>
+</li>
+          </ul>
+      </div></div>
+  </div>
+  </section>
+
+</nav>
+
+        <nav class="tab-bar show-for-small">
+  <a href="javascript:void(0)" class="left-off-canvas-toggle menu-icon">
+    <span> &nbsp; 挂在树上的兔子</span>
+  </a>
+</nav>
+
+<aside class="left-off-canvas-menu">
+      <ul class="off-canvas-list">
+       
+       <li><a href="index.html">HOME</a></li>
+    <li><a href="archives.html">Archives</a></li>
+    <li><a href="about.html">ABOUT</a></li>
+
+    <li><label>Categories</label></li>
+
+        
+            <li><a href="%E6%95%B0%E6%8D%AE%E5%BA%93.html">数据库</a></li>
+        
+            <li><a href="Python.html">Python</a></li>
+        
+            <li><a href="%E9%9A%8F%E6%83%B3.html">随想</a></li>
+        
+            <li><a href="%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84&%E7%AE%97%E6%B3%95.html">数据结构&算法</a></li>
+        
+            <li><a href="PHP.html">PHP</a></li>
+        
+            <li><a href="Ubuntu.html">Ubuntu</a></li>
+         
+
+      </ul>
+    </aside>
+
+<a class="exit-off-canvas" href="#"></a>
+
+
+        <section id="main-content" role="main" class="scroll-container">
+        
+       
+
+ <script type="text/javascript">
+	$(function(){
+		$('#menu_item_index').addClass('is_active');
+	});
+</script>
+<div class="row">
+	<div class="large-8 medium-8 columns">
+		<div class="markdown-body home-categories">
+		
+			<div class="article">
+                <a class="clearlink" href="14857042298405.html">
+                
+                  <h1>Ubuntu 修改apache默认目录</h1>
+                  <div class="a-content">
+                      
+                      <div class="a-content-text">
+                        
+                        	<p>Linux中运行程序会放在/var/www/目录下,但是我给该目录的空间比较小,所以采用软链接的方式在该目录下建立程序的链接.</p>
+
+<p>ln -s 程序所在目录 软链接所在目录<br/>
+ln -s /home/Project/abc /var/www/abc<br/>
+修改apache默认目录</p>
+
+<p>cd /etc/apache2/sites-enabled/<br/>
+vim 000-default.conf <br/>
+//修改000-default.conf文件中的DocumentRoot的值,更改为要修改的目录<br/>
+重启apache</p>
+
+<p>sudo /etc/init.d/apache2 restart</p>
+
+                        
+                      </div>
+                  </div>
+                </a>
+                <div class="read-more clearfix">
+                  <div class="more-left left">
+                  
+                    <span class="date">2016/1/31</span>
+                    <span>posted in&nbsp;</span> 
+          				  
+          					    <span class="posted-in"><a href='Ubuntu.html'>Ubuntu</a></span>
+          				   
+                  </div>
+                  <div class="more-right right">
+                  <span class="comments">
+                      
+
+                       
+                  </span>
+                  </div>
+                </div>
+              </div><!-- article -->
+        
+			<div class="article">
+                <a class="clearlink" href="14857041558957.html">
+                
+                  <h1>PHP与MySQL（总结篇）</h1>
+                  <div class="a-content">
+                      
+                      <div class="a-content-text">
+                        
+                        	<p>其实之前写过关于PHP中MySQL应用的总结，不过那是在使用thinkPHP框架写项目的时候总结的，当时还没有系统的学习数据库，还是很懵懂。现在想想当时写的总结，原来只是应用于thinkPHP中的MySQL函数，这次系统的学习PHP开发，才发现和MySQL直接交互的PHP操作并不是那些函数，。现在我就来做些总结吧。其实，只要掌握了要点，也没有多少内容。</p>
+
+<p>基本函数</p>
+
+<p>建立数据库连接：mysql_connect();该函数的参数有三个，主机地址，用户名，用户密码</p>
+
+<p>关闭数据库连接：mysql_close();该函数有一个参数，那就是来连接标识符</p>
+
+<p>其实，数据库连接是短暂性连接，用完之后会自己断开，可是为什么还需要关闭数据库连接函数呢？因为：存在必是合理。。。。</p>
+
+<p>选择使用的数据库：mysql_select_db();该函数的参数是要是用的数据库名</p>
+
+<p>执行sql语句：mysql_query();该函数的参数就是一个string类型的数据，是要执行的正确的sql语句。</p>
+
+<p>选择字符集：mysql_query(&quot;set names utf8&quot;);即选择utf8字符集。</p>
+
+<p>查看错误：mysql_error();该函数没有参数，一般就是在发现操作不成功的时候调用</p>
+
+<p>插入数据：mysql_query(sql插入语句);</p>
+
+<p>查看插入id：mysql_insert_id();用于插入操作之后，返回新插入的数据的id（必须得有自增id才可以哦），如果插入多条数据，则返回第一个插入的数据的id。此函数可以判断是否成功插入，因为如果不成功，id会为0哦。</p>
+
+<p>查看受影响的记录数目：mysql_affected_rows();传递的参数是连接标识符</p>
+
+<p>header(&quot;Content-type:text/html;charset=utf-8&quot;);<br/>
+//连接数据库<br/>
+if(\(con = mysql_connect(&quot;localhost&quot;,&#39;root&#39;,&#39;&#39;)) echo &quot;连接成功,返回true\n&quot;;<br/>
+else    echo &quot;连接失败，返回false\n&quot;;<br/>
+//选择数据库<br/>
+if(mysql_select_db(&#39;test&#39;)) echo &quot;数据库选择成功，返回true\n&quot;;<br/>
+else   echo &quot;数据库选择失败，返回false\n&quot;;<br/>
+//指定数据操作的编码<br/>
+mysql_query(&#39;set names utf8&#39;);<br/>
+//通过变量向数据库中插入数据<br/>
+\)name = &#39;Cate2&#39;;<br/>
+\(sql = &quot;insert into user(name) values(&#39;\)name&#39;)&quot;;//变量的单引号不能省略<br/>
+mysql_query(\(sql);<br/>
+\)re_id = mysql_insert_id();<br/>
+if( \(re_id == 0)<br/>
+    echo &quot;插入数据失败&quot;;<br/>
+else<br/>
+    echo &quot;插入数据成功，id为&quot;.\)re_id;<br/>
+//获取本次操作受影响的数据条数<br/>
+echo &quot;受影响的数据条数为：&quot;.mysql_affected_rows(\(con);<br/>
+if(mysql_close(\)con)) echo &quot;数据库关闭成功，返回true&quot;;<br/>
+else echo &quot;数据库关闭失败，返回false&quot;;<br/>
+数据查询</p>
+
+<p>查询语句：mysql_query(&quot;select 查询语句&quot;);该语句会返回一个资源句柄，可以通过该资源句柄获取到结果集中的数据</p>
+
+<p>获取数据的四种方法</p>
+
+<p>mysql_fetch_row()：该函数能够接收一个参数为资源标识符，标志着查询出来的结果所存放的位置，每执行一次，都会从结果集中依次取出一条数据，并以数组的形式返回出来，当所有的数据都取出来之后，再取数据的时候会返回空。返回的数组是一维索引数组，每一个下标与数据表中字段的位置相对应。</p>
+
+<p>Mysql_fetch_array():该函数的作用和mysql_fetch_row()是一样的，只不过该函数再返回的数据中除了有mysql_fetch_row()包含的数据外，还包含了一组关联数组，即字段名对应着字段值，这些数据以一维数组的形式展现。这个函数的好处就是可以根据字段名获取相应的字段值，而不需要知道每一个字段所在的位置，不过速度会很慢。该函数还有一个参数，该参数有3种形式：MYSQL_ASSOC只输出关联数组；MYSQL_NUM只输出数字索引数组；MYSQL_BOTH输出关联数组和索引数组，这也是默认状态。</p>
+
+<p>mysql_fetch_assoc()以关联数组形式获取数据，该函数和mysql_fetch_array(&#39;资源定位符&#39;,MYSQL_ASSOC)效果是一样的</p>
+
+<p>mysql_fetch_object()函数是从结果集中获取数据，然后以对象的形式打印出来,可以获取到对象中的任意一个属性。</p>
+
+<p>获取结果集中行的数目：mysql_num_rows();可以通过该方法判断是否查询到数据</p>
+
+<p>获取某一个值：mysql_result();该函数获取结果集中某一个字段的值，有三个参数，第一个参数是结果集的地址，第二个参数是行号（从0开始）,第三个参数是获取哪一个字段，默认为第一个字段（从0开始）。一般会用在直接取某一行的某一个字段，而不是循环显示的时候。</p>
+
+<p>//mysql_fetch_row()函数查询数据并打印<br/>
+\(res = mysql_query(&quot;select id,name,num from user&quot;);<br/>
+while(\)row1 = mysql_fetch_row(\(res)){print_r(\)row1);echo &quot;<br/>&quot;;}<br/>
+//mysql_fetch_array()函数只有一个参数的查询数据并打印<br/>
+\(res = mysql_query(&quot;select id,name,num from user&quot;);<br/>
+while(\)row1 = mysql_fetch_array(\(res)){print_r(\)row1);echo &quot;<br/>&quot;;}<br/>
+//mysql_fetch_array()函数有两个参数的查询数据并打印<br/>
+\(res = mysql_query(&quot;select id,name,num from user&quot;);<br/>
+while(\)row1 = mysql_fetch_array(\(res,MYSQL_ASSOC)){print_r(\)row1);echo &quot;<br/>&quot;;}<br/>
+//mysql_fetch_assoc()以关联数组形式获取数据<br/>
+\(res = mysql_query(&quot;select id,name,num from user&quot;);<br/>
+while(\)row1 = mysql_fetch_assoc(\(res)){print_r(\)row1);echo &quot;<br/>&quot;;}<br/>
+//mysql_fetch_object()函数是从结果集中获取数据，然后以对象的形式打印出来,可以获取到对象中的任意一个属性<br/>
+\(res = mysql_query(&quot;select id,name,num from user&quot;);<br/>
+while(\)row1 = mysql_fetch_object(\(res)){print_r(\)row1);echo \(row1-&gt;name.&quot;&lt;br/&gt;&quot;;}<br/>
+//获取结果集的行数<br/>
+\)res = mysql_query(&quot;select id,name,num from user&quot;);<br/>
+echo mysql_num_rows(\(res);<br/>
+//mysql_result()获取结果集中某一个字段的值<br/>
+\)res = mysql_query(&quot;select id,name,num from user&quot;);<br/>
+echo mysql_result($res,2,1);<br/>
+其实,其实,最后再加一句,PHP升级之后,这些操作mysql的一些函数已经过时了,取而代之的是mysqli扩展库.不过这些基础性的东西看一看也是没有坏处的.</p>
+
+                        
+                      </div>
+                  </div>
+                </a>
+                <div class="read-more clearfix">
+                  <div class="more-left left">
+                  
+                    <span class="date">2016/1/26</span>
+                    <span>posted in&nbsp;</span> 
+          				  
+          					    <span class="posted-in"><a href='PHP.html'>PHP</a></span>
+          				   
+                  </div>
+                  <div class="more-right right">
+                  <span class="comments">
+                      
+
+                       
+                  </span>
+                  </div>
+                </div>
+              </div><!-- article -->
+        
+			<div class="article">
+                <a class="clearlink" href="14857040510109.html">
+                
+                  <h1>MySQL学习笔记（7）——存储引擎</h1>
+                  <div class="a-content">
+                      
+                      <div class="a-content-text">
+                        
+                        	<p>存储引擎在之前学习过程中接触过一点，现在再写一些涉及到的更多的知识</p>
+
+<p>并发控制</p>
+
+<p>当多个连接对记录进行修改时保证数据的一致性和完整性，锁系统能够实现并发控制。</p>
+
+<p>锁系统</p>
+
+<p>锁系统是用来进行并发控制的，有两种锁，一种是共享锁（读锁）：在同一个时间内，多个用户可以读取同一个资源，因为不会对数据进行修改，所以是可以共同使用资源的，另一种是排它锁（写锁）：在任何时候只能有一个用户写入资源，当进行写锁时会阻塞其他的读锁或者写锁操作</p>
+
+<p>锁也有作用范围的大小，称为锁颗粒。比如表锁：是一种开销最小的锁，行锁：是一种开销最大的锁，支持的并发处理也是最大的。这里的开销，其实是锁的个数，表锁只对这张表加一个锁就可以了，所以开销最小，行锁要对相应的行加锁，所以开销最大。</p>
+
+<p>事务处理</p>
+
+<p>事务的主要作用为保证数据的完整性，事务有四大特性：原子性，一致性，隔离性，持久性；这四大特性简写为：ACID</p>
+
+<p>存储引擎的定义</p>
+
+<p>MySQL将数据以不同的技术存储在文件（内存）中，这种技术称为存储引擎。每一种存储引擎都是用不同的存储机制，索引技巧，锁定水平，最终提供广泛且不同的功能。</p>
+
+<p>MySQL支持的存储引擎</p>
+
+<p>MyISAM</p>
+
+<p>InnoDB</p>
+
+<p>Memory</p>
+
+<p>CSV：以逗号分隔</p>
+
+<p>Archive</p>
+
+<p>BlackHole:黑洞引擎，写入的数据都会消失，一般用作数据复制的中继</p>
+
+<p>这些存储引擎的特点如下图所示：<br/>
+<img src="media/14857040510109/mysql-suo.png" alt="mysql-suo"/></p>
+
+                        
+                      </div>
+                  </div>
+                </a>
+                <div class="read-more clearfix">
+                  <div class="more-left left">
+                  
+                    <span class="date">2016/1/25</span>
+                    <span>posted in&nbsp;</span> 
+          				  
+          					    <span class="posted-in"><a href='%E6%95%B0%E6%8D%AE%E5%BA%93.html'>数据库</a></span>
+          				   
+                  </div>
+                  <div class="more-right right">
+                  <span class="comments">
+                      
+
+                       
+                  </span>
+                  </div>
+                </div>
+              </div><!-- article -->
+        
+			<div class="article">
+                <a class="clearlink" href="14857040317702.html">
+                
+                  <h1>MySQL学习笔记（6）——存储过程</h1>
+                  <div class="a-content">
+                      
+                      <div class="a-content-text">
+                        
+                        	<p>MySQL命令的执行流程</p>
+
+<p>对于我们输入的sql命令，MySQL引擎会先进行语法分析，确定语法正确之后对sql命令进行编译，编译成可识别的命令，然后才执行语句，并将执行的结果返回给客户端。</p>
+
+<p>存储过程的定义</p>
+
+<p>存储过程是sql语句和控制语句的预编译集合，以一个名称存储并作为一个存储单元处理，存储过程存储在数据库内，可以由应用程序调用执行，允许用户声明变量以及进行流程控制。</p>
+
+<p>存储过程可以接收输入类型的参数，也可以接收输出类型的参数，并且可以存在多个返回值。</p>
+
+<p>存储过程是预编译的，当第一次调用的时候，MySQL引擎会对其进行语法分析，编译等操作，并把结果存储在内存中。之后再调用，就直接从内存中执行。</p>
+
+<p>存储过程的优点</p>
+
+<p>增强sql语句的功能和灵活性：因为可以写控制语句，所以存储过程可以完成复杂的判断以及较复杂的运算</p>
+
+<p>实现了较快的执行速度</p>
+
+<p>减少网络流量：由原来的传递一整条语句到之后的传递参数，传递的字符量变小了。</p>
+
+<p>存储过程语法结构</p>
+
+<p>create <br/>
+[definer = {当前用户|创建该存储过程的用户}]//如果不写则默认为当前用户<br/>
+procedure 存储过程名称(参数，可以有0个到多个)<br/>
+过程体<br/>
+存储过程参数有3个写法，in代表这个参数的值必须是在调用存储过程时指定，存储过程中，该值不能被返回。out代表该参数的值可以被存储过程中的代码改变，可以返回。Inout表示在调用存储过程时指定，可以被改变和返回.</p>
+
+<p>调用存储过程</p>
+
+<p>Call 存储过程名</p>
+
+<p>Call 存储过程名(参数)</p>
+
+<p>修改存储过程</p>
+
+<p>修改存储过程只能修改注释，内容的类型，不能够修改过程体，如果想修改过程体，则只能删除重建存储过程。</p>
+
+<p>删除存储过程</p>
+
+<p>delete procedure 存储过程名<br/>
+创建不带参数的存储过程</p>
+
+<p>创建存储过程，获取当前MySQL版本</p>
+
+<p>create procedure sp1()select version();<br/>
+创建带有in类型参数的存储过程</p>
+
+<p>创建存储过程，用于删除特定的记录</p>
+
+<p>如果存储体中有多条语句，则记得修改终止符：delimiter //，写完之后再修改回来</p>
+
+<p>特别注意：参数名称和字段名称不要相同，否则会引起歧义而错删数据。</p>
+
+<p>create procedure removeUserById(in id int unsigned)<br/>
+begin<br/>
+delete from tdb_goods where goods_id = id;<br/>
+end//<br/>
+创建带有in类型和out类型的存储过程</p>
+
+<p>删除固定的记录，返回剩余的记录</p>
+
+<p>create procedure removeUserAndRetuen(in p_id int unsigned,out username int unsigned)<br/>
+begin<br/>
+delete from tdb_goods where goods_id = pid;<br/>
+select count(goods_id) from tdb_goods into username;<br/>
+end//<br/>
+在调用该存储方法的时候，因为有一个返回值，所以要使用变量存储，MySQL中声明变量的方法为@符号加变量名，该变量是用户变量，跟MySQL客户端绑定，只对当前用户所使用的客户端。如下所示：</p>
+
+<p>call removeUserAndRetuen(2,@nums);<br/>
+select @nums;<br/>
+创建带有多个out类型参数的存储过程</p>
+
+<p>根据价格进行删除，然后返回删除的数据个数和剩余的数据个数</p>
+
+<p>delimiter //<br/>
+create procedure deleteUserByMoney(in money int,out deleteNum int,out nums int)<br/>
+begin<br/>
+delete from tdb_goods where goods_price = money;<br/>
+select row_count() into deleteNum;<br/>
+select count(goods_id) from tdb_goods into nums;<br/>
+end//<br/>
+delimiter ;<br/>
+row_count()函数</p>
+
+<p>该函数是用来返回受影响的记录总数</p>
+
+                        
+                      </div>
+                  </div>
+                </a>
+                <div class="read-more clearfix">
+                  <div class="more-left left">
+                  
+                    <span class="date">2016/1/25</span>
+                    <span>posted in&nbsp;</span> 
+          				  
+          					    <span class="posted-in"><a href='%E6%95%B0%E6%8D%AE%E5%BA%93.html'>数据库</a></span>
+          				   
+                  </div>
+                  <div class="more-right right">
+                  <span class="comments">
+                      
+
+                       
+                  </span>
+                  </div>
+                </div>
+              </div><!-- article -->
+        
+			<div class="article">
+                <a class="clearlink" href="14857039168906.html">
+                
+                  <h1>MySQL学习笔记（5）——函数</h1>
+                  <div class="a-content">
+                      
+                      <div class="a-content-text">
+                        
+                        	<p>MySQL有很多函数哦，而且函数是可以套用的~~</p>
+
+<p>字符函数</p>
+
+<p>字符连接：concat();例如：把名和姓进行连接输出：</p>
+
+<p>select concat(first_name,last_name) as name from user;<br/>
+使用指定的分隔符进行字符连接：concat_ws();</p>
+
+<p>该函数第一个参数是使用的连接符，剩下的参数是需要连接的字符串，个数不限，如：</p>
+
+<p>select concat(&#39;_&#39;,first_name,last_name) as name from user;<br/>
+数字格式化：format();</p>
+
+<p>把数字划分成千分位格式，3位为一段，第一个参数是操作的数字，第二个参数小数位数，参数不可以省略。例如：</p>
+
+<p>select format(22343.5464,3);<br/>
+转换成小写字母：lower();转换成大写字母：upper();只有一个参数，就是要操作的字符串。</p>
+
+<p>获取左侧字符left();获取右侧字符right();有两个参数，第一个参数是操作的字符串，第二个参数是获取的长度。</p>
+
+<p>获取字符串长度：length();参数就是操作的字符串</p>
+
+<p>select lower(&#39;JHDSyuJH&#39;);<br/>
+select upper(&#39;sdferfreHjs&#39;);<br/>
+select left(&#39;ewferfr&#39;,3);<br/>
+select right(&#39;ewferggrt&#39;,6);<br/>
+select length(&#39;dscfd测试汉字dkj&#39;);<br/>
+删除前导空格：ltrim();删除后续空格：rtrim();删除前导和后续空格：trim();</p>
+
+<p>select ltrim(&#39;   删除前导空格   &#39;);<br/>
+select rtrim(&#39;  删除后续空格    &#39;);<br/>
+select trim(&#39;   删除前导和后续空格   &#39;);<br/>
+trim()函数还可以删除前导和后续的其他字符</p>
+
+<p>select trim(leading &#39;?&#39; from &#39;???这里删除前导的问号&#39;);<br/>
+select trim(trailing &#39;?&#39; from &#39;??这里删除后续的问号???&#39;);<br/>
+select trim(both &#39;?&#39; from &#39;???这里删除前导和后续的问号???&#39;);<br/>
+字符串截取：substring();该函数有三个参数，第一个是操作的字符串，第二个是从哪个字符开始截取，第三个是截取的长度，如果没有第三个参数，则默认截取到结尾。</p>
+
+<p>这里需要注意的是：如果该函数配合length()函数一起使用，则对于汉字形式数据会有偏差，length()函数计算出来的长度每个汉字占两个字节，substring()函数截取的时候一个汉字占1个字节。</p>
+
+<p>select substring(&#39;jjdei截取的数据ijduhu&#39;,2,8);<br/>
+select substring(&#39;jjdei截取的数据ijduhu&#39;,2,5);<br/>
+模式匹配：[not] like;其中%代表任意字符串（长度不限），_代表任意一个字符</p>
+
+<p>字符串替换：replace();将某一个字符穿替换成另一个字符串，有三个参数，第一个是操作的字符串，第二个是替换掉的字符串，第三个是替换成的字符串</p>
+
+<p>select * from user where user_name like &#39;%亮&#39;;<br/>
+select replace(&#39;??将问号??替换成/??null????&#39;,&#39;?&#39;,&#39;&#39;);<br/>
+数值运算符和函数</p>
+
+<p>数值运算符中，+,-,*,/自然是不用说的，下面说说其他的数值运算符</p>
+
+<p>进一取整：ceil();无论小数部分有多小，都进1</p>
+
+<p>舍一取整：floor();无论小数部分有多达，都舍掉</p>
+
+<p>整数除法：div();不要余数，只要整除的部分</p>
+
+<p>取余数：mod()或者%;获取除法运算之后余数部分，而不是小数部分哦。既可以对整数取余也可以对小数取余。</p>
+
+<p>幂运算：power();</p>
+
+<p>四舍五入：pound();有两个参数，第一个是操作的数字，第二个是保留的小数的位数</p>
+
+<p>数字截取：truncate();有两个参数，第一个是操作的数字，第二个是保留的小数的位数，但是注意，该方法不进行四舍五入，而是直接截取</p>
+
+<p>比较运算符和函数</p>
+
+<p>[not] between ... And...指的是在或者不在某个区间内，这个区间是闭合的，包括边界</p>
+
+<p>[not] in(),指的是在不在括号内的集合里，给出的是有限的内容点，而不是区间</p>
+
+<p>Is [not] null,查看是否为空。注意：null 是空，空的字符串不是空，0也不是空</p>
+
+<p>日期时间函数</p>
+
+<p>当前日期和时间：now();</p>
+
+<p>当前日期：curdate();</p>
+
+<p>当前时间：curtime();</p>
+
+<p>日期变化：date_add();可以增加日期，也可以减少日期，有两个参数，第一个参数是变化的基数，第二个参数是变化量，可以是year,month,day,week,hour,minute,second等时间单位。</p>
+
+<p>日期差值：datediff();计算两个日期的差值，当然有两个参数了，在计算的时候，用第一个参数减去第二个参数。</p>
+
+<p>日期格式化：date_format();也有两个参数，第一个是操作的日期，第二个是转换的格式。</p>
+
+<p>select date_add(now(),interval 1 year);//将当前时间加上一年显示出来，如果是减去一年，则1变为-1 <br/>
+select datediff(now(),curdate());//这个结果是0，不信可以试试哦~~ <br/>
+select date_format(now(),&#39;%m/%d/%y %h:%m:%s&#39;);//注意日期格式中，字母的大小写含义是不一样的<br/>
+信息函数</p>
+
+<p>连接ID：connection_id();</p>
+
+<p>当前数据库：database();</p>
+
+<p>最后插入记录的id号：last_insert_id();数据表中必须存在一个自动编号的字段</p>
+
+<p>当前用户：user();</p>
+
+<p>版本信息：version();</p>
+
+<p>聚合函数</p>
+
+<p>聚合函数只有一个返回值，这在之前就已经说过了，这里只提一下常用的聚合函数</p>
+
+<p>平均值：avg();</p>
+
+<p>计数：count();</p>
+
+<p>最大值：max();</p>
+
+<p>最小值：min();</p>
+
+<p>求和：sum();</p>
+
+<p>加密函数</p>
+
+<p>信息摘要算法：md5();</p>
+
+<p>密码算法：password();</p>
+
+<p>自定义函数</p>
+
+<p>语法结构：</p>
+
+<p>create function 函数名(参数)//没有参数括号内可以没有内容<br/>
+returns 返回类型<br/>
+return 函数体<br/>
+函数体可以是任意合法的SQL语句，简单的select或者insert语句，如果函数体是复合结构，则使用begin...end语句，复合结构可以包含声明，循环，控制结构。</p>
+
+<p>创建不带参数的自定义函数:写一个日期类型转换的函数：</p>
+
+<p>create function f1()<br/>
+returns varchar(30)<br/>
+return date_format(now(),&#39;%Y年%m月%d日&#39;);<br/>
+创建带有参数的自定义函数：写一个计算平均值的函数</p>
+
+<p>create function f2(num1 int ,num2 int)<br/>
+returns float(10,2)<br/>
+return (num1 + num2)/2;<br/>
+创建具有复合结构函数体的自定义函数</p>
+
+<p>create function adduser(username varchar(20))<br/>
+returns int<br/>
+begin<br/>
+insert tdb_goods(goods_name) values(username);<br/>
+return last_insert_id();<br/>
+end//<br/>
+注意：</p>
+
+<p>创建复合结构函数体时，因为内部语句用到了“;”，但是分号是语句的结束，所以会引起歧义，最好使用delimiter关键字修改mysql的结束符，如：delimiter //,即以“//”为结束符，这样就不会引起冲突了。</p>
+
+                        
+                      </div>
+                  </div>
+                </a>
+                <div class="read-more clearfix">
+                  <div class="more-left left">
+                  
+                    <span class="date">2016/1/24</span>
+                    <span>posted in&nbsp;</span> 
+          				  
+          					    <span class="posted-in"><a href='%E6%95%B0%E6%8D%AE%E5%BA%93.html'>数据库</a></span>
+          				   
+                  </div>
+                  <div class="more-right right">
+                  <span class="comments">
+                      
+
+                       
+                  </span>
+                  </div>
+                </div>
+              </div><!-- article -->
+        
+              
+
+
+			<div class="row">
+			  <div class="large-6 columns">
+			  <p class="text-left" style="padding-top:25px;">
+			   <a href="all_3.html">&laquo; Prev Page</a>  
+			  </p>
+			  </div>
+			  <div class="large-6 columns">
+			<p class="text-right" style="padding-top:25px;">
+			 <a href="all_5.html">&raquo; Next Page</a> 
+			</p>
+			  </div>
+			</div>
+		</div>
+	</div><!-- large 8 -->
+
+ <div class="large-4 medium-4 columns">
+  <div class="hide-for-small">
+    <div id="sidebar" class="sidebar">
+          <div id="site-info" class="site-info">
+            
+                <h1>挂在树上的兔子</h1>
+                <div class="site-des"></div>
+                <div class="social">
+
+
+
+
+
+
+
+
+
+
+
+  <a target="_blank" class="rss" href="atom.xml" title="RSS">RSS</a>
+                
+              	 </div>
+          	</div>
+
+             
+
+              <div id="site-categories" class="side-item ">
+                <div class="side-header">
+                  <h2>Categories</h2>
+                </div>
+                <div class="side-content">
+
+      	<p class="cat-list">
+        
+            <a href="%E6%95%B0%E6%8D%AE%E5%BA%93.html"><strong>数据库</strong></a>
+        
+            <a href="Python.html"><strong>Python</strong></a>
+        
+            <a href="%E9%9A%8F%E6%83%B3.html"><strong>随想</strong></a>
+        
+            <a href="%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84&%E7%AE%97%E6%B3%95.html"><strong>数据结构&算法</strong></a>
+        
+            <a href="PHP.html"><strong>PHP</strong></a>
+        
+            <a href="Ubuntu.html"><strong>Ubuntu</strong></a>
+         
+        </p>
+
+
+                </div>
+              </div>
+
+              <div id="site-categories" class="side-item">
+                <div class="side-header">
+                  <h2>Recent Posts</h2>
+                </div>
+                <div class="side-content">
+                <ul class="posts-list">
+	      
+		      
+			      <li class="post">
+			        <a href="14830907697555.html">MySQL数据库☞数据库编码</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="14830842110487.html">MySQL数据库☞中文乱码问题</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="14819928857822.html">MySQL的基本命令☞数据表的基本管理</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="14745361920074.html">python容器数据类型☞collections</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="14724629382123.html">python对列表进行操作</a>
+			      </li>
+		     
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		   
+		  		</ul>
+                </div>
+              </div>
+        </div><!-- sidebar -->
+      </div><!-- hide for small -->
+</div><!-- large 4 -->
+
+</div><!-- row -->
+
+ <div class="page-bottom clearfix">
+  <div class="row">
+   <p class="copyright">Copyright &copy; 2015
+Powered by <a target="_blank" href="http://www.mweb.im">MWeb</a>,&nbsp; 
+Theme used <a target="_blank" href="http://github.com">GitHub CSS</a>.</p>
+  </div>
+</div>
+
+        </section>
+      </div>
+    </div>
+
+  
+    
+
+    <script src="asset/js/foundation.min.js"></script>
+    <script>
+      $(document).foundation();
+      function fixSidebarHeight(){
+        var w1 = $('.markdown-body').height();
+          var w2 = $('#sidebar').height();
+          if (w1 > w2) { $('#sidebar').height(w1); };
+      }
+      $(function(){
+        fixSidebarHeight();
+      })
+      $(window).load(function(){
+          fixSidebarHeight();
+      });
+     
+    </script>
+
+    <script src="asset/chart/all-min.js"></script><script type="text/javascript">$(function(){    var mwebii=0;    var mwebChartEleId = 'mweb-chart-ele-';    $('pre>code').each(function(){        mwebii++;        var eleiid = mwebChartEleId+mwebii;        if($(this).hasClass('language-sequence')){            var ele = $(this).addClass('nohighlight').parent();            $('<div id="'+eleiid+'"></div>').insertAfter(ele);            ele.hide();            var diagram = Diagram.parse($(this).text());            diagram.drawSVG(eleiid,{theme: 'simple'});        }else if($(this).hasClass('language-flow')){            var ele = $(this).addClass('nohighlight').parent();            $('<div id="'+eleiid+'"></div>').insertAfter(ele);            ele.hide();            var diagram = flowchart.parse($(this).text());            diagram.drawSVG(eleiid);        }    });});</script>
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script type="text/x-mathjax-config">MathJax.Hub.Config({TeX: { equationNumbers: { autoNumber: "AMS" } }});</script>
+
+
+  </body>
+</html>

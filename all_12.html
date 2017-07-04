@@ -1,0 +1,826 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+    
+  挂在树上的兔子
+  
+  </title>
+  
+  
+  <link href="atom.xml" rel="alternate" title="挂在树上的兔子" type="application/atom+xml">
+    <link rel="stylesheet" href="asset/css/foundation.min.css" />
+    <link rel="stylesheet" href="asset/css/docs.css" />
+    <script src="asset/js/vendor/modernizr.js"></script>
+    <script src="asset/js/vendor/jquery.js"></script>
+  <script src="asset/highlightjs/highlight.pack.js"></script>
+  <link href="asset/highlightjs/styles/github.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script>hljs.initHighlightingOnLoad();</script>
+<script type="text/javascript">
+  function before_search(){
+    var searchVal = 'site:blog.yanzl.net ' + document.getElementById('search_input').value;
+    document.getElementById('search_q').value = searchVal;
+    return true;
+  }
+</script>
+  </head>
+  <body class="antialiased hide-extras">
+    
+    <div class="marketing off-canvas-wrap" data-offcanvas>
+      <div class="inner-wrap">
+
+
+<nav class="top-bar docs-bar hide-for-small" data-topbar>
+
+
+  <section class="top-bar-section">
+  <div class="row">
+      <div style="position: relative;width:100%;"><div style="position: absolute; width:100%;">
+        <ul id="main-menu" class="left">
+        
+        <li id=""><a target="self" href="index.html">Home</a></li>
+        
+        <li id=""><a target="_self" href="archives.html">Archives</a></li>
+        
+        </ul>
+
+        <ul class="right" id="search-wrap">
+          <li>
+<form target="_blank" onsubmit="return before_search();" action="http://google.com/search" method="get">
+    <input type="hidden" id="search_q" name="q" value="" />
+    <input tabindex="1" type="search" id="search_input"  placeholder="Search"/>
+</form>
+</li>
+          </ul>
+      </div></div>
+  </div>
+  </section>
+
+</nav>
+
+        <nav class="tab-bar show-for-small">
+  <a href="javascript:void(0)" class="left-off-canvas-toggle menu-icon">
+    <span> &nbsp; 挂在树上的兔子</span>
+  </a>
+</nav>
+
+<aside class="left-off-canvas-menu">
+      <ul class="off-canvas-list">
+       
+       <li><a href="index.html">HOME</a></li>
+    <li><a href="archives.html">Archives</a></li>
+    <li><a href="about.html">ABOUT</a></li>
+
+    <li><label>Categories</label></li>
+
+        
+            <li><a href="%E6%95%B0%E6%8D%AE%E5%BA%93.html">数据库</a></li>
+        
+            <li><a href="Python.html">Python</a></li>
+        
+            <li><a href="%E9%9A%8F%E6%83%B3.html">随想</a></li>
+        
+            <li><a href="%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84&%E7%AE%97%E6%B3%95.html">数据结构&算法</a></li>
+        
+            <li><a href="PHP.html">PHP</a></li>
+        
+            <li><a href="Ubuntu.html">Ubuntu</a></li>
+         
+
+      </ul>
+    </aside>
+
+<a class="exit-off-canvas" href="#"></a>
+
+
+        <section id="main-content" role="main" class="scroll-container">
+        
+       
+
+ <script type="text/javascript">
+	$(function(){
+		$('#menu_item_index').addClass('is_active');
+	});
+</script>
+<div class="row">
+	<div class="large-8 medium-8 columns">
+		<div class="markdown-body home-categories">
+		
+			<div class="article">
+                <a class="clearlink" href="14838698180972.html">
+                
+                  <h1>哈希表</h1>
+                  <div class="a-content">
+                      
+                      <div class="a-content-text">
+                        
+                        	<p>概念</p>
+
+<p>为了方便查找，在存储位置和关键字之间建立一个确定的关系，当查找关键字的时候，根据建立的关系对存储位置进行访问，有效地减少了多次比较带来的时间的浪费。这个关系称为哈希函数，这种思想称为哈希思想。</p>
+
+<p>哈希函数是一个映像，可以灵活得定义。但是，对于不同的关键字，经过相同的哈希函数的处理后，有可能得到相同的地址，这种现象称为冲突，并且，一般情况下，冲突只能尽可能的减少，而不能完全避免。</p>
+
+<p>哈希函数的构造方法</p>
+
+<p>（1）直接定址法</p>
+
+<p>去关键字或关键字的某个线性函数作为哈希函数，由此计算哈希地址的方法。</p>
+
+<p>H(key) = key或H(key) = a*key + b(a,b为常数)。</p>
+
+<p>（2）数字分析法</p>
+
+<p>假设关键字是R进制数，并且哈希表中可能出现的关键字都是事先知道的，则可取关键字的若干数位组成哈希地址。</p>
+
+<p>（3）平方取中法</p>
+
+<p>取关键字平方后的中间几位作为哈希地址。</p>
+
+<p>（4）折叠法</p>
+
+<p>将关键字分割成位数相同的几部分（最后一部分的位数可以不同），然后取这几部分的叠加和作为哈希地址的方法。</p>
+
+<p>适用于关键字位数很多，而且关键字中每一位上数字分布大致均匀。</p>
+
+<p>（5）除留余数法（最简单，最常用）</p>
+
+<p>取关键字被某个不大于哈希表表长m的数p除后所得余数为哈希地址。H（key） = key % p;</p>
+
+<p>在选取p的时候，一般选质数或者不包含小于20的质因数的和数。</p>
+
+<p>（6）随机数法</p>
+
+<p>选择一个随机函数，取关键字的随机函数值为它的哈希地址。</p>
+
+<p>冲突的处理</p>
+
+<p>（1）开放定址法</p>
+
+<p>Hi = （H（key）+di）%m;i = 1,2,...,k（k &lt;= m-1）</p>
+
+<p>H（key）为哈希函数，m为哈希表表长，di为递增序列</p>
+
+<p>di有三种取法</p>
+
+<p>线性探测再散列：di = 1,2,3,...,m-1;保证只要哈希表未填满，总能找到一个不发生冲突的地址</p>
+
+<p>二次探测再散列：di = 1<em>1,-1</em>-1,2<em>2,-2</em>-2,3<em>3,...,k</em>k,-k<em>-k;只有在哈希表长满足4</em>j+3一形式的素数时才会将冲突处理好。</p>
+
+<p>伪随机探测再散列：di = 伪随机数序列。</p>
+
+<p>二次聚集  在处理冲突过程中发生的两个第一个哈希地址不同的记录争夺同一个后记哈希地址的现象，即在处理同义词的冲突过程中又添加了非同义词的冲突。</p>
+
+<p>（2）再哈希表</p>
+
+<p>Hi = R*Hi(key)，i = 1,2,3。。。k;</p>
+
+<p>R*Hi(key)均是不相同的哈希函数，即在同义词产生地址冲突时计算另一个哈希函数，直到不产生地址冲突为止。</p>
+
+<p>（3）链地址法（方便，常用）</p>
+
+<p>将所有关键字为同义词的记录存储在同一线性链表中。假设某哈希函数产生的哈希地址在区间【0,m-1】中，则建立一个头链表。每个链结的初始状态都是空指针，当有关键字对应一个链结的时候，在该链结后加关键字，如图</p>
+
+<p><img src="media/14838698180972/haxibiao.png" alt="haxibiao"/></p>
+
+<p>（4）建立一个公共溢出区</p>
+
+<p>一个基本表，每个分量存放一个记录，另设一个溢出表，所有关键字和基本表中关键字为同义词的记录，不管哈希地址是什么，一旦发生冲突，都填入溢出表。</p>
+
+<p>哈希表的查找</p>
+
+<p>给定K值，根据建表时设定的哈希函数求得哈希地址，若表中此位置上没有记录，则查找不成功，否则比较关键字，如果给定的K和表中记录相等，则查找成功；否则根据建表时设定的冲突处理的方法进行下一个地址的查找，直到哈希表的某个位置为空或者找到为止。</p>
+
+<p>查找过程中需和给定值进行比较的关键字的个数取决于三个因素：哈希函数，处理冲突的方法和哈希表的装填因子。</p>
+
+<p>装填因子：a = （表中填入的记录数）/（哈希表的长度）。标志哈希表的装满程度。</p>
+
+                        
+                      </div>
+                  </div>
+                </a>
+                <div class="read-more clearfix">
+                  <div class="more-left left">
+                  
+                    <span class="date">2014/12/28</span>
+                    <span>posted in&nbsp;</span> 
+          				  
+          					    <span class="posted-in"><a href='%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84&%E7%AE%97%E6%B3%95.html'>数据结构&算法</a></span>
+          				   
+                  </div>
+                  <div class="more-right right">
+                  <span class="comments">
+                      
+
+                       
+                  </span>
+                  </div>
+                </div>
+              </div><!-- article -->
+        
+			<div class="article">
+                <a class="clearlink" href="14838696378349.html">
+                
+                  <h1>平衡二叉树</h1>
+                  <div class="a-content">
+                      
+                      <div class="a-content-text">
+                        
+                        	<p>基本概念</p>
+
+<p>平衡二叉树又称AVL树，它的左子树和右子树都是平衡二叉树，并且左子树和右子树的深度之差的绝对值不超过1.</p>
+
+<p>平衡因子：该结点的左子树的深度减去该结点的右子树的深度，所以平衡二叉树上的所有结点的平衡因子只可能是-1，0 ，1三种情况。只要平衡因子的绝对值大于1，则该二叉树就不是平衡的。</p>
+
+<p>失衡调节</p>
+
+<p>平衡二叉树的平均查找长度：log(n)</p>
+
+<p>空树是平衡二叉树，在不断加点的过程中，平衡二叉树由平衡逐渐变得不平衡，如果想让平衡二叉树继续平衡，就需要根据导致不平衡的不同原因执行不同的操作，从而进行调正。</p>
+
+<p>但是，无论哪种情况，首先需要处理的结点是插入新的结点后，所有祖宗结点中，距离新结点最近的节点。</p>
+
+<p>一、单向右旋型(LL旋转)</p>
+
+<p>原因：新插入的结点在不平衡结点的左子树的左子树中。</p>
+
+<p>处理：将不平衡的结点所在的子树进行一次向右顺时针旋转的操作。</p>
+
+<p>二、单向左旋型（RR旋转）</p>
+
+<p>原因：新插入的结点在不平衡结点的右子树的右子树中。</p>
+
+<p>处理：处理：将不平衡的结点所在的子树进行一次向左逆时针旋转的操作。</p>
+
+<p>LLRR<br/>
+<img src="media/14838696378349/LLRR.jpg" alt="LLR"/></p>
+
+<p>三、先右后左型（RL旋转）</p>
+
+<p>原因：新插入的结点在不平衡结点的右子树的左子树中。</p>
+
+<p>处理：先围绕不平衡结点的左孩子进行逆时针左旋，在围绕不平衡结点进行顺时针右旋。</p>
+
+<p>四、先左后右型（LR旋转）</p>
+
+<p>原因：新插入的结点在不平衡结点的左子树的右子树中。</p>
+
+<p>处理：先围绕不平衡结点的左孩子进行逆时针左旋，在围绕不平衡结点进行顺时针右旋。</p>
+
+<p><img src="media/14838696378349/RLLR-300x172.png" alt="RLLR-300x172"/></p>
+
+                        
+                      </div>
+                  </div>
+                </a>
+                <div class="read-more clearfix">
+                  <div class="more-left left">
+                  
+                    <span class="date">2014/12/27</span>
+                    <span>posted in&nbsp;</span> 
+          				  
+          					    <span class="posted-in"><a href='%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84&%E7%AE%97%E6%B3%95.html'>数据结构&算法</a></span>
+          				   
+                  </div>
+                  <div class="more-right right">
+                  <span class="comments">
+                      
+
+                       
+                  </span>
+                  </div>
+                </div>
+              </div><!-- article -->
+        
+			<div class="article">
+                <a class="clearlink" href="14838691956495.html">
+                
+                  <h1>BST 二叉排序（查找）树</h1>
+                  <div class="a-content">
+                      
+                      <div class="a-content-text">
+                        
+                        	<p>1.定义：除了空树之外，拥有下列性质的二叉树为二叉排序树：（1）.若它的左子树不空，则左子树上所有节点的值均小于它的根结点的值。（2）.若它的右子树不空，则它的右子树上所有的节点的值均大于它的根结点的值。（3）.它的左右子树也分别为二叉排序树。</p>
+
+<p>首先先看一下链表节点的定义：</p>
+
+<pre><code>struct node
+{
+    int data;
+    node *lc;
+    node *rc;
+}*head;
+int num[16] = {78,45,12,98,566,563,568};
+</code></pre>
+
+<p>2.二叉排序树的查找：</p>
+
+<p>不断地和结点值相比较，如果关键字大于结点值，则指针指向右孩子继续比较，如果小于结点值，则指针指向左孩子，继续比较。如果关键字和结点值相等，则返回查找成功，否则查找不成功。</p>
+
+<pre><code>bool Search_BST(int key,int i)
+{
+    if(BST[i] == key)
+        return true;
+    if(i &gt; (pow(2,15/2+1))-1)//这个地方一定要注意，因为数组建树是满二叉树
+        //所以判断没有找到的一定要注意区间范围
+        return false;
+    if(BST[i] &gt; key)
+        Insert_BST(key,i*2);
+    else
+        Insert_BST(key,i*2+1);
+}
+</code></pre>
+
+<p>现在用链表来实现查找：</p>
+
+<pre><code>node *findnode(int data,node *root)
+{
+    if(root == NULL)
+        return NULL;
+
+    if(data == root-&gt;data)
+        return root;
+    else if(data &lt; root-&gt;data)
+        return findnode(data,root-&gt;lc);//递归返回
+    else
+        return findnode(data,root-&gt;rc);
+}
+</code></pre>
+
+<p>3.二叉排序树的建树（插入）：</p>
+
+<p>创建二叉排序树和插入关键字相似，都是先查找，如果找不到就和查找的最后一个节点相比较，如果关键字大于结点值，则插到结点的右孩子的位置，如果关键字小于结点值，则插到结点的左孩子的位置。</p>
+
+<p>//在查找插入的过程中建树，注意这种用数组表示的方法<br/>
+//是满二叉树，所以BST数组中为0的元素代表了没有着一个结点</p>
+
+<pre><code>int BST[10000];
+void Insert_BST(int key,int i)
+{
+    if(BST[i] == 0)
+    {
+        BST[i] = key;
+        return ;
+    }
+    if(BST[i] &gt; key)
+        Insert_BST(key,i*2);
+    else
+        Insert_BST(key,i*2+1);
+}
+</code></pre>
+
+<p>用链表来实现插入：</p>
+
+<pre><code>void inst(node *rt,node *root)
+{
+    if(rt-&gt;data &lt; root-&gt;data)
+    {
+        if(root-&gt;lc == NULL)
+        {
+            root-&gt;lc = rt;
+            return ;
+        }
+        inst(rt,root-&gt;lc);
+    }
+    else
+    {
+        if(root-&gt;rc == NULL)
+        {
+            root-&gt;rc = rt;
+            return ;
+        }
+        inst(rt,root-&gt;rc);//这个地方应该是RC，hypo写错了
+    }
+}
+</code></pre>
+
+<p>还有一个操作，是借助插入来完成的，就是最初二叉排序表的建立：</p>
+
+<pre><code>node *build()
+{
+    node *root = NULL;
+    int i = 0;
+    while(i &lt; 7)
+    {
+        node *rt = new node;
+        rt-&gt;data = num[i];
+        rt-&gt;lc = NULL;
+        rt-&gt;rc = NULL;
+        if(root == NULL)
+            root = rt;
+        else
+            inst(rt,root);
+        i++;
+    }
+    return root;
+}
+</code></pre>
+
+<p>4.二叉排序树的删除</p>
+
+<p>首先需要明白，二叉排序树是有顺序的，如果随意删除一个结点，有可能会导致二叉排序树的顺序被破坏。如果要删除一个结点，则根据这个结点所在的位置进行讨论。</p>
+
+<p>如果要删除的结点是叶子结点，不用顾及，尽管删除哈！！</p>
+
+<p>如果要删除的结点只有一个孩子结点，左孩子也好，右孩子也好，总之把该结点删了，孩子代替父母位置就好了。</p>
+
+<p>如果要删除的结点很强大，既有左孩子，又有右孩子（好强大的结点呀）。在这种情况下，就要进行中序遍历，找到要删除结点的前驱，可以进行两种操作，一种：如果要删除的节点在父节点的左子树，令删除结点的左子树为父结点的左子树，删除结点的右子树为前驱结点的右子树；如果要删除的结点在父节点的右子树上，则把删除结点的右子树放在删除节点的位置，删除结点的左子树为右子树最左边的结点的左子树。第二种是将前驱结点拿到要删除结点的位置，并且删除前驱结点。相比之下，个人认为还是第二种方法好用，(<em><sup>__^</sup></em>) 嘻嘻。</p>
+
+<pre><code>node * delnode(node *root)//接收的结点是要删除结点的父结点
+{
+    node *rnt;
+    if(root-&gt;lc-&gt;data == data)
+        //判断删除的是父结点的左孩子还是右孩子还是根节点
+        rnt = root-&gt;lc;
+    else if(root-&gt;rc-&gt;data == data)
+        rnt = root-&gt;rc;
+    else
+        rnt = root;//rnt是当前要删除的结点
+        node *rt;
+    //采用的删除方法是第二种：
+    //找到前驱结点，拿到要删除的位置，再将前驱结点删除
+    if (rnt-&gt;lc)
+    {
+        rt = rnt-&gt;lc;
+        node *qian = rt;
+        while(rt-&gt;rc != NULL)
+        {
+            qian = rt;
+            rt = rt-&gt;rc;
+        }
+        if(rt-&gt;lc)
+        {
+            qian-&gt;rc = rt-&gt;lc;
+        }
+        rt-&gt;rc = rnt-&gt;rc;
+        rt-&gt;lc = rnt-&gt;lc;
+    }
+    else
+    {
+        rt = rnt-&gt;rc;
+    }
+    if(root-&gt;lc-&gt;data == data)
+        root-&gt;lc = rt;
+    else if(root-&gt;rc-&gt;data == data)
+        root-&gt;rc = rt;
+    delete(rnt);
+    return root;
+}
+
+node *finddlenode(int data,node *root)
+{
+    if(root)
+    {
+        if((root-&gt;lc &amp;&amp; root-&gt;lc-&gt;data == data) || (root-&gt;rc &amp;&amp; root-&gt;rc-&gt;data == data) || root-&gt;data == data)
+            root = delnode(root);//找到删除结点的父结点
+        else//查找要删除结点的父结点
+        {
+            if(data &lt; root-&gt;data)
+                root-&gt;lc = finddlenode(data,root-&gt;lc);
+            else
+                root-&gt;rc = finddlenode(data,root-&gt;rc);
+        }
+    }
+    return root;
+}
+</code></pre>
+
+                        
+                      </div>
+                  </div>
+                </a>
+                <div class="read-more clearfix">
+                  <div class="more-left left">
+                  
+                    <span class="date">2014/12/25</span>
+                    <span>posted in&nbsp;</span> 
+          				  
+          					    <span class="posted-in"><a href='%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84&%E7%AE%97%E6%B3%95.html'>数据结构&算法</a></span>
+          				   
+                  </div>
+                  <div class="more-right right">
+                  <span class="comments">
+                      
+
+                       
+                  </span>
+                  </div>
+                </div>
+              </div><!-- article -->
+        
+			<div class="article">
+                <a class="clearlink" href="14838683777518.html">
+                
+                  <h1>回忆过去，展望未来</h1>
+                  <div class="a-content">
+                      
+                      <div class="a-content-text">
+                        
+                        	<p>时间走得真快，不知不觉，我进入集训队已经满满一周年了。前几天参加13，14级的选拔赛，感觉又回到了过去，我还是那个样子，即便已经学习了一年的算法，可是做起题来还和当初参加选拔赛时一个样，没有自信，总是觉得自己做不出来，开了很多题目，不知道要做那一道好。。。。。。</p>
+
+<p>去年寒假，大家一起参加集训，每天早上7点起床，上午学长讲讲知识点，自己就开始自学根本听不懂学长在讲些什么的东西，然后做相应的练习题目，晚上10点左右回到宿舍，有时候做做CF，有时候看看书，12点左右准时睡觉。那个时候，感觉真的很忙，但是却很充实，我有着明确的目标，因为我什么都不懂，但是我学的劲头很足。寒假结束了，接下来就是自己系统的安排时间，边学学校开的课程，边复习寒假学的算法。那个时候，我有一个小小的目标，那就是争取到参加省赛的机会，每天都努力呀努力。最后打星参加省赛，我们队还做了5道题目，当时小小的心瞬间就得到了满足，拿着我们的气球，抱着我们的队牌，好兴奋呀。</p>
+
+<p>转折点发生在暑假集训，我们学习的算法由基础转到了高级，我慢慢地就学不动了，和前边人的差距越来越大。每天就几道题目还做不完，我逐渐对自己失去了信心，曾经的我，是那么的阳光，认为不管如何困难，我总是能够学会。是什么，让我开始怀疑自己，而这种怀疑，潜移默化的付诸行动？是心，是我那颗不再坚定，不再踏实的心。大约从暑假开始，我的心变得浮躁，效率开始下降，再加上一点点的自卑，就这么一点一点地落了下来，知道网络赛结束，身边的同学都去打现场赛，我才意识到，我到底错过了什么。我对自己说：“我错过了网络赛，不能再错过省赛”。</p>
+
+<p>11月份，我给自己定了一个月的计划，将暑假里学的东西大体地过了一遍，有些东西还是不能更加深入下去，只会一点皮毛，如果说灵活的运用还是做不到。12月，当我准备过第二遍的时候，海波给了我一套计划，是UVA上的小白书的计划，他要按照小白书的顺序，把各种知识点再过一遍，时间为2个月，23场比赛。于是，我们几个人就开启了小白书之旅，为此，我们专门建立了属于自己的讨论群组，边刷题边讨论，有时感觉题目太恶心了，还会在群里一通吐槽。我感觉，我又回到了之前的状态，我感觉，有目标的感觉真好。能够开开心心的刷题，慢慢的，静下心来推导的感觉真好。</p>
+
+<p>经过一年的历练与变故，我走到了今天。如今的我，不再是大一时什么都不懂的孩子，我要有自己的目标。呆在实验室，认认真真的搞算法。就利用两个月的时间，结束23场比赛，期间不断的总结，不断的充实自己，对于不好的地方作出改进。这些工作做完之后，我还有POJ上的题目没有做完，回去把该做的题目补上。而这些题目，就有一些是暑假里学的高级算法，边学习边刷题，慢慢领悟。虽然我很笨，但只要我能够静下心来，一点一点地啃，在注意提高效率，我总能够学会的。</p>
+
+<p>回忆过去，展望未来。曾经，我迷失过自己，就将那些失败当做警钟，提醒自己，该做些什么。未来，加油！！</p>
+
+                        
+                      </div>
+                  </div>
+                </a>
+                <div class="read-more clearfix">
+                  <div class="more-left left">
+                  
+                    <span class="date">2014/12/16</span>
+                    <span>posted in&nbsp;</span> 
+          				  
+          					    <span class="posted-in"><a href='%E9%9A%8F%E6%83%B3.html'>随想</a></span>
+          				   
+                  </div>
+                  <div class="more-right right">
+                  <span class="comments">
+                      
+
+                       
+                  </span>
+                  </div>
+                </div>
+              </div><!-- article -->
+        
+			<div class="article">
+                <a class="clearlink" href="14838684237499.html">
+                
+                  <h1>越担心失败越容易失败</h1>
+                  <div class="a-content">
+                      
+                      <div class="a-content-text">
+                        
+                        	<p>失败，不是个讨人喜欢的词呦。人们谈起它，唯恐避之不及，赶紧说：呸呸！人们遇上它，叫苦不迭，连声哀叹自己&quot;命不好&quot;。可是，会不会有许多失败的因子已经悄然潜伏在我们的潜意识中呢？</p>
+
+<p>作为一名临近毕业的大学生，我是有多担心自己的工作啊！每天上课、自习、考证、实习。似乎每件事都与未来有关。可分明一边还在焦虑着：现在就业那么难，未来是否会有一个岗位是属于我的？求职失败了我该肿么办？ 难道我这真的是&quot;未老先衰&quot;的节奏啊……</p>
+
+<p>别急，听我往下说。事实上，还有许多人如同我一样，提前预想到自己可能的&quot;下场&quot;，他们或许是焦躁难耐的大学生；或许是进退维谷的创业者；或许是压力山大的白领一族；更有可能是浮躁社会里的你你我我。担心失败的大有人在，单听他们的诉说，就让人慌了阵脚。我不禁想到：担心什么来什么。我们选择的是不安，结局亦是不安；我们选择把失败作为假想敌。结局就不言而喻，亦是失败！</p>
+
+<p>哎呀糟糕！开篇我就讲了这么多&quot;失败&quot;，接下来的运气肯定不会好了……事实果真是这样吗？听起来好像失败来得如此简单。有人说，这世界上存在一种&quot;吸引力&quot;法则，我们可以这样理解：你生命中所发生的一切，都是你吸引来的。这样说你会不会感觉心安呢？因为若是这样，成功也变得相当简单，你时常想着它念着它，没事把它放心里意淫千百次，成功它就真的追着你来了！</p>
+
+<p>成功与失败从来都不是耍大牌的大腕，而是挥之即来呼之即去的小喽啰！</p>
+
+<p>一、担心什么来什么（心理暗示的力量）</p>
+
+<p>澳大利亚一名电视工作者 朗达·拜恩，于2008年出版了一本名为 The Secret（《秘密》）的书，曾引起巨大反响。这本书最核心的内容就是阐述了一个法则，即 &quot;吸引力法则&quot;，大意是说&quot;心中所想之事越发强烈，似乎就越容易实现&quot;，这无疑会让人们联想到永远抱有巨奖梦的彩民们。</p>
+
+<p>这本书阐述的&quot;吸引力法则&quot;基本原理是这样的：人类所有的思维活动，都会产生某种特定的频率（脑电波），而这种频率就好比杜鹃用于求爱的信号、蝙蝠用来探路的超声波。它会吸引同样的频率，引发共振，从而将我们思维活动中所涉及到的任何事物吸引到我们的面前。</p>
+
+<p>据说有些彩民将自己买彩票中奖的幸运归结为&quot;自己的信念足够强大&quot;，好了，先别慨叹&quot;心想事成&quot;的力量之强大了。不管它是&quot;吸引力法则&quot;也好，&quot;心理暗示&quot;也好，作为相反的例子，我们越是担心失败，脑中的磁场就会充分调动周围的资源，将那些与失败相关的，充满负面思维的事物吸引至我们眼前。然后我们面对着它们，就好像面对着久久未见的眼熟人儿，既熟悉又陌生。因为担心失败，大脑就更关注失败，会想到很多和失败相关的事情，如失败后的各种后果。因为大脑的思考范围有限，这么多心思放在&quot;担心&quot;上，就没有足够能量来考虑解决问题的办法，自然没那么多精力去做或许能真正&quot;促进成功&quot;的事情，失败几率自然更大。</p>
+
+<p>二、墨菲定律的启示（心理倾向的作用）</p>
+
+<p>&quot;墨菲定律&quot;（Murphy&#39;s Law）：事情往往会向你所想到的不好的方向发展，只要有这个可能性。比如你衣袋里有两把钥匙，一把是你房间的，一把是汽车的；如果你现在想拿出车钥匙，会发生什么？是的，你往往是拿出了房间钥匙。这就是著名的&quot;墨菲定律&quot;，也叫&quot;倒霉蛋定律&quot;。根据它，我们得知：</p>
+
+<ol>
+<li><p>任何事都没有表面看起来那么简单；</p></li>
+<li><p>所有的事都会比你预计的时间长；</p></li>
+<li><p>会出错的事总会出错；</p></li>
+<li><p>如果你担心某种情况发生，那么它就更有可能发生。</p></li>
+</ol>
+
+<p>我们都有这样的体会，如果在街上准备拦一辆车去赴一个时间紧迫的约会，你会发现街上所有的出租车不是有客就是根本不搭理你，而当你不需要租车的时候，却发现有很多空车在你周围游弋，只待你的一扬手，车随时就停在你的面前。如果一个月前在浴室打碎镜子，尽管仔细检查和冲刷，也不敢光着脚走路，等过了一段时间确定没有危险了，不幸的事还是照样发生，你还是被碎玻璃扎了脚。</p>
+
+<p>在运动场上，我们也不乏看见这样的例子。美国射手埃蒙斯，在2004年雅典奥运会男子步枪三姿决赛，前九枪领先对手3环之多，最后一枪鬼使神差地把子弹打到了别人的靶子上。2008年北京奥运会男子50米步枪3x40决赛，埃蒙斯在倒数第二轮领先将近4环，金牌几乎唾手可得的情况下，重演了雅典的严重失误，最后一轮仅打出了4.4环。2012年伦敦奥运会射击项目的最后一个比赛日，男子50米步枪三姿决赛，埃蒙斯再次折在&quot;最后一枪&quot;。</p>
+
+<p>也许他与成功只相差一步。但心里若对比赛结果有那么一点点介意，便草木皆兵了罢。当我们在惋惜埃蒙斯的三度梦碎的时候，是否会从中得到一些启示呢？</p>
+
+<p>三、人的&quot;自我验证&quot;机制（心理预期的作用）</p>
+
+<p>&quot;安全感&quot;是大多数人所追求的。我们去幻想失败，也许没有其他的想法，只是为了证实自己心中所想，以达到心理预期，也就是所谓的安全感。我们在接受外界信息的时候往往都倾向于接受能够保持和强化自我概念的信息，来增强确定性，消除不确定性所带来的心理不安感。</p>
+
+<p><img src="media/14838684237499/84.jpg" alt="84"/></p>
+
+<p>根据swann的理论，有积极自我概念的人，认为自己会成功的人，他会选择营造验证自我的社会环境：（1）他会选择和成功的人交往；（2）他会在别人面前展示成功者的面貌；（3）采用能够验证自己成功的交往策略。而且会对现实信息进去主观歪曲：（1）选择性地注意那些成功的事迹；（2）选择性的对事情解释，失败的事情都能被解释为成功的事。</p>
+
+<p>用个例子来说明下：我准备了很久的考试，却每次都是考到我没有背的那些题目呢？原因可以解释为：</p>
+
+<p>1、反正会漏背，背不完，我就挑选几道可能考的题目（消极的策略）</p>
+
+<p>2、实际上有很多次刚好考到他背的题目，但他却总是记得那些漏背的考试，因为这是让人沮丧的情况所以让人印象深刻（选择性注意）</p>
+
+<p>3、实际上不是漏背，只是没背熟，他为了证明自己的倒霉而不是记忆力不好，解释为漏背了（选择性解释）</p>
+
+<p>所以，为什么越担心失败就越容易失败呢？因为这种担心失败的不积极的自我概念，会让我们展现出失败者的面貌，进而激发我们采取退缩、回避等消极策略。在面对问题时，消极策略让我们不能倾尽全力去付出，一旦结果不如人意将再次强化自己会失败的自我概念。就算在整件事当中有些事是成功的，但是我们往往选择性地忘记成功，反而牢牢地记住自己的失败，并深信不疑，觉得自己的成功是侥幸，失败是很经常和容易发生的（选择性歪曲）。</p>
+
+<p>说到这里，我想大家都知道了这个问题的答案了。原来我们心心念念的那个&quot;情人&quot;是&quot;失败&quot;呀！什么，你并不爱它？那么，为什么不从容地向成功挥一挥手，展示我们对它的热切渴望？成功，从来都不是大腕，它就是你身边一打杂儿的伙计，你向它招一招手，它就屁颠屁颠儿地跟来了，当然你得诚心诚意呼唤它，用100%努力去召唤它，这样它定不会背叛你。</p>
+
+<p>PS. 这一招在 Hard 难度以上的现实世界效果会打折扣。但起码是把成功拉向自己，而不是傲娇地一把把它推开。</p>
+
+                        
+                      </div>
+                  </div>
+                </a>
+                <div class="read-more clearfix">
+                  <div class="more-left left">
+                  
+                    <span class="date">2014/12/12</span>
+                    <span>posted in&nbsp;</span> 
+          				  
+          					    <span class="posted-in"><a href='%E9%9A%8F%E6%83%B3.html'>随想</a></span>
+          				   
+                  </div>
+                  <div class="more-right right">
+                  <span class="comments">
+                      
+
+                       
+                  </span>
+                  </div>
+                </div>
+              </div><!-- article -->
+        
+              
+
+
+			<div class="row">
+			  <div class="large-6 columns">
+			  <p class="text-left" style="padding-top:25px;">
+			   <a href="all_11.html">&laquo; Prev Page</a>  
+			  </p>
+			  </div>
+			  <div class="large-6 columns">
+			<p class="text-right" style="padding-top:25px;">
+			 <a href="all_13.html">&raquo; Next Page</a> 
+			</p>
+			  </div>
+			</div>
+		</div>
+	</div><!-- large 8 -->
+
+ <div class="large-4 medium-4 columns">
+  <div class="hide-for-small">
+    <div id="sidebar" class="sidebar">
+          <div id="site-info" class="site-info">
+            
+                <h1>挂在树上的兔子</h1>
+                <div class="site-des"></div>
+                <div class="social">
+
+
+
+
+
+
+
+
+
+
+
+  <a target="_blank" class="rss" href="atom.xml" title="RSS">RSS</a>
+                
+              	 </div>
+          	</div>
+
+             
+
+              <div id="site-categories" class="side-item ">
+                <div class="side-header">
+                  <h2>Categories</h2>
+                </div>
+                <div class="side-content">
+
+      	<p class="cat-list">
+        
+            <a href="%E6%95%B0%E6%8D%AE%E5%BA%93.html"><strong>数据库</strong></a>
+        
+            <a href="Python.html"><strong>Python</strong></a>
+        
+            <a href="%E9%9A%8F%E6%83%B3.html"><strong>随想</strong></a>
+        
+            <a href="%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84&%E7%AE%97%E6%B3%95.html"><strong>数据结构&算法</strong></a>
+        
+            <a href="PHP.html"><strong>PHP</strong></a>
+        
+            <a href="Ubuntu.html"><strong>Ubuntu</strong></a>
+         
+        </p>
+
+
+                </div>
+              </div>
+
+              <div id="site-categories" class="side-item">
+                <div class="side-header">
+                  <h2>Recent Posts</h2>
+                </div>
+                <div class="side-content">
+                <ul class="posts-list">
+	      
+		      
+			      <li class="post">
+			        <a href="14830907697555.html">MySQL数据库☞数据库编码</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="14830842110487.html">MySQL数据库☞中文乱码问题</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="14819928857822.html">MySQL的基本命令☞数据表的基本管理</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="14745361920074.html">python容器数据类型☞collections</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="14724629382123.html">python对列表进行操作</a>
+			      </li>
+		     
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		   
+		  		</ul>
+                </div>
+              </div>
+        </div><!-- sidebar -->
+      </div><!-- hide for small -->
+</div><!-- large 4 -->
+
+</div><!-- row -->
+
+ <div class="page-bottom clearfix">
+  <div class="row">
+   <p class="copyright">Copyright &copy; 2015
+Powered by <a target="_blank" href="http://www.mweb.im">MWeb</a>,&nbsp; 
+Theme used <a target="_blank" href="http://github.com">GitHub CSS</a>.</p>
+  </div>
+</div>
+
+        </section>
+      </div>
+    </div>
+
+  
+    
+
+    <script src="asset/js/foundation.min.js"></script>
+    <script>
+      $(document).foundation();
+      function fixSidebarHeight(){
+        var w1 = $('.markdown-body').height();
+          var w2 = $('#sidebar').height();
+          if (w1 > w2) { $('#sidebar').height(w1); };
+      }
+      $(function(){
+        fixSidebarHeight();
+      })
+      $(window).load(function(){
+          fixSidebarHeight();
+      });
+     
+    </script>
+
+    <script src="asset/chart/all-min.js"></script><script type="text/javascript">$(function(){    var mwebii=0;    var mwebChartEleId = 'mweb-chart-ele-';    $('pre>code').each(function(){        mwebii++;        var eleiid = mwebChartEleId+mwebii;        if($(this).hasClass('language-sequence')){            var ele = $(this).addClass('nohighlight').parent();            $('<div id="'+eleiid+'"></div>').insertAfter(ele);            ele.hide();            var diagram = Diagram.parse($(this).text());            diagram.drawSVG(eleiid,{theme: 'simple'});        }else if($(this).hasClass('language-flow')){            var ele = $(this).addClass('nohighlight').parent();            $('<div id="'+eleiid+'"></div>').insertAfter(ele);            ele.hide();            var diagram = flowchart.parse($(this).text());            diagram.drawSVG(eleiid);        }    });});</script>
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script type="text/x-mathjax-config">MathJax.Hub.Config({TeX: { equationNumbers: { autoNumber: "AMS" } }});</script>
+
+
+  </body>
+</html>

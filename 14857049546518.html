@@ -1,0 +1,426 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+    
+  PHP面向对象 - 挂在树上的兔子
+  
+  </title>
+  
+  
+  <link href="atom.xml" rel="alternate" title="挂在树上的兔子" type="application/atom+xml">
+    <link rel="stylesheet" href="asset/css/foundation.min.css" />
+    <link rel="stylesheet" href="asset/css/docs.css" />
+    <script src="asset/js/vendor/modernizr.js"></script>
+    <script src="asset/js/vendor/jquery.js"></script>
+  <script src="asset/highlightjs/highlight.pack.js"></script>
+  <link href="asset/highlightjs/styles/github.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script>hljs.initHighlightingOnLoad();</script>
+<script type="text/javascript">
+  function before_search(){
+    var searchVal = 'site:blog.yanzl.net ' + document.getElementById('search_input').value;
+    document.getElementById('search_q').value = searchVal;
+    return true;
+  }
+</script>
+  </head>
+  <body class="antialiased hide-extras">
+    
+    <div class="marketing off-canvas-wrap" data-offcanvas>
+      <div class="inner-wrap">
+
+
+<nav class="top-bar docs-bar hide-for-small" data-topbar>
+
+
+  <section class="top-bar-section">
+  <div class="row">
+      <div style="position: relative;width:100%;"><div style="position: absolute; width:100%;">
+        <ul id="main-menu" class="left">
+        
+        <li id=""><a target="self" href="index.html">Home</a></li>
+        
+        <li id=""><a target="_self" href="archives.html">Archives</a></li>
+        
+        </ul>
+
+        <ul class="right" id="search-wrap">
+          <li>
+<form target="_blank" onsubmit="return before_search();" action="http://google.com/search" method="get">
+    <input type="hidden" id="search_q" name="q" value="" />
+    <input tabindex="1" type="search" id="search_input"  placeholder="Search"/>
+</form>
+</li>
+          </ul>
+      </div></div>
+  </div>
+  </section>
+
+</nav>
+
+        <nav class="tab-bar show-for-small">
+  <a href="javascript:void(0)" class="left-off-canvas-toggle menu-icon">
+    <span> &nbsp; 挂在树上的兔子</span>
+  </a>
+</nav>
+
+<aside class="left-off-canvas-menu">
+      <ul class="off-canvas-list">
+       
+       <li><a href="index.html">HOME</a></li>
+    <li><a href="archives.html">Archives</a></li>
+    <li><a href="about.html">ABOUT</a></li>
+
+    <li><label>Categories</label></li>
+
+        
+            <li><a href="%E6%95%B0%E6%8D%AE%E5%BA%93.html">数据库</a></li>
+        
+            <li><a href="Python.html">Python</a></li>
+        
+            <li><a href="%E9%9A%8F%E6%83%B3.html">随想</a></li>
+        
+            <li><a href="%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84&%E7%AE%97%E6%B3%95.html">数据结构&算法</a></li>
+        
+            <li><a href="PHP.html">PHP</a></li>
+        
+            <li><a href="Ubuntu.html">Ubuntu</a></li>
+         
+
+      </ul>
+    </aside>
+
+<a class="exit-off-canvas" href="#"></a>
+
+
+        <section id="main-content" role="main" class="scroll-container">
+        
+       
+
+ <script type="text/javascript">
+  $(function(){
+    $('#menu_item_index').addClass('is_active');
+  });
+</script>
+<div class="row">
+  <div class="large-8 medium-8 columns">
+      <div class="markdown-body article-wrap">
+       <div class="article">
+          
+          <h1>PHP面向对象</h1>
+     
+        <div class="read-more clearfix">
+          <span class="date">2015/3/22</span>
+
+          <span>posted in&nbsp;</span> 
+          
+              <span class="posted-in"><a href='PHP.html'>PHP</a></span>
+           
+         
+          <span class="comments">
+            
+
+            
+          </span>
+
+        </div>
+      </div><!-- article -->
+
+      <div class="article-content">
+      <p>命名空间</p>
+
+<p>再做一个大型项目的时候，常常需要多人分工合作，这样的话，每个人对于变量以及函数的命名就可能出现重复的现象，当项目整合运行的时候就会产生歧义导致程序出错，命名空间是将不同的功能模块的名称框进一个空间里，这样，即使是相同的名称，因为所在的空间不同，所以不会产生影响。</p>
+
+<p>类的声明和定义</p>
+
+<p>类是方法和变量的集合，是面向对象的，只对对象提供接口，而具体的操作则是在类内完成。</p>
+
+<p>&lt;?php<br/>
+class Person<br/>
+{<br/>
+    //对变量的顺序，类型进行提示。<br/>
+    /**<br/>
+     * @param string \(name<br/>
+     * @param int \)age<br/>
+     */<br/>
+    public function __construct(\(name,\)age)//类的构造函数<br/>
+    {<br/>
+        \(this-&gt;name1 = \)name;<br/>
+        \(this-&gt;age1 = \)age;<br/>
+        if(Person::\(Num &gt; Person::MAX_NUM)//如果创建的人数超过了指定人数，则会抛出一个异常<br/>
+            throw new Exception(&quot;不能创建更多的人！！&quot;);<br/>
+        Person::\)Num++;<br/>
+    }<br/>
+    public function getage()<br/>
+{<br/>
+    return \(this-&gt;age1;<br/>
+}<br/>
+    public function getname()<br/>
+    {<br/>
+        return \)this-&gt;name1;<br/>
+    }<br/>
+    public static  function  sayhello()//类方法（静态方法）<br/>
+    {<br/>
+        echo &quot;hello the person!!<br />&quot;;<br/>
+    }<br/>
+    private \(age1,\)name1;<br/>
+    private static \(Num = 0;<br/>
+    const MAX_NUM = 3;//指明一个常量<br/>
+}<br/>
+\)h = new Person(&#39;zhangsan&#39;,23);<br/>
+for(\(i = 0;\)i &lt; 400;\(i++)//循环创建示例，因为大于指定人数，所以程序异常<br/>
+{<br/>
+\)h = new Person(&quot;zhangli&quot;,23);<br/>
+}<br/>
+//根据上述错误，我们对for循环进行修改<br/>
+for(\(i = 1;\)i &lt; Person::MAX_NUM;\(i++)//循环创建示例，因为大于指定人数，所以程序异常<br/>
+{<br/>
+    \)h = new Person(&quot;zhangli&quot;,23);<br/>
+}<br/>
+echo \(h-&gt;getage().&#39;&lt;br /&gt;&#39;;<br/>
+echo \)h-&gt;getname().&#39;<br />&#39;;<br/>
+Person::sayhello();//调用类方法<br/>
+?&gt;</p>
+
+<p>在上述实例中，getage(),getname（），的方法就叫做成员方法，这种方法需要通过一个实例（对象）进行访问。</p>
+
+<p>sayhello()方法是类方法，静态方法，用来描述属性，调用的时候直接写类名，然后是两个冒号，类方法即可。</p>
+
+<p>静态常量，静态变量，静态方法都是描述类的属性，不需要示例去使用。</p>
+
+<p>类的继承</p>
+
+<p>用extends关键字进行类的继承，继承就是在一个类的基础上，新增自身的新的变量和方法。</p>
+
+<p>这里举一个示例，以上一个示例中Person类为基类，建一个Man类，即男性的类。</p>
+
+<p>class Man extends Person//定义一个子类，继承person类<br/>
+{<br/>
+    public function  <strong>construct(\(name,\)age,$sex)//定义构造方法<br/>
+    {<br/>
+        parent::</strong>construct(\(name,\)age);//调用父类中的构造方法<br/>
+        \(sex1 = \)sex;<br/>
+    }<br/>
+    public function  looksex()//定义打印性别的方法<br/>
+    {<br/>
+        echo &quot;the person sex is a MAN <br />&quot;;<br/>
+    }<br/>
+    public function getname()//对于父类中的姓名打印函数进行重写<br/>
+    {<br/>
+       // parent::getname();//延续父类的方法<br/>
+        //如果不想用父类中的方法，可以在子类中重新定义该方法，这就是方法的重写。<br/>
+        echo &quot;Man类中的打印名字方法！！&quot;;<br/>
+    }<br/>
+}<br/>
+ 方法重写</p>
+
+<p>对于父类中的方法，如果子类中没有，在调用的时候就会自动调用父类中的方法，如果子类和父类中都存在该方法，那么将会自动调用子类中的方法。如果在这种情况下想要调用父类中的方法，就要声明语句</p>
+
+<p>// parent::getname();//延续父类的方法</p>
+
+
+    
+
+      </div>
+
+      <div class="row">
+        <div class="large-6 columns">
+        <p class="text-left" style="padding:15px 0px;">
+      
+          <a href="14857049852974.html" 
+          title="Previous Post: PHP常用库函数">&laquo; PHP常用库函数</a>
+      
+        </p>
+        </div>
+        <div class="large-6 columns">
+      <p class="text-right" style="padding:15px 0px;">
+      
+          <a  href="14857049281168.html" 
+          title="Next Post: PHP的常用功能">PHP的常用功能 &raquo;</a>
+      
+      </p>
+        </div>
+      </div>
+      <div class="comments-wrap">
+        <div class="share-comments">
+          
+
+          
+
+          
+        </div>
+      </div>
+    </div><!-- article-wrap -->
+  </div><!-- large 8 -->
+
+
+
+
+ <div class="large-4 medium-4 columns">
+  <div class="hide-for-small">
+    <div id="sidebar" class="sidebar">
+          <div id="site-info" class="site-info">
+            
+                <h1>挂在树上的兔子</h1>
+                <div class="site-des"></div>
+                <div class="social">
+
+
+
+
+
+
+
+
+
+
+
+  <a target="_blank" class="rss" href="atom.xml" title="RSS">RSS</a>
+                
+              	 </div>
+          	</div>
+
+             
+
+              <div id="site-categories" class="side-item ">
+                <div class="side-header">
+                  <h2>Categories</h2>
+                </div>
+                <div class="side-content">
+
+      	<p class="cat-list">
+        
+            <a href="%E6%95%B0%E6%8D%AE%E5%BA%93.html"><strong>数据库</strong></a>
+        
+            <a href="Python.html"><strong>Python</strong></a>
+        
+            <a href="%E9%9A%8F%E6%83%B3.html"><strong>随想</strong></a>
+        
+            <a href="%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84&%E7%AE%97%E6%B3%95.html"><strong>数据结构&算法</strong></a>
+        
+            <a href="PHP.html"><strong>PHP</strong></a>
+        
+            <a href="Ubuntu.html"><strong>Ubuntu</strong></a>
+         
+        </p>
+
+
+                </div>
+              </div>
+
+              <div id="site-categories" class="side-item">
+                <div class="side-header">
+                  <h2>Recent Posts</h2>
+                </div>
+                <div class="side-content">
+                <ul class="posts-list">
+	      
+		      
+			      <li class="post">
+			        <a href="14830907697555.html">MySQL数据库☞数据库编码</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="14830842110487.html">MySQL数据库☞中文乱码问题</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="14819928857822.html">MySQL的基本命令☞数据表的基本管理</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="14745361920074.html">python容器数据类型☞collections</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="14724629382123.html">python对列表进行操作</a>
+			      </li>
+		     
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		   
+		  		</ul>
+                </div>
+              </div>
+        </div><!-- sidebar -->
+      </div><!-- hide for small -->
+</div><!-- large 4 -->
+
+</div><!-- row -->
+
+ <div class="page-bottom clearfix">
+  <div class="row">
+   <p class="copyright">Copyright &copy; 2015
+Powered by <a target="_blank" href="http://www.mweb.im">MWeb</a>,&nbsp; 
+Theme used <a target="_blank" href="http://github.com">GitHub CSS</a>.</p>
+  </div>
+</div>
+
+        </section>
+      </div>
+    </div>
+
+  
+    
+
+    <script src="asset/js/foundation.min.js"></script>
+    <script>
+      $(document).foundation();
+      function fixSidebarHeight(){
+        var w1 = $('.markdown-body').height();
+          var w2 = $('#sidebar').height();
+          if (w1 > w2) { $('#sidebar').height(w1); };
+      }
+      $(function(){
+        fixSidebarHeight();
+      })
+      $(window).load(function(){
+          fixSidebarHeight();
+      });
+     
+    </script>
+
+    <script src="asset/chart/all-min.js"></script><script type="text/javascript">$(function(){    var mwebii=0;    var mwebChartEleId = 'mweb-chart-ele-';    $('pre>code').each(function(){        mwebii++;        var eleiid = mwebChartEleId+mwebii;        if($(this).hasClass('language-sequence')){            var ele = $(this).addClass('nohighlight').parent();            $('<div id="'+eleiid+'"></div>').insertAfter(ele);            ele.hide();            var diagram = Diagram.parse($(this).text());            diagram.drawSVG(eleiid,{theme: 'simple'});        }else if($(this).hasClass('language-flow')){            var ele = $(this).addClass('nohighlight').parent();            $('<div id="'+eleiid+'"></div>').insertAfter(ele);            ele.hide();            var diagram = flowchart.parse($(this).text());            diagram.drawSVG(eleiid);        }    });});</script>
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script type="text/x-mathjax-config">MathJax.Hub.Config({TeX: { equationNumbers: { autoNumber: "AMS" } }});</script>
+
+
+  </body>
+</html>

@@ -1,0 +1,1477 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+    
+  挂在树上的兔子
+  
+  </title>
+  
+  
+  <link href="atom.xml" rel="alternate" title="挂在树上的兔子" type="application/atom+xml">
+    <link rel="stylesheet" href="asset/css/foundation.min.css" />
+    <link rel="stylesheet" href="asset/css/docs.css" />
+    <script src="asset/js/vendor/modernizr.js"></script>
+    <script src="asset/js/vendor/jquery.js"></script>
+  <script src="asset/highlightjs/highlight.pack.js"></script>
+  <link href="asset/highlightjs/styles/github.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script>hljs.initHighlightingOnLoad();</script>
+<script type="text/javascript">
+  function before_search(){
+    var searchVal = 'site:blog.yanzl.net ' + document.getElementById('search_input').value;
+    document.getElementById('search_q').value = searchVal;
+    return true;
+  }
+</script>
+  </head>
+  <body class="antialiased hide-extras">
+    
+    <div class="marketing off-canvas-wrap" data-offcanvas>
+      <div class="inner-wrap">
+
+
+<nav class="top-bar docs-bar hide-for-small" data-topbar>
+
+
+  <section class="top-bar-section">
+  <div class="row">
+      <div style="position: relative;width:100%;"><div style="position: absolute; width:100%;">
+        <ul id="main-menu" class="left">
+        
+        <li id=""><a target="self" href="index.html">Home</a></li>
+        
+        <li id=""><a target="_self" href="archives.html">Archives</a></li>
+        
+        </ul>
+
+        <ul class="right" id="search-wrap">
+          <li>
+<form target="_blank" onsubmit="return before_search();" action="http://google.com/search" method="get">
+    <input type="hidden" id="search_q" name="q" value="" />
+    <input tabindex="1" type="search" id="search_input"  placeholder="Search"/>
+</form>
+</li>
+          </ul>
+      </div></div>
+  </div>
+  </section>
+
+</nav>
+
+        <nav class="tab-bar show-for-small">
+  <a href="javascript:void(0)" class="left-off-canvas-toggle menu-icon">
+    <span> &nbsp; 挂在树上的兔子</span>
+  </a>
+</nav>
+
+<aside class="left-off-canvas-menu">
+      <ul class="off-canvas-list">
+       
+       <li><a href="index.html">HOME</a></li>
+    <li><a href="archives.html">Archives</a></li>
+    <li><a href="about.html">ABOUT</a></li>
+
+    <li><label>Categories</label></li>
+
+        
+            <li><a href="%E6%95%B0%E6%8D%AE%E5%BA%93.html">数据库</a></li>
+        
+            <li><a href="Python.html">Python</a></li>
+        
+            <li><a href="%E9%9A%8F%E6%83%B3.html">随想</a></li>
+        
+            <li><a href="%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84&%E7%AE%97%E6%B3%95.html">数据结构&算法</a></li>
+        
+            <li><a href="PHP.html">PHP</a></li>
+        
+            <li><a href="Ubuntu.html">Ubuntu</a></li>
+         
+
+      </ul>
+    </aside>
+
+<a class="exit-off-canvas" href="#"></a>
+
+
+        <section id="main-content" role="main" class="scroll-container">
+        
+       
+
+ <script type="text/javascript">
+	$(function(){
+		$('#menu_item_index').addClass('is_active');
+	});
+</script>
+<div class="row">
+	<div class="large-8 medium-8 columns">
+		<div class="markdown-body home-categories">
+		
+			<div class="article">
+                <a class="clearlink" href="14838710892101.html">
+                
+                  <h1>Union-Find（并查集）总结</h1>
+                  <div class="a-content">
+                      
+                      <div class="a-content-text">
+                        
+                        	<p>并查集主要是运用在动态连通性的问题上，什么是动态连通性呢，让我们先看一张图片</p>
+
+<p><img src="media/14838710892101/bingchaji1.png" alt="bingchaji1"/></p>
+
+<p>许多点开始时单独成一集合，随着连线的不断增多，图的连通性质发生了改变，在联通的过程中，如果两个点之间已经连通，那么就不需要将这两个点再次连通。</p>
+
+<p>动态连通性的应用场景常见的有两个</p>
+
+<p>网络连接判断：</p>
+
+<p>假设每一对点代表了一个网络节点，那么这一对点就表示这两个点是需要联通的，将这些需要连通的点建立动态连通图，以减少连边。在一定程度上降低成本</p>
+
+<p>两个对象属于同一个集合：</p>
+
+<p>无论是两个变量名指向同一个内存也好，还是两个人的爱好相同也好，将有相同性质的对象归结到同一个集合中，便于查询两个对象是否在同一个集合内。</p>
+
+<p>并查集</p>
+
+<p>在思考一个问题的时候，我们首先要考虑到的是这个问题的根本在哪里，同样，面对动态连通性问题，我们要解决的问题到底是什么？通过上面的总结分析，可以看出动态连通性就是给出两个点，判断是否连通，如果已经连通，联通路径是什么，如果没有连通且应该连通，就要想办法让其联通。</p>
+
+<p>首先，联通的节点属于同一个集合，不联通的点分别属于自己的集合，随着联通点对的输入，我们要判断这两个点是否已经连通。可以见一个数组来存储点，连通的点用一个数来记录，不联通的点分别用数字来记录，那么最初的情形就是所有的点都不联通，都是自成一个集合。该段代码的实现为：</p>
+
+<pre><code>int id[Size];
+    for(int i = 0;i &lt; Size;i++)
+        id[i] = i;
+</code></pre>
+
+<p>初始化结束之后，我们接下来要做的事情有以下几点</p>
+
+<p>（1）查询结点属于的组：数组对应的位置就是结点对应的组号。</p>
+
+<p>（2）判断两个结点是否属于同一个位置：分别查询到两个节点的组号，判断其是否相等。</p>
+
+<p>（3）连接两个结点，使之在同一个组中：分别得到两个节点的组号，组号相同时结束操作，不同时将一个节点的组号更改为另一个节点的组号。</p>
+
+<p>（4）获取组的数目：计算在这样一个森林中，总共有多少棵树</p>
+
+<p>让我们依次来实现这些操作</p>
+
+<p>首先，我们先构建一个连通图，在构建连通图的同时，查询节点属于的组。</p>
+
+<p>举个栗子，比如输入的Pair是(5， 9)，那么首先通过find方法发现它们的组号并不相同，5属于1组，9属于8组，然后在union的时候通过一次遍历，将组号1都改成8。当然，由8改成1也是可以的，保证操作时都使用一种规则就行。</p>
+
+<p><img src="media/14838710892101/bingchaji2.png" alt="bingchaji2"/></p>
+
+<p>但是，在修改的过程中，我们不知道1组或8组的元素到底有哪些，所以需要从头遍历数组，这样一来，时间复杂度瞬间就成了线性关系，似乎没有什么优化额。。。。。。如何解决这个问题呢？从上图可以知道，最耗时的是union算法，想办法改进该算法。</p>
+
+<p>想想看，如果我们依然使用数组来存储元素所在的组，但是里面存储的数据不再是组号，而是上一个连接该点的地址，即他的父亲，那么，我们只要知道孩子，就可以不断地查询祖先，在同一个组内的元素自然一次就能够便利过来了，而且如果想将两个不同组的元素连接到同一个组，也不需要遍历数组修改其值了，只需要将一个元素存储的值变更为另一个元素的位置就可以了。</p>
+
+<p>上面步骤可以用代码表示为：</p>
+
+<pre><code>int find(int x)//查找树根
+{
+    if(id[x] != x)
+    {
+        x = id[x];
+    }
+    return x;
+}
+void unio(int x,int y)//连接两棵树成为一棵树
+{
+    int fx = find(x);
+    int fy = find(y);
+    if(fx != fy)
+    {
+        id[fx] = fy;
+    }
+}
+</code></pre>
+
+<p>这样看来，问题似乎是解决了，但是还有一个潜在的问题，那就是容易出现极端状况。比如说很多节点属于同一个树（组），按上面的方法连接起来就会形成一条链，树的深度会很大，也会影响查找的效率，我们还需要优化一下。</p>
+
+<p>明确我们优化的目的：让树由高瘦变得矮胖。</p>
+
+<p>为什么会高瘦呢？关键在于下面这行代码</p>
+
+<pre><code> id[fx] = fy;
+</code></pre>
+
+<p>也就是说，在合并子树的过程中，不管子树哪个高哪个低，都是执行操作id[fx] = fy；所以就导致了把高的树连接到低的树上，不断地增加树的高度。如果我们能够找到每棵树的高度，那么我们就可以很方便的知道数的高低，从而将低的树连接到高的树上了。我们需要再开一个数组记录高度</p>
+
+<pre><code>    int sz[Size];
+    for(int i = 0;i &lt; Size;i++)
+    {
+        sz[i] = 1;//初始高度都为本身1
+    }
+</code></pre>
+
+<p>在合并的时候，通过这个数组选择合并的顺序</p>
+
+<pre><code>void unio(int x,int y)
+{
+    int fx = find(x);
+    int fy = find(y);
+    if(fx != fy)
+    {
+        if(sz[fx] &lt; sz[fy])
+        {
+            id[fx] = fy;
+            sz[fy] += sz[fx];//高度发生变化
+        }
+        else
+        {
+            id[fy] = fx;
+            sz[fx] += sz[fy];
+        }
+    }
+}
+</code></pre>
+
+<p>所以，修改之前和修改之后的图就有了明显的区别</p>
+
+<p><img src="media/14838710892101/bingchaji3.png" alt="bingchaji3"/></p>
+
+<p>这样一来，树就会变得矮胖了许多，但是，如果每棵树的高度如果都是1该有多好呀，即每个节点都直接连祖宗节点，这样的话，查找时不就更方便了嘛。我们还是可以实现这种存储结构的，即在查找根节点（祖宗节点）的过程中，对路径进行压缩。</p>
+
+<pre><code>int find(int x)
+{
+    if(id[x] != x)
+    {
+        //不是根节点，则将该节点的爷爷节点，缩短路径
+        id[x] = id[id[x]];
+        x = id[x];
+    }
+    return x;
+}
+</code></pre>
+
+<p>写到这里，（1）（2）（3）不操作都已经涉及到，而且优化好了，剩下的就是判断这个森林中一共有多少棵树。</p>
+
+<p>从find函数中可以看出，我们判断是不是祖宗节点的标志是</p>
+
+<pre><code>if(id[x] != x)
+</code></pre>
+
+<p>如果条件成立，那么继续查找，也就是说，如果条件不成立，就找到了祖宗节点，所以，判断是不是一颗单独树的条件就可以利用这个了。</p>
+
+<pre><code>int num = 0;
+    for(int i = 0;i &lt; n;i++)
+    {
+        if(id[i] == i)
+        {
+            num++;
+        }
+    }
+    printf(&quot;%d\n&quot;,num);
+</code></pre>
+
+<p>当然，我们可以不必另开数组记录树的高度，我们完全可以用parent[]数组边记录路径，并在祖宗节点上记录整棵树的高度。</p>
+
+<p>现在整理并查集的三个函数</p>
+
+<pre><code>int parent[MAX];
+void init()// 初始化
+{
+    for(int i = 0;i &lt; MAX;i++)
+    {
+        parent[i] = -1;
+    }
+}
+int Find(int x)//查找根节点
+{
+    int s = x;
+    while(parent[s] &gt;= 0)
+        s = parent[s];
+        //并查集的路径压缩
+    while(s != x)
+    {
+        int tmp = parent[x];
+        parent[x] = s;
+        x = tmp;
+    }
+    return s;
+}
+void Union(int x,int y)//并查集
+{
+    int fx = Find(x);
+    int fy = Find(y);
+    if(fx != fy)
+    {
+        //并查集的加权法则，尽量使树高降低
+        int sum = parent[fx] + parent[fy];
+        if(parent[fx] &lt; parent[fy])
+        {
+            parent[fy] = fx;
+            parent[fx] = sum;
+        }
+        else
+        {
+            parent[fx] = fy;
+            parent[fy] = sum;
+        }
+    }
+}
+</code></pre>
+
+                        
+                      </div>
+                  </div>
+                </a>
+                <div class="read-more clearfix">
+                  <div class="more-left left">
+                  
+                    <span class="date">2015/1/27</span>
+                    <span>posted in&nbsp;</span> 
+          				  
+          					    <span class="posted-in"><a href='%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84&%E7%AE%97%E6%B3%95.html'>数据结构&算法</a></span>
+          				   
+                  </div>
+                  <div class="more-right right">
+                  <span class="comments">
+                      
+
+                       
+                  </span>
+                  </div>
+                </div>
+              </div><!-- article -->
+        
+			<div class="article">
+                <a class="clearlink" href="14838709255313.html">
+                
+                  <h1>图的遍历（DFS && BFS）</h1>
+                  <div class="a-content">
+                      
+                      <div class="a-content-text">
+                        
+                        	<p>DFS遍历（深度优先搜索）</p>
+
+<p>算法思想：对一个无向连通图，在访问图中某一起始顶点v之后，由v出发，访问它的某一邻接顶点w1，再从w1出发，访问w1的某一邻接但还没有访问过的顶点w2，然后从w2出发，依次类推地访问；。。。。。。；直到到达的顶点的所有邻接顶点都被访问过了，然后回退一步，看看上一个访问的顶点还有没有没有访问过的邻接点，如果有，则访问此顶点，如果没有，继续回退，直到退到起始点v为止。重复上述过程，直到所有顶点都被访问到了为止。</p>
+
+<p>用图片说话</p>
+
+<p><img src="media/14838709255313/DFS.jpg" alt="DFS"/></p>
+
+<p>图2.1描述的是对于图2.1.a从A点开始进行DFS搜索，实线表示递进，虚线表示回归 。2.1.c是递归遍历之后对应的二叉树。</p>
+
+<p>DFS</p>
+
+<p>DFS的伪代码表示</p>
+
+<p>该遍历需要一个标记数组visited[i]，记录哪些点已经被访问，哪些点没有被访问，n代表顶点数，m代表边数。</p>
+
+<p>如果用邻接表来存储图结构，DGS的实现伪代码为</p>
+
+<pre><code>void DFS(顶点i)
+{
+    visited[i] = 1;
+    p = 顶点i的边链表表头指针；
+    while(p != NULL)
+    {
+        //假设指针p所指向的边节点所表示的边中，另一个顶点为顶点j
+        if(visited[j] == 0)
+        {
+            //这里写递归搜索前的准备工作
+            DFS(顶点j);
+            //dfs的回退位置，要处理的在这里写
+        }
+        p = p-&gt;next;//移向下一个节点
+    }
+}
+</code></pre>
+
+<p>可以看出，在邻接表的存储下，DFS的时间复杂度为： O(n + 2 * m)。</p>
+
+<p>如果用邻接矩阵存储图结构，DFS的实现算法为</p>
+
+<pre><code>void DFS(顶点i)
+{
+    visited[i] = 1;
+    for(int j = 0;j &lt; n;j++)
+    {
+        if(mapp[i][j] == 1 &amp;&amp; visited[j] == 0)
+        {
+            //递归前的准备工作
+            DFS(j);
+            //回归后的各种操作
+        }
+    }
+}
+</code></pre>
+
+<p>可以看出，如果采用邻接矩阵存储图结构，时间复杂度为：O(n * n)。</p>
+
+<p>不过要注意，DFS是利用了栈的原理，如果递归的太多的话容易超时，所以在这种情况下，可以选择广度优先搜索BFS。</p>
+
+<p>BFS遍历（广度优先搜索）</p>
+
+<p>广度优先搜索是一个分层的搜索过程，没有回退过程，是非递归的。</p>
+
+<p>算法思想对一个无向连通图，在访问图中某一起始顶点v后，有v出发，依次访问v的所有未访问过的邻接顶点w1,w2,w3,w4......，然后再顺序访问w1,w2,w,3,w4....的所有还未访问过的邻接顶点，再从这些顶点出发，进行下一轮的访问进队列。。。。。。</p>
+
+<p>可以看出，BFS是一个循环的过程。</p>
+
+<p>图片说话：</p>
+
+<p><img src="media/14838709255313/BFS.jpg" alt="BFS"/></p>
+
+<p>BFS的伪代码表示</p>
+
+<p>如果图的存储为邻接链表的形式</p>
+
+<pre><code>void BFS(顶点i)//从顶点进行广度优先搜索
+{
+  visited[i] = 1;//将顶点i的访问标记为已访问
+  //将顶点i进队列
+  while(/*队列不为空*/)
+  {
+      //取出队列的顶点，设为k
+      //p = 顶点k的边表表头指针
+      while(/*p不为空*/)
+      {
+          //设指针p所指向的边结点所表示的边的另一个顶点为顶点i
+            if(/*顶点j未被访问过*/)
+            {
+                //将顶点j的访问标志置为1，并将顶点j入队列
+            }
+            p = p-&gt;next;
+      }
+  }
+}
+</code></pre>
+
+<p>如果图的存储是邻接矩阵，那么BFS的伪代码表示为</p>
+
+<pre><code>void BFS(/*顶点i*/)
+{
+    visited[i] = 1;
+    //顶点进入队列
+    while(/*队列不为空*/)
+    {
+       //取出队列头的顶点，设为k
+       for(j = 0;j &lt; n;j++)
+        {
+            //j是k的邻接顶点，并且j没有被访问过
+            if(edge[k][j] == 1 &amp;&amp; !visited[k][j])
+            {
+                //将顶点j标记为已访问，并且将j入队列
+            }
+        }
+    }
+}
+</code></pre>
+
+                        
+                      </div>
+                  </div>
+                </a>
+                <div class="read-more clearfix">
+                  <div class="more-left left">
+                  
+                    <span class="date">2015/1/26</span>
+                    <span>posted in&nbsp;</span> 
+          				  
+          					    <span class="posted-in"><a href='%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84&%E7%AE%97%E6%B3%95.html'>数据结构&算法</a></span>
+          				   
+                  </div>
+                  <div class="more-right right">
+                  <span class="comments">
+                      
+
+                       
+                  </span>
+                  </div>
+                </div>
+              </div><!-- article -->
+        
+			<div class="article">
+                <a class="clearlink" href="14838706264843.html">
+                
+                  <h1>二叉树总结</h1>
+                  <div class="a-content">
+                      
+                      <div class="a-content-text">
+                        
+                        	<p>二叉树的定义</p>
+
+<p>二叉树要么为空，要么由根节点，左子树和右子树组成，左子树和又子树分别是一棵二叉树。</p>
+
+<p>二叉树的形态</p>
+
+<p>二叉树有五种基本形态，分别是空树，只有一个根节点的二叉树，只有左子树的二叉树，只有右子树的二叉树，左子树和又子树都健全的二叉树，如图所示</p>
+
+<p><img src="media/14838706264843/erchashu.jpg" alt="erchashu"/></p>
+
+<p><em>注意：二叉树不是树的特殊形式</em></p>
+
+<p>二叉树的性质</p>
+
+<p>(1) 在非空二叉树中，第i层的结点总数不超过，i&gt;=1.<br/>
+(2) 深度为h的二叉树最多有个结点(h&gt;=1)，最少有h个结点；<br/>
+(3) 对于任意一棵二叉树，如果其叶结点数为N0，而度数为2的结点总数为N2，则N0=N2+1；<br/>
+(4) 具有n个结点的完全二叉树的深度为<br/>
+(5)有N个结点的完全二叉树各结点如果用顺序方式存储，则结点之间有如下关系：<br/>
+若I为结点编号,则 如果I&gt;1，则其父结点的编号为I/2；<br/>
+如果2<em>I&lt;=N，则其左儿子（即左子树的根结点）的编号为2</em>I；若2<em>I&gt;N，则无左儿子；<br/>
+如果2</em>I+1&lt;=N，则其右儿子的结点编号为2<em>I+1；若2</em>I+1&gt;N，则无右儿子。<br/>
+(6)给定N个节点，能构成h(N)种不同的二叉树。<br/>
+h(N)为卡特兰数的第N项。h(n)=C(2*n，n)/(n+1)。<br/>
+（7）设有i个枝点，I为所有枝点的道路长度总和，J为叶的道路长度总和J=I+2i</p>
+
+<p>二叉树的存储结构</p>
+
+<p>链式存储方式：</p>
+
+<pre><code>typedef struct node
+{
+    char data;
+    node *lch, *rch;
+} BiTNode, *BiTree;
+</code></pre>
+
+<p>二叉树的遍历</p>
+
+<p>二叉树有四种遍历方法，以根节点来区分，先根遍历，中根遍历，后根遍历，每种遍历又有递归遍历和非递归遍历两种遍历形式，还有一种层次遍历。<br/>
+（1）先根遍历<br/>
+先遍历根节点，再遍历左子树，最后遍历右子树。<br/>
+递归遍历方法</p>
+
+<pre><code>void preOrder(BiTree T)
+{
+    if(T)
+    {
+        printf(&quot;%c  &quot;,T-&gt;data);
+        preOrder(T-&gt;lch);
+        preOrder(T-&gt;rch);
+    }
+}
+</code></pre>
+
+<p>非递归遍历方法</p>
+
+<pre><code>void notpreOrder(BiTree T)
+{
+    stack&lt;BiTNode&gt; stk;//这是一个栈结构，先进后出
+    if(T)
+    {
+        bool flag = true;
+        while(flag)
+        {
+            while(T)
+            {
+                printf(&quot;%c  &quot;,T-&gt;data);
+                stk.push(*(T));
+                T = T-&gt;lch;
+            }
+            if(stk.empty())
+                flag = false;
+            else
+            {
+                BiTNode p = stk.top();
+                stk.pop();
+                T = p.rch;
+            }
+        }
+    }
+}
+</code></pre>
+
+<p>（2）中序遍历</p>
+
+<p>先遍历左子树，再遍历根节点，最后遍历右子树</p>
+
+<p>递归算法实现</p>
+
+<pre><code>void inOrder(BiTree T)
+{
+    if(T)
+    {
+        inOrder(T-&gt;lch);
+        printf(&quot;%c  &quot;,T-&gt;data);
+        inOrder(T-&gt;rch);
+    }
+}
+</code></pre>
+
+<p>非递归算法实现</p>
+
+<pre><code>void notinOrder(BiTree T)
+{
+    stack&lt;BiTNode&gt; stk;
+    if(T)
+    {
+        bool flag = true;
+        while(flag)
+        {
+            while(T)
+            {
+                stk.push(*T);
+                T = T-&gt;lch;
+            }
+            if(stk.empty())
+                flag = false;
+            else
+            {
+                BiTNode p = stk.top();
+                stk.pop();
+                printf(&quot;%c  &quot;,p.data);
+                T = p.rch;
+            }
+        }
+    }
+}
+</code></pre>
+
+<p>（3）后序遍历</p>
+
+<p>先遍历左子树，再遍历右子树，最后遍历根节点</p>
+
+<p>递归算法实现</p>
+
+<pre><code>void postOrder(BiTree T)
+{
+    if(T)
+    {
+        postOrder(T-&gt;lch);
+        postOrder(T-&gt;rch);
+        printf(&quot;%c  &quot;,T-&gt;data);
+    }
+}
+</code></pre>
+
+<p>非递归算法实现</p>
+
+<pre><code>void notpostOrder(BiTree T)
+{
+    stack&lt;BiTNode&gt; stk1;
+    stack&lt;char&gt; stk2;
+    if(T)
+    {
+        stk1.push(*T);
+        while(!stk1.empty())
+        {
+            BiTNode p = stk1.top();
+            stk1.pop();
+            stk2.push(p.data);
+            if(p.lch) stk1.push(*(p.lch));
+            if(p.rch) stk1.push(*(p.rch));
+        }
+    }
+    while(!stk2.empty())
+    {
+        printf(&quot;%c  &quot;,stk2.top());
+        stk2.pop();
+    }
+}
+</code></pre>
+
+<p>（4）层次遍历</p>
+
+<pre><code>void leveloreder(BiTree T)
+{
+    queue&lt;BiTNode&gt; que;
+    que.push(*T);
+    while(!que.empty())
+    {
+        BiTNode p = que.top();
+        que.pop();
+        printf(&quot;%c  &quot;,p.data);
+        if(p.lch) que.push(*(p.lch));
+        if(p.rch) que.push(*(p.rch));
+    }
+}
+</code></pre>
+
+<p>二叉树的建立</p>
+
+<p>想要遍历，总得有树可以遍历吧，所以我们还要学一学建树。。。</p>
+
+<p>二叉树的建立可以根据前序和中序序列建立，也可以根据中序和后序序列遍历</p>
+
+<p>这里的建树是只知道树中结点的标记，不一定是满二叉树，且没有结点的地方并没有特殊标记。</p>
+
+<p>（1）已知先序序列和中序序列建树</p>
+
+<p>基本思想：先序序列的根节点总是在第一个位置，中序序列的根节点总是在相对中间的位置，找到中序序列的根节点，那么根结点的左面结点就是根节点的左子树上的结点，右面结点就是根节点的右子树上的节点。</p>
+
+<pre><code>int find(char ch,char *ins,int s,int e)
+{
+    for(int i = s;i &lt;= e;i++)
+    {
+        if(ch == ins[i])
+            return i;
+    }
+    return -1;
+}
+
+void createBiTree2(BiTree &amp;T,char *pre,char *ins,int ps,int is,int n)
+{
+    if(n &lt;= 0)
+        T = NULL;
+    else
+    {
+        int k = find(pre[ps],ins,is,is + n - 1);
+        if(k == -1) T = NULL;
+        else
+        {
+            T = new BiTree;
+            T-&gt;data = pre[ps];
+            if(k == is)
+                T-&gt;lch = NULL;
+            else
+            {
+                createBiTree2(BiTree T-&gt;lch,pre,ins,ps+1,is,k-is);
+            }
+            if(k == is + n - 1)
+                T-&gt;rch = NULL;
+            else
+            {
+                createBiTree2(BiTree T-&gt;rch,pre,ins,ps+(k-is)+1,k+1,n-(k-is)-1);
+            }
+        }
+    }
+}
+</code></pre>
+
+<p>已知先序序列和中序序列，还有一种更好理解的方法建树</p>
+
+<pre><code>void js(BiTree &amp;T,char *pre,char *ins,int len)//因为T指向的内容在函数内又重新开辟了内存，所以传递T的地址，这样保证指针///不会指错。。。。。。
+{
+    if(len == 0)
+    {
+        T = NULL;
+        return ;
+    }
+    T = new BiTNode;
+    T-&gt;data = *pre;
+    int i = 0;
+    for(i; i &lt; len; i++)
+    {
+        if(ins[i] == *pre)
+            break;
+    }
+//每一次的递归都是对一棵小的子树进行的操作
+    js(T-&gt;lch,pre+1,ins,i);
+    js(T-&gt;rch,pre + i + 1,ins + i + 1,len - i - 1);
+    printf(&quot;%c  &quot;,T-&gt;data);
+}
+</code></pre>
+
+<p>（2）已知中序序列和后序序列建树</p>
+
+<p>从后序序列开始着手，因为后序序列的最后一个字符总是根结点的字符，所以根据这个字符在中序序列中找到位置，然后分出左子树和右子树，递归查找建树</p>
+
+<pre><code>void js(BiTree &amp;T,char *ins,char *post,int len)
+{
+    if(len == 0)
+    {
+        T = NULL;
+        return ;
+    }
+    T = new BiTNode;
+    T-&gt;data = *(post + len - 1);
+    printf(&quot;%c  &quot;,T-&gt;data);
+    int i = 0;
+    for(i; i &lt; len; i++)
+    {
+        if(ins[i] == *(post + len - 1))
+            break;
+    }
+    js(T-&gt;lch,ins,post,i);
+    js(T-&gt;rch,ins+i+1,post + i,len - i - 1);
+}
+</code></pre>
+
+<p>（3） 给出一棵树的先序完全序列，即没有节点的地方用特殊标记进行建树。</p>
+
+<pre><code>void createBiTree1(BiTree &amp;T)
+{
+    char ch;
+    scanf(&quot;%c&quot;,&amp;ch);
+    if(ch == &#39;#&#39;)
+        T = NULL;
+    else
+    {
+        T = new BiTNode;
+        T-&gt;data = ch;
+        createBiTree1(T-&gt;lch);
+        createBiTree1(T-&gt;rch);
+    }
+    return ;
+}
+</code></pre>
+
+<p>计算二叉树的叶子节点</p>
+
+<p>没有返回参数的</p>
+
+<pre><code>void countleaf1(BiTree T,int &amp;cnt)
+{
+    if(T-&gt;lch == NULL &amp;&amp; T-&gt;rch == NUll)
+    {
+        cnt++;
+        return ;
+    }
+    if(T-&gt;lch) countleaf1(T-&gt;lch,cnt);
+    if(T-&gt;rch) countleaf1(T-&gt;rch,cnt);
+}
+</code></pre>
+
+<p>有返回参数的</p>
+
+<pre><code>int countleaf2(BiTree T)
+{
+    if(!T) return 0;
+    if(T-&gt;lch == NULL &amp;&amp; T-&gt;rch == NULL) return 1;
+    else
+    {
+        int nl = countleaf2(T-&gt;lch);
+        int nr = countleaf2(T-&gt;rch);
+        return nl + nr;
+    }
+}
+</code></pre>
+
+<p>计算二叉树的深度</p>
+
+<pre><code>int getDepth(BiTree T)
+{
+    int depth = 0;
+    if (!T) return depth;
+    int nL = getDepth(T-&gt;lch);
+    int nR = getDepth(T-&gt;rch);
+    depth = max(nL, nR) + 1;
+    return depth;
+}
+</code></pre>
+
+                        
+                      </div>
+                  </div>
+                </a>
+                <div class="read-more clearfix">
+                  <div class="more-left left">
+                  
+                    <span class="date">2015/1/25</span>
+                    <span>posted in&nbsp;</span> 
+          				  
+          					    <span class="posted-in"><a href='%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84&%E7%AE%97%E6%B3%95.html'>数据结构&算法</a></span>
+          				   
+                  </div>
+                  <div class="more-right right">
+                  <span class="comments">
+                      
+
+                       
+                  </span>
+                  </div>
+                </div>
+              </div><!-- article -->
+        
+			<div class="article">
+                <a class="clearlink" href="14838700446484.html">
+                
+                  <h1>图的基本概念及图的存储</h1>
+                  <div class="a-content">
+                      
+                      <div class="a-content-text">
+                        
+                        	<p>各种基本概念</p>
+
+<p>1.图：顶点集合和顶点间的二元关系集合组成的数据结构，用G（V,E）表示。其中顶点集合用V(G)表示，边的集合用E(G)表示。</p>
+
+<p>2.无向图：图中所有的边都没有方向性的图成为无向图。</p>
+
+<p>3.有向图：图中所有的边都有方向性的图成为有向图。</p>
+
+<p>4.边和点：<u,v>表示一条从u到v的又向边，其中u是这条有向边的起点，v是这条有向边的终点。</p>
+
+<p>5.基图：忽略有向图的所有边的方向，得到的图称为该有向图的基图。</p>
+
+<p>6.完全图：如果无向图中任何一对顶点之间都有一条边，这种无向图称为完全图。</p>
+
+<p>7.有向完全图：如果有向图中任何一对顶点之间都有一条边，这种有向图称为有向完全图。</p>
+
+<p>8.稀疏图：边或弧的数目相对较少的图称为稀疏图。</p>
+
+<p>9.稠密图：边或弧的数目相对较多的图称为稀疏图。</p>
+
+<p>10.平凡图：只有一个顶点的图称为平凡图，平凡图的阶为1.</p>
+
+<p>11.零图：边的集合为空的图成为零图。</p>
+
+<p>12.度：一个顶点的度数是与它相关联的边的数目，记作deg(u)。在有向图中，顶点的度数等于该顶点的入度和出度的和。某一个顶点的出度是以该顶点为起点的有向边的数目，记作od(u)，某个顶点的入度是以该顶点为终点的有向边的数目，记作id(u)。</p>
+
+<p>拓展：在无向图和有向图中，所有顶点度数总和等于边数的两倍。</p>
+
+<p>13.奇点和偶点：度数为基数的顶点为奇点，度数为偶数的顶点为偶点。</p>
+
+<p>14.孤立顶点：度数为0的顶点称为孤立顶点。</p>
+
+<p>15.路径：从一个点出发，经过一系列的点到达另一个点的通路称为两点之间的路径（路径可以包含很多点）。</p>
+
+<p>16.生成树：一个无向联通图的生成树是它的包含所有顶点的极小连通子图，这里所谓的极小指边的数目极小。</p>
+
+<p>17.连通分量：如果一个无向图不是连通的，则其极大连通子图成为连通分量。这里所谓的极大指子图中包含的顶点个数极大。</p>
+
+<p>18.强连通图：对于图中每一对顶点<u,v>，既存在从u到v的路径，也存在从v到u的路径，则称此图为强连通图。</p>
+
+<p>19.强连通分量：对于非强连通图，其极大强连通子图称为其强连通分量。</p>
+
+<p>图的存储表示</p>
+
+<p>1.邻接矩阵</p>
+
+<p>设G(V,E)是一个具有n个顶点的图，矩阵是一个n*n的二维数组，用Edge[i][j]表示。</p>
+
+<p>i,j分别代表一条边的两个端点，如果两个端点之间有直接相连的边，则Edge[i][j]存储为1，否则存储为0.</p>
+
+<p>注意：邻接矩阵不能够表示以下形式：</p>
+
+<p>（1）图中存在自身环。</p>
+
+<p>（2）多条边的起点一样，终点也一样，称为重边。</p>
+
+<p>示例：每行输入两个数，代表两点之间有边存在，顶点编号最大为100.</p>
+
+<p>描述代码为：</p>
+
+<pre><code>int Edge[101][101];
+    int n,m,i,j,u,v;
+    
+    while(scanf(&quot;%d%d&quot;,&amp;n,&amp;m))//n个点，m条边
+    {
+        memset(Edge,0,sizeof(Edge));
+        if(n == 0 &amp;&amp; m == 0)
+            break;
+        for(i = 0;i &lt; m;i++)
+        {
+            scanf(&quot;%d%d&quot;,&amp;u,&amp;v);//读入边的起点和终点
+            Edge[u][v] = 1;//标记该边已存在
+        }
+        for(i = 1;i &lt;= n;i++)//计算每个顶点的出度
+        {
+            int od = 0;
+            for(j = 1;j &lt;= n;j++)
+            {
+                od += Edge[i][j];
+            }
+            printf(&quot;第%d个顶点的出度为%d\n&quot;,i,od);
+        }
+//用相似的方法计算每个顶点的入度，固定j,遍历i即可。
+    }
+</code></pre>
+
+<p>2.邻接表</p>
+
+<p><img src="media/14838700446484/linjiebiao.jpg" alt="linjiebiao"/></p>
+
+<p>如上图所示，最右边的矩阵是最左边的图对应的邻接矩阵</p>
+
+<p>中间是最左边的图对应的邻接表。可以看出，邻接表是一个个链表的形式，前面是一个头结点，代表没一个顶点，后面是一条条的链表，代表该顶点相关联的边的另一个顶点。</p>
+
+<p>邻接表的结构体声明：</p>
+
+<pre><code>#define MAXN 100
+struct ArcNode//边结点
+{
+    int adjvex;//有向边的另一个邻接点的序号
+    ArcNode *nextarc;//指向下一个边结点的指针
+};
+struct VNode//顶点
+{
+    int data;//顶点信息
+    ArcNode *head1;//出边表的表头指针
+    ArcNode *head2;//入边表的表头指针
+};
+struct LGraph//图的邻接表存储结构
+{
+    VNode vertexs[MAXN];//顶点数组
+    int vexnum , arcnum;//顶点数目和边的数目
+};
+LGraph lg;
+</code></pre>
+
+<p>建立邻接表的基本操作为：</p>
+
+<pre><code>void CreateLG()
+{
+    int i = 0;
+    ArcNode *pi;
+    int v1,v2;
+    lg.vexnum = lg.arcnum = 0;
+    scanf(&quot;%d%d&quot;,&amp;lg.vexnum,&amp;lg.arcnum);
+    for(i = 0;i &lt; lg.vexnum;i++)
+    {
+        lg.vertexs[i].head1 = lg.vertexs[i].head2 = NULL;
+    }
+    for(i = 0;i &lt; lg.arcnum;i++)
+    {
+        scanf(&quot;%d%d&quot;,&amp;v1,&amp;v2);
+        pi = new ArcNode;
+        pi-&gt;adjvex = v2;
+        pi-&gt;nextarc = lg.vertexs[v1].head1;
+        lg.vertexs[v1].head1 = pi;
+        pi = new ArcNode;
+        pi-&gt;adjvex = v1;
+        pi-&gt;nextarc = lg.vertexs[v2].head2;
+        lg.vertexs[v2].head2 = pi;
+    }
+}
+</code></pre>
+
+<p>存储分析</p>
+
+<p>1.邻接表的时间复杂度为O（m）或O(2m)（无向图），邻接矩阵的时间复杂度为O(n<sup>2)。</sup></p>
+
+<p>2.邻接表的空间复杂度为O(n+ m）或O(n + 2 * m)；邻接矩阵的空间复杂度为O(n * n);</p>
+
+                        
+                      </div>
+                  </div>
+                </a>
+                <div class="read-more clearfix">
+                  <div class="more-left left">
+                  
+                    <span class="date">2015/1/21</span>
+                    <span>posted in&nbsp;</span> 
+          				  
+          					    <span class="posted-in"><a href='%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84&%E7%AE%97%E6%B3%95.html'>数据结构&算法</a></span>
+          				   
+                  </div>
+                  <div class="more-right right">
+                  <span class="comments">
+                      
+
+                       
+                  </span>
+                  </div>
+                </div>
+              </div><!-- article -->
+        
+			<div class="article">
+                <a class="clearlink" href="14838699157833.html">
+                
+                  <h1>字典树</h1>
+                  <div class="a-content">
+                      
+                      <div class="a-content-text">
+                        
+                        	<p>定义</p>
+
+<p>字典树又称单词查找树，Trie树，是一种如图1所示的树形结构。</p>
+
+<p>字典树</p>
+
+<p><img src="media/14838699157833/zidianshu.jpg" alt="zidianshu"/></p>
+
+<p>图1</p>
+
+<p>动态存储</p>
+
+<p>结构</p>
+
+<p>每棵字典树都有一个根节点，每一个结点都有26个指针，分别指向a到z26个字母，有一个数据域，存储要记录的数据，有一个标记域，标记字符串是否结束。</p>
+
+<pre><code>struct Trie
+{
+    //因为next与字符有一一对应的关系，所以不需要存储数据
+    int sign;//标记字符串结尾
+    struct Trie *next[26];//指向下一个字符
+}*head,*p,*now;
+开辟新的存储空间
+
+Trie *new()
+{
+    Trie *p = new Trie;//开辟内存
+    for(i = 0;i &lt; 26;i++)//初始化操作
+    {
+        p-&gt;next[i] = NULL;
+    }
+    p-&gt;sign = 0;
+    return p;
+}
+</code></pre>
+
+<p>字典树的初始化</p>
+
+<p>下面的代码只是添加一个字符串，如果添加多个字符串，可以在调用函数中进行修改，也可以在下面的函数中加循环进行控制。</p>
+
+<pre><code>void init()
+{
+    char sz[30];
+    int i,j,k,l;
+    scanf(&quot;%s&quot;,sz);
+    l = strlen(sz);
+    head = new();
+    p = head;
+    for(i = 0;i &lt; l;i++)
+    {
+        j = sz[i] - &#39;a&#39;;
+        if(p-&gt;next[j] == NULL)
+        {
+            now = new();
+            now-&gt;data = sz[i];
+            p-&gt;next[j] = now;//将新建的节点连接在字典树上
+        }
+            p = p-&gt;next[j];
+    }
+    p-&gt;sign = 1;
+}
+</code></pre>
+
+<p>字符串的查找</p>
+
+<p>给定一个字符串，询问该字符串是否已经出现过，即在原来建立的字典树上进行查找的过程。</p>
+
+<p>字符串查找的过程和建树的过程很相似，只不过需要判断节点是不是字符串的结束。</p>
+
+<pre><code>bool lookup()
+{
+    char sz[30];
+    int i,j,l;
+    scanf(&quot;%s&quot;,sz);
+    p = head;
+    l = strlen(sz);
+    for(i = 0;i &lt; l;i++)
+    {
+        j = sz[i] - &#39;a&#39;;
+        //没有这个字符，则下面都没有，返回失败
+        if(p-&gt;next[j] == NULL)
+            return false;
+        else
+            p = p-&gt;next[j];
+        //如果已是要查询的字符串最后一个字符，判断有没有结束标志
+        if(i == l - 1)
+        {
+            if(p-&gt;sign == 1)
+                return true;
+            else
+                return false;
+        }
+    }
+}
+</code></pre>
+
+<p>释放内存</p>
+
+<p>所有的这一组数据使用完之后，就要对其进行释放内存。</p>
+
+<pre><code>void delet(Trie *head)
+{
+    if(head)
+    {
+        for(int i = 0;i &lt; 26;i++)
+        {
+            if(head-&gt;next[i]!=NULL)
+                delet(head-&gt;next[i]);
+        }
+    }
+    delete head;
+    head = NULL;
+}
+</code></pre>
+
+<p>静态存储</p>
+
+<p>以上所讲述的字典树是动态开辟内存的方式，用完之后一定不要忘记释放内存，不然很容易就会MLE，当然，有些题目卡的就是动态存储，所以我们就要用到静态存储，接下来讲解静态存储。</p>
+
+<p>结构</p>
+
+<pre><code>//定义结构
+struct Trie
+{
+    int sign;
+    int next[26];
+}trie[MAX];
+int top = 0;
+</code></pre>
+
+<p>初始化新建的节点 并返回位置</p>
+
+<pre><code>Trie *newTrie()
+{
+    memset(trie[top].next,-1,sizeof(trie[top].next));
+    trie[top].sign = 0;
+    return top++;
+}
+</code></pre>
+
+<p>建立字典树</p>
+
+<pre><code>void init(int k,char *sz)
+{
+    int i,j,l;
+    l = strlen(sz);
+    for(i = 0;i &lt; l;i++)
+    {
+        j = sz[i] - &#39;a&#39;;
+        if(trie[k].next[j] == -1)
+        {
+            trie[k].next[j] = newTrie();
+        }
+        k = trie[k].next[j]; 
+    }
+    trie[k].sign = 1;
+}
+</code></pre>
+
+<p>查询有没有该字符串</p>
+
+<pre><code>int lookup(int k,char *sz)
+{
+    int i,j,l;
+    l = strlen(sz);
+    for(i = 0;i &lt; l;i++)
+    {
+        j = sz[i] - &#39;a&#39;;
+        if(trie[k].next[j] == -1)
+            return -1;
+        k = trie[k].next[j];
+    }
+    return trie[k].sign;
+}
+</code></pre>
+
+<p>字典树的性质</p>
+
+<p>（1）根节点不包含字符，除根节点外每一个结点都只包含一个字符</p>
+
+<p>（2）从根节点到某一个节点，路径上的节点连接起来就是一个字符串</p>
+
+<p>（3）每个节点的所有子节点包含的字符都不相同</p>
+
+<p>字典树的应用</p>
+
+<p>（1）串的检索</p>
+
+<p>给出一些已有的单词作为熟词，再给出一些词汇，找出这些词汇中没有在熟词里出现的词。</p>
+
+<p>可以用枚举，哈希，字典树进行搜索</p>
+
+<p>（2）“串”的排序</p>
+
+<p>给出一些互不相同的单词，按照字典序进行排列</p>
+
+<p>采用数组的方式创建字典树，这棵树的每个结点的儿子按照字母大小排序，再对这棵树进行先序遍历。</p>
+
+<p>（3）最长公共前缀</p>
+
+<p>查找任意两个字符串的最长公共前缀</p>
+
+<p>对所有串建立字典树，对于两个串的最长公共前缀的长度即他们所在的结点的公共祖先个数，于是，问题就转化为当时公共祖先问题。</p>
+
+<p>拓展：</p>
+
+<p>本文中用到的函数memset()</p>
+
+<p>void *memset(void *s, int ch, size_t n);<br/>
+函数解释：将s中前n个字节 （typedef unsigned int size_t ）用 ch 替换并返回 s 。<br/>
+memset：作用是在一段内存块中填充某个给定的值，它是对较大的结构体或数组进行清零操作的一种最快方法</p>
+
+                        
+                      </div>
+                  </div>
+                </a>
+                <div class="read-more clearfix">
+                  <div class="more-left left">
+                  
+                    <span class="date">2015/1/17</span>
+                    <span>posted in&nbsp;</span> 
+          				  
+          					    <span class="posted-in"><a href='%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84&%E7%AE%97%E6%B3%95.html'>数据结构&算法</a></span>
+          				   
+                  </div>
+                  <div class="more-right right">
+                  <span class="comments">
+                      
+
+                       
+                  </span>
+                  </div>
+                </div>
+              </div><!-- article -->
+        
+              
+
+
+			<div class="row">
+			  <div class="large-6 columns">
+			  <p class="text-left" style="padding-top:25px;">
+			   <a href="all_10.html">&laquo; Prev Page</a>  
+			  </p>
+			  </div>
+			  <div class="large-6 columns">
+			<p class="text-right" style="padding-top:25px;">
+			 <a href="all_12.html">&raquo; Next Page</a> 
+			</p>
+			  </div>
+			</div>
+		</div>
+	</div><!-- large 8 -->
+
+ <div class="large-4 medium-4 columns">
+  <div class="hide-for-small">
+    <div id="sidebar" class="sidebar">
+          <div id="site-info" class="site-info">
+            
+                <h1>挂在树上的兔子</h1>
+                <div class="site-des"></div>
+                <div class="social">
+
+
+
+
+
+
+
+
+
+
+
+  <a target="_blank" class="rss" href="atom.xml" title="RSS">RSS</a>
+                
+              	 </div>
+          	</div>
+
+             
+
+              <div id="site-categories" class="side-item ">
+                <div class="side-header">
+                  <h2>Categories</h2>
+                </div>
+                <div class="side-content">
+
+      	<p class="cat-list">
+        
+            <a href="%E6%95%B0%E6%8D%AE%E5%BA%93.html"><strong>数据库</strong></a>
+        
+            <a href="Python.html"><strong>Python</strong></a>
+        
+            <a href="%E9%9A%8F%E6%83%B3.html"><strong>随想</strong></a>
+        
+            <a href="%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84&%E7%AE%97%E6%B3%95.html"><strong>数据结构&算法</strong></a>
+        
+            <a href="PHP.html"><strong>PHP</strong></a>
+        
+            <a href="Ubuntu.html"><strong>Ubuntu</strong></a>
+         
+        </p>
+
+
+                </div>
+              </div>
+
+              <div id="site-categories" class="side-item">
+                <div class="side-header">
+                  <h2>Recent Posts</h2>
+                </div>
+                <div class="side-content">
+                <ul class="posts-list">
+	      
+		      
+			      <li class="post">
+			        <a href="14830907697555.html">MySQL数据库☞数据库编码</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="14830842110487.html">MySQL数据库☞中文乱码问题</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="14819928857822.html">MySQL的基本命令☞数据表的基本管理</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="14745361920074.html">python容器数据类型☞collections</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="14724629382123.html">python对列表进行操作</a>
+			      </li>
+		     
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		   
+		  		</ul>
+                </div>
+              </div>
+        </div><!-- sidebar -->
+      </div><!-- hide for small -->
+</div><!-- large 4 -->
+
+</div><!-- row -->
+
+ <div class="page-bottom clearfix">
+  <div class="row">
+   <p class="copyright">Copyright &copy; 2015
+Powered by <a target="_blank" href="http://www.mweb.im">MWeb</a>,&nbsp; 
+Theme used <a target="_blank" href="http://github.com">GitHub CSS</a>.</p>
+  </div>
+</div>
+
+        </section>
+      </div>
+    </div>
+
+  
+    
+
+    <script src="asset/js/foundation.min.js"></script>
+    <script>
+      $(document).foundation();
+      function fixSidebarHeight(){
+        var w1 = $('.markdown-body').height();
+          var w2 = $('#sidebar').height();
+          if (w1 > w2) { $('#sidebar').height(w1); };
+      }
+      $(function(){
+        fixSidebarHeight();
+      })
+      $(window).load(function(){
+          fixSidebarHeight();
+      });
+     
+    </script>
+
+    <script src="asset/chart/all-min.js"></script><script type="text/javascript">$(function(){    var mwebii=0;    var mwebChartEleId = 'mweb-chart-ele-';    $('pre>code').each(function(){        mwebii++;        var eleiid = mwebChartEleId+mwebii;        if($(this).hasClass('language-sequence')){            var ele = $(this).addClass('nohighlight').parent();            $('<div id="'+eleiid+'"></div>').insertAfter(ele);            ele.hide();            var diagram = Diagram.parse($(this).text());            diagram.drawSVG(eleiid,{theme: 'simple'});        }else if($(this).hasClass('language-flow')){            var ele = $(this).addClass('nohighlight').parent();            $('<div id="'+eleiid+'"></div>').insertAfter(ele);            ele.hide();            var diagram = flowchart.parse($(this).text());            diagram.drawSVG(eleiid);        }    });});</script>
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script type="text/x-mathjax-config">MathJax.Hub.Config({TeX: { equationNumbers: { autoNumber: "AMS" } }});</script>
+
+
+  </body>
+</html>

@@ -1,0 +1,905 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+    
+  挂在树上的兔子
+  
+  </title>
+  
+  
+  <link href="atom.xml" rel="alternate" title="挂在树上的兔子" type="application/atom+xml">
+    <link rel="stylesheet" href="asset/css/foundation.min.css" />
+    <link rel="stylesheet" href="asset/css/docs.css" />
+    <script src="asset/js/vendor/modernizr.js"></script>
+    <script src="asset/js/vendor/jquery.js"></script>
+  <script src="asset/highlightjs/highlight.pack.js"></script>
+  <link href="asset/highlightjs/styles/github.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script>hljs.initHighlightingOnLoad();</script>
+<script type="text/javascript">
+  function before_search(){
+    var searchVal = 'site:blog.yanzl.net ' + document.getElementById('search_input').value;
+    document.getElementById('search_q').value = searchVal;
+    return true;
+  }
+</script>
+  </head>
+  <body class="antialiased hide-extras">
+    
+    <div class="marketing off-canvas-wrap" data-offcanvas>
+      <div class="inner-wrap">
+
+
+<nav class="top-bar docs-bar hide-for-small" data-topbar>
+
+
+  <section class="top-bar-section">
+  <div class="row">
+      <div style="position: relative;width:100%;"><div style="position: absolute; width:100%;">
+        <ul id="main-menu" class="left">
+        
+        <li id=""><a target="self" href="index.html">Home</a></li>
+        
+        <li id=""><a target="_self" href="archives.html">Archives</a></li>
+        
+        </ul>
+
+        <ul class="right" id="search-wrap">
+          <li>
+<form target="_blank" onsubmit="return before_search();" action="http://google.com/search" method="get">
+    <input type="hidden" id="search_q" name="q" value="" />
+    <input tabindex="1" type="search" id="search_input"  placeholder="Search"/>
+</form>
+</li>
+          </ul>
+      </div></div>
+  </div>
+  </section>
+
+</nav>
+
+        <nav class="tab-bar show-for-small">
+  <a href="javascript:void(0)" class="left-off-canvas-toggle menu-icon">
+    <span> &nbsp; 挂在树上的兔子</span>
+  </a>
+</nav>
+
+<aside class="left-off-canvas-menu">
+      <ul class="off-canvas-list">
+       
+       <li><a href="index.html">HOME</a></li>
+    <li><a href="archives.html">Archives</a></li>
+    <li><a href="about.html">ABOUT</a></li>
+
+    <li><label>Categories</label></li>
+
+        
+            <li><a href="%E6%95%B0%E6%8D%AE%E5%BA%93.html">数据库</a></li>
+        
+            <li><a href="Python.html">Python</a></li>
+        
+            <li><a href="%E9%9A%8F%E6%83%B3.html">随想</a></li>
+        
+            <li><a href="%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84&%E7%AE%97%E6%B3%95.html">数据结构&算法</a></li>
+        
+            <li><a href="PHP.html">PHP</a></li>
+        
+            <li><a href="Ubuntu.html">Ubuntu</a></li>
+         
+
+      </ul>
+    </aside>
+
+<a class="exit-off-canvas" href="#"></a>
+
+
+        <section id="main-content" role="main" class="scroll-container">
+        
+       
+
+ <script type="text/javascript">
+	$(function(){
+		$('#menu_item_index').addClass('is_active');
+	});
+</script>
+<div class="row">
+	<div class="large-8 medium-8 columns">
+		<div class="markdown-body home-categories">
+		
+			<div class="article">
+                <a class="clearlink" href="14857050642793.html">
+                
+                  <h1>PHP会话管理</h1>
+                  <div class="a-content">
+                      
+                      <div class="a-content-text">
+                        
+                        	<p>概述</p>
+
+<p>有时会在多个页面之间来共享数据，这样的话就用到了PHP的会话管理，在这里，有两种解决方案Cookie和Session。</p>
+
+<p>Cookie的数据存放在浏览器端，不同的浏览器有不同的存放方式，浏览器端的程序就可以访问Cookie数据，如果在服务器端获取客户端的信息，就可以直接访问Cookie中的数据。但因为很多浏览器都会禁用Cookie，这时候就可以使用URL参数，即POST和GET方式。</p>
+
+<p>Session的数据会存在服务器端，当访问服务器的时候，就会打开一个页面，服务器端会为我们创建一个ID，这个ID用来标识每一个用户，而用户的信息是在服务器端以键值对的形式存放。该方式高效，安全，不依赖浏览器环境（不会被禁用）。</p>
+
+<p>Cookie</p>
+
+<p>个人认为，Cookie把数据存入浏览器，在另一个文件中使用的时候直接读取就可以了。</p>
+
+<p>正常状态下，是可以进行数据传送的，比如：</p>
+
+<p>一个文件下写：</p>
+
+<p>setcookie(&#39;name&#39;,&#39;zhangsan&#39;);//以键值对的形式存放<br/>
+header(&#39;Location:b.php&#39;);//使用此函数自动跳转<br/>
+在另一个文件b.php下写：</p>
+
+<p>echo $_COOKIE[&#39;name&#39;];<br/>
+这样，在a.php中填写的信息就可以在b.php页面显示。</p>
+
+<p>还可以在html文档里用一个用一个对话框呈现一个数据</p>
+
+<p><head lang = "en"><br/>
+    <meta charset = "UTF-8"><br/>
+    <script><br/>
+        alert(document.cookie);<br/>
+    </script><br/>
+</head><br/>
+但是，有时候浏览器就会屏蔽Cookie数据，所以可以使用URL参数来传递数据</p>
+
+<p>在a.php文件中写下面一行语句：</p>
+
+<p>header(&quot;Location:b.php?name=zhangsan&quot;);//直接跳转至b.php<br/>
+这行语句实际上就相当于用get方式传递参数，所以在b.php中将传的参数打印出来</p>
+
+<p>echo $_GET[&#39;name&#39;];<br/>
+ Session</p>
+
+<p>Session处理方法是将数据存放至服务器，可以在多个页面之间共享数据。在使用之前一定要启动session。</p>
+
+<p>可以在a.php文件中填入数据</p>
+
+<p>session_start();//启用session<br/>
+//echo session_id();//获取客户端的id<br/>
+$_SESSION[&#39;name&#39;] = &quot;zhangsan&quot;;//存入数据<br/>
+header(&#39;Location:b.php&#39;);//执行页面跳转<br/>
+然后在b.php文件中访问数据</p>
+
+<p>session_start();<br/>
+echo $_SESSION[&#39;name&#39;];<br/>
+这一数据处理的方法常用来记录用户的登录状态，如果用户退出登录（即清除掉session的所有存储数据），那么可以执行下述语句</p>
+
+<p>if(isset($_SESSION[&#39;name&#39;]))<br/>
+{<br/>
+    session_destroy();//销毁掉当前的session。<br/>
+}</p>
+
+                        
+                      </div>
+                  </div>
+                </a>
+                <div class="read-more clearfix">
+                  <div class="more-left left">
+                  
+                    <span class="date">2015/3/27</span>
+                    <span>posted in&nbsp;</span> 
+          				  
+          					    <span class="posted-in"><a href='PHP.html'>PHP</a></span>
+          				   
+                  </div>
+                  <div class="more-right right">
+                  <span class="comments">
+                      
+
+                       
+                  </span>
+                  </div>
+                </div>
+              </div><!-- article -->
+        
+			<div class="article">
+                <a class="clearlink" href="14857049852974.html">
+                
+                  <h1>PHP常用库函数</h1>
+                  <div class="a-content">
+                      
+                      <div class="a-content-text">
+                        
+                        	<p>使用php的时间和日期</p>
+
+<p>&lt;?php<br/>
+echo time().&#39;<br />&#39;;//打印时间戳<br/>
+echo date_default_timezone_get();//查看默认时区<br/>
+date_default_timezone_set(&#39;Asia/Shanghai&#39;);//修改时区<br/>
+echo date(&#39;Y-m-d H:i:s D&#39;).&#39;<br />&#39;;//打印日期时间<br/>
+//把一个时间戳转换成日期<br/>
+echo date(&#39;Y-m-d H:i:s&#39;, &#39;2000&#39;);<br/>
+?&gt;<br/>
+1.获取时间戳：调用time()函数，从1970年1月1日开始计算并以秒为单位。</p>
+
+<p>2.输出时间戳：echo time();可以把时间戳转成日期。</p>
+
+<p>3.在现实生活中，时间是分时区的，在打印日期的时候，首先看默认时区，然后修改时区。</p>
+
+<p>4.在打印日期的时候，注意日期格式的选择：</p>
+
+<p>年的表示：‘Y’代表完整的表示，比如1994-2014；‘y’代表不完整的表示，比如94-14。</p>
+
+<p>月的表示：‘F’代表英文的表示，比如January；‘m’代表完整的阿拉伯数字表示，一共两位，不够的0来补，比如：01-12；‘M’表示英文的简写表示，比如Jan；‘n’代表省略的阿拉伯数字表示，比如：1-12;&#39;t&#39;表示这一个月份的天数，有28,29,30,31。</p>
+
+<p>日的表示：‘d’表示完整的阿拉伯数字，比如：01-31；‘D’表示英文简写表示星期几，比如：Mon，Sun；‘j’表示不完整的阿拉伯数字表示，比如：1-31；‘l’小写L，表示完整的英文表示星期几，比如：Sunday，Saturday。</p>
+
+<p>小时的表示：‘h’表示12小时的表示，比如：01-12；‘g’表示没有前补0的12小时的表示，比如：1-12；‘H’表示24小时的表示，比如00-23；‘G’表示24小时的没有前补0的表示，比如：0-23</p>
+
+<p>分钟的表示：‘i’表示分钟，从0-60。</p>
+
+<p>秒的表示：‘s’表示秒，从0-60。</p>
+
+<p>这些日期的表示，当把鼠标指针放在函数名中间时，按下F2键就可以显示出来。</p>
+
+<p>5.最后一个知识就是把时间戳转化成日期，只需要在转化函数中加入时间戳这一个变量即可。</p>
+
+<p>JSON格式数据的操作</p>
+
+<p>1.定义：首先说明数组和对象的区别，数组里面的值全部都是单个的值，而对象里面的值适合名字相对应的，我们称为键值对。对象里面是可以存放数组的，数组里面也可以存放对象。</p>
+
+<p>[1,2,3,4,&quot;hello&quot;,[5,6,7]];//这一行是数组，数组中可以包含数组<br/>
+{&quot;h&quot; : &quot;hello&quot;,&quot;w&quot; : &quot;world&quot;}//这一行是对象<br/>
+//数组中可以包含对象，而且对象中也可以包含数组，这就组成了JSON格式的数据，比如：<br/>
+[1,2,3,4,&quot;hello&quot;,[5,6,7]，{&quot;h&quot; : &quot;hello&quot;,&quot;w&quot; : &quot;world&quot;,[8,9,10]}]<br/>
+2.生成ISON格式的数据</p>
+
+<p>&lt;?php<br/>
+//把php的数组或者是对象转化成json格式的数据<br/>
+\(arr = array(1,2,5,8,&quot;hello&quot;,&quot;php&quot;,array(&quot;h&quot;=&gt;&quot;hello&quot;,&quot;n&quot;=&gt;&quot;name&quot;));<br/>
+echo json_encode(\)arr).&#39;<br />&#39;;//把一个对象转成一个JSON格式的数据<br/>
+\(obj = array(&quot;h&quot;=&gt;&quot;hello&quot;,&quot;w&quot;=&gt;&quot;world&quot;,array(1,2,3,4));<br/>
+echo json_encode(\)obj).&#39;<br />&#39;;<br/>
+//把json格式的数据转化成Php的对象<br/>
+\(jsonstr = &#39;{&quot;h&quot;:&quot;hello&quot;,&quot;w&quot;:&quot;world&quot;,&quot;0&quot;:[1,2,3,4]}&#39;;<br/>
+\)obj1 = json_decode(\(jsonstr);<br/>
+//print_r(\)obj1).&#39;<br />&#39;;<br/>
+//访问PHP对象中的元素：<br/>
+echo $obj1-&gt;h;<br/>
+?&gt;<br/>
+PHP的文件操作</p>
+
+<p>1.文件操作包含了打开文件，关闭文件，往文件里写数据，从文件里读取数据等操作。</p>
+
+<p>2.在执行打开文件的操作的时候，第一个参数是打开文件的名称，第二个参数是对文件执行什么样的操作，其中包含了‘w写文件，’r读文件。。。。。。可以按下f2进行查询。</p>
+
+<p>3.在读取文件的时候，fgets()函数只能读取文件的一行，如果想要全部读取出来，一种方法是使用循环去控制，另一种方法是调用file_get_contents()函数，该函数在读取的过程中自动忽略了回车换行。</p>
+
+<p>&lt;?php<br/>
+\(f = fopen(&#39;data&#39;,&#39;w&#39;);<br/>
+if(\)f)<br/>
+{<br/>
+    fwrite(\(f,&quot;hello php!!&quot;);<br/>
+    fclose(\)f);<br/>
+    echo &#39;OK!&#39;.&#39;<br />&#39;;<br/>
+}<br/>
+else<br/>
+    echo &quot;创建文件失败&quot;;<br/>
+\(f = fopen(&#39;data&#39;,&#39;r&#39;);<br/>
+if(\)f)<br/>
+{<br/>
+    while(!feof(\(f))<br/>
+    echo fgets(\)f).&#39;<br />&#39;;<br/>
+    fclose($f);<br/>
+}<br/>
+else<br/>
+    echo &quot;打开文件失败！1&quot;;<br/>
+//将文件中的所有内容全部读取出来。<br/>
+echo file_get_contents(&#39;data&#39;);<br/>
+?&gt;<br/>
+生成图像</p>
+
+<p>1.首先要知道图像处理库中的相关函数：<a href="http://php.net/manual/zh/ref.image.php">http://php.net/manual/zh/ref.image.php</a></p>
+
+<p>&lt;?php<br/>
+$img = imagecreate(400,300);</p>
+
+<p>//使用imagecreate()函数创建一个400px*300px的图片</p>
+
+<p>imagecolorallocate($img,255,181,200);</p>
+
+<p>//imagecolorallocate()函数指定该图片的颜色，当第一次使用时生成背景色，以后再使用就不会起作用了，<br/>
+//因为第一次已经起作用了。</p>
+
+<p>header(&#39;Content-type:image/png&#39;);</p>
+
+<p>//header()函数说明该图片是图片的形式，而不是文本的形式。<br/>
+//如果没有上属语句，在输出图片的时候，就会以文本的形式输出图片的各种信息</p>
+
+<p>//imagepng($img);</p>
+
+<p>//现在在图片上绘制一个圆形</p>
+
+<p>imageellipse(\(img,200,150,100,100,imagecolorallocate(\)img,255,0,0));</p>
+
+<p>//这里第二次用到了imagecolorallocate()函数，改变的就不会是背景色，而是前景色</p>
+
+<p>imagepng($img);<br/>
+?&gt;<br/>
+给图片打水印</p>
+
+<p>&lt;?php<br/>
+\(img = imagecreatefromjpeg(&#39;tt.jpeg&#39;);<br/>
+header(&#39;Content-type:image/jpeg&#39;);<br/>
+imagestring(\)img,2,5,5,&#39;大耳朵图图&#39;,imagecolorallocate(\(img,0,255,0));<br/>
+imagepng(\)img);<br/>
+?&gt;<br/>
+代码第四行实现了给图片$img打水印，水印为‘大耳朵图图’，样式还是需要按下f2来查询。</p>
+
+                        
+                      </div>
+                  </div>
+                </a>
+                <div class="read-more clearfix">
+                  <div class="more-left left">
+                  
+                    <span class="date">2015/3/23</span>
+                    <span>posted in&nbsp;</span> 
+          				  
+          					    <span class="posted-in"><a href='PHP.html'>PHP</a></span>
+          				   
+                  </div>
+                  <div class="more-right right">
+                  <span class="comments">
+                      
+
+                       
+                  </span>
+                  </div>
+                </div>
+              </div><!-- article -->
+        
+			<div class="article">
+                <a class="clearlink" href="14857049546518.html">
+                
+                  <h1>PHP面向对象</h1>
+                  <div class="a-content">
+                      
+                      <div class="a-content-text">
+                        
+                        	<p>命名空间</p>
+
+<p>再做一个大型项目的时候，常常需要多人分工合作，这样的话，每个人对于变量以及函数的命名就可能出现重复的现象，当项目整合运行的时候就会产生歧义导致程序出错，命名空间是将不同的功能模块的名称框进一个空间里，这样，即使是相同的名称，因为所在的空间不同，所以不会产生影响。</p>
+
+<p>类的声明和定义</p>
+
+<p>类是方法和变量的集合，是面向对象的，只对对象提供接口，而具体的操作则是在类内完成。</p>
+
+<p>&lt;?php<br/>
+class Person<br/>
+{<br/>
+    //对变量的顺序，类型进行提示。<br/>
+    /**<br/>
+     * @param string \(name<br/>
+     * @param int \)age<br/>
+     */<br/>
+    public function __construct(\(name,\)age)//类的构造函数<br/>
+    {<br/>
+        \(this-&gt;name1 = \)name;<br/>
+        \(this-&gt;age1 = \)age;<br/>
+        if(Person::\(Num &gt; Person::MAX_NUM)//如果创建的人数超过了指定人数，则会抛出一个异常<br/>
+            throw new Exception(&quot;不能创建更多的人！！&quot;);<br/>
+        Person::\)Num++;<br/>
+    }<br/>
+    public function getage()<br/>
+{<br/>
+    return \(this-&gt;age1;<br/>
+}<br/>
+    public function getname()<br/>
+    {<br/>
+        return \)this-&gt;name1;<br/>
+    }<br/>
+    public static  function  sayhello()//类方法（静态方法）<br/>
+    {<br/>
+        echo &quot;hello the person!!<br />&quot;;<br/>
+    }<br/>
+    private \(age1,\)name1;<br/>
+    private static \(Num = 0;<br/>
+    const MAX_NUM = 3;//指明一个常量<br/>
+}<br/>
+\)h = new Person(&#39;zhangsan&#39;,23);<br/>
+for(\(i = 0;\)i &lt; 400;\(i++)//循环创建示例，因为大于指定人数，所以程序异常<br/>
+{<br/>
+\)h = new Person(&quot;zhangli&quot;,23);<br/>
+}<br/>
+//根据上述错误，我们对for循环进行修改<br/>
+for(\(i = 1;\)i &lt; Person::MAX_NUM;\(i++)//循环创建示例，因为大于指定人数，所以程序异常<br/>
+{<br/>
+    \)h = new Person(&quot;zhangli&quot;,23);<br/>
+}<br/>
+echo \(h-&gt;getage().&#39;&lt;br /&gt;&#39;;<br/>
+echo \)h-&gt;getname().&#39;<br />&#39;;<br/>
+Person::sayhello();//调用类方法<br/>
+?&gt;</p>
+
+<p>在上述实例中，getage(),getname（），的方法就叫做成员方法，这种方法需要通过一个实例（对象）进行访问。</p>
+
+<p>sayhello()方法是类方法，静态方法，用来描述属性，调用的时候直接写类名，然后是两个冒号，类方法即可。</p>
+
+<p>静态常量，静态变量，静态方法都是描述类的属性，不需要示例去使用。</p>
+
+<p>类的继承</p>
+
+<p>用extends关键字进行类的继承，继承就是在一个类的基础上，新增自身的新的变量和方法。</p>
+
+<p>这里举一个示例，以上一个示例中Person类为基类，建一个Man类，即男性的类。</p>
+
+<p>class Man extends Person//定义一个子类，继承person类<br/>
+{<br/>
+    public function  <strong>construct(\(name,\)age,$sex)//定义构造方法<br/>
+    {<br/>
+        parent::</strong>construct(\(name,\)age);//调用父类中的构造方法<br/>
+        \(sex1 = \)sex;<br/>
+    }<br/>
+    public function  looksex()//定义打印性别的方法<br/>
+    {<br/>
+        echo &quot;the person sex is a MAN <br />&quot;;<br/>
+    }<br/>
+    public function getname()//对于父类中的姓名打印函数进行重写<br/>
+    {<br/>
+       // parent::getname();//延续父类的方法<br/>
+        //如果不想用父类中的方法，可以在子类中重新定义该方法，这就是方法的重写。<br/>
+        echo &quot;Man类中的打印名字方法！！&quot;;<br/>
+    }<br/>
+}<br/>
+ 方法重写</p>
+
+<p>对于父类中的方法，如果子类中没有，在调用的时候就会自动调用父类中的方法，如果子类和父类中都存在该方法，那么将会自动调用子类中的方法。如果在这种情况下想要调用父类中的方法，就要声明语句</p>
+
+<p>// parent::getname();//延续父类的方法</p>
+
+                        
+                      </div>
+                  </div>
+                </a>
+                <div class="read-more clearfix">
+                  <div class="more-left left">
+                  
+                    <span class="date">2015/3/22</span>
+                    <span>posted in&nbsp;</span> 
+          				  
+          					    <span class="posted-in"><a href='PHP.html'>PHP</a></span>
+          				   
+                  </div>
+                  <div class="more-right right">
+                  <span class="comments">
+                      
+
+                       
+                  </span>
+                  </div>
+                </div>
+              </div><!-- article -->
+        
+			<div class="article">
+                <a class="clearlink" href="14857049281168.html">
+                
+                  <h1>PHP的常用功能</h1>
+                  <div class="a-content">
+                      
+                      <div class="a-content-text">
+                        
+                        	<p>数组</p>
+
+<p>在PHP中，数组有单纯的数组（以数字作为下标进行索引），关联数组（以字符串作为下标进行索引）。</p>
+
+<p>当然，也可以两者结合起来使用。</p>
+
+<p>数组的初始化有多种形式，可以一个一个地初始化，也可以调用函数。</p>
+
+<p>元素的输出可以调用函数进行输出，也可以输出某一个元素。</p>
+
+<p>&lt;?php<br/>
+//关联数组，即下标是字符串的形式<br/>
+\(arr = array(4 =&gt; &#39;php&#39;,&#39;a&#39; =&gt; &#39;application&#39;,&#39;s&#39; =&gt; &#39;student&#39;);<br/>
+//一个数组既可以以字符串作为下标，也可以以数字作为下标，很灵活吧<br/>
+\)arr[0] = 2.5;<br/>
+\(arr[1] = &#39;hello!!!!!&#39;;<br/>
+\)arr[2] = &#39;world     &#39;;<br/>
+\(arr[3] = 3;<br/>
+print_r(\)arr);<br/>
+echo &#39;<br />&#39;.\(arr[&#39;a&#39;].&#39;&lt;br /&gt;&#39;;<br/>
+//使用函数对数组进行初始化<br/>
+\)tie = array();<br/>
+for(\(i = 0;\)i &lt; 10;\(i++)<br/>
+{<br/>
+    array_push(\)tie,&#39;time&#39;.\(i.&#39;&lt;br /&gt;&#39;);<br/>
+}<br/>
+print_r(\)tie);<br/>
+?&gt;<br/>
+ 字符串</p>
+
+<p>字符串的操作包括了字符串的定义，获取某一个字符的位置，截取一个字符串，分个字符串以及连接字符串。</p>
+
+<p>&lt;?php<br/>
+\(str = &quot;hello world!! I love you! !!&quot;;<br/>
+echo &quot;\)str <br />&quot;;<br/>
+//获取一个字符或者一个子串在字符串中的位置，子串是起始位置。<br/>
+echo strpos(\(str,&#39;h&#39;);<br/>
+echo &#39;&lt;br /&gt;&#39;;<br/>
+echo strpos(\)str,&#39;world&#39;);<br/>
+//截取一个字符串<br/>
+\(str1 = substr(\)str,1,6);<br/>
+//第一个参数是要截取的字符串，第二个参数是起始位置，第三个参数是终止位置，如果不写第三个，默认到结尾。<br/>
+echo &quot;<br />&quot;.\(str1.&quot;&lt;br /&gt;&quot;;<br/>
+//分隔一个字符串,默认情况下是单个单个地分割<br/>
+\)ans = str_split(\(str);<br/>
+print_r(\)ans);<br/>
+echo &#39;<br />&#39;;<br/>
+//以每两个字符为一个单元的分割<br/>
+\(ans = str_split(\)str,2);<br/>
+print_r(\(ans);//注意，这里不能够用echo输出，因为其不支持整个数组的输出<br/>
+echo &#39;&lt;br /&gt;&#39;;<br/>
+//以空格作为分割,即将字符串中的每个单词都拿出来<br/>
+\)ans = explode(&#39; &#39;,\(str);<br/>
+print_r(\)ans);<br/>
+//字符串的连接<br/>
+\(num = 100;<br/>
+\)str2 = &#39;<br />&#39;.\(str.&#39;active&#39;.\)num.&#39;<br />&#39;;<br/>
+echo \(str2;<br/>
+\)str2 = &quot;\(str active \)num <br />&quot;;<br/>
+echo $str2;<br/>
+?&gt;<br/>
+ include和require</p>
+
+<p>这经常用在多文件开发中，一个文件不可能写完全部的代码，这会没有条理，看起来很糟糕，所以我们经常采用多文件的形式，将不同的功能放进不同的文件中，当在一个文件中调用另一个文件中的方法时，就要用include或者require去包含所用到的文件，才可以正常的引用。</p>
+
+<p>两者的区别：</p>
+
+<p>使用include，如果要找的文件不存在的时候，提示警告，程序可以正常运行</p>
+
+<p>使用require，如果要找的文件不存在的时候，程序会提示一个错误，不能够继续运行下去。</p>
+
+<p>以上两个当两次以上引用同一个文件的时候，就会产生重新定义函数的错误（如果没有函数，则不会报错，因为我们都知道，同一个函数名不能够重复定义，而每执行一次require或者include的时候，就相当于定义了一次函数）。</p>
+
+<p>使用include_once和include_once就能够避免上述错误的产生。</p>
+
+                        
+                      </div>
+                  </div>
+                </a>
+                <div class="read-more clearfix">
+                  <div class="more-left left">
+                  
+                    <span class="date">2015/3/21</span>
+                    <span>posted in&nbsp;</span> 
+          				  
+          					    <span class="posted-in"><a href='PHP.html'>PHP</a></span>
+          				   
+                  </div>
+                  <div class="more-right right">
+                  <span class="comments">
+                      
+
+                       
+                  </span>
+                  </div>
+                </div>
+              </div><!-- article -->
+        
+			<div class="article">
+                <a class="clearlink" href="14857050897980.html">
+                
+                  <h1>PHP与MySQL（上篇）</h1>
+                  <div class="a-content">
+                      
+                      <div class="a-content-text">
+                        
+                        	<p>MySQL一个库可以用来存放很多数据表。</p>
+
+<p>创建一个库</p>
+
+<p>打开浏览器，在地址栏中输入“localhost”——》点击进入“phpMyAdmin”——》就可以在左边看到很多文件夹，比如‘mysql’,&#39;cdcol&#39;，‘test’等，这些就是不同的库，现在，我们新建一个库——》点击菜单栏里面的数据库，填写数据库的名字和编码方式，一般会使用国际通用utf8——》点击创建，就可以成功地创建一个库了。</p>
+
+<p>在库中添加一个数据表</p>
+
+<p>单击点开要添加数据表的数据库——》新建数据表——》填写数据表的名字和字段数（即在这个表中存放几种数据，比如要存放ID，姓名，密码，年龄就是用了4个字段）——》点击执行（go）就成功创建了一个表——》之后就是向数据表中添加要存放的数据名称（ID，姓名，密码，年龄）——》点击保存（save）就完成了。</p>
+
+<p>注意：（1）A_I指autoincreasment自行增加，可以用于ID等数据的输入。</p>
+
+<p>（2）填写姓名可以写成是text类型，但是因为字符串很长（一般用于写博客的文本），所以可以选择是VARCHAR，自定义一个长度的字符.</p>
+
+<p>（3）年龄的选择因为比较小，所以可以不必选择INT类型，可以用TINYINT</p>
+
+<p>添加数据</p>
+
+<p>点击要添加数据的数据表，点击插入，在空值框中填写各种数据点击执行就可以成功添加数据了。</p>
+
+<p>也可以使用SQL语句进行添加数据：</p>
+
+<p>INSERT INTO <code>myapp</code>.<code>user</code> (<code>ID</code>, <code>name</code>, <code>password</code>, <code>age</code>) VALUES (NULL, &#39;李四&#39;, &#39;123567&#39;, &#39;31&#39;);<br/>
+用PHP操作MySQL数据库</p>
+
+<p>连接MySQL数据库</p>
+
+<p>$coun = mysql_connect(&#39;localhost&#39;,&#39;root&#39;,&#39;&#39;);//连接服务器,使用一个用户名来登录，后面是写密码，没有为空<br/>
+//如果mysql数据库的端口和服务器不是一个端口的话，要手动输入端口，比如端口是9000<br/>
+//mysql_connect(&#39;localhost:9000&#39;);<br/>
+连接成功后，对某一个数据库进行操作</p>
+
+<p>mysql_select_db(&#39;myapp&#39;,$coun);//指明是对myapp这个数据库进行操作的，并将连接成功的信息传递过去<br/>
+如果想呈现所有的数据，执行下面语句</p>
+
+<p>$result =  mysql_query(&quot;SELECT * FROM user&quot;);‘*’代表所有的数据<br/>
+如果想根据某一个属性（比如ID，姓名，年龄等）打印数据，可以执行以下语句：</p>
+
+<p>//查找keke这个姓名的人，如果有，则打印yes，没有，打印no<br/>
+\(result =  mysql_query(&quot;SELECT * FROM user WHERE name = keke&quot;);<br/>
+if(\)result)<br/>
+    echo &quot;yes&quot;;<br/>
+else<br/>
+    echo &quot;no&quot;;<br/>
+//查找编号为1的人<br/>
+\(result =  mysql_query(&quot;SELECT * FROM user WHERE id = 1&quot;);<br/>
+//查找编号大于等于1并且编号小于等于3的数据<br/>
+\)result =  mysql_query(&quot;SELECT * FROM user WHERE id &gt;= 1 &amp;&amp; id &lt;= 3&quot;);<br/>
+//打印每条数据行的某一部分数据，比如只打印名字和年龄而不打印密码<br/>
+//两种控制并不冲突哦<br/>
+$result =  mysql_query(&quot;SELECT name,age FROM user WHERE id = 1&quot;);<br/>
+以数组的形式打印数据</p>
+
+<p>//获取结果里面的数据,以数组的样式来呈现<br/>
+\(result_arr = mysql_fetch_array(\)result);<br/>
+print_r($result_arr);//打印出结果<br/>
+以键值对的形式打印数据</p>
+
+<p>//不通过数组的样式来呈现<br/>
+\(result_arr = mysql_fetch_assoc(\)result);<br/>
+print_r($result_arr);//打印出结果<br/>
+注意：</p>
+
+<p>通过mysql_fetch_array(\(result);和mysql_fetch_assoc(\)result);这两个函数，每次读取的都只是一行数据，即数据表中的一行。</p>
+
+<p>获取所有数据的条数并以循环的形式打印数据</p>
+
+<p>//使用循环打印出所有数据<br/>
+//获取到数据条数并付给一个变量<br/>
+\(data_num = mysql_num_rows(\)result);<br/>
+for(\(i = 0;\)i &lt; \(data_num;\)i++)<br/>
+{<br/>
+   print_r(mysql_fetch_assoc($result));<br/>
+}<br/>
+当然，使用上面一种方法获取数据的条数是非常慢的，可以写下面语句</p>
+
+<p>//快就快在当查询所有数据的时候就已经返回了数据的总条数，无需在调用函数进行查询<br/>
+    \(result = mysql_query(&quot;SELECT COUNT(*) FROM user&quot;);<br/>
+    \)result_arr = mysql_fetch_array($result);</p>
+
+<pre><code>$data_num = $result_arr[0];
+echo &quot;数据条数：&quot;.$data_num.;
+</code></pre>
+
+<p>用HTML中的表格的形式打印所有用户的信息</p>
+
+<p>\(data_num = mysql_num_rows(\)result);<br/>
+    for(\(i = 0;\)i &lt; \(data_num;\)i++)<br/>
+    {<br/>
+        \(result_arr = mysql_fetch_assoc(\)result);<br/>
+        //将获取到的数据赋值给变量<br/>
+        \(id = \)result_arr[&#39;ID&#39;];<br/>
+        \(name = \)result_arr[&#39;name&#39;];<br/>
+        \(age = \)result_arr[&#39;age&#39;];<br/>
+        \(xuehao = \)result_arr[&#39;xuehao&#39;];<br/>
+        echo &quot;<tr><th>\(id&lt;/th&gt;//表格打印<br/>
+                &lt;th&gt;\)name</th><br/>
+                <th>\(age&lt;/th&gt;<br/>
+                &lt;th&gt;\)xuehao</th><br/>
+                <th><a href='changeuser.php?id=$id'>修改</a></th><br/>
+                <th><a href='DeletUser.php?id=$id'>删除</a></th><br/>
+            </tr>&quot;;<br/>
+    }</p>
+
+                        
+                      </div>
+                  </div>
+                </a>
+                <div class="read-more clearfix">
+                  <div class="more-left left">
+                  
+                    <span class="date">2015/3/20</span>
+                    <span>posted in&nbsp;</span> 
+          				  
+          					    <span class="posted-in"><a href='PHP.html'>PHP</a></span>
+          				   
+                  </div>
+                  <div class="more-right right">
+                  <span class="comments">
+                      
+
+                       
+                  </span>
+                  </div>
+                </div>
+              </div><!-- article -->
+        
+              
+
+
+			<div class="row">
+			  <div class="large-6 columns">
+			  <p class="text-left" style="padding-top:25px;">
+			   <a href="all_8.html">&laquo; Prev Page</a>  
+			  </p>
+			  </div>
+			  <div class="large-6 columns">
+			<p class="text-right" style="padding-top:25px;">
+			 <a href="all_10.html">&raquo; Next Page</a> 
+			</p>
+			  </div>
+			</div>
+		</div>
+	</div><!-- large 8 -->
+
+ <div class="large-4 medium-4 columns">
+  <div class="hide-for-small">
+    <div id="sidebar" class="sidebar">
+          <div id="site-info" class="site-info">
+            
+                <h1>挂在树上的兔子</h1>
+                <div class="site-des"></div>
+                <div class="social">
+
+
+
+
+
+
+
+
+
+
+
+  <a target="_blank" class="rss" href="atom.xml" title="RSS">RSS</a>
+                
+              	 </div>
+          	</div>
+
+             
+
+              <div id="site-categories" class="side-item ">
+                <div class="side-header">
+                  <h2>Categories</h2>
+                </div>
+                <div class="side-content">
+
+      	<p class="cat-list">
+        
+            <a href="%E6%95%B0%E6%8D%AE%E5%BA%93.html"><strong>数据库</strong></a>
+        
+            <a href="Python.html"><strong>Python</strong></a>
+        
+            <a href="%E9%9A%8F%E6%83%B3.html"><strong>随想</strong></a>
+        
+            <a href="%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84&%E7%AE%97%E6%B3%95.html"><strong>数据结构&算法</strong></a>
+        
+            <a href="PHP.html"><strong>PHP</strong></a>
+        
+            <a href="Ubuntu.html"><strong>Ubuntu</strong></a>
+         
+        </p>
+
+
+                </div>
+              </div>
+
+              <div id="site-categories" class="side-item">
+                <div class="side-header">
+                  <h2>Recent Posts</h2>
+                </div>
+                <div class="side-content">
+                <ul class="posts-list">
+	      
+		      
+			      <li class="post">
+			        <a href="14830907697555.html">MySQL数据库☞数据库编码</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="14830842110487.html">MySQL数据库☞中文乱码问题</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="14819928857822.html">MySQL的基本命令☞数据表的基本管理</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="14745361920074.html">python容器数据类型☞collections</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="14724629382123.html">python对列表进行操作</a>
+			      </li>
+		     
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		   
+		  		</ul>
+                </div>
+              </div>
+        </div><!-- sidebar -->
+      </div><!-- hide for small -->
+</div><!-- large 4 -->
+
+</div><!-- row -->
+
+ <div class="page-bottom clearfix">
+  <div class="row">
+   <p class="copyright">Copyright &copy; 2015
+Powered by <a target="_blank" href="http://www.mweb.im">MWeb</a>,&nbsp; 
+Theme used <a target="_blank" href="http://github.com">GitHub CSS</a>.</p>
+  </div>
+</div>
+
+        </section>
+      </div>
+    </div>
+
+  
+    
+
+    <script src="asset/js/foundation.min.js"></script>
+    <script>
+      $(document).foundation();
+      function fixSidebarHeight(){
+        var w1 = $('.markdown-body').height();
+          var w2 = $('#sidebar').height();
+          if (w1 > w2) { $('#sidebar').height(w1); };
+      }
+      $(function(){
+        fixSidebarHeight();
+      })
+      $(window).load(function(){
+          fixSidebarHeight();
+      });
+     
+    </script>
+
+    <script src="asset/chart/all-min.js"></script><script type="text/javascript">$(function(){    var mwebii=0;    var mwebChartEleId = 'mweb-chart-ele-';    $('pre>code').each(function(){        mwebii++;        var eleiid = mwebChartEleId+mwebii;        if($(this).hasClass('language-sequence')){            var ele = $(this).addClass('nohighlight').parent();            $('<div id="'+eleiid+'"></div>').insertAfter(ele);            ele.hide();            var diagram = Diagram.parse($(this).text());            diagram.drawSVG(eleiid,{theme: 'simple'});        }else if($(this).hasClass('language-flow')){            var ele = $(this).addClass('nohighlight').parent();            $('<div id="'+eleiid+'"></div>').insertAfter(ele);            ele.hide();            var diagram = flowchart.parse($(this).text());            diagram.drawSVG(eleiid);        }    });});</script>
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script type="text/x-mathjax-config">MathJax.Hub.Config({TeX: { equationNumbers: { autoNumber: "AMS" } }});</script>
+
+
+  </body>
+</html>

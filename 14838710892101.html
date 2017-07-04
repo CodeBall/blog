@@ -1,0 +1,531 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+    
+  Union-Find（并查集）总结 - 挂在树上的兔子
+  
+  </title>
+  
+  
+  <link href="atom.xml" rel="alternate" title="挂在树上的兔子" type="application/atom+xml">
+    <link rel="stylesheet" href="asset/css/foundation.min.css" />
+    <link rel="stylesheet" href="asset/css/docs.css" />
+    <script src="asset/js/vendor/modernizr.js"></script>
+    <script src="asset/js/vendor/jquery.js"></script>
+  <script src="asset/highlightjs/highlight.pack.js"></script>
+  <link href="asset/highlightjs/styles/github.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script>hljs.initHighlightingOnLoad();</script>
+<script type="text/javascript">
+  function before_search(){
+    var searchVal = 'site:blog.yanzl.net ' + document.getElementById('search_input').value;
+    document.getElementById('search_q').value = searchVal;
+    return true;
+  }
+</script>
+  </head>
+  <body class="antialiased hide-extras">
+    
+    <div class="marketing off-canvas-wrap" data-offcanvas>
+      <div class="inner-wrap">
+
+
+<nav class="top-bar docs-bar hide-for-small" data-topbar>
+
+
+  <section class="top-bar-section">
+  <div class="row">
+      <div style="position: relative;width:100%;"><div style="position: absolute; width:100%;">
+        <ul id="main-menu" class="left">
+        
+        <li id=""><a target="self" href="index.html">Home</a></li>
+        
+        <li id=""><a target="_self" href="archives.html">Archives</a></li>
+        
+        </ul>
+
+        <ul class="right" id="search-wrap">
+          <li>
+<form target="_blank" onsubmit="return before_search();" action="http://google.com/search" method="get">
+    <input type="hidden" id="search_q" name="q" value="" />
+    <input tabindex="1" type="search" id="search_input"  placeholder="Search"/>
+</form>
+</li>
+          </ul>
+      </div></div>
+  </div>
+  </section>
+
+</nav>
+
+        <nav class="tab-bar show-for-small">
+  <a href="javascript:void(0)" class="left-off-canvas-toggle menu-icon">
+    <span> &nbsp; 挂在树上的兔子</span>
+  </a>
+</nav>
+
+<aside class="left-off-canvas-menu">
+      <ul class="off-canvas-list">
+       
+       <li><a href="index.html">HOME</a></li>
+    <li><a href="archives.html">Archives</a></li>
+    <li><a href="about.html">ABOUT</a></li>
+
+    <li><label>Categories</label></li>
+
+        
+            <li><a href="%E6%95%B0%E6%8D%AE%E5%BA%93.html">数据库</a></li>
+        
+            <li><a href="Python.html">Python</a></li>
+        
+            <li><a href="%E9%9A%8F%E6%83%B3.html">随想</a></li>
+        
+            <li><a href="%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84&%E7%AE%97%E6%B3%95.html">数据结构&算法</a></li>
+        
+            <li><a href="PHP.html">PHP</a></li>
+        
+            <li><a href="Ubuntu.html">Ubuntu</a></li>
+         
+
+      </ul>
+    </aside>
+
+<a class="exit-off-canvas" href="#"></a>
+
+
+        <section id="main-content" role="main" class="scroll-container">
+        
+       
+
+ <script type="text/javascript">
+  $(function(){
+    $('#menu_item_index').addClass('is_active');
+  });
+</script>
+<div class="row">
+  <div class="large-8 medium-8 columns">
+      <div class="markdown-body article-wrap">
+       <div class="article">
+          
+          <h1>Union-Find（并查集）总结</h1>
+     
+        <div class="read-more clearfix">
+          <span class="date">2015/1/27</span>
+
+          <span>posted in&nbsp;</span> 
+          
+              <span class="posted-in"><a href='%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84&%E7%AE%97%E6%B3%95.html'>数据结构&算法</a></span>
+           
+         
+          <span class="comments">
+            
+
+            
+          </span>
+
+        </div>
+      </div><!-- article -->
+
+      <div class="article-content">
+      <p>并查集主要是运用在动态连通性的问题上，什么是动态连通性呢，让我们先看一张图片</p>
+
+<p><img src="media/14838710892101/bingchaji1.png" alt="bingchaji1"/></p>
+
+<p>许多点开始时单独成一集合，随着连线的不断增多，图的连通性质发生了改变，在联通的过程中，如果两个点之间已经连通，那么就不需要将这两个点再次连通。</p>
+
+<p>动态连通性的应用场景常见的有两个</p>
+
+<p>网络连接判断：</p>
+
+<p>假设每一对点代表了一个网络节点，那么这一对点就表示这两个点是需要联通的，将这些需要连通的点建立动态连通图，以减少连边。在一定程度上降低成本</p>
+
+<p>两个对象属于同一个集合：</p>
+
+<p>无论是两个变量名指向同一个内存也好，还是两个人的爱好相同也好，将有相同性质的对象归结到同一个集合中，便于查询两个对象是否在同一个集合内。</p>
+
+<p>并查集</p>
+
+<p>在思考一个问题的时候，我们首先要考虑到的是这个问题的根本在哪里，同样，面对动态连通性问题，我们要解决的问题到底是什么？通过上面的总结分析，可以看出动态连通性就是给出两个点，判断是否连通，如果已经连通，联通路径是什么，如果没有连通且应该连通，就要想办法让其联通。</p>
+
+<p>首先，联通的节点属于同一个集合，不联通的点分别属于自己的集合，随着联通点对的输入，我们要判断这两个点是否已经连通。可以见一个数组来存储点，连通的点用一个数来记录，不联通的点分别用数字来记录，那么最初的情形就是所有的点都不联通，都是自成一个集合。该段代码的实现为：</p>
+
+<pre><code>int id[Size];
+    for(int i = 0;i &lt; Size;i++)
+        id[i] = i;
+</code></pre>
+
+<p>初始化结束之后，我们接下来要做的事情有以下几点</p>
+
+<p>（1）查询结点属于的组：数组对应的位置就是结点对应的组号。</p>
+
+<p>（2）判断两个结点是否属于同一个位置：分别查询到两个节点的组号，判断其是否相等。</p>
+
+<p>（3）连接两个结点，使之在同一个组中：分别得到两个节点的组号，组号相同时结束操作，不同时将一个节点的组号更改为另一个节点的组号。</p>
+
+<p>（4）获取组的数目：计算在这样一个森林中，总共有多少棵树</p>
+
+<p>让我们依次来实现这些操作</p>
+
+<p>首先，我们先构建一个连通图，在构建连通图的同时，查询节点属于的组。</p>
+
+<p>举个栗子，比如输入的Pair是(5， 9)，那么首先通过find方法发现它们的组号并不相同，5属于1组，9属于8组，然后在union的时候通过一次遍历，将组号1都改成8。当然，由8改成1也是可以的，保证操作时都使用一种规则就行。</p>
+
+<p><img src="media/14838710892101/bingchaji2.png" alt="bingchaji2"/></p>
+
+<p>但是，在修改的过程中，我们不知道1组或8组的元素到底有哪些，所以需要从头遍历数组，这样一来，时间复杂度瞬间就成了线性关系，似乎没有什么优化额。。。。。。如何解决这个问题呢？从上图可以知道，最耗时的是union算法，想办法改进该算法。</p>
+
+<p>想想看，如果我们依然使用数组来存储元素所在的组，但是里面存储的数据不再是组号，而是上一个连接该点的地址，即他的父亲，那么，我们只要知道孩子，就可以不断地查询祖先，在同一个组内的元素自然一次就能够便利过来了，而且如果想将两个不同组的元素连接到同一个组，也不需要遍历数组修改其值了，只需要将一个元素存储的值变更为另一个元素的位置就可以了。</p>
+
+<p>上面步骤可以用代码表示为：</p>
+
+<pre><code>int find(int x)//查找树根
+{
+    if(id[x] != x)
+    {
+        x = id[x];
+    }
+    return x;
+}
+void unio(int x,int y)//连接两棵树成为一棵树
+{
+    int fx = find(x);
+    int fy = find(y);
+    if(fx != fy)
+    {
+        id[fx] = fy;
+    }
+}
+</code></pre>
+
+<p>这样看来，问题似乎是解决了，但是还有一个潜在的问题，那就是容易出现极端状况。比如说很多节点属于同一个树（组），按上面的方法连接起来就会形成一条链，树的深度会很大，也会影响查找的效率，我们还需要优化一下。</p>
+
+<p>明确我们优化的目的：让树由高瘦变得矮胖。</p>
+
+<p>为什么会高瘦呢？关键在于下面这行代码</p>
+
+<pre><code> id[fx] = fy;
+</code></pre>
+
+<p>也就是说，在合并子树的过程中，不管子树哪个高哪个低，都是执行操作id[fx] = fy；所以就导致了把高的树连接到低的树上，不断地增加树的高度。如果我们能够找到每棵树的高度，那么我们就可以很方便的知道数的高低，从而将低的树连接到高的树上了。我们需要再开一个数组记录高度</p>
+
+<pre><code>    int sz[Size];
+    for(int i = 0;i &lt; Size;i++)
+    {
+        sz[i] = 1;//初始高度都为本身1
+    }
+</code></pre>
+
+<p>在合并的时候，通过这个数组选择合并的顺序</p>
+
+<pre><code>void unio(int x,int y)
+{
+    int fx = find(x);
+    int fy = find(y);
+    if(fx != fy)
+    {
+        if(sz[fx] &lt; sz[fy])
+        {
+            id[fx] = fy;
+            sz[fy] += sz[fx];//高度发生变化
+        }
+        else
+        {
+            id[fy] = fx;
+            sz[fx] += sz[fy];
+        }
+    }
+}
+</code></pre>
+
+<p>所以，修改之前和修改之后的图就有了明显的区别</p>
+
+<p><img src="media/14838710892101/bingchaji3.png" alt="bingchaji3"/></p>
+
+<p>这样一来，树就会变得矮胖了许多，但是，如果每棵树的高度如果都是1该有多好呀，即每个节点都直接连祖宗节点，这样的话，查找时不就更方便了嘛。我们还是可以实现这种存储结构的，即在查找根节点（祖宗节点）的过程中，对路径进行压缩。</p>
+
+<pre><code>int find(int x)
+{
+    if(id[x] != x)
+    {
+        //不是根节点，则将该节点的爷爷节点，缩短路径
+        id[x] = id[id[x]];
+        x = id[x];
+    }
+    return x;
+}
+</code></pre>
+
+<p>写到这里，（1）（2）（3）不操作都已经涉及到，而且优化好了，剩下的就是判断这个森林中一共有多少棵树。</p>
+
+<p>从find函数中可以看出，我们判断是不是祖宗节点的标志是</p>
+
+<pre><code>if(id[x] != x)
+</code></pre>
+
+<p>如果条件成立，那么继续查找，也就是说，如果条件不成立，就找到了祖宗节点，所以，判断是不是一颗单独树的条件就可以利用这个了。</p>
+
+<pre><code>int num = 0;
+    for(int i = 0;i &lt; n;i++)
+    {
+        if(id[i] == i)
+        {
+            num++;
+        }
+    }
+    printf(&quot;%d\n&quot;,num);
+</code></pre>
+
+<p>当然，我们可以不必另开数组记录树的高度，我们完全可以用parent[]数组边记录路径，并在祖宗节点上记录整棵树的高度。</p>
+
+<p>现在整理并查集的三个函数</p>
+
+<pre><code>int parent[MAX];
+void init()// 初始化
+{
+    for(int i = 0;i &lt; MAX;i++)
+    {
+        parent[i] = -1;
+    }
+}
+int Find(int x)//查找根节点
+{
+    int s = x;
+    while(parent[s] &gt;= 0)
+        s = parent[s];
+        //并查集的路径压缩
+    while(s != x)
+    {
+        int tmp = parent[x];
+        parent[x] = s;
+        x = tmp;
+    }
+    return s;
+}
+void Union(int x,int y)//并查集
+{
+    int fx = Find(x);
+    int fy = Find(y);
+    if(fx != fy)
+    {
+        //并查集的加权法则，尽量使树高降低
+        int sum = parent[fx] + parent[fy];
+        if(parent[fx] &lt; parent[fy])
+        {
+            parent[fy] = fx;
+            parent[fx] = sum;
+        }
+        else
+        {
+            parent[fx] = fy;
+            parent[fy] = sum;
+        }
+    }
+}
+</code></pre>
+
+
+    
+
+      </div>
+
+      <div class="row">
+        <div class="large-6 columns">
+        <p class="text-left" style="padding:15px 0px;">
+      
+          <a href="14857044682676.html" 
+          title="Previous Post: 最小生成树（总结）">&laquo; 最小生成树（总结）</a>
+      
+        </p>
+        </div>
+        <div class="large-6 columns">
+      <p class="text-right" style="padding:15px 0px;">
+      
+          <a  href="14838709255313.html" 
+          title="Next Post: 图的遍历（DFS && BFS）">图的遍历（DFS && BFS） &raquo;</a>
+      
+      </p>
+        </div>
+      </div>
+      <div class="comments-wrap">
+        <div class="share-comments">
+          
+
+          
+
+          
+        </div>
+      </div>
+    </div><!-- article-wrap -->
+  </div><!-- large 8 -->
+
+
+
+
+ <div class="large-4 medium-4 columns">
+  <div class="hide-for-small">
+    <div id="sidebar" class="sidebar">
+          <div id="site-info" class="site-info">
+            
+                <h1>挂在树上的兔子</h1>
+                <div class="site-des"></div>
+                <div class="social">
+
+
+
+
+
+
+
+
+
+
+
+  <a target="_blank" class="rss" href="atom.xml" title="RSS">RSS</a>
+                
+              	 </div>
+          	</div>
+
+             
+
+              <div id="site-categories" class="side-item ">
+                <div class="side-header">
+                  <h2>Categories</h2>
+                </div>
+                <div class="side-content">
+
+      	<p class="cat-list">
+        
+            <a href="%E6%95%B0%E6%8D%AE%E5%BA%93.html"><strong>数据库</strong></a>
+        
+            <a href="Python.html"><strong>Python</strong></a>
+        
+            <a href="%E9%9A%8F%E6%83%B3.html"><strong>随想</strong></a>
+        
+            <a href="%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84&%E7%AE%97%E6%B3%95.html"><strong>数据结构&算法</strong></a>
+        
+            <a href="PHP.html"><strong>PHP</strong></a>
+        
+            <a href="Ubuntu.html"><strong>Ubuntu</strong></a>
+         
+        </p>
+
+
+                </div>
+              </div>
+
+              <div id="site-categories" class="side-item">
+                <div class="side-header">
+                  <h2>Recent Posts</h2>
+                </div>
+                <div class="side-content">
+                <ul class="posts-list">
+	      
+		      
+			      <li class="post">
+			        <a href="14830907697555.html">MySQL数据库☞数据库编码</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="14830842110487.html">MySQL数据库☞中文乱码问题</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="14819928857822.html">MySQL的基本命令☞数据表的基本管理</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="14745361920074.html">python容器数据类型☞collections</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="14724629382123.html">python对列表进行操作</a>
+			      </li>
+		     
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		   
+		  		</ul>
+                </div>
+              </div>
+        </div><!-- sidebar -->
+      </div><!-- hide for small -->
+</div><!-- large 4 -->
+
+</div><!-- row -->
+
+ <div class="page-bottom clearfix">
+  <div class="row">
+   <p class="copyright">Copyright &copy; 2015
+Powered by <a target="_blank" href="http://www.mweb.im">MWeb</a>,&nbsp; 
+Theme used <a target="_blank" href="http://github.com">GitHub CSS</a>.</p>
+  </div>
+</div>
+
+        </section>
+      </div>
+    </div>
+
+  
+    
+
+    <script src="asset/js/foundation.min.js"></script>
+    <script>
+      $(document).foundation();
+      function fixSidebarHeight(){
+        var w1 = $('.markdown-body').height();
+          var w2 = $('#sidebar').height();
+          if (w1 > w2) { $('#sidebar').height(w1); };
+      }
+      $(function(){
+        fixSidebarHeight();
+      })
+      $(window).load(function(){
+          fixSidebarHeight();
+      });
+     
+    </script>
+
+    <script src="asset/chart/all-min.js"></script><script type="text/javascript">$(function(){    var mwebii=0;    var mwebChartEleId = 'mweb-chart-ele-';    $('pre>code').each(function(){        mwebii++;        var eleiid = mwebChartEleId+mwebii;        if($(this).hasClass('language-sequence')){            var ele = $(this).addClass('nohighlight').parent();            $('<div id="'+eleiid+'"></div>').insertAfter(ele);            ele.hide();            var diagram = Diagram.parse($(this).text());            diagram.drawSVG(eleiid,{theme: 'simple'});        }else if($(this).hasClass('language-flow')){            var ele = $(this).addClass('nohighlight').parent();            $('<div id="'+eleiid+'"></div>').insertAfter(ele);            ele.hide();            var diagram = flowchart.parse($(this).text());            diagram.drawSVG(eleiid);        }    });});</script>
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script type="text/x-mathjax-config">MathJax.Hub.Config({TeX: { equationNumbers: { autoNumber: "AMS" } }});</script>
+
+
+  </body>
+</html>

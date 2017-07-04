@@ -1,0 +1,1110 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+    
+  挂在树上的兔子
+  
+  </title>
+  
+  
+  <link href="atom.xml" rel="alternate" title="挂在树上的兔子" type="application/atom+xml">
+    <link rel="stylesheet" href="asset/css/foundation.min.css" />
+    <link rel="stylesheet" href="asset/css/docs.css" />
+    <script src="asset/js/vendor/modernizr.js"></script>
+    <script src="asset/js/vendor/jquery.js"></script>
+  <script src="asset/highlightjs/highlight.pack.js"></script>
+  <link href="asset/highlightjs/styles/github.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script>hljs.initHighlightingOnLoad();</script>
+<script type="text/javascript">
+  function before_search(){
+    var searchVal = 'site:blog.yanzl.net ' + document.getElementById('search_input').value;
+    document.getElementById('search_q').value = searchVal;
+    return true;
+  }
+</script>
+  </head>
+  <body class="antialiased hide-extras">
+    
+    <div class="marketing off-canvas-wrap" data-offcanvas>
+      <div class="inner-wrap">
+
+
+<nav class="top-bar docs-bar hide-for-small" data-topbar>
+
+
+  <section class="top-bar-section">
+  <div class="row">
+      <div style="position: relative;width:100%;"><div style="position: absolute; width:100%;">
+        <ul id="main-menu" class="left">
+        
+        <li id=""><a target="self" href="index.html">Home</a></li>
+        
+        <li id=""><a target="_self" href="archives.html">Archives</a></li>
+        
+        </ul>
+
+        <ul class="right" id="search-wrap">
+          <li>
+<form target="_blank" onsubmit="return before_search();" action="http://google.com/search" method="get">
+    <input type="hidden" id="search_q" name="q" value="" />
+    <input tabindex="1" type="search" id="search_input"  placeholder="Search"/>
+</form>
+</li>
+          </ul>
+      </div></div>
+  </div>
+  </section>
+
+</nav>
+
+        <nav class="tab-bar show-for-small">
+  <a href="javascript:void(0)" class="left-off-canvas-toggle menu-icon">
+    <span> &nbsp; 挂在树上的兔子</span>
+  </a>
+</nav>
+
+<aside class="left-off-canvas-menu">
+      <ul class="off-canvas-list">
+       
+       <li><a href="index.html">HOME</a></li>
+    <li><a href="archives.html">Archives</a></li>
+    <li><a href="about.html">ABOUT</a></li>
+
+    <li><label>Categories</label></li>
+
+        
+            <li><a href="%E6%95%B0%E6%8D%AE%E5%BA%93.html">数据库</a></li>
+        
+            <li><a href="Python.html">Python</a></li>
+        
+            <li><a href="%E9%9A%8F%E6%83%B3.html">随想</a></li>
+        
+            <li><a href="%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84&%E7%AE%97%E6%B3%95.html">数据结构&算法</a></li>
+        
+            <li><a href="PHP.html">PHP</a></li>
+        
+            <li><a href="Ubuntu.html">Ubuntu</a></li>
+         
+
+      </ul>
+    </aside>
+
+<a class="exit-off-canvas" href="#"></a>
+
+
+        <section id="main-content" role="main" class="scroll-container">
+        
+       
+
+ <script type="text/javascript">
+	$(function(){
+		$('#menu_item_index').addClass('is_active');
+	});
+</script>
+<div class="row">
+	<div class="large-8 medium-8 columns">
+		<div class="markdown-body home-categories">
+		
+			<div class="article">
+                <a class="clearlink" href="14857034726928.html">
+                
+                  <h1>Python urllib库</h1>
+                  <div class="a-content">
+                      
+                      <div class="a-content-text">
+                        
+                        	<p>urlopen()方法</p>
+
+<p>函数原型</p>
+
+<p>urllib.urlopen(url[, data[, proxies]]) ;</p>
+
+<p>参数描述</p>
+
+<p>创建一个表示远程url的类文件对象，然后像本地文件一样操作这个类文件对象来获取远程数据。</p>
+
+<p>参数url表示远程数据的路径， 一般是网址；</p>
+
+<p>参数data表示以post方式提交到url的数据(玩过web的人应该知道提交数据的两种方式：post与get。</p>
+
+<p>参数proxies用于设置代理。</p>
+
+<p>urlopen返回 一个类文件对象，他提供了如下方法： read() , readline() , readlines() , fileno() , close() ：这些方法的使用方式与文件对象完全一样;</p>
+
+<p>info()：返回一个httplib.HTTPMessage 对象，表示远程服务器返回的头信息；</p>
+
+<p>getcode()：返回Http状态码。如果是http请求，200表示请求成功完成;404表示网址未找到；</p>
+
+<p>geturl()：返回请求的url；</p>
+
+<p>示例</p>
+
+<p>WORD_URL = &quot;<a href="http://learncodethehardway.org/words.txt">http://learncodethehardway.org/words.txt</a>&quot;<br/>
+WORDS = []<br/>
+for word in urlopen(WORD_URL).readlines():<br/>
+    WORDS.append(word.strip())</p>
+
+<p>print urlopen(WORD_URL).info()<br/>
+print urlopen(WORD_URL).getcode()<br/>
+print urlopen(WORD_URL).geturl()</p>
+
+<p>运行之后返回以下结果</p>
+
+<p>返回一个httplib.HTTPMessage 对象，表示远程服务器返回的头信息；<br/>
+Server: nginx/1.7.3<br/>
+Date: Wed, 28 Oct 2015 14:36:41 GMT<br/>
+Content-Type: text/plain<br/>
+Content-Length: 1688<br/>
+Last-Modified: Mon, 04 Jun 2012 00:12:01 GMT<br/>
+Connection: close<br/>
+ETag: &quot;4fcbfd51-698&quot;<br/>
+Accept-Ranges: bytes</p>
+
+<p>返回Http状态码。如果是http请求，200表示请求成功完成;404表示网址未找到；<br/>
+200</p>
+
+<p>返回请求的url；<br/>
+<a href="http://learncodethehardway.org/words.txt">http://learncodethehardway.org/words.txt</a></p>
+
+<p>urllib中一些辅助方法用于对url进行编码、解码</p>
+
+<p>url中是不能出现一些特殊的符号的，有些符号有特殊的用途。<br/>
+当以get方式提交数据的时候，会在url中添加key=value这样的字符串，<br/>
+所以在value中是不允许有&#39;=&#39;，因此要对其进行编码；与此同时服务器接收到这些参数的时候，要进行解码，<br/>
+还原成原始的数据。这个时候，这些辅助方法会很有用：<br/>
+urllib.quote(string[, safe])：对字符串进行编码,参数safe指定了不需要编码的字符;<br/>
+urllib.unquote(string) ：对字符串进行解码；<br/>
+urllib.quote_plus(string [ , safe ] ) ：与urllib.quote类似，但这个方法用&#39;+&#39;来替换&#39; &#39;，<br/>
+而quote用&#39;%20&#39;来代替&#39; &#39;<br/>
+urllib.unquote_plus(string ) ：对字符串进行解码；<br/>
+urllib.urlencode(query[, doseq])：将dict或者包含两个元素的元组列表转换成url参数。<br/>
+例如 字典{&#39;name&#39;: &#39;dark-bull&#39;, &#39;age&#39;: 200}将被转换为&quot;name=dark-bull&amp;age=200&quot; urllib.pathname2url(path)：将本地路径转换成url路径； urllib.url2pathname(path)：将url路径转换成本地路径；</p>
+
+                        
+                      </div>
+                  </div>
+                </a>
+                <div class="read-more clearfix">
+                  <div class="more-left left">
+                  
+                    <span class="date">2015/10/29</span>
+                    <span>posted in&nbsp;</span> 
+          				  
+          					    <span class="posted-in"><a href='Python.html'>Python</a></span>
+          				   
+                  </div>
+                  <div class="more-right right">
+                  <span class="comments">
+                      
+
+                       
+                  </span>
+                  </div>
+                </div>
+              </div><!-- article -->
+        
+			<div class="article">
+                <a class="clearlink" href="14857034394818.html">
+                
+                  <h1>Python strip()函数介绍</h1>
+                  <div class="a-content">
+                      
+                      <div class="a-content-text">
+                        
+                        	<p>方法功能</p>
+
+<p>strip()方法用于移除字符串头尾指定的字符</p>
+
+<p>函数原型</p>
+
+<p>str.strip(ch)            删除str字符串中开头,结尾处,位于ch删除序列的字符</p>
+
+<p>str.lstrip(ch)           删除str字符串中开头处,位于ch删除序列的字符</p>
+
+<p>str.rstrip(ch)           删除str字符串中结尾处,位于ch删除序列的字符</p>
+
+<p>返回值</p>
+
+<p>返回移除过之后的字符串</p>
+
+<p>示例</p>
+
+<p>str = &quot;000this is a string\texample,let&#39;s look if carefuly!0000&quot;<br/>
+print &quot;注意:只有两端的才有效果,中间的制表符是没有效果的&quot;<br/>
+print str.strip(&#39;0&#39;)<br/>
+print str.lstrip(&#39;0&#39;)<br/>
+print str.rstrip(&#39;0&#39;)</p>
+
+<p>该段代码运行结果为:<br/>
+this is a string    example,let&#39;s look if carefuly!<br/>
+this is a string    example,let&#39;s look if carefuly!0000<br/>
+000this is a string example,let&#39;s look if carefuly!<br/>
+注意:</p>
+
+<p>1.如果ch为空的话,默认删除空白符（包括&#39;\n&#39;, &#39;\r&#39;,  &#39;\t&#39;,  &#39; &#39;)</p>
+
+<p>a = &#39;      123&#39;<br/>
+b = &#39;\tabcd\t&#39;<br/>
+print a.strip()<br/>
+print b.strip()</p>
+
+<p>该段代码的运行结果为:<br/>
+123<br/>
+abcd</p>
+
+<p>可见之前的空格和制表符的效果都消失了<br/>
+2.这里的rm删除序列是只要边（开头或结尾）上的字符在删除序列内，就删除掉,不管顺序是怎么样的</p>
+
+<p>c = &quot;123abc&quot;<br/>
+print c.strip(&#39;21&#39;)<br/>
+print c.strip(&#39;12&#39;)</p>
+
+<p>这段代码的运行结果为:<br/>
+3abc<br/>
+3abc</p>
+
+<p>可见两次处理结果是一样的</p>
+
+                        
+                      </div>
+                  </div>
+                </a>
+                <div class="read-more clearfix">
+                  <div class="more-left left">
+                  
+                    <span class="date">2015/10/28</span>
+                    <span>posted in&nbsp;</span> 
+          				  
+          					    <span class="posted-in"><a href='Python.html'>Python</a></span>
+          				   
+                  </div>
+                  <div class="more-right right">
+                  <span class="comments">
+                      
+
+                       
+                  </span>
+                  </div>
+                </div>
+              </div><!-- article -->
+        
+			<div class="article">
+                <a class="clearlink" href="14857034052603.html">
+                
+                  <h1>Python中列表List使用</h1>
+                  <div class="a-content">
+                      
+                      <div class="a-content-text">
+                        
+                        	<p>创建一个列表</p>
+
+<p>the_count = [1,2,3,4,5]<br/>
+fruits = [&#39;apples&#39;,&#39;oranges&#39;,&#39;pears&#39;,&#39;banana&#39;]<br/>
+change = [1,&#39;pennies&#39;,2,&#39;dimes&#39;,3,&#39;quarters&#39;]<br/>
+访问列表中的值</p>
+
+<p>(1)使用索引进行访问</p>
+
+<p>print &quot;change[0]: &quot;, change[0]<br/>
+print &quot;change[1:5]: &quot;, change[1:5]</p>
+
+<p>以上输出结果为:<br/>
+change[0]:  1<br/>
+change[1:5]:  <a href="2">&#39;pennies&#39;, 2, &#39;dimes&#39;, 3</a>for循环进行访问</p>
+
+<p>for number in the_count:<br/>
+     print &quot;This is count %d&quot; %number</p>
+
+<p>以上输出结果为:<br/>
+This is count 1<br/>
+This is count 2<br/>
+This is count 3<br/>
+This is count 4<br/>
+This is count 5<br/>
+更新列表</p>
+
+<p>对列表的数据项进行修改</p>
+
+<h1 id="toc_0">更新列表</h1>
+
+<p>print &quot;the_count[3]:&quot;,the_count[3]<br/>
+the_count[3] = 2015<br/>
+print &quot;the_count[3]:&quot;,the_count[3]<br/>
+the_count[3] = &#39;The_count&#39;<br/>
+print &quot;the_count[3]:&quot;,the_count[3]</p>
+
+<p>第一次打印是初始值,第二次和第三次打印是修改了两次之后的值,结果如下<br/>
+the_count[3]: 4<br/>
+the_count[3]: 2015<br/>
+the_count[3]: The_count</p>
+
+<p>删除列表元素</p>
+
+<p>print the_count<br/>
+del the_count[3]<br/>
+print &quot;After deleting value at index 3 : &quot;<br/>
+print the_count</p>
+
+<p>该段代码执行之后的结果如下<br/>
+[1, 2, 3, &#39;The_count&#39;, 5]<br/>
+After deleting value at index 3 : <br/>
+[1, 2, 3, 5]<br/>
+计算列表元素个数</p>
+
+<p>#计算the_count列表的长度<br/>
+print len(the_count)</p>
+
+<p>输出结果为<br/>
+4<br/>
+因为上面已经对the_count列表执行了删除下标为3的元素的操作</p>
+
+<p>组合两个列表</p>
+
+<h1 id="toc_1">组合两个列表</h1>
+
+<p>list1 = the_count + fruits<br/>
+print list1</p>
+
+<p>输出结果为:<br/>
+[1, 2, 3, 5, &#39;apples&#39;, &#39;oranges&#39;, &#39;pears&#39;, &#39;banana&#39;]<br/>
+重复列表内容</p>
+
+<h1 id="toc_2">循环列表元素</h1>
+
+<p>list2 = fruits * 3<br/>
+print list2</p>
+
+<p>输出结果为:<br/>
+[&#39;apples&#39;, &#39;oranges&#39;, &#39;pears&#39;, &#39;banana&#39;, &#39;apples&#39;, &#39;oranges&#39;, &#39;pears&#39;, &#39;banana&#39;, &#39;apples&#39;, &#39;oranges&#39;, &#39;pears&#39;, &#39;banana&#39;]<br/>
+这事将整个列表元素都进行了重复<br/>
+查看元素是否存在于列表中</p>
+
+<h1 id="toc_3">查看某一个元素是否存在于列表中</h1>
+
+<p>flag = 7 in the_count<br/>
+print flag<br/>
+flag = &#39;banana&#39; in fruits<br/>
+print flag</p>
+
+<p>第一个是判断7是否在列表the_count中<br/>
+第二个是判断&#39;banana&#39;字符串是否在fruits列表中<br/>
+两次的输出结果为:<br/>
+False<br/>
+True<br/>
+元素迭代</p>
+
+<p>#迭代效果<br/>
+ for x in change:<br/>
+      print x</p>
+
+<p>将change列表中的元素都赋值给x,然后依次打印x<br/>
+打印结果为:<br/>
+1<br/>
+pennies<br/>
+2<br/>
+dimes<br/>
+3<br/>
+quarters<br/>
+比较两个列表</p>
+
+<p>cmp函数用于比较两个列表</p>
+
+<p>如果比较的元素是同类型的,则比较其值,返回结果。</p>
+
+<p>如果两个元素不是同一种类型,则检查它们是否是数字。</p>
+
+<p>如果是数字,执行必要的数字强制类型转换,然后比较。<br/>
+如果有一方的元素是数字,则另一方的元素&quot;大&quot;(数字是&quot;最小的&quot;)<br/>
+否则,通过类型名字的字母顺序进行比较。<br/>
+如果有一个列表首先到达末尾,则另一个长一点的列表&quot;大&quot;。</p>
+
+<p>如果我们用尽了两个列表的元素而且所 有元素都是相等的,那么结果就是个平局,就是说返回一个 0。</p>
+
+<p>前者大于后者,返回1,前者小于后者,返回-1.</p>
+
+<h1 id="toc_4">比较两个列表的元素</h1>
+
+<p>print &quot;Compare the_count and fruits&quot;<br/>
+print cmp(the_count,fruits)<br/>
+print &quot;Compare the_count and the_count&quot;<br/>
+print cmp(the_count,the_count)<br/>
+print &quot;Compare fruits and the_count&quot;<br/>
+print cmp(fruits,the_count)</p>
+
+<p>执行结果为:<br/>
+Compare the_count and fruits<br/>
+-1<br/>
+Compare the_count and the_count<br/>
+0<br/>
+Compare fruits and the_count<br/>
+1<br/>
+列表元素最大最小值</p>
+
+<h1 id="toc_5">返回列表元素最大最小值</h1>
+
+<p>print &quot;change max is:&quot;,max(change)<br/>
+print &quot;change min is:&quot;,min(change)</p>
+
+<p>运行结果如下:<br/>
+change max is: quarters<br/>
+change min is: 1<br/>
+在列表末尾添加新的对象</p>
+
+<p>在列表末尾添加新的对象<br/>
+change.append(2015)<br/>
+print &quot;new change is:&quot;,change</p>
+
+<p>添加完新的对象输出结果是:<br/>
+new change is: [1, &#39;pennies&#39;, 2, &#39;dimes&#39;, 3, &#39;quarters&#39;, 2015]<br/>
+统计某个元素在列表中出现的次数</p>
+
+<p>统计某个元素在列表中出现的次数<br/>
+print change.count(1)</p>
+
+<p>数字1出现的次数为:<br/>
+1<br/>
+在列表中一次性追加另一个序列的多个值</p>
+
+<p>在列表末尾一次性追加另一个序列的多个值<br/>
+print &quot;old change is :&quot;,change<br/>
+change.extend(the_count)<br/>
+print &quot;new change is :&quot;,change</p>
+
+<p>新旧数列对比如下:<br/>
+old change is : [1, &#39;pennies&#39;, 2, &#39;dimes&#39;, 3, &#39;quarters&#39;, 2015]<br/>
+new change is : [1, &#39;pennies&#39;, 2, &#39;dimes&#39;, 3, &#39;quarters&#39;, 2015, 1, 2, 3, 5]<br/>
+从列表中找出某一个元素第一次出现的索引位置</p>
+
+<p>从列表中找出某个值第一个匹配项的索引位置</p>
+
+<p>print &quot;the first 1 in change is :&quot;,change.index(1)</p>
+
+<p>输出结果为:<br/>
+the first 1 in change is : 0<br/>
+将对象插入列表</p>
+
+<p>将对象插入列表<br/>
+指在第一个参数的位置插入第二个参数<br/>
+change.insert(3,&#39;love&#39;)<br/>
+print change</p>
+
+<p>插入之后的列表为:<br/>
+[1, &#39;pennies&#39;, 2, &#39;love&#39;, &#39;dimes&#39;, 3, &#39;quarters&#39;, 2015, 1, 2, 3, 5]<br/>
+移除最后一个元素,并返回该元素的值</p>
+
+<p>移除列表中的一个元素（默认最后一个元素），并且返回该元素的值<br/>
+print change.pop()</p>
+
+<p>返回值为:<br/>
+5<br/>
+移除列表中某一个元素的第一个匹配项</p>
+
+<p>移除列表中某个值的第一个匹配项<br/>
+change.remove(3)<br/>
+print change;</p>
+
+<p>移除之后的列表为:<br/>
+[1, &#39;pennies&#39;, 2, &#39;love&#39;, &#39;dimes&#39;, &#39;quarters&#39;, 2015, 1, 2, 3]<br/>
+将列表元素反向</p>
+
+<p>反向列表中元素</p>
+
+<p>change.reverse()<br/>
+print change;</p>
+
+<p>反向之后的列表元素如下:<br/>
+[3, 2, 1, 2015, &#39;quarters&#39;, &#39;dimes&#39;, &#39;love&#39;, 2, &#39;pennies&#39;, 1]<br/>
+对列表元素进行从小到大排序</p>
+
+<p>对原列表进行排序,默认按照从小到大顺序<br/>
+change.sort()<br/>
+print change</p>
+
+<p>排序之后的列表如下:<br/>
+[1, 1, 2, 2, 3, 2015, &#39;dimes&#39;, &#39;love&#39;, &#39;pennies&#39;, &#39;quarters&#39;]</p>
+
+<p>该文章中所用到的完整示例如下:</p>
+
+<h1 id="toc_6">-<em>- coding: utf-8 -</em>-</h1>
+
+<p>the_count = [1,2,3,4,5]<br/>
+fruits = [&#39;apples&#39;,&#39;oranges&#39;,&#39;pears&#39;,&#39;banana&#39;]<br/>
+change = [1,&#39;pennies&#39;,2,&#39;dimes&#39;,3,&#39;quarters&#39;]</p>
+
+<p>print &quot;change[0]: &quot;, change[0]<br/>
+print &quot;change[2:5]: &quot;, change[2:5] </p>
+
+<h1 id="toc_7">this first kind of for-loop goes through a list</h1>
+
+<p>for number in the_count:<br/>
+    print &quot;This is count %d&quot; %number</p>
+
+<p>print &quot;the_count[3]:&quot;,the_count[3]<br/>
+the_count[3] = 2015<br/>
+print &quot;the_count[3]:&quot;,the_count[3]<br/>
+the_count[3] = &#39;The_count&#39;<br/>
+print &quot;the_count[3]:&quot;,the_count[3]</p>
+
+<p>print the_count<br/>
+del the_count[3]<br/>
+print &quot;After deleting value at index 3 : &quot;<br/>
+print the_count</p>
+
+<h1 id="toc_8">计算the_count列表的长度</h1>
+
+<p>print len(the_count)</p>
+
+<h1 id="toc_9">组合两个列表</h1>
+
+<p>list1 = the_count + fruits<br/>
+print list1</p>
+
+<h1 id="toc_10">循环列表元素</h1>
+
+<p>list2 = fruits * 3<br/>
+print list2</p>
+
+<h1 id="toc_11">查看某一个元素是否存在于列表中</h1>
+
+<p>flag = 7 in the_count<br/>
+print flag<br/>
+flag = &#39;banana&#39; in fruits<br/>
+print flag</p>
+
+<h1 id="toc_12">迭代效果</h1>
+
+<p>for x in change:<br/>
+    print x</p>
+
+<h1 id="toc_13">比较两个列表的元素</h1>
+
+<p>print &quot;Compare the_count and fruits&quot;<br/>
+print cmp(the_count,fruits)<br/>
+print &quot;Compare the_count and the_count&quot;<br/>
+print cmp(the_count,the_count)<br/>
+print &quot;Compare fruits and the_count&quot;<br/>
+print cmp(fruits,the_count)</p>
+
+<h1 id="toc_14">返回列表元素最大最小值</h1>
+
+<p>print &quot;change max is:&quot;,max(change)<br/>
+print &quot;change min is:&quot;,min(change)</p>
+
+<h1 id="toc_15">在列表末尾添加新的对象</h1>
+
+<p>change.append(2015)<br/>
+print &quot;new change is:&quot;,change</p>
+
+<h1 id="toc_16">统计某个元素在列表中出现的次数</h1>
+
+<p>print change.count(1)</p>
+
+<h1 id="toc_17">在列表末尾一次性追加另一个序列的多个值</h1>
+
+<p>print &quot;old change is :&quot;,change<br/>
+change.extend(the_count)<br/>
+print &quot;new change is :&quot;,change</p>
+
+<h1 id="toc_18">从列表中找出某个值第一个匹配项的索引位置</h1>
+
+<p>print &quot;the first 1 in change is :&quot;,change.index(1)</p>
+
+<h1 id="toc_19">将对象插入列表</h1>
+
+<h1 id="toc_20">指在第一个参数的位置插入第二个参数</h1>
+
+<p>change.insert(3,&#39;love&#39;)<br/>
+print change</p>
+
+<h1 id="toc_21">移除列表中的一个元素（默认最后一个元素），并且返回该元素的值</h1>
+
+<p>print change.pop()</p>
+
+<h1 id="toc_22">移除列表中某个值的第一个匹配项</h1>
+
+<p>change.remove(3)<br/>
+print change;</p>
+
+<h1 id="toc_23">反向列表中元素</h1>
+
+<p>change.reverse()<br/>
+print change;</p>
+
+<h1 id="toc_24">对原列表进行排序,默认按照从小到大顺序</h1>
+
+<p>change.sort()<br/>
+print change</p>
+
+                        
+                      </div>
+                  </div>
+                </a>
+                <div class="read-more clearfix">
+                  <div class="more-left left">
+                  
+                    <span class="date">2015/10/21</span>
+                    <span>posted in&nbsp;</span> 
+          				  
+          					    <span class="posted-in"><a href='Python.html'>Python</a></span>
+          				   
+                  </div>
+                  <div class="more-right right">
+                  <span class="comments">
+                      
+
+                       
+                  </span>
+                  </div>
+                </div>
+              </div><!-- article -->
+        
+			<div class="article">
+                <a class="clearlink" href="14857025786294.html">
+                
+                  <h1>Ubuntu 安装之后要做的事情</h1>
+                  <div class="a-content">
+                      
+                      <div class="a-content-text">
+                        
+                        	<p>一、更新</p>
+
+<p>在终端输入</p>
+
+<p>sudo apt-get update<br/>
+sudo apt-get upgrade<br/>
+二、安装压缩解压工具</p>
+
+<p>压缩功能</p>
+
+<pre><code>安装 sudo apt-get install rar
+卸载 sudo apt-get remove rar
+</code></pre>
+
+<p>解压功能</p>
+
+<p>安装 sudo apt-get install unrar<br/>
+卸载 sudo apt-get remove unrar<br/>
+三、vim的安装和配置</p>
+
+<p>输入以下命令</p>
+
+<p>sudo apt-get install vim-gtk<br/>
+ 安装完成之后就根据个人喜好配置文件，配置文件的命令为</p>
+
+<p>sudo vim /etc/vim/vimrc<br/>
+ 四、Git的安装和配置</p>
+
+<p>从软件中心直接安装，输入以下命令</p>
+
+<p>sudo apt-get install git<br/>
+ 开始配置git</p>
+
+<p>git config --global user.name &quot;用户名或者用户ID&quot;<br/>
+git config --global user.email &#39;邮箱&#39;<br/>
+ 生成SSH key</p>
+
+<p>ssh-keygen -C &#39;you email <a href="mailto:address@gmail.com">address@gmail.com</a>&#39; -t rsa<br/>
+ 上传SSH key</p>
+
+<p>在<a href="https://github.com/%E6%B3%A8%E5%86%8C%E5%8F%B7%E8%B4%A6%E5%8F%B7%EF%BC%8C%E7%84%B6%E5%90%8E%E6%89%BE%E5%88%B0Settings%E7%82%B9%E5%87%BB%E4%B9%8B%E5%90%8E%E6%89%BE%E5%88%B0SSH">https://github.com/注册号账号，然后找到Settings点击之后找到SSH</a> keys，点击Add SSH key。</p>
+
+<p>在上一步生成SSH key的时候，会在~/.ssh/目录产生两个文件，一个是id_rsa，一个是id_rsa.pub，这里我们用到的时候id_rsa.pub文件，使用cat id_rsa.pub 命令讲文件内容显示出来，然后复制粘贴到网站上。</p>
+
+<p>测试</p>
+
+<p>完成后，可以再使用 ssh -v  <a href="mailto:git@github.com">git@github.com</a> 进行测试。看到下面的信息表示验证成功。</p>
+
+<p>Hi frank4qiu! You&#39;ve successfullyauthenticated, but GitHub does not provide shell access.</p>
+
+<p>五、安装搜狗输入法</p>
+
+<p>先添加以下源</p>
+
+<p>sudo add-apt-repository ppa:fcitx-team/nightly<br/>
+ 添加之后更新以下系统</p>
+
+<p>sudo apt-get update<br/>
+安装fcitx</p>
+
+<p>sudo apt-get install fcitx<br/>
+ 安装fcitx的配置工具</p>
+
+<p>sudo apt-get install fcitx-config-gtk<br/>
+ 然后安装fcitx的table-all软件包</p>
+
+<p>sudo apt-get install fcitx-table-all<br/>
+ 最后安装im-switch切换工具</p>
+
+<p>sudo apt-get install im-switch<br/>
+在<a href="http://pinyin.sogou.com/linux/?r=pinyin">http://pinyin.sogou.com/linux/?r=pinyin</a> 下载搜狗输入法的资源包，然后执行以下命令</p>
+
+<p>sudo dpkg -i 资源包名称<br/>
+期间，会有依赖关系，运行以下命令就可以了</p>
+
+<p>sudo apt-get install -f<br/>
+重启电脑就可以了。</p>
+
+<p>六、配置LAMP（Linux+Apache+MySql+PHP）环境</p>
+
+<p>安装Apache</p>
+
+<p>sudo apt-get install apache2<br/>
+在浏览器中打开http://localhost/或者<a href="http://127.0.0.1%EF%BC%8C%E5%A6%82%E6%9E%9C%E6%9C%89%E9%A1%B5%E9%9D%A2%E5%87%BA%E7%8E%B0%EF%BC%8C%E5%B0%B1%E8%AF%B4%E6%98%8E%E5%AE%89%E8%A3%85%E6%88%90%E5%8A%9F%E3%80%82%E7%84%B6%E5%90%8E%E5%8F%AF%E4%BB%A5%E9%87%8D%E5%90%AFapache%EF%BC%9A">http://127.0.0.1，如果有页面出现，就说明安装成功。然后可以重启apache：</a></p>
+
+<p>sudo /etc/init.d/apache2 restart</p>
+
+<p>安装PHP5</p>
+
+<p>sudo apt-get install php5<br/>
+配置Apache+PHP</p>
+
+<p>sudo apt-get install libapache2-mod-php5</p>
+
+<p>重启Apache</p>
+
+<p>sudo /etc/init.d/apache2 restart<br/>
+测试一下，可以在/var/www/下写一个php文件测试，然后在浏览器中输入<a href="http://127.0.0.1/filename.php%E6%88%96%E8%80%85http://localhost/filename.php%EF%BC%8C%E5%A6%82%E6%9E%9C%E8%BF%90%E8%A1%8C%E6%AD%A3%E5%B8%B8%EF%BC%8C%E5%B0%B1%E5%8F%AF%E4%BB%A5%E7%BB%A7%E7%BB%AD%E4%B8%8B%E4%B8%80%E6%AD%A5%E4%BA%86%E3%80%82">http://127.0.0.1/filename.php或者http://localhost/filename.php，如果运行正常，就可以继续下一步了。</a></p>
+
+<p>安装MySql</p>
+
+<p>sudo apt-get install mysql-server<br/>
+在安装的过程中，注意会提示输入进入数据库的密码</p>
+
+<p>让Apache，PHP支持MySql</p>
+
+<p>sudo apt-get install libapache2-mod-auth-mysql<br/>
+sudo apt-get install php5-mysql<br/>
+sudo /etc/init.d/apache2 restart</p>
+
+                        
+                      </div>
+                  </div>
+                </a>
+                <div class="read-more clearfix">
+                  <div class="more-left left">
+                  
+                    <span class="date">2015/10/14</span>
+                    <span>posted in&nbsp;</span> 
+          				  
+          					    <span class="posted-in"><a href='Ubuntu.html'>Ubuntu</a></span>
+          				   
+                  </div>
+                  <div class="more-right right">
+                  <span class="comments">
+                      
+
+                       
+                  </span>
+                  </div>
+                </div>
+              </div><!-- article -->
+        
+			<div class="article">
+                <a class="clearlink" href="14857054118186.html">
+                
+                  <h1>Python学习笔记（一）</h1>
+                  <div class="a-content">
+                      
+                      <div class="a-content-text">
+                        
+                        	<p>1.注释（octothorpe）：</p>
+
+<p>python代码中使用“#”进行注释。</p>
+
+<h1 id="toc_0">(octothorpe)有很多的英文名字，比如&quot;pound&quot;英镑,&quot;hash&quot;电话的#键,&quot;mesh&quot;网等。</h1>
+
+<p>An &quot;octothorpe&quot; is also called a &quot;pound&quot;, &quot;hash&quot;, &quot;mesh&quot;, or any number of names. Pick the one that makes you chill out.</p>
+
+<p>2.在python程序中输入中文：在文件开头加入一行语句：</p>
+
+<h1 id="toc_1">-<em>- coding:utf-8 -</em>-</h1>
+
+<p>注意：这里的“#”号并不是当做注释使用，python其实没有把这行当做代码处。</p>
+
+<p>3.数字和运算</p>
+
+<p>Python中动态分配数据类型。</p>
+
+<p>print 3+2+1-5+4%2-1.0/4+6<br/>
+print 3+2.0+1-5+4%2-1/4+6<br/>
+print 3+2+1-5+4%2-1/4+6<br/>
+print &quot;5大于-2吗?&quot;,5&gt;-2<br/>
+print &quot;3加2等于&quot;,3+2<br/>
+在上述例子中，第一行输出6.75，第二行输出7.0，第三行输出7，因为第一行中1.0/4指定运算结果为小数，所以不会将小数部分舍掉，而第二行和第三行就将小数部分省略掉了。虽然第二行运行结果也是小数，但该小数是因为2.0起作用的，在结果相加之前，1/4已经等于0。</p>
+
+<p>4.变量和命名</p>
+
+<p>cars = 100<br/>
+space_in_a_car = 4.0<br/>
+drivers = 30<br/>
+passengers = 90<br/>
+cars_not_driven = cars - drivers<br/>
+carpool_capacity = drivers * space_in_a_car<br/>
+average_passengers_per_car = passengers / drivers</p>
+
+<p>print &quot;There are&quot;,cars,&quot;cars available.&quot;<br/>
+print &quot;There will be&quot;,cars_not_driven,&quot;empty cars today.&quot;<br/>
+print &quot;We can transport&quot;,carpool_capacity,&quot;people today.&quot;<br/>
+print &quot;We need to put about&quot;,average_passengers_per_car,&quot;in each car.&quot;<br/>
+再上面的示例中，体现了变量的命名、赋值、运算等操作，之后将这些变量打印出来。</p>
+
+<p>需要注意的是：给定变量space_in_a_car赋值为4.0，而不是4，因为再之后的运算过程中，有用到除法，如果两个变量都是整形，那么得出的结果也会时整形，如果有小数，则会造成精度损失。</p>
+
+<p>5.格式化字符</p>
+
+<p>name = &#39;zhang san.Jone&#39;<br/>
+age = 35<br/>
+height = 74<br/>
+weight = 180</p>
+
+<p>print &quot;Let&#39;s talk about %s .He is %d years old .He&#39;s %d inches tall.&quot; %(name, age,height)<br/>
+print &quot;He&#39;s %d pounds heavy.&quot; % weight<br/>
+在这个示例中，可以在同一行中打印多个变量，并使用格式化字符。</p>
+
+<p>Python打印出来的字符串并不限制于格式，只是把内容打印出来而已。</p>
+
+<p>Python的格式化字符有：</p>
+
+<p>符号                作用</p>
+
+<p>%%                 百分号标记 #就是输出一个%<br/>
+%c                  字符及其ASCII码<br/>
+%s                  字符串<br/>
+%d                  有符号整数(十进制)<br/>
+%02d              数字转成2位整形，缺位填充0<br/>
+%06.2f            保留宽度为6的2位小数浮点型<br/>
+%u                  无符号整数(十进制)<br/>
+%o                  无符号整数(八进制)<br/>
+%x                  无符号整数(十六进制)<br/>
+%X                 无符号整数(十六进制大写字符)<br/>
+%e                  浮点数字(科学计数法)<br/>
+%E                 浮点数字(科学计数法，用E代替e)<br/>
+%f                  浮点数字(用小数点符号)<br/>
+%g                 浮点数字(根据值的大小采用%e或%f)<br/>
+%G                浮点数字(类似于%g)<br/>
+%p                 指针(用十六进制打印值的内存地址)<br/>
+%n                 存储输出字符的数量放进参数列表的下一个变量中<br/>
+格式化操作符辅助指令：<br/>
+符号                        作用<br/>
+*                         定义宽度或者小数点精度<br/>
+-                         用做左对齐<br/>
++                        在正数前面显示加号( + )<br/>
+<sp>                  在正数前面显示空格</p>
+
+<h1 id="toc_2">在八进制数前面显示零(&#39;0&#39;),在十六进制前面显示&#39;0x&#39;或者&#39;0X&#39;(取决于用的是&#39;x&#39;还是&#39;X&#39;)</h1>
+
+<p>0                        显示的数字前面填充‘0’而不是默认的空格<br/>
+%                       &#39;%%&#39;输出一个单一的&#39;%&#39;<br/>
+(var)                  映射变量(字典参数)<br/>
+m.n                    m 是显示的最小总宽度,n 是小数点后的位数(如果可用的话)</p>
+
+                        
+                      </div>
+                  </div>
+                </a>
+                <div class="read-more clearfix">
+                  <div class="more-left left">
+                  
+                    <span class="date">2015/9/18</span>
+                    <span>posted in&nbsp;</span> 
+          				  
+          					    <span class="posted-in"><a href='Python.html'>Python</a></span>
+          				   
+                  </div>
+                  <div class="more-right right">
+                  <span class="comments">
+                      
+
+                       
+                  </span>
+                  </div>
+                </div>
+              </div><!-- article -->
+        
+              
+
+
+			<div class="row">
+			  <div class="large-6 columns">
+			  <p class="text-left" style="padding-top:25px;">
+			   <a href="all_6.html">&laquo; Prev Page</a>  
+			  </p>
+			  </div>
+			  <div class="large-6 columns">
+			<p class="text-right" style="padding-top:25px;">
+			 <a href="all_8.html">&raquo; Next Page</a> 
+			</p>
+			  </div>
+			</div>
+		</div>
+	</div><!-- large 8 -->
+
+ <div class="large-4 medium-4 columns">
+  <div class="hide-for-small">
+    <div id="sidebar" class="sidebar">
+          <div id="site-info" class="site-info">
+            
+                <h1>挂在树上的兔子</h1>
+                <div class="site-des"></div>
+                <div class="social">
+
+
+
+
+
+
+
+
+
+
+
+  <a target="_blank" class="rss" href="atom.xml" title="RSS">RSS</a>
+                
+              	 </div>
+          	</div>
+
+             
+
+              <div id="site-categories" class="side-item ">
+                <div class="side-header">
+                  <h2>Categories</h2>
+                </div>
+                <div class="side-content">
+
+      	<p class="cat-list">
+        
+            <a href="%E6%95%B0%E6%8D%AE%E5%BA%93.html"><strong>数据库</strong></a>
+        
+            <a href="Python.html"><strong>Python</strong></a>
+        
+            <a href="%E9%9A%8F%E6%83%B3.html"><strong>随想</strong></a>
+        
+            <a href="%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84&%E7%AE%97%E6%B3%95.html"><strong>数据结构&算法</strong></a>
+        
+            <a href="PHP.html"><strong>PHP</strong></a>
+        
+            <a href="Ubuntu.html"><strong>Ubuntu</strong></a>
+         
+        </p>
+
+
+                </div>
+              </div>
+
+              <div id="site-categories" class="side-item">
+                <div class="side-header">
+                  <h2>Recent Posts</h2>
+                </div>
+                <div class="side-content">
+                <ul class="posts-list">
+	      
+		      
+			      <li class="post">
+			        <a href="14830907697555.html">MySQL数据库☞数据库编码</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="14830842110487.html">MySQL数据库☞中文乱码问题</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="14819928857822.html">MySQL的基本命令☞数据表的基本管理</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="14745361920074.html">python容器数据类型☞collections</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="14724629382123.html">python对列表进行操作</a>
+			      </li>
+		     
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		   
+		  		</ul>
+                </div>
+              </div>
+        </div><!-- sidebar -->
+      </div><!-- hide for small -->
+</div><!-- large 4 -->
+
+</div><!-- row -->
+
+ <div class="page-bottom clearfix">
+  <div class="row">
+   <p class="copyright">Copyright &copy; 2015
+Powered by <a target="_blank" href="http://www.mweb.im">MWeb</a>,&nbsp; 
+Theme used <a target="_blank" href="http://github.com">GitHub CSS</a>.</p>
+  </div>
+</div>
+
+        </section>
+      </div>
+    </div>
+
+  
+    
+
+    <script src="asset/js/foundation.min.js"></script>
+    <script>
+      $(document).foundation();
+      function fixSidebarHeight(){
+        var w1 = $('.markdown-body').height();
+          var w2 = $('#sidebar').height();
+          if (w1 > w2) { $('#sidebar').height(w1); };
+      }
+      $(function(){
+        fixSidebarHeight();
+      })
+      $(window).load(function(){
+          fixSidebarHeight();
+      });
+     
+    </script>
+
+    <script src="asset/chart/all-min.js"></script><script type="text/javascript">$(function(){    var mwebii=0;    var mwebChartEleId = 'mweb-chart-ele-';    $('pre>code').each(function(){        mwebii++;        var eleiid = mwebChartEleId+mwebii;        if($(this).hasClass('language-sequence')){            var ele = $(this).addClass('nohighlight').parent();            $('<div id="'+eleiid+'"></div>').insertAfter(ele);            ele.hide();            var diagram = Diagram.parse($(this).text());            diagram.drawSVG(eleiid,{theme: 'simple'});        }else if($(this).hasClass('language-flow')){            var ele = $(this).addClass('nohighlight').parent();            $('<div id="'+eleiid+'"></div>').insertAfter(ele);            ele.hide();            var diagram = flowchart.parse($(this).text());            diagram.drawSVG(eleiid);        }    });});</script>
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script type="text/x-mathjax-config">MathJax.Hub.Config({TeX: { equationNumbers: { autoNumber: "AMS" } }});</script>
+
+
+  </body>
+</html>

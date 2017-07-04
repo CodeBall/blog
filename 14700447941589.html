@@ -1,0 +1,869 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+    
+  Python Datatime模块 - 挂在树上的兔子
+  
+  </title>
+  
+  
+  <link href="atom.xml" rel="alternate" title="挂在树上的兔子" type="application/atom+xml">
+    <link rel="stylesheet" href="asset/css/foundation.min.css" />
+    <link rel="stylesheet" href="asset/css/docs.css" />
+    <script src="asset/js/vendor/modernizr.js"></script>
+    <script src="asset/js/vendor/jquery.js"></script>
+  <script src="asset/highlightjs/highlight.pack.js"></script>
+  <link href="asset/highlightjs/styles/github.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script>hljs.initHighlightingOnLoad();</script>
+<script type="text/javascript">
+  function before_search(){
+    var searchVal = 'site:blog.yanzl.net ' + document.getElementById('search_input').value;
+    document.getElementById('search_q').value = searchVal;
+    return true;
+  }
+</script>
+  </head>
+  <body class="antialiased hide-extras">
+    
+    <div class="marketing off-canvas-wrap" data-offcanvas>
+      <div class="inner-wrap">
+
+
+<nav class="top-bar docs-bar hide-for-small" data-topbar>
+
+
+  <section class="top-bar-section">
+  <div class="row">
+      <div style="position: relative;width:100%;"><div style="position: absolute; width:100%;">
+        <ul id="main-menu" class="left">
+        
+        <li id=""><a target="self" href="index.html">Home</a></li>
+        
+        <li id=""><a target="_self" href="archives.html">Archives</a></li>
+        
+        </ul>
+
+        <ul class="right" id="search-wrap">
+          <li>
+<form target="_blank" onsubmit="return before_search();" action="http://google.com/search" method="get">
+    <input type="hidden" id="search_q" name="q" value="" />
+    <input tabindex="1" type="search" id="search_input"  placeholder="Search"/>
+</form>
+</li>
+          </ul>
+      </div></div>
+  </div>
+  </section>
+
+</nav>
+
+        <nav class="tab-bar show-for-small">
+  <a href="javascript:void(0)" class="left-off-canvas-toggle menu-icon">
+    <span> &nbsp; 挂在树上的兔子</span>
+  </a>
+</nav>
+
+<aside class="left-off-canvas-menu">
+      <ul class="off-canvas-list">
+       
+       <li><a href="index.html">HOME</a></li>
+    <li><a href="archives.html">Archives</a></li>
+    <li><a href="about.html">ABOUT</a></li>
+
+    <li><label>Categories</label></li>
+
+        
+            <li><a href="%E6%95%B0%E6%8D%AE%E5%BA%93.html">数据库</a></li>
+        
+            <li><a href="Python.html">Python</a></li>
+        
+            <li><a href="%E9%9A%8F%E6%83%B3.html">随想</a></li>
+        
+            <li><a href="%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84&%E7%AE%97%E6%B3%95.html">数据结构&算法</a></li>
+        
+            <li><a href="PHP.html">PHP</a></li>
+        
+            <li><a href="Ubuntu.html">Ubuntu</a></li>
+         
+
+      </ul>
+    </aside>
+
+<a class="exit-off-canvas" href="#"></a>
+
+
+        <section id="main-content" role="main" class="scroll-container">
+        
+       
+
+ <script type="text/javascript">
+  $(function(){
+    $('#menu_item_index').addClass('is_active');
+  });
+</script>
+<div class="row">
+  <div class="large-8 medium-8 columns">
+      <div class="markdown-body article-wrap">
+       <div class="article">
+          
+          <h1>Python Datatime模块</h1>
+     
+        <div class="read-more clearfix">
+          <span class="date">2016/8/1</span>
+
+          <span>posted in&nbsp;</span> 
+          
+              <span class="posted-in"><a href='Python.html'>Python</a></span>
+           
+         
+          <span class="comments">
+            
+
+            
+          </span>
+
+        </div>
+      </div><!-- article -->
+
+      <div class="article-content">
+      <h2 id="toc_0">datetime.timedelta</h2>
+
+<p>用于表示两个datetime.date, datetime.time或者datetime.datetime之间的时间差,类的原型为：</p>
+
+<pre><code class="language-python">class datetime.timedelta(days=0, seconds=0, microseconds=0, milliseconds=0,
+ minutes=0, hours=0, weeks=0)
+</code></pre>
+
+<p>timedelta可以指定一个时间段，规定该时间段有多少天、秒、毫秒、微秒、分钟、小时、周，从而对该时间段进行一些操作，整理了以下几点：</p>
+
+<ul>
+<li><strong>加减法：</strong>可以将两个时间段做加减法，得到一个新的时间段。另外，可以将datetime.datetime类型或者datetime.date类型的数据进行加减法</li>
+<li><strong>乘法：</strong>可以将一个时间段和一个常数进行乘法操作，像普通乘法一样</li>
+<li><strong>除法：</strong>可以将一个时间段与一个常数进行除法操作,返回是一个timedelta类型的数据</li>
+<li><strong>取正数结果：</strong>abs()函数可以在运行结果为负数时返回正数结果,注意这里不是绝对值，而是会将两个操作数交换顺序进行运算。（比如a-b&lt;0,则返回的结果为b-a的结果）</li>
+<li><strong>返回字符串类型数据：</strong>以上的操作返回的数据类型都是timedelta类型的，如果希望返回字符串类型，可以使用str()函数</li>
+<li><strong>返回所有秒数：</strong>可以设定一个时间段，返回该时间段的所有秒数</li>
+<li><strong>获取可取时间段的最大值：</strong>可以使用timedelta.max方法进行获取</li>
+<li><p><strong>获取可取时间段的最小值：</strong>可以使用timedelta.min方法进行获取</p>
+
+<p><strong>注 除法不能执行数字除以timedelta类型的操作， 乘法和除法操作都不能是两个timedelta类型的数据</strong></p></li>
+</ul>
+
+<h3 id="toc_1">示例代码</h3>
+
+<pre><code class="language-python">from datetime import timedelta
+
+timedelta1 = timedelta(days=1, hours=2, minutes=10)
+timedelta2 = timedelta(days=2, hours=4, minutes=20, seconds=10)
+
+print(timedelta1 + timedelta2)
+print (timedelta2 - timedelta1)
+print (timedelta2 * 2)
+print (2 * timedelta2)
+print (timedelta2 / 2)
+print (abs(timedelta1 - timedelta2))
+print (str(timedelta1 - timedelta2))
+print (type(timedelta2 / 2))
+print (type(str(timedelta2 / 2)))
+print (type(repr(timedelta2 / 2)))
+print (timedelta2.total_seconds())
+print timedelta.max
+print timedelta.min
+</code></pre>
+
+<h3 id="toc_2">示例运行结果</h3>
+
+<pre><code>3 days, 6:30:10
+1 day, 2:10:10
+1 day, 2:10:10
+-2 days, 21:49:50
+4 days, 8:40:20
+4 days, 8:40:20
+1 day, 2:10:05
+&lt;type &#39;datetime.timedelta&#39;&gt;
+&lt;type &#39;str&#39;&gt;
+&lt;type &#39;str&#39;&gt;
+188410.0
+999999999 days, 23:59:59.999999
+-999999999 days, 0:00:00
+</code></pre>
+
+<h2 id="toc_3">datetime.time</h2>
+
+<p>表示时间信息，类的原型为：</p>
+
+<pre><code class="language-python">class datetime.time(hour=0, minute=0, second=0, microsecond=0, tzinfo=None)
+</code></pre>
+
+<h3 id="toc_4">类的属性</h3>
+
+<ul>
+<li>time.min</li>
+<li>time.max</li>
+<li>time.resolution</li>
+<li>time.hour</li>
+<li>time.minute</li>
+<li>time.second</li>
+<li>time.microsecond</li>
+<li>time.tzinfo</li>
+</ul>
+
+<h3 id="toc_5">运算操作</h3>
+
+<ol>
+<li>进行两个time类型数据的比较</li>
+</ol>
+
+<h3 id="toc_6">对象操作</h3>
+
+<ul>
+<li><strong>修改time类型数据：</strong> time_data.replace(hour=13, minute=25)</li>
+<li><strong>转换成ISO格式数据:</strong> time_data.isoformat()</li>
+<li><strong>格式化time类型数据：</strong> time_data.strftime(&#39;%Y/%m/%d %H:%M:%S&#39;),注意，因为time类型数据没有年月日，所以在数据类型转换时如果出现年月日，默认为1900/01/01</li>
+</ul>
+
+<h3 id="toc_7">对象操作示例</h3>
+
+<pre><code class="language-python">time_data = time(12, 13, 14, 15)
+print time_data
+time_data_replace = time_data.replace(hour=13, minute=25)
+print time_data_replace
+time_data_isoformat = time_data.isoformat()
+print time_data_isoformat
+time_data_strftime = time_data.strftime(&#39;%Y/%m/%d %H:%M:%S&#39;)
+print time_data_strftime
+</code></pre>
+
+<h3 id="toc_8">示例参考结果</h3>
+
+<pre><code>12:13:14.000015
+13:25:14.000015
+12:13:14.000015
+1900/01/01 12:13:14
+</code></pre>
+
+<h2 id="toc_9">datatime.date</h2>
+
+<p>用于返回日期的时间（年，月，日），类的原型为：</p>
+
+<pre><code class="language-python">class datetime.date(year, month, day)
+</code></pre>
+
+<h3 id="toc_10">类的属性</h3>
+
+<ul>
+<li>date.min</li>
+<li>date.max</li>
+<li>date.resolution 计算date类型的精度</li>
+<li>date.year</li>
+<li>date.month</li>
+<li>date.day</li>
+</ul>
+
+<h3 id="toc_11">运算操作</h3>
+
+<ol>
+<li>date类型数据与timedelta类型数据进行加减运算,得到的数据类型为date</li>
+<li>两个date类型数据相减，得到的数据类型为timedelta</li>
+<li>比较大小，返回布尔值</li>
+</ol>
+
+<h3 id="toc_12">常见类操作</h3>
+
+<ul>
+<li><strong>计算当天日期：</strong> date.today()</li>
+<li><strong>根据时间戳获取某一时间：</strong> date.fromtimestamp(timestamp)</li>
+<li><strong>根据天数返回对应的日期：</strong>date.fromordinal(),与对象方法toordinal()相对应</li>
+</ul>
+
+<h3 id="toc_13">类操作示例</h3>
+
+<pre><code class="language-python">today = date.today()
+today_from_timestamp = date.fromtimestamp(time.time())
+date_from_ordinal = date.fromordinal(736191)
+print date.today()
+print today_from_timestamp
+print date.fromordinal(736191)
+</code></pre>
+
+<h3 id="toc_14">示例参考结果</h3>
+
+<pre><code>2016-08-15
+2016-08-15
+2016-08-15
+</code></pre>
+
+<h3 id="toc_15">常见对象方法</h3>
+
+<ul>
+<li><strong>修改某个日期：</strong> 可以通过date.replace()方法重写year,month,day参数改变日期</li>
+<li><strong>转换成time.struct_time类型数据：</strong>date.timetuple()方法可以实现该转换，等同于time.localtime()</li>
+<li><strong>计算当天是一周的第几天：</strong>date.weekday(),返回0~6; date.isoweekday()，返回1~7</li>
+<li><strong>计算当天是哪一年第几周的周几：</strong> date.isocalendar(),返回一个元组。</li>
+<li><strong>将日期转换成iso格式：</strong>date.isoformat(),格式为：2016-08-14</li>
+<li><strong>格式化日期：</strong> date.strftime()</li>
+<li><strong>返回某日期距离1年1月1日的天数：</strong>date.toordinal()</li>
+</ul>
+
+<p><strong>这里有一个疑问：isocalendar方法中一年的第一周到底是如何计算的~~</strong></p>
+
+<h3 id="toc_16">示例代码</h3>
+
+<pre><code class="language-python">today = date.today()
+today_replace = today.replace(month=12, day=14)
+print today
+print today_replace
+today_timetuple = today.timetuple()
+time_localtime = time.localtime()
+print today_timetuple
+print time_localtime
+print type(today_timetuple), type(time_localtime)
+today_weekday = today.weekday()
+today_iso_weekday = today.isoweekday()
+print today_weekday
+print today_iso_weekday
+today_iso_format = today.isoformat()
+print today_iso_format
+today_strftime = today.strftime(&#39;%Y-%m-%d %H:%M:%S&#39;)
+print today_strftime
+today_toordinal = today.toordinal()
+print today_toordinal
+today_iso_calendar = today.isocalendar()
+print today_iso_calendar
+print date(2014, 1, 1).isocalendar()
+print date(2016, 1, 1).isocalendar()
+</code></pre>
+
+<h3 id="toc_17">示例参考结果</h3>
+
+<pre><code>2016-08-15
+2016-12-14
+time.struct_time(tm_year=2016, tm_mon=8, tm_mday=15, tm_hour=0, tm_min=0,
+ tm_sec=0, tm_wday=0, tm_yday=228, tm_isdst=-1)
+time.struct_time(tm_year=2016, tm_mon=8, tm_mday=15, tm_hour=13, tm_min=48,
+ tm_sec=35, tm_wday=0, tm_yday=228, tm_isdst=0)
+&lt;type &#39;time.struct_time&#39;&gt; &lt;type &#39;time.struct_time&#39;&gt;
+0
+1
+2016-08-15
+2016-08-15 00:00:00
+736191
+(2016, 33, 1)
+(2014, 1, 3)
+(2015, 53, 5)
+</code></pre>
+
+<h2 id="toc_18">datetime.datetime</h2>
+
+<p>用于返回日期和时间，相当于date和time的合体，类的原型为：</p>
+
+<pre><code class="language-python">class datetime.datetime(year, month, day, hour=0, minute=0, second=0,
+ microsecond=0, tzinfo=None)
+</code></pre>
+
+<h3 id="toc_19">类的属性包括：</h3>
+
+<ul>
+<li>datetime.min</li>
+<li>datetime.max</li>
+<li>datetime.year</li>
+<li>datetime.month</li>
+<li>datetime.day</li>
+<li>datetime.hour</li>
+<li>datetime.minute</li>
+<li>datetime.second</li>
+<li>datetime.microsecond</li>
+<li>datetime.tzinfo</li>
+<li>datetime.resolution: 计算类的精确度</li>
+</ul>
+
+<h3 id="toc_20">类的运算</h3>
+
+<ol>
+<li>datetime类型与timedelta类型做加减运算</li>
+<li>两个datetime类型数据做减法运算，得到timedelta类型的结果</li>
+<li><p>比较两个datetime类型数据的大小</p>
+
+<h3 id="toc_21">常见类操作如下：</h3></li>
+</ol>
+
+<ul>
+<li><strong>计算当天日期时间：</strong> datetime.today(),该方法不包含时区信息</li>
+<li><strong>计算当前日期时间：</strong> datetime.now([tz]),该方法中有一个参数用来接收时区，如果没有，则结果和today()相同，如果有时区信息，则该时区必须是tzinfo的一个具体实例</li>
+<li><strong>计算当时UTC时间：</strong> datetime.utcnow(),UTC时间是世界标准时间，比北京时间慢8小时，因为北京处于东八区</li>
+<li><strong>将时间戳转换成datetime格式：</strong> datetime.fromtimestamp(timestamp),这里第二个参数可以设置转换时区，默认会是本地日期和时间</li>
+<li><strong>将时间戳转化为UTC时间：</strong> datetime.utcfromtimestamp(timestamp)，返回的是世界标准时间</li>
+<li><strong>根据天数获取对应的日期：</strong> datetime.fromordinal(days)</li>
+<li><strong>合并日期和时间为日期时间：</strong> datetime.combine(date, time)</li>
+<li><strong>将字符串类型转换成datetime类型：</strong> datetime.strptime(today_strftime, &#39;%Y-%m-%d %H:%M:%S&#39;)，注意这里的第二个参数，与第一个参数的格式必须一致才能够成功转换</li>
+</ul>
+
+<h3 id="toc_22">类操作示例</h3>
+
+<pre><code class="language-python">today = datetime.today()
+now = datetime.now(tz=None)
+utcnow = datetime.utcnow()
+print today
+print now
+print utcnow
+today_from_timestamp = datetime.fromtimestamp(1471230039.49)
+print today_from_timestamp
+today_from_utctimestamp = datetime.utcfromtimestamp(1471230039.49)
+print today_from_utctimestamp
+days = datetime.fromordinal(736199)
+print days
+type_date = date.today()
+type_time = date_time(11,30,59)
+combine_date_time = datetime.combine(type_date, type_time)
+print combine_date_time
+today_strftime = today.strftime(&#39;%Y/%m/%d %H:%M:%S&#39;)
+today_strptime = datetime.strptime(today_strftime, &#39;%Y/%m/%d %H:%M:%S&#39;)
+print today_strftime
+print today_strptime
+print type(today_strftime)
+print type(today_strptime)
+</code></pre>
+
+<h3 id="toc_23">类操作示例参考结果</h3>
+
+<pre><code>2016-08-15 11:28:41.109749
+2016-08-15 11:28:41.109829
+2016-08-15 03:28:41.109832
+2016-08-15 11:00:39.490000
+2016-08-15 03:00:39.490000
+2016-08-23 00:00:00
+2016-08-15 11:30:59
+2016/08/15 11:28:41
+2016-08-15 11:28:41
+&lt;type &#39;str&#39;&gt;
+&lt;type &#39;datetime.datetime&#39;&gt;
+</code></pre>
+
+<h3 id="toc_24">常见对象操作方法如下：</h3>
+
+<p>先来创建一个对象：<code>today = datetime.today()</code></p>
+
+<ul>
+<li><strong>返回datetime的日期值：</strong>today.date()可以返回日期值,返回值为date类型</li>
+<li><strong>返回detetime的时间值：</strong>today.time()可以相同的时间返回时间值; today.timetz()，使用相同的时间和时区返回时间值，时区为None时不返回时区。两种方法返回值类型都为time类型。</li>
+<li><strong>修改日期时间：</strong> today.replace()方法可以实现对日期时间进行修改，没有修改的属性还是维持原来的值</li>
+<li><strong>将datetime类型数据解析成struc_time结构体返回：</strong> today.timetuple()返回当前时间的解析结构体；today.utctimetuple()返回utc时间的解析结构体</li>
+<li><strong>获取当前日期距离1年1月1日的天数：</strong> today.toordinal(),与类方法datetime.fromordinal(days)相对应</li>
+<li><strong>返回当前日期的星期：</strong> today.weekday(),返回值0~6；today_isoweekday（），返回值1~7</li>
+<li><strong>返回当前年份，周数，星期：</strong>today.isocalendar(),返回一个三元组，包括年，第几周，周几</li>
+<li><strong>返回ISO格式日期时间：</strong>datetime.isoformat(today)，个人认为这更像一个类方法。</li>
+<li><strong>转换成time.ctime的数据格式:</strong> today.ctime()</li>
+<li><strong>根据格式转换成字符串类型：</strong> today.strftime(&#39;%Y-%m-%d %H:%M:%S&#39;),默认格式为ISO-8601,与类方法datetime.strptime()相对应</li>
+</ul>
+
+<h3 id="toc_25">对象方法示例</h3>
+
+<pre><code class="language-python">today = datetime.today()
+today_date = today.date()
+today_time = today.time()
+today_timetz = today.timetz()
+print today_date
+print today_time
+print today_timetz
+today_replace = today.replace(year=2016, day=23, minute=34, second=34)
+print today_replace
+today_struct_time = today.timetuple()
+today_utc_struct_time = today.utctimetuple()
+print today_struct_time
+print today_utc_struct_time
+today_days = today.toordinal()
+print today_days
+today_weekday = today.weekday()
+today_isoweekday = today.isoweekday()
+print today_weekday
+print today_isoweekday
+today_isoclaendar = today.isocalendar()
+print today_isoclaendar
+today_isoformat = datetime.isoformat(today)
+print today_isoformat
+today_ctime = today.ctime()
+print today_ctime
+today_strftime = today.strftime(&#39;%Y/%m/%d %H:%M:%S&#39;)
+print today_strftime
+</code></pre>
+
+<h3 id="toc_26">对象操作方法示例参考结果</h3>
+
+<pre><code>2016-08-15
+13:15:15.692802
+13:15:15.692802
+2016-08-23 13:34:34.692802
+time.struct_time(tm_year=2016, tm_mon=8, tm_mday=15, tm_hour=13, tm_min=15,
+ tm_sec=15, tm_wday=0, tm_yday=228, tm_isdst=-1)
+time.struct_time(tm_year=2016, tm_mon=8, tm_mday=15, tm_hour=13, tm_min=15,
+ tm_sec=15, tm_wday=0, tm_yday=228, tm_isdst=0)
+736191
+0
+1
+(2016, 33, 1)
+2016-08-15T13:15:15.692802
+Mon Aug 15 13:15:15 2016
+2016/08/15 13:15:15
+</code></pre>
+
+<h3 id="toc_27">格式转换</h3>
+
+<h3 id="toc_28">符号说明表</h3>
+
+<table>
+<thead>
+<tr>
+<th>符号</th>
+<th>说明</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>%y</td>
+<td>两位数的年份表示（0~99）</td>
+</tr>
+<tr>
+<td>%Y</td>
+<td>四位数的年份表示（000~9999）</td>
+</tr>
+<tr>
+<td>%m</td>
+<td>月份</td>
+</tr>
+<tr>
+<td>%d</td>
+<td>月中的一天</td>
+</tr>
+<tr>
+<td>%I</td>
+<td>十二小时制的小时（1~12）</td>
+</tr>
+<tr>
+<td>%H</td>
+<td>二十四小时制的小时（0~23）</td>
+</tr>
+<tr>
+<td>%M</td>
+<td>每小时内的分钟（0~59）</td>
+</tr>
+<tr>
+<td>%S</td>
+<td>每分钟的秒（0~59）</td>
+</tr>
+<tr>
+<td>%b</td>
+<td>当地月份简写</td>
+</tr>
+<tr>
+<td>%B</td>
+<td>当地月份全称</td>
+</tr>
+<tr>
+<td>%c</td>
+<td>本地相应的日期表示和时间表示</td>
+</tr>
+<tr>
+<td>%x</td>
+<td>本地相应的日期表示</td>
+</tr>
+<tr>
+<td>%X</td>
+<td>本地相应的时间表示</td>
+</tr>
+<tr>
+<td>%a</td>
+<td>本地星期简写</td>
+</tr>
+<tr>
+<td>%A</td>
+<td>本地星期全称</td>
+</tr>
+<tr>
+<td>%U</td>
+<td>一年中的星期数（00-53）星期天为星期的开始</td>
+</tr>
+<tr>
+<td>%W</td>
+<td>一年中的星期数（00-53）星期一为星期的开始</td>
+</tr>
+<tr>
+<td>%w</td>
+<td>星期（0-6），星期天为星期的开始</td>
+</tr>
+<tr>
+<td>%j</td>
+<td>当天是全年的第几天</td>
+</tr>
+<tr>
+<td>%z</td>
+<td>该时间使用的时区，如果没有指定，则为None</td>
+</tr>
+<tr>
+<td>%%</td>
+<td>%本身</td>
+</tr>
+</tbody>
+</table>
+
+<h3 id="toc_29">转换符示例</h3>
+
+<pre><code class="language-python">today = datetime.today()
+print today.strftime(&#39;%y-%m-%d %p.%I:%M:%S&#39;)
+date_strftime = today.replace(hour=0, minute=12, second=0).strftime(&#39;%Y-%m-%d %I:%M:%S&#39;)
+print date_strftime
+print today.strftime(&#39;%Y/%m%d %H:%M:%S&#39;)
+print today.strftime(&#39;%b / %B&#39;)
+print today.strftime(&#39;%c&#39;)
+print today.strftime(&#39;%x&#39;)
+print today.strftime(&#39;%X&#39;)
+print today.strftime(&#39;%a / %A&#39;)
+print today.strftime(&#39;%Y %U %w&#39;)
+print today.strftime(&#39;%Y %W %w&#39;)
+print today.strftime(&#39;%j&#39;)
+print today.strftime(&#39;%Z&#39;)
+print today.strftime(&quot;%%&quot;)
+</code></pre>
+
+<h3 id="toc_30">示例参考结果</h3>
+
+<pre><code>16-08-15 PM.02:51:32
+2016-08-15 12:12:00
+2016/0815 14:51:32
+Aug / August
+Mon Aug 15 14:51:32 2016
+08/15/16
+14:51:32
+Mon / Monday
+2016 33 1
+2016 33 1
+228
+
+%
+</code></pre>
+
+<h2 id="toc_31">个人感悟</h2>
+
+<p>datetime模块包含timedelta，date，datetime，time， tzinfo， 五个类构成,timedelta提供日期时间计算的中间量；date用于对日期进行操作；time用于对时间进行操作（但是没有获取当前时间的操作），datetime是日期和时间的合体，既有日期也有时间，并且可以单独获取某个日期时间的日期和时间，是继承自date类的类；tzinfo类用于对时区进行操作，但这个类是一个基类，如果要使用，必须创建实体类.<br/>
+无论是date类，datetime类，还是time类，都有一些实现相同功能的方法，不过不同的类具体的参数不同：<br/>
+obj.replace():用来修改日期时间<br/>
+obj.rsoformat():用来显示ISO-8601格式的时间<br/>
+obj.strftime():将相应对象转换成所接受的格式的字符串</p>
+
+<p>datetime类继承自date类，有些方法名称和效果是一样的：<br/>
+cls.today()，获取当前时间<br/>
+cls.fromtimestamp(),根据时间戳获取时间<br/>
+cls.fromordinal(),根据天数获取相应时间<br/>
+obj.toordinal(),获取当前日期距离1年1月1日的总天数<br/>
+obj.timetuple(),获取当前日期的time.struct_time格式数据<br/>
+obj.weekday(),获取当前日期的星期，0~6<br/>
+obj.isoweekday(),获取当前日期的星期，1~7<br/>
+obj.isocalendar(),以三元组的形式获取日期年份，在这一年的星期数，当前星期的星期几</p>
+
+
+    
+
+      </div>
+
+      <div class="row">
+        <div class="large-6 columns">
+        <p class="text-left" style="padding:15px 0px;">
+      
+          <a href="14701068705193.html" 
+          title="Previous Post: Flask-RESTful 请求解析 ☞ reqparse">&laquo; Flask-RESTful 请求解析 ☞ reqparse</a>
+      
+        </p>
+        </div>
+        <div class="large-6 columns">
+      <p class="text-right" style="padding:15px 0px;">
+      
+          <a  href="14696161345629.html" 
+          title="Next Post: Python命令行参数解析☞argparse、请求解析☞reqparse">Python命令行参数解析☞argparse、请求解析☞reqparse &raquo;</a>
+      
+      </p>
+        </div>
+      </div>
+      <div class="comments-wrap">
+        <div class="share-comments">
+          
+
+          
+
+          
+        </div>
+      </div>
+    </div><!-- article-wrap -->
+  </div><!-- large 8 -->
+
+
+
+
+ <div class="large-4 medium-4 columns">
+  <div class="hide-for-small">
+    <div id="sidebar" class="sidebar">
+          <div id="site-info" class="site-info">
+            
+                <h1>挂在树上的兔子</h1>
+                <div class="site-des"></div>
+                <div class="social">
+
+
+
+
+
+
+
+
+
+
+
+  <a target="_blank" class="rss" href="atom.xml" title="RSS">RSS</a>
+                
+              	 </div>
+          	</div>
+
+             
+
+              <div id="site-categories" class="side-item ">
+                <div class="side-header">
+                  <h2>Categories</h2>
+                </div>
+                <div class="side-content">
+
+      	<p class="cat-list">
+        
+            <a href="%E6%95%B0%E6%8D%AE%E5%BA%93.html"><strong>数据库</strong></a>
+        
+            <a href="Python.html"><strong>Python</strong></a>
+        
+            <a href="%E9%9A%8F%E6%83%B3.html"><strong>随想</strong></a>
+        
+            <a href="%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84&%E7%AE%97%E6%B3%95.html"><strong>数据结构&算法</strong></a>
+        
+            <a href="PHP.html"><strong>PHP</strong></a>
+        
+            <a href="Ubuntu.html"><strong>Ubuntu</strong></a>
+         
+        </p>
+
+
+                </div>
+              </div>
+
+              <div id="site-categories" class="side-item">
+                <div class="side-header">
+                  <h2>Recent Posts</h2>
+                </div>
+                <div class="side-content">
+                <ul class="posts-list">
+	      
+		      
+			      <li class="post">
+			        <a href="14830907697555.html">MySQL数据库☞数据库编码</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="14830842110487.html">MySQL数据库☞中文乱码问题</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="14819928857822.html">MySQL的基本命令☞数据表的基本管理</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="14745361920074.html">python容器数据类型☞collections</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="14724629382123.html">python对列表进行操作</a>
+			      </li>
+		     
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		   
+		  		</ul>
+                </div>
+              </div>
+        </div><!-- sidebar -->
+      </div><!-- hide for small -->
+</div><!-- large 4 -->
+
+</div><!-- row -->
+
+ <div class="page-bottom clearfix">
+  <div class="row">
+   <p class="copyright">Copyright &copy; 2015
+Powered by <a target="_blank" href="http://www.mweb.im">MWeb</a>,&nbsp; 
+Theme used <a target="_blank" href="http://github.com">GitHub CSS</a>.</p>
+  </div>
+</div>
+
+        </section>
+      </div>
+    </div>
+
+  
+    
+
+    <script src="asset/js/foundation.min.js"></script>
+    <script>
+      $(document).foundation();
+      function fixSidebarHeight(){
+        var w1 = $('.markdown-body').height();
+          var w2 = $('#sidebar').height();
+          if (w1 > w2) { $('#sidebar').height(w1); };
+      }
+      $(function(){
+        fixSidebarHeight();
+      })
+      $(window).load(function(){
+          fixSidebarHeight();
+      });
+     
+    </script>
+
+    <script src="asset/chart/all-min.js"></script><script type="text/javascript">$(function(){    var mwebii=0;    var mwebChartEleId = 'mweb-chart-ele-';    $('pre>code').each(function(){        mwebii++;        var eleiid = mwebChartEleId+mwebii;        if($(this).hasClass('language-sequence')){            var ele = $(this).addClass('nohighlight').parent();            $('<div id="'+eleiid+'"></div>').insertAfter(ele);            ele.hide();            var diagram = Diagram.parse($(this).text());            diagram.drawSVG(eleiid,{theme: 'simple'});        }else if($(this).hasClass('language-flow')){            var ele = $(this).addClass('nohighlight').parent();            $('<div id="'+eleiid+'"></div>').insertAfter(ele);            ele.hide();            var diagram = flowchart.parse($(this).text());            diagram.drawSVG(eleiid);        }    });});</script>
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script type="text/x-mathjax-config">MathJax.Hub.Config({TeX: { equationNumbers: { autoNumber: "AMS" } }});</script>
+
+
+  </body>
+</html>

@@ -1,0 +1,1235 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+    
+  数据结构&算法 - 挂在树上的兔子
+  
+  </title>
+  
+  
+  <link href="atom.xml" rel="alternate" title="挂在树上的兔子" type="application/atom+xml">
+    <link rel="stylesheet" href="asset/css/foundation.min.css" />
+    <link rel="stylesheet" href="asset/css/docs.css" />
+    <script src="asset/js/vendor/modernizr.js"></script>
+    <script src="asset/js/vendor/jquery.js"></script>
+  <script src="asset/highlightjs/highlight.pack.js"></script>
+  <link href="asset/highlightjs/styles/github.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script>hljs.initHighlightingOnLoad();</script>
+<script type="text/javascript">
+  function before_search(){
+    var searchVal = 'site:blog.yanzl.net ' + document.getElementById('search_input').value;
+    document.getElementById('search_q').value = searchVal;
+    return true;
+  }
+</script>
+  </head>
+  <body class="antialiased hide-extras">
+    
+    <div class="marketing off-canvas-wrap" data-offcanvas>
+      <div class="inner-wrap">
+
+
+<nav class="top-bar docs-bar hide-for-small" data-topbar>
+
+
+  <section class="top-bar-section">
+  <div class="row">
+      <div style="position: relative;width:100%;"><div style="position: absolute; width:100%;">
+        <ul id="main-menu" class="left">
+        
+        <li id=""><a target="self" href="index.html">Home</a></li>
+        
+        <li id=""><a target="_self" href="archives.html">Archives</a></li>
+        
+        </ul>
+
+        <ul class="right" id="search-wrap">
+          <li>
+<form target="_blank" onsubmit="return before_search();" action="http://google.com/search" method="get">
+    <input type="hidden" id="search_q" name="q" value="" />
+    <input tabindex="1" type="search" id="search_input"  placeholder="Search"/>
+</form>
+</li>
+          </ul>
+      </div></div>
+  </div>
+  </section>
+
+</nav>
+
+        <nav class="tab-bar show-for-small">
+  <a href="javascript:void(0)" class="left-off-canvas-toggle menu-icon">
+    <span> &nbsp; 挂在树上的兔子</span>
+  </a>
+</nav>
+
+<aside class="left-off-canvas-menu">
+      <ul class="off-canvas-list">
+       
+       <li><a href="index.html">HOME</a></li>
+    <li><a href="archives.html">Archives</a></li>
+    <li><a href="about.html">ABOUT</a></li>
+
+    <li><label>Categories</label></li>
+
+        
+            <li><a href="%E6%95%B0%E6%8D%AE%E5%BA%93.html">数据库</a></li>
+        
+            <li><a href="Python.html">Python</a></li>
+        
+            <li><a href="%E9%9A%8F%E6%83%B3.html">随想</a></li>
+        
+            <li><a href="%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84&%E7%AE%97%E6%B3%95.html">数据结构&算法</a></li>
+        
+            <li><a href="PHP.html">PHP</a></li>
+        
+            <li><a href="Ubuntu.html">Ubuntu</a></li>
+         
+
+      </ul>
+    </aside>
+
+<a class="exit-off-canvas" href="#"></a>
+
+
+        <section id="main-content" role="main" class="scroll-container">
+        
+       
+
+ <script type="text/javascript">
+	$(function(){
+		$('#menu_item_index').addClass('is_active');
+	});
+</script>
+<div class="row">
+	<div class="large-8 medium-8 columns">
+		<div class="markdown-body home-categories">
+		
+			<div class="article">
+                <a class="clearlink" href="14857047517618.html">
+                
+                  <h1>欧拉回路的应用</h1>
+                  <div class="a-content">
+                      
+                      <div class="a-content-text">
+                        
+                        	<p>上一篇文章主要总结的是欧拉函数的基础知识，重点是欧拉回路的基本原理和判定是否能够组成欧拉回路，这篇文章重点总结欧拉回路在能够组成的基础上，输出路径问题。</p>
+
+<p>查找欧拉回路的路径主要有两种方法，一种是DFS搜索，一种是Fleury（弗罗莱）算法。</p>
+
+<p>DFS搜索</p>
+
+<p>利用欧拉定理判断出一个图能够构成欧拉回路后，利用DFS算法遍历所有的边，并且保证每条边只遍历一遍。</p>
+
+<p>用示例说明DFS算法：</p>
+
+<p>题目描述：</p>
+
+<p>给定n张骨牌，每张骨牌有左右两个点数（从1到6），问能不能交换骨牌的顺序交换左右两个点数，使得任意相邻骨牌的相邻字段为相等的数字。</p>
+
+<p>输入描述：</p>
+
+<p>输入文件中有多个测试数据。每个测试数据的第一行为一个整数N，1&lt;=N&lt;=100，表示多米诺骨牌的总数；接下来N行对每一张牌进行描述：每一行表示一张牌的左右两点的数字，用空格隔开。</p>
+
+<p>输出描述：</p>
+
+<p>对输入文件中的每个测试数据，如果不能满足要求，输出“No solution”；如果有解，输出任意一个即可：每张牌必须从左到右打印；每一行都要包含当前牌的序号和符号（+号代表没有翻转，-号代表左右翻转），每个测试数据的输出之后输入一个空行。</p>
+
+<p>解析：这是一个无向图，骨牌可以翻转，而且一共有六个顶点，两个顶点之间可能有多条边，所以选择用邻接表存储图，每条边有两个方向，一正一负，这是需要记录的，每条边的两个顶点，边的序号都是需要记录的。通过边的度数判断能否构成欧拉通路，之后再利用DFS的搜索方法进行路径搜索。</p>
+
+<p>存图——&gt;判断能否构成欧拉回路——&gt;DFS搜索路径——&gt;打印路径</p>
+
+<p>示例代码：</p>
+
+<h1 id="toc_0">define MAXN 101</h1>
+
+<p>using namespace std;</p>
+
+<p>struct EdgeNode<br/>
+{<br/>
+    int adjvex;//边的令一个邻接点的序号<br/>
+    int EdgeNo;//边的序号<br/>
+    int flag;//判断边有没有反转，没有为1，翻转为-1<br/>
+    EdgeNode *next;//指向下一个边结点<br/>
+};<br/>
+EdgeNode *EdgeLink[10];//邻接表的头结点<br/>
+int visited[MAXN];//记录每条边是否被遍历过<br/>
+int path[MAXN];//记录加进欧拉图里的边，用边的序号标记<br/>
+int pi;//记录当前已经加图里的边的数目<br/>
+int N;//总边数<br/>
+int du[10];//记录每个顶点的数目</p>
+
+<p>void createLG()<br/>
+{<br/>
+    int i,j,k,a,b;<br/>
+    EdgeNode <em>p,</em>q;<br/>
+    for(i = 1;i &lt;= N;i++)<br/>
+    {<br/>
+        scanf(&quot;%d%d&quot;,&amp;a,&amp;b);<br/>
+        du[a]++;//整理度数<br/>
+        du[b]++;<br/>
+        p = new EdgeNode;//开辟第一个节点的内存<br/>
+        q = new EdgeNode;//开辟第二个节点的内存<br/>
+        p-&gt;adjvex = b;<br/>
+        p-&gt;EdgeNo = i;<br/>
+        p-&gt;flag = 1;<br/>
+        p-&gt;next = EdgeLink[a];<br/>
+        EdgeLink[a] = p;<br/>
+        q-&gt;adjvex = a;<br/>
+        q-&gt;EdgeNo = i;<br/>
+        q-&gt;flag = -1;<br/>
+        q-&gt;next = EdgeLink[b];<br/>
+        EdgeLink[b] = q;<br/>
+    }<br/>
+}</p>
+
+<p>void DFS(int start)<br/>
+{<br/>
+    while(pi &lt;= N)<br/>
+    {<br/>
+        EdgeNode *p;<br/>
+        p = EdgeLink[start];<br/>
+        while(p != NULL)<br/>
+        {<br/>
+            if(!visited[p-&gt;EdgeNo])<br/>
+            {<br/>
+                //标记改边已经被遍历过了<br/>
+                visited[p-&gt;EdgeNo] = 1;<br/>
+                //根据判断该边是否翻转决定存入数组数据正负号<br/>
+                if(p-&gt;flag &gt; 0)<br/>
+                    path[pi] = p-&gt;EdgeNo;<br/>
+                else<br/>
+                    path[pi] = -p-&gt;EdgeNo;<br/>
+                pi++;<br/>
+                DFS(p-&gt;adjvex);<br/>
+            }<br/>
+            else<br/>
+                p = p-&gt;next;<br/>
+        }<br/>
+    }<br/>
+}</p>
+
+<p>void Domino()<br/>
+{<br/>
+    int start1,start2,jd = 0;<br/>
+    //判断能不能构成欧拉路<br/>
+    for(int i = 1;i &lt;= 6;i++)<br/>
+    {<br/>
+        if(du[i] % 2)<br/>
+        {<br/>
+            start1 = i;<br/>
+            jd++;<br/>
+        }<br/>
+        if(du[i] != 0)<br/>
+            start2 = i;<br/>
+    }<br/>
+    if(jd != 0 &amp;&amp; jd != 2)<br/>
+    {<br/>
+        printf(&quot;NO Solution!\n&quot;);<br/>
+        return ;<br/>
+    }<br/>
+    pi = 1;<br/>
+    if(jd == 2)<br/>
+        DFS(start1);//有奇度的点，从奇度的点开始出发<br/>
+    else<br/>
+        DFS(start2);//没有奇度的点，从任一有边的点出发都可以<br/>
+        char flag1 = &#39;+&#39;,flag2 = &#39;-&#39;;<br/>
+        for(int i = 1;i &lt; pi;i++)<br/>
+        {<br/>
+            if(path[i] &gt; 0)<br/>
+                printf(&quot;%d%c\n&quot;,path[i],flag1);<br/>
+            else<br/>
+                printf(&quot;%d%c\n&quot;,-path[i],flag2);<br/>
+        }<br/>
+}</p>
+
+<p>void delet()<br/>
+{<br/>
+    EdgeNode *p;<br/>
+    for(int i = 1;i &lt;= 6;i++)<br/>
+    {<br/>
+        p = EdgeLink[i];<br/>
+        while(p != NULL)<br/>
+        {<br/>
+            EdgeLink[i] = p-&gt;next;<br/>
+            delete p;<br/>
+            p = EdgeLink[i];<br/>
+        }<br/>
+    }<br/>
+}</p>
+
+<p>int main()<br/>
+{<br/>
+    while(~scanf(&quot;%d&quot;,&amp;N))<br/>
+    {<br/>
+        memset(du,0,sizeof(du));<br/>
+        memset(visited,0,sizeof(visited));<br/>
+        memset(path,0,sizeof(path));<br/>
+        for(int i = 1;i &lt;= 6;i++)<br/>
+            EdgeLink[i] = NULL;<br/>
+        createLG();//建图，记录度数<br/>
+        Domino();<br/>
+        delet();//用来释放内存<br/>
+    }<br/>
+    return 0;<br/>
+}</p>
+
+                        
+                      </div>
+                  </div>
+                </a>
+                <div class="read-more clearfix">
+                  <div class="more-left left">
+                  
+                    <span class="date">2015/2/6</span>
+                    <span>posted in&nbsp;</span> 
+          				  
+          					    <span class="posted-in"><a href='%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84&%E7%AE%97%E6%B3%95.html'>数据结构&算法</a></span>
+          				   
+                  </div>
+                  <div class="more-right right">
+                  <span class="comments">
+                      
+
+                       
+                  </span>
+                  </div>
+                </div>
+              </div><!-- article -->
+        
+			<div class="article">
+                <a class="clearlink" href="14857046093556.html">
+                
+                  <h1>欧拉回路</h1>
+                  <div class="a-content">
+                      
+                      <div class="a-content-text">
+                        
+                        	<p>基本概念及定理</p>
+
+<p>1.无向图的欧拉通路，欧拉回路，欧拉图</p>
+
+<p>（1）设G是无向图，则称经过G的每条边一次并且仅一次的路径为欧拉通路。</p>
+
+<p>（2）如果欧拉通路是回路，即起点和终点是同一个顶点，则称此回路为欧拉回路。</p>
+
+<p>（3）具有欧拉回路的无向图为欧拉图。</p>
+
+<p>2.有向图的欧拉通路，欧拉回路，欧拉图</p>
+
+<p>（1）设D是有向图，D的基图连通，则称经过D的每条边一次且仅经过一次的有向路径为有向欧拉路径。</p>
+
+<p>（2）如果有向欧拉通路是有向回路，则称此有向回路为有向欧拉回路。</p>
+
+<p>（3）具有有向欧拉回路的有向图D称为有向欧拉图。</p>
+
+<p>3.定理</p>
+
+<p>（1）无向图G存在欧拉通路的充要条件是：G为连通图，并且G仅有两个奇度结点或者没有奇度结点。</p>
+
+<p>定理（1）得出的三个推论：</p>
+
+<p>（1.1）当G是仅有两个奇度结点的连通图时，G的欧拉通路必定以这两个顶点为端点。</p>
+
+<p>（1.2）当G是无奇度结点的连通图时，G必有欧拉回路。</p>
+
+<p>（1.3）G为欧拉图（存在欧拉回路）的充分必要条件是：G为无奇度结点的连通图。</p>
+
+<p>（2）有向图D存在欧拉通路的充要条件是：D为有向图，D的基图连通，并且所有顶点的出度入度都相等；或者除了两个顶点外，其余顶点的入读出度都相等，而这两个顶点中，一个顶点的入度比出度多一，另一个顶点的出度比入度多一。</p>
+
+<p>定理（2）得出的三个推论：</p>
+
+<p>（2.1）当D除出度入度之差为1，-1两个顶点外，其余顶点的出度和入读都相同，D的有向欧拉通路必定以出度减入度等于1的顶点出发，到出度减入度等于-1的顶点结束。</p>
+
+<p>（2.2）当d的所有顶点的出度和入度都相等的时候，D中存在有向欧拉回路。</p>
+
+<p>（2.3）有向图D为有向欧拉图的充分必要条件是D的基图为连通图，并且所有顶点的出入度都相等。</p>
+
+<p>欧拉回路的应用</p>
+
+<p>（1）哥尼斯堡七桥问题</p>
+
+<p><img src="media/14857046093556/oula-qiqiao.jpg" alt="oula-qiqiao"/></p>
+
+<p>如图所示，蓝色的代表河流，黄色的代表桥梁，河流将白色的陆地分成四部分（四个小岛），问从一个小岛出发，能不能一次走遍所有的七座桥，并且每座桥梁经过且只经过一次。</p>
+
+<p>我们把图抽象一下，即小岛用点来表示，桥梁用边来表示，这样就构成了一个图，每条边经过且只经过一次，就成了判断欧拉路径的问题。</p>
+
+<p>计算每个点的出度和入度，A点度数为3，B点度数为3，C点度数为5，D点度数为3，而在无向图中，能够构成欧拉路径的条件是图仅有两个奇度结点或者一个奇度结点也没有，而这四个结点都是奇度结点，肯定不能实现一次走遍所有的七座桥并且每座桥只走一遍。</p>
+
+<p>（2）一笔画问题</p>
+
+<p>判定一个图能不能用一笔画画出来，其实也是用到了欧拉路径。如果这个图要求起点终点在一个顶点，那么就要判断是不是欧拉回路，没有要求的话，就判断是不是欧拉回路或欧拉通路，在判断的过程中，需要注意有向图和无向图是不一样的，具体看本文上面的定理。</p>
+
+<p>（3）旋转鼓轮的设计</p>
+
+<p>计算机鼓轮设计（模数转换问题）：设有旋转鼓轮其表面被等分成16个部分，如图1所示。 其中每一部分分别用绝缘体或导体组成，绝缘体部分给出信号0，导体部分给出信号1，在图中阴影部分表示导体，空白部分表示绝缘体，根据鼓轮的位置，触点将得到信息1101，如果鼓轮沿顺时针方向旋转一个部分，触点将有信息1010。问鼓轮上16个部分怎样安排导体及绝缘体，才能使鼓轮每旋转一个部分，四个触点能得到一组不同的四位二进制数信息。</p>
+
+<pre><code>        ![oula-tu1](media/14857046093556/oula-tu1.png)
+                                                 图片2
+</code></pre>
+
+<p>图1<br/>
+<img src="media/14857046093556/oula-tu2.png" alt="oula-tu2"/><br/>
+                                                                                                                          图2</p>
+
+<p>设有一个八个结点的有向图（图2 ），其结点分别记为三位二进制数{000，001，010，011，100，101，110，111}，设ai∈{0，1}，从结点a1a2a3可引出两条有向边，其终点分别是a2a30以及a2a31。该两条边分别记为a1a2a30和a1a2a31。所以这八个节点之间可以构成16条分别不同的边。在这种图的任一条路中，其邻接的边必是a1a2a3a4和a2a3a4a5的形式，即是第一条边标号的后三位数与第二条边标号的头三位数相同。</p>
+
+<p>这16条边每条边都走一遍并且仅走一遍，那么就构成了欧拉回路，每个顶点都有两个出度，两个入度，自然是从哪个顶点出发就能够从那个顶点结束，途中经过的这些边的第一位数就是绝缘体和导体的分布。当然得出的结果并不是唯一的。</p>
+
+<p>上面的例子，我们可以把它推广到鼓轮具有n个触点的情况。为此，我们只要构造2n-1个结点的有向图，设每个结点标记为n-1位二进制数，从结点a1,a2,a3,a4...an出发，有一条终点为a1,a2,a3,a4...an-10的边，该边记为a1,a2,a3,a4,......an-10；还有一条边的终点为a2,a3,a4,...an-11的边，该边记为a1,a2,a3,a4...an-11。这样构造的有向图，其每一结点的出度和入度都是2，故必是欧拉图。由于邻接边的标记是第一条边的后n-1位二进制数与第二条边的前n-1位二进制数相同，为此就有一种2n个二进制数的环形排列与所求的鼓轮相对应。</p>
+
+<p>欧拉回路问题</p>
+
+<p>（1）欧拉回路的判定问题：即判断一个无向图（有向图）是否存在欧拉回路（有向欧拉回路）。</p>
+
+<p>这一类问题比较简单，只需要根据定理进行判断即可，比较难的是把问题建模成一个图，并把问题的求解转换成求判断图中是否存在欧拉回路。这需要根据不同的情景进行判断。</p>
+
+<p>（2）欧拉回路的求解：在判断图中已经存在欧拉回路后，输出这条欧拉回路。</p>
+
+                        
+                      </div>
+                  </div>
+                </a>
+                <div class="read-more clearfix">
+                  <div class="more-left left">
+                  
+                    <span class="date">2015/2/5</span>
+                    <span>posted in&nbsp;</span> 
+          				  
+          					    <span class="posted-in"><a href='%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84&%E7%AE%97%E6%B3%95.html'>数据结构&算法</a></span>
+          				   
+                  </div>
+                  <div class="more-right right">
+                  <span class="comments">
+                      
+
+                       
+                  </span>
+                  </div>
+                </div>
+              </div><!-- article -->
+        
+			<div class="article">
+                <a class="clearlink" href="14857044682676.html">
+                
+                  <h1>最小生成树（总结）</h1>
+                  <div class="a-content">
+                      
+                      <div class="a-content-text">
+                        
+                        	<p>定义</p>
+
+<p>一个有 n 个结点的连通图的生成树是原图的极小连通子图，且包含原图中的所有 n 个结点，并且有保持图连通的最少的边。</p>
+
+<p>准则</p>
+
+<p>构成最小生成树的准则有3条：</p>
+
+<p>（1）必须是应该网络的边来构造最小生成树，不可以凭空捏造边哦。</p>
+
+<p>（2）必须使用且仅使用n-1条边来连接网络中的n个顶点。</p>
+
+<p>（3）不能使用产生回路的边。</p>
+
+<p>构成最小生成树的主要算法有：克鲁斯卡尔（Kruskal）算法，普利姆（Prim）算法，和Boruvka算法</p>
+
+<p>普利姆（Prim）算法</p>
+
+<p>基本思想</p>
+
+<p>以顶点为主导地位，从起始顶点出发，通过选择当前可用的最小权值边依次把其他顶点加入到生成树中来。</p>
+
+<p>具体操作</p>
+
+<p>设连通无向网为G（V,E），在该算法中，将点集合分成两个子集合T,T&#39;，T代表在最小生成树里的点的集合，T&#39;代表不在当前生成树里的点的集合。</p>
+
+<p>（1）从连通网G中选择一个起始顶点u0，首先将它加入到集合T中，然后选择与u0关联的，具有最小权值的边（u0，v），将顶点v加入到集合T中。</p>
+
+<p>（2） 以后的每一步从一个顶点在T中，另一个顶点在T&#39;中 的各条边中选择权值最小的边（u,v），把顶点v加入到T中，如此继续，直到网络中的所有顶点都加入到集合T中。</p>
+
+<p><img src="media/14857044682676/shu.jpg" alt="shu"/></p>
+
+<p>接下来以上图为例讲解prim算法的实现过程</p>
+
+<p>（1）将顶点v1放入集合T中，此时，T中只有一个顶点，一个顶点在T,另一个顶点在T’中的边中权值最小的为1，即v1连接的v3顶点，这样，将v3顶点放入T集合中。</p>
+
+<p>（2）现在T集合中就有2个顶点v1,v3了，一个点在T中，另一个点在T&#39;中的边权值最少的是4，即v3和v6相连的边，所以v6也进入集合T中。</p>
+
+<p>（3）现在集合T中有3个顶点v1,v3,v6，一个点在T中，另一个点在T&#39;中的边权值最少的是2，即v4和v6连的边，所以v4也进入集合T中。</p>
+
+<p>（4）现在集合T中有4个顶点v1,v3,v6,v4,一个顶点在T中，另一个顶点在T&#39;中的边的权值最少的是5，即v3和v2相连的边，所以v2也加入到集合T中。</p>
+
+<p>（5）现在，T&#39;中只剩下一个顶点v5，也就是看，所有和v5 相连的边中权值最小的，我们找到了v5和v2相连的边，权值为3，所以v5也加入到了集合T中。</p>
+
+<p>（6）这样，最小生成树就建成功了。</p>
+
+<p>Prim的算法实现</p>
+
+<p>Prim算法一般应用于稠密图，所以一般采用邻接矩阵来存储图，在运算的过程中，我们需要知道的是存放顶点集合T‘内各顶点到顶点集合T内各顶点权值最小的边的权值，用lowcost[]存储，还需要知道的是顶点集合T&#39;内各顶点距离顶点集合T内哪个顶点最近，用nearvex[]存储，当nearvex[i]存储的值是-1的时候，表示i点已经放入T中。</p>
+
+<p>实现过程：</p>
+
+<p>（1）初始化：最初的时候T中只有一个顶点1，所以在nearvex[]数组中将nearvex[1] = -1,其他元素值都是1，lowcost[]数组初始值就是顶点1到其它点的距离。</p>
+
+<p>接下来重复一下步骤：</p>
+
+<p>（2）在lowcost[]数组中寻找权值最小的顶点并且该顶点没有加入到生成树中，用v进行标记。</p>
+
+<p>（3）将nearvex[v]更改为-1，代表已经将v点加入到生成树中，相应的对该边进行操作，比如加和，输出权值等操作。</p>
+
+<p>（4）修改lowost数组，因为加入新的顶点之后，就相当于新增加了和该点相邻的边，那么原来记录的T中顶点到T&#39;中顶点最短的距离可能就会发生变化，所以要更新距离数组。</p>
+
+<p>lowcost[10000];<br/>
+nearvex[10000];<br/>
+void Prim()<br/>
+{<br/>
+    int i,j,sum = 0;<br/>
+    memset(nearvex,-1,sizeof(nearvex));<br/>
+    nearvex[1] = 1;<br/>
+    for(i = 1;i &lt;= n;i++)<br/>
+    {<br/>
+        lowcost[i] = mapp[1][i];<br/>
+    }<br/>
+    for(j = 1;j &lt; n;j++)<br/>
+    {<br/>
+        mi = 0x3f3f3f3f;<br/>
+        bj = 0;<br/>
+        for(i = 1;i &lt;= n;i++)<br/>
+        {<br/>
+            if(lowcost[i] &lt; mi &amp;&amp; nearvex[i] == -1)<br/>
+            {<br/>
+                bj = i;<br/>
+                mi = lowcost[i];<br/>
+            }<br/>
+        }<br/>
+        if(mi == 0x3f3f3f3f)<br/>
+            break;<br/>
+        sum += mi;<br/>
+        nearvex[bj] = 1;<br/>
+        for(i = 1;i &lt;= n;i++)<br/>
+        {<br/>
+            if(nearvex[i] == -1 &amp;&amp; mapp[bj][i] &lt; lowcost[i])<br/>
+            {<br/>
+                lowcost[i] = mapp[bj][i];<br/>
+            }<br/>
+        }<br/>
+    }<br/>
+}<br/>
+ 克鲁斯卡尔（Kruskal）算法</p>
+
+<p>基本思想</p>
+
+<p>以边为主导地位，始终都是选择当前可用的最小权值的边。</p>
+
+<p>具体操作</p>
+
+<p>（1）设一个有n个顶点的联通网络为G（V,E），最初先构造一个只有n个顶点，没有边的非联通图T = {V,空}，图中每个顶点自称一个联通分量。</p>
+
+<p>（2）当在E中选择一条具有最小权值的边时，如果该边的权值落在不同的联通分量上，则将此边加入T中;否则，即这条边的两个顶点落在同一个联通分量上，则将此边舍去，重新选择一条权值最小的边。</p>
+
+<p>（3）重复上面的过程，直到所有顶点都在同一个联通分量上为止。</p>
+
+<p>从这三步的具体操作中，我们可以看出最重要的就是不断地向生成树中加边的过程，这个过程有两个最关键的步骤：</p>
+
+<p>（1）从E中选择当前权值最小的边(u,v)，实现时可以用两种方法，一种是最小堆存放边，另一种是将边的信息（顶点，权值）存放进一个结构体数组中，并将数组中的元素按照权值从小到大排序，然后按照先后顺序选用边。</p>
+
+<p>（2）当选取好一条边之后，需要查找这条边的两个顶点是不是在同一个连通分量中，如果是，则需要舍去，如果不是，那么将这两个顶点归并到同一个连通分量中。这个步骤的实现，就用到了之前讲过的并查集。这里对并查集的基础概念就不细写了，着重介绍并查集的搜索合并以及路径压缩。</p>
+
+<p>并查集简单应用</p>
+
+<p>并查集数据结构有3个主要的函数，一个是初始化，一个是根节点的查找，最后一个是合并集合，其中合并集合调用了根节点的查找函数。</p>
+
+<p>声明：这里运用的并查集父节点中存储的值是一个负数，其绝对值代表这棵树上节点的总个数，以此来记录总结点，判断是否所有节点都已经加进最小生成树中。</p>
+
+<p>void UFset()//初始化<br/>
+{<br/>
+    for(int i = 0;i &lt; n;i++)<br/>
+    {<br/>
+        parent[i] = -1;<br/>
+    }<br/>
+}</p>
+
+<p>int Find(int x)<br/>
+{<br/>
+    int s = x;<br/>
+    while(s &gt;= 0)s = parent[s];//查找根节点<br/>
+    //接下来是路径压缩，将x到其根节点的所有节点的父亲都归到根节点中去，<br/>
+    //减少生成树的高度，方便以后的遍历查找<br/>
+    while(s != x)<br/>
+    {<br/>
+        int tmp = parent[x];<br/>
+        parent[x] = s;<br/>
+        s = parent[x];<br/>
+    }<br/>
+}</p>
+
+<p>void Union(int x,int y)<br/>
+{<br/>
+    int fx = Find(x);//查找x的根节点<br/>
+    int fy = Find(y);//查找y的根节点<br/>
+    //记录两个联通变量的总结点个数（显示为负数）<br/>
+    int sum = parent[fx] + parent[fy];<br/>
+    if(fx != fy)<br/>
+    {<br/>
+        //如果x所在的树总结点大于y所在的树的总节点<br/>
+        //那么就吧y所在的树连接到x所在的树上<br/>
+        //因为个数是用负数展现的，所以这里是小于号<br/>
+        if(parent[fx] &lt; parent[fy])//这是优化方案——加权法则<br/>
+        {<br/>
+            parent[fy] = fx;//将y所在的树连接到x所在的树上<br/>
+            parent[fx] = sum;//更改总结点个数<br/>
+        }<br/>
+        else<br/>
+        {<br/>
+            parent[fx] = fy;<br/>
+            parent[fy] = sum;<br/>
+        }<br/>
+    }<br/>
+}<br/>
+ Kruskal算法实现</p>
+
+<p>我们就以下面的示例图片进行讲解</p>
+
+<p><img src="media/14857044682676/shu-kruskal.jpg" alt="shu-kruska"/></p>
+
+<p>从图中，我们看出一共有6个顶点，10条边，边的权值从小到大依次为1（v1,v3），2（v4,v6），3（v2,v5），4（v3,v6），5（v1,v4）,5（v3,v4）,5（v2,v3）,6（v3,v5）,6（v1,v2）,6（v5,v6）。</p>
+
+<p>（1）初始状态下，每个顶点自成一个集合，和自己联通。</p>
+
+<p>（2）加入第一条边1（v1,v3）,调用并查集函数，发现v1,v3在不同的分量中，将他们两个连通，现在只有v1,v3连通。</p>
+
+<p>（3）加入第二条边2（v4,v6），调用函数发现v4,v6在不同的两个分量中，将他们连通，现在有v1,v3连通，v4,v6连通。</p>
+
+<p>（4）加入第三条边3（v2,v5）,调用函数发现v2,v5在不同的两个分量中，将他们连通，现在有v1,v3连通，v4,v6连通，v2,v5连通。</p>
+
+<p>（5）加入第四条边4（v3,v6）,调用函数发现v3,v6在不同的分量中，并且v3和v1连通，v6和v4连通，即v3所在的树有两个节点，v6所在的树有两个节点，将v6连接在v3所在的树上，现在有v1，v3，v4，v6连通，v2，v5连通。</p>
+
+<p>（6）加入第五条边5（v1,v4），调用函数发现v1,v4已经在同一个分量中了，所以不需要加这条边。</p>
+
+<p>（7）加入第六条边5（v3,v4）,调用函数发现v3,v4已经在同一个分量中了，所以不需要加这条边。</p>
+
+<p>（8）加入第七条边5（v2,v4），调用函数发现v4所在的树中有4个顶点，v2所在的树中有2个顶点，将v2所在的树连接到v4所在的树，现在有v1，v3，v4，v6，v2，v5连通，到现在为止，6个顶点全部连通，不需要之后的加边过程，最小生成树结束。</p>
+
+<p>（9）根据题目要求输出各种数据（总权值等）。</p>
+
+<p>下面是克鲁斯卡尔的代码实现过程：</p>
+
+<p>struct E<br/>
+{<br/>
+    int i,j;<br/>
+    int quan;<br/>
+};<br/>
+E edge[1000];</p>
+
+<p>int cmp(E a,E b)<br/>
+{<br/>
+    return a.quan &lt; b.quan;<br/>
+}</p>
+
+<p>void kruskal ()<br/>
+{<br/>
+    int i,j,k,u,v;<br/>
+    int sum = 0,num = 0;<br/>
+    sort(edge,edge+m,cmp);//对边进行从小到大排序<br/>
+    UFset();//对parent数组初始化<br/>
+    for(i = 0;i &lt; m;i++)<br/>
+    {<br/>
+        u = edge[i].i;v = edge[i].j;<br/>
+        if(Find(u) != Find(v))<br/>
+        {<br/>
+            sum += edge[i].quan;<br/>
+            num++;<br/>
+            union(u,v);<br/>
+        }<br/>
+        if(num &gt;= n-1)<br/>
+            break;<br/>
+    }<br/>
+    printf(&quot;%d\n&quot;,sum);<br/>
+}</p>
+
+                        
+                      </div>
+                  </div>
+                </a>
+                <div class="read-more clearfix">
+                  <div class="more-left left">
+                  
+                    <span class="date">2015/1/31</span>
+                    <span>posted in&nbsp;</span> 
+          				  
+          					    <span class="posted-in"><a href='%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84&%E7%AE%97%E6%B3%95.html'>数据结构&算法</a></span>
+          				   
+                  </div>
+                  <div class="more-right right">
+                  <span class="comments">
+                      
+
+                       
+                  </span>
+                  </div>
+                </div>
+              </div><!-- article -->
+        
+			<div class="article">
+                <a class="clearlink" href="14838710892101.html">
+                
+                  <h1>Union-Find（并查集）总结</h1>
+                  <div class="a-content">
+                      
+                      <div class="a-content-text">
+                        
+                        	<p>并查集主要是运用在动态连通性的问题上，什么是动态连通性呢，让我们先看一张图片</p>
+
+<p><img src="media/14838710892101/bingchaji1.png" alt="bingchaji1"/></p>
+
+<p>许多点开始时单独成一集合，随着连线的不断增多，图的连通性质发生了改变，在联通的过程中，如果两个点之间已经连通，那么就不需要将这两个点再次连通。</p>
+
+<p>动态连通性的应用场景常见的有两个</p>
+
+<p>网络连接判断：</p>
+
+<p>假设每一对点代表了一个网络节点，那么这一对点就表示这两个点是需要联通的，将这些需要连通的点建立动态连通图，以减少连边。在一定程度上降低成本</p>
+
+<p>两个对象属于同一个集合：</p>
+
+<p>无论是两个变量名指向同一个内存也好，还是两个人的爱好相同也好，将有相同性质的对象归结到同一个集合中，便于查询两个对象是否在同一个集合内。</p>
+
+<p>并查集</p>
+
+<p>在思考一个问题的时候，我们首先要考虑到的是这个问题的根本在哪里，同样，面对动态连通性问题，我们要解决的问题到底是什么？通过上面的总结分析，可以看出动态连通性就是给出两个点，判断是否连通，如果已经连通，联通路径是什么，如果没有连通且应该连通，就要想办法让其联通。</p>
+
+<p>首先，联通的节点属于同一个集合，不联通的点分别属于自己的集合，随着联通点对的输入，我们要判断这两个点是否已经连通。可以见一个数组来存储点，连通的点用一个数来记录，不联通的点分别用数字来记录，那么最初的情形就是所有的点都不联通，都是自成一个集合。该段代码的实现为：</p>
+
+<pre><code>int id[Size];
+    for(int i = 0;i &lt; Size;i++)
+        id[i] = i;
+</code></pre>
+
+<p>初始化结束之后，我们接下来要做的事情有以下几点</p>
+
+<p>（1）查询结点属于的组：数组对应的位置就是结点对应的组号。</p>
+
+<p>（2）判断两个结点是否属于同一个位置：分别查询到两个节点的组号，判断其是否相等。</p>
+
+<p>（3）连接两个结点，使之在同一个组中：分别得到两个节点的组号，组号相同时结束操作，不同时将一个节点的组号更改为另一个节点的组号。</p>
+
+<p>（4）获取组的数目：计算在这样一个森林中，总共有多少棵树</p>
+
+<p>让我们依次来实现这些操作</p>
+
+<p>首先，我们先构建一个连通图，在构建连通图的同时，查询节点属于的组。</p>
+
+<p>举个栗子，比如输入的Pair是(5， 9)，那么首先通过find方法发现它们的组号并不相同，5属于1组，9属于8组，然后在union的时候通过一次遍历，将组号1都改成8。当然，由8改成1也是可以的，保证操作时都使用一种规则就行。</p>
+
+<p><img src="media/14838710892101/bingchaji2.png" alt="bingchaji2"/></p>
+
+<p>但是，在修改的过程中，我们不知道1组或8组的元素到底有哪些，所以需要从头遍历数组，这样一来，时间复杂度瞬间就成了线性关系，似乎没有什么优化额。。。。。。如何解决这个问题呢？从上图可以知道，最耗时的是union算法，想办法改进该算法。</p>
+
+<p>想想看，如果我们依然使用数组来存储元素所在的组，但是里面存储的数据不再是组号，而是上一个连接该点的地址，即他的父亲，那么，我们只要知道孩子，就可以不断地查询祖先，在同一个组内的元素自然一次就能够便利过来了，而且如果想将两个不同组的元素连接到同一个组，也不需要遍历数组修改其值了，只需要将一个元素存储的值变更为另一个元素的位置就可以了。</p>
+
+<p>上面步骤可以用代码表示为：</p>
+
+<pre><code>int find(int x)//查找树根
+{
+    if(id[x] != x)
+    {
+        x = id[x];
+    }
+    return x;
+}
+void unio(int x,int y)//连接两棵树成为一棵树
+{
+    int fx = find(x);
+    int fy = find(y);
+    if(fx != fy)
+    {
+        id[fx] = fy;
+    }
+}
+</code></pre>
+
+<p>这样看来，问题似乎是解决了，但是还有一个潜在的问题，那就是容易出现极端状况。比如说很多节点属于同一个树（组），按上面的方法连接起来就会形成一条链，树的深度会很大，也会影响查找的效率，我们还需要优化一下。</p>
+
+<p>明确我们优化的目的：让树由高瘦变得矮胖。</p>
+
+<p>为什么会高瘦呢？关键在于下面这行代码</p>
+
+<pre><code> id[fx] = fy;
+</code></pre>
+
+<p>也就是说，在合并子树的过程中，不管子树哪个高哪个低，都是执行操作id[fx] = fy；所以就导致了把高的树连接到低的树上，不断地增加树的高度。如果我们能够找到每棵树的高度，那么我们就可以很方便的知道数的高低，从而将低的树连接到高的树上了。我们需要再开一个数组记录高度</p>
+
+<pre><code>    int sz[Size];
+    for(int i = 0;i &lt; Size;i++)
+    {
+        sz[i] = 1;//初始高度都为本身1
+    }
+</code></pre>
+
+<p>在合并的时候，通过这个数组选择合并的顺序</p>
+
+<pre><code>void unio(int x,int y)
+{
+    int fx = find(x);
+    int fy = find(y);
+    if(fx != fy)
+    {
+        if(sz[fx] &lt; sz[fy])
+        {
+            id[fx] = fy;
+            sz[fy] += sz[fx];//高度发生变化
+        }
+        else
+        {
+            id[fy] = fx;
+            sz[fx] += sz[fy];
+        }
+    }
+}
+</code></pre>
+
+<p>所以，修改之前和修改之后的图就有了明显的区别</p>
+
+<p><img src="media/14838710892101/bingchaji3.png" alt="bingchaji3"/></p>
+
+<p>这样一来，树就会变得矮胖了许多，但是，如果每棵树的高度如果都是1该有多好呀，即每个节点都直接连祖宗节点，这样的话，查找时不就更方便了嘛。我们还是可以实现这种存储结构的，即在查找根节点（祖宗节点）的过程中，对路径进行压缩。</p>
+
+<pre><code>int find(int x)
+{
+    if(id[x] != x)
+    {
+        //不是根节点，则将该节点的爷爷节点，缩短路径
+        id[x] = id[id[x]];
+        x = id[x];
+    }
+    return x;
+}
+</code></pre>
+
+<p>写到这里，（1）（2）（3）不操作都已经涉及到，而且优化好了，剩下的就是判断这个森林中一共有多少棵树。</p>
+
+<p>从find函数中可以看出，我们判断是不是祖宗节点的标志是</p>
+
+<pre><code>if(id[x] != x)
+</code></pre>
+
+<p>如果条件成立，那么继续查找，也就是说，如果条件不成立，就找到了祖宗节点，所以，判断是不是一颗单独树的条件就可以利用这个了。</p>
+
+<pre><code>int num = 0;
+    for(int i = 0;i &lt; n;i++)
+    {
+        if(id[i] == i)
+        {
+            num++;
+        }
+    }
+    printf(&quot;%d\n&quot;,num);
+</code></pre>
+
+<p>当然，我们可以不必另开数组记录树的高度，我们完全可以用parent[]数组边记录路径，并在祖宗节点上记录整棵树的高度。</p>
+
+<p>现在整理并查集的三个函数</p>
+
+<pre><code>int parent[MAX];
+void init()// 初始化
+{
+    for(int i = 0;i &lt; MAX;i++)
+    {
+        parent[i] = -1;
+    }
+}
+int Find(int x)//查找根节点
+{
+    int s = x;
+    while(parent[s] &gt;= 0)
+        s = parent[s];
+        //并查集的路径压缩
+    while(s != x)
+    {
+        int tmp = parent[x];
+        parent[x] = s;
+        x = tmp;
+    }
+    return s;
+}
+void Union(int x,int y)//并查集
+{
+    int fx = Find(x);
+    int fy = Find(y);
+    if(fx != fy)
+    {
+        //并查集的加权法则，尽量使树高降低
+        int sum = parent[fx] + parent[fy];
+        if(parent[fx] &lt; parent[fy])
+        {
+            parent[fy] = fx;
+            parent[fx] = sum;
+        }
+        else
+        {
+            parent[fx] = fy;
+            parent[fy] = sum;
+        }
+    }
+}
+</code></pre>
+
+                        
+                      </div>
+                  </div>
+                </a>
+                <div class="read-more clearfix">
+                  <div class="more-left left">
+                  
+                    <span class="date">2015/1/27</span>
+                    <span>posted in&nbsp;</span> 
+          				  
+          					    <span class="posted-in"><a href='%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84&%E7%AE%97%E6%B3%95.html'>数据结构&算法</a></span>
+          				   
+                  </div>
+                  <div class="more-right right">
+                  <span class="comments">
+                      
+
+                       
+                  </span>
+                  </div>
+                </div>
+              </div><!-- article -->
+        
+			<div class="article">
+                <a class="clearlink" href="14838709255313.html">
+                
+                  <h1>图的遍历（DFS && BFS）</h1>
+                  <div class="a-content">
+                      
+                      <div class="a-content-text">
+                        
+                        	<p>DFS遍历（深度优先搜索）</p>
+
+<p>算法思想：对一个无向连通图，在访问图中某一起始顶点v之后，由v出发，访问它的某一邻接顶点w1，再从w1出发，访问w1的某一邻接但还没有访问过的顶点w2，然后从w2出发，依次类推地访问；。。。。。。；直到到达的顶点的所有邻接顶点都被访问过了，然后回退一步，看看上一个访问的顶点还有没有没有访问过的邻接点，如果有，则访问此顶点，如果没有，继续回退，直到退到起始点v为止。重复上述过程，直到所有顶点都被访问到了为止。</p>
+
+<p>用图片说话</p>
+
+<p><img src="media/14838709255313/DFS.jpg" alt="DFS"/></p>
+
+<p>图2.1描述的是对于图2.1.a从A点开始进行DFS搜索，实线表示递进，虚线表示回归 。2.1.c是递归遍历之后对应的二叉树。</p>
+
+<p>DFS</p>
+
+<p>DFS的伪代码表示</p>
+
+<p>该遍历需要一个标记数组visited[i]，记录哪些点已经被访问，哪些点没有被访问，n代表顶点数，m代表边数。</p>
+
+<p>如果用邻接表来存储图结构，DGS的实现伪代码为</p>
+
+<pre><code>void DFS(顶点i)
+{
+    visited[i] = 1;
+    p = 顶点i的边链表表头指针；
+    while(p != NULL)
+    {
+        //假设指针p所指向的边节点所表示的边中，另一个顶点为顶点j
+        if(visited[j] == 0)
+        {
+            //这里写递归搜索前的准备工作
+            DFS(顶点j);
+            //dfs的回退位置，要处理的在这里写
+        }
+        p = p-&gt;next;//移向下一个节点
+    }
+}
+</code></pre>
+
+<p>可以看出，在邻接表的存储下，DFS的时间复杂度为： O(n + 2 * m)。</p>
+
+<p>如果用邻接矩阵存储图结构，DFS的实现算法为</p>
+
+<pre><code>void DFS(顶点i)
+{
+    visited[i] = 1;
+    for(int j = 0;j &lt; n;j++)
+    {
+        if(mapp[i][j] == 1 &amp;&amp; visited[j] == 0)
+        {
+            //递归前的准备工作
+            DFS(j);
+            //回归后的各种操作
+        }
+    }
+}
+</code></pre>
+
+<p>可以看出，如果采用邻接矩阵存储图结构，时间复杂度为：O(n * n)。</p>
+
+<p>不过要注意，DFS是利用了栈的原理，如果递归的太多的话容易超时，所以在这种情况下，可以选择广度优先搜索BFS。</p>
+
+<p>BFS遍历（广度优先搜索）</p>
+
+<p>广度优先搜索是一个分层的搜索过程，没有回退过程，是非递归的。</p>
+
+<p>算法思想对一个无向连通图，在访问图中某一起始顶点v后，有v出发，依次访问v的所有未访问过的邻接顶点w1,w2,w3,w4......，然后再顺序访问w1,w2,w,3,w4....的所有还未访问过的邻接顶点，再从这些顶点出发，进行下一轮的访问进队列。。。。。。</p>
+
+<p>可以看出，BFS是一个循环的过程。</p>
+
+<p>图片说话：</p>
+
+<p><img src="media/14838709255313/BFS.jpg" alt="BFS"/></p>
+
+<p>BFS的伪代码表示</p>
+
+<p>如果图的存储为邻接链表的形式</p>
+
+<pre><code>void BFS(顶点i)//从顶点进行广度优先搜索
+{
+  visited[i] = 1;//将顶点i的访问标记为已访问
+  //将顶点i进队列
+  while(/*队列不为空*/)
+  {
+      //取出队列的顶点，设为k
+      //p = 顶点k的边表表头指针
+      while(/*p不为空*/)
+      {
+          //设指针p所指向的边结点所表示的边的另一个顶点为顶点i
+            if(/*顶点j未被访问过*/)
+            {
+                //将顶点j的访问标志置为1，并将顶点j入队列
+            }
+            p = p-&gt;next;
+      }
+  }
+}
+</code></pre>
+
+<p>如果图的存储是邻接矩阵，那么BFS的伪代码表示为</p>
+
+<pre><code>void BFS(/*顶点i*/)
+{
+    visited[i] = 1;
+    //顶点进入队列
+    while(/*队列不为空*/)
+    {
+       //取出队列头的顶点，设为k
+       for(j = 0;j &lt; n;j++)
+        {
+            //j是k的邻接顶点，并且j没有被访问过
+            if(edge[k][j] == 1 &amp;&amp; !visited[k][j])
+            {
+                //将顶点j标记为已访问，并且将j入队列
+            }
+        }
+    }
+}
+</code></pre>
+
+                        
+                      </div>
+                  </div>
+                </a>
+                <div class="read-more clearfix">
+                  <div class="more-left left">
+                  
+                    <span class="date">2015/1/26</span>
+                    <span>posted in&nbsp;</span> 
+          				  
+          					    <span class="posted-in"><a href='%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84&%E7%AE%97%E6%B3%95.html'>数据结构&算法</a></span>
+          				   
+                  </div>
+                  <div class="more-right right">
+                  <span class="comments">
+                      
+
+                       
+                  </span>
+                  </div>
+                </div>
+              </div><!-- article -->
+        
+              
+
+
+			<div class="row">
+			  <div class="large-6 columns">
+			  <p class="text-left" style="padding-top:25px;">
+			   
+			  </p>
+			  </div>
+			  <div class="large-6 columns">
+			<p class="text-right" style="padding-top:25px;">
+			 <a href="数据结构&算法_1.html">&raquo; Next Page</a> 
+			</p>
+			  </div>
+			</div>
+		</div>
+	</div><!-- large 8 -->
+
+ <div class="large-4 medium-4 columns">
+  <div class="hide-for-small">
+    <div id="sidebar" class="sidebar">
+          <div id="site-info" class="site-info">
+            
+                <h1>挂在树上的兔子</h1>
+                <div class="site-des"></div>
+                <div class="social">
+
+
+
+
+
+
+
+
+
+
+
+  <a target="_blank" class="rss" href="atom.xml" title="RSS">RSS</a>
+                
+              	 </div>
+          	</div>
+
+             
+
+              <div id="site-categories" class="side-item ">
+                <div class="side-header">
+                  <h2>Categories</h2>
+                </div>
+                <div class="side-content">
+
+      	<p class="cat-list">
+        
+            <a href="%E6%95%B0%E6%8D%AE%E5%BA%93.html"><strong>数据库</strong></a>
+        
+            <a href="Python.html"><strong>Python</strong></a>
+        
+            <a href="%E9%9A%8F%E6%83%B3.html"><strong>随想</strong></a>
+        
+            <a href="%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84&%E7%AE%97%E6%B3%95.html"><strong>数据结构&算法</strong></a>
+        
+            <a href="PHP.html"><strong>PHP</strong></a>
+        
+            <a href="Ubuntu.html"><strong>Ubuntu</strong></a>
+         
+        </p>
+
+
+                </div>
+              </div>
+
+              <div id="site-categories" class="side-item">
+                <div class="side-header">
+                  <h2>Recent Posts</h2>
+                </div>
+                <div class="side-content">
+                <ul class="posts-list">
+	      
+		      
+			      <li class="post">
+			        <a href="14830907697555.html">MySQL数据库☞数据库编码</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="14830842110487.html">MySQL数据库☞中文乱码问题</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="14819928857822.html">MySQL的基本命令☞数据表的基本管理</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="14745361920074.html">python容器数据类型☞collections</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="14724629382123.html">python对列表进行操作</a>
+			      </li>
+		     
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		   
+		  		</ul>
+                </div>
+              </div>
+        </div><!-- sidebar -->
+      </div><!-- hide for small -->
+</div><!-- large 4 -->
+
+</div><!-- row -->
+
+ <div class="page-bottom clearfix">
+  <div class="row">
+   <p class="copyright">Copyright &copy; 2015
+Powered by <a target="_blank" href="http://www.mweb.im">MWeb</a>,&nbsp; 
+Theme used <a target="_blank" href="http://github.com">GitHub CSS</a>.</p>
+  </div>
+</div>
+
+        </section>
+      </div>
+    </div>
+
+  
+    
+
+    <script src="asset/js/foundation.min.js"></script>
+    <script>
+      $(document).foundation();
+      function fixSidebarHeight(){
+        var w1 = $('.markdown-body').height();
+          var w2 = $('#sidebar').height();
+          if (w1 > w2) { $('#sidebar').height(w1); };
+      }
+      $(function(){
+        fixSidebarHeight();
+      })
+      $(window).load(function(){
+          fixSidebarHeight();
+      });
+     
+    </script>
+
+    <script src="asset/chart/all-min.js"></script><script type="text/javascript">$(function(){    var mwebii=0;    var mwebChartEleId = 'mweb-chart-ele-';    $('pre>code').each(function(){        mwebii++;        var eleiid = mwebChartEleId+mwebii;        if($(this).hasClass('language-sequence')){            var ele = $(this).addClass('nohighlight').parent();            $('<div id="'+eleiid+'"></div>').insertAfter(ele);            ele.hide();            var diagram = Diagram.parse($(this).text());            diagram.drawSVG(eleiid,{theme: 'simple'});        }else if($(this).hasClass('language-flow')){            var ele = $(this).addClass('nohighlight').parent();            $('<div id="'+eleiid+'"></div>').insertAfter(ele);            ele.hide();            var diagram = flowchart.parse($(this).text());            diagram.drawSVG(eleiid);        }    });});</script>
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script type="text/x-mathjax-config">MathJax.Hub.Config({TeX: { equationNumbers: { autoNumber: "AMS" } }});</script>
+
+
+  </body>
+</html>

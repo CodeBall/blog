@@ -1,0 +1,485 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+    
+  图的基本概念及图的存储 - 挂在树上的兔子
+  
+  </title>
+  
+  
+  <link href="atom.xml" rel="alternate" title="挂在树上的兔子" type="application/atom+xml">
+    <link rel="stylesheet" href="asset/css/foundation.min.css" />
+    <link rel="stylesheet" href="asset/css/docs.css" />
+    <script src="asset/js/vendor/modernizr.js"></script>
+    <script src="asset/js/vendor/jquery.js"></script>
+  <script src="asset/highlightjs/highlight.pack.js"></script>
+  <link href="asset/highlightjs/styles/github.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script>hljs.initHighlightingOnLoad();</script>
+<script type="text/javascript">
+  function before_search(){
+    var searchVal = 'site:blog.yanzl.net ' + document.getElementById('search_input').value;
+    document.getElementById('search_q').value = searchVal;
+    return true;
+  }
+</script>
+  </head>
+  <body class="antialiased hide-extras">
+    
+    <div class="marketing off-canvas-wrap" data-offcanvas>
+      <div class="inner-wrap">
+
+
+<nav class="top-bar docs-bar hide-for-small" data-topbar>
+
+
+  <section class="top-bar-section">
+  <div class="row">
+      <div style="position: relative;width:100%;"><div style="position: absolute; width:100%;">
+        <ul id="main-menu" class="left">
+        
+        <li id=""><a target="self" href="index.html">Home</a></li>
+        
+        <li id=""><a target="_self" href="archives.html">Archives</a></li>
+        
+        </ul>
+
+        <ul class="right" id="search-wrap">
+          <li>
+<form target="_blank" onsubmit="return before_search();" action="http://google.com/search" method="get">
+    <input type="hidden" id="search_q" name="q" value="" />
+    <input tabindex="1" type="search" id="search_input"  placeholder="Search"/>
+</form>
+</li>
+          </ul>
+      </div></div>
+  </div>
+  </section>
+
+</nav>
+
+        <nav class="tab-bar show-for-small">
+  <a href="javascript:void(0)" class="left-off-canvas-toggle menu-icon">
+    <span> &nbsp; 挂在树上的兔子</span>
+  </a>
+</nav>
+
+<aside class="left-off-canvas-menu">
+      <ul class="off-canvas-list">
+       
+       <li><a href="index.html">HOME</a></li>
+    <li><a href="archives.html">Archives</a></li>
+    <li><a href="about.html">ABOUT</a></li>
+
+    <li><label>Categories</label></li>
+
+        
+            <li><a href="%E6%95%B0%E6%8D%AE%E5%BA%93.html">数据库</a></li>
+        
+            <li><a href="Python.html">Python</a></li>
+        
+            <li><a href="%E9%9A%8F%E6%83%B3.html">随想</a></li>
+        
+            <li><a href="%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84&%E7%AE%97%E6%B3%95.html">数据结构&算法</a></li>
+        
+            <li><a href="PHP.html">PHP</a></li>
+        
+            <li><a href="Ubuntu.html">Ubuntu</a></li>
+         
+
+      </ul>
+    </aside>
+
+<a class="exit-off-canvas" href="#"></a>
+
+
+        <section id="main-content" role="main" class="scroll-container">
+        
+       
+
+ <script type="text/javascript">
+  $(function(){
+    $('#menu_item_index').addClass('is_active');
+  });
+</script>
+<div class="row">
+  <div class="large-8 medium-8 columns">
+      <div class="markdown-body article-wrap">
+       <div class="article">
+          
+          <h1>图的基本概念及图的存储</h1>
+     
+        <div class="read-more clearfix">
+          <span class="date">2015/1/21</span>
+
+          <span>posted in&nbsp;</span> 
+          
+              <span class="posted-in"><a href='%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84&%E7%AE%97%E6%B3%95.html'>数据结构&算法</a></span>
+           
+         
+          <span class="comments">
+            
+
+            
+          </span>
+
+        </div>
+      </div><!-- article -->
+
+      <div class="article-content">
+      <p>各种基本概念</p>
+
+<p>1.图：顶点集合和顶点间的二元关系集合组成的数据结构，用G（V,E）表示。其中顶点集合用V(G)表示，边的集合用E(G)表示。</p>
+
+<p>2.无向图：图中所有的边都没有方向性的图成为无向图。</p>
+
+<p>3.有向图：图中所有的边都有方向性的图成为有向图。</p>
+
+<p>4.边和点：<u,v>表示一条从u到v的又向边，其中u是这条有向边的起点，v是这条有向边的终点。</p>
+
+<p>5.基图：忽略有向图的所有边的方向，得到的图称为该有向图的基图。</p>
+
+<p>6.完全图：如果无向图中任何一对顶点之间都有一条边，这种无向图称为完全图。</p>
+
+<p>7.有向完全图：如果有向图中任何一对顶点之间都有一条边，这种有向图称为有向完全图。</p>
+
+<p>8.稀疏图：边或弧的数目相对较少的图称为稀疏图。</p>
+
+<p>9.稠密图：边或弧的数目相对较多的图称为稀疏图。</p>
+
+<p>10.平凡图：只有一个顶点的图称为平凡图，平凡图的阶为1.</p>
+
+<p>11.零图：边的集合为空的图成为零图。</p>
+
+<p>12.度：一个顶点的度数是与它相关联的边的数目，记作deg(u)。在有向图中，顶点的度数等于该顶点的入度和出度的和。某一个顶点的出度是以该顶点为起点的有向边的数目，记作od(u)，某个顶点的入度是以该顶点为终点的有向边的数目，记作id(u)。</p>
+
+<p>拓展：在无向图和有向图中，所有顶点度数总和等于边数的两倍。</p>
+
+<p>13.奇点和偶点：度数为基数的顶点为奇点，度数为偶数的顶点为偶点。</p>
+
+<p>14.孤立顶点：度数为0的顶点称为孤立顶点。</p>
+
+<p>15.路径：从一个点出发，经过一系列的点到达另一个点的通路称为两点之间的路径（路径可以包含很多点）。</p>
+
+<p>16.生成树：一个无向联通图的生成树是它的包含所有顶点的极小连通子图，这里所谓的极小指边的数目极小。</p>
+
+<p>17.连通分量：如果一个无向图不是连通的，则其极大连通子图成为连通分量。这里所谓的极大指子图中包含的顶点个数极大。</p>
+
+<p>18.强连通图：对于图中每一对顶点<u,v>，既存在从u到v的路径，也存在从v到u的路径，则称此图为强连通图。</p>
+
+<p>19.强连通分量：对于非强连通图，其极大强连通子图称为其强连通分量。</p>
+
+<p>图的存储表示</p>
+
+<p>1.邻接矩阵</p>
+
+<p>设G(V,E)是一个具有n个顶点的图，矩阵是一个n*n的二维数组，用Edge[i][j]表示。</p>
+
+<p>i,j分别代表一条边的两个端点，如果两个端点之间有直接相连的边，则Edge[i][j]存储为1，否则存储为0.</p>
+
+<p>注意：邻接矩阵不能够表示以下形式：</p>
+
+<p>（1）图中存在自身环。</p>
+
+<p>（2）多条边的起点一样，终点也一样，称为重边。</p>
+
+<p>示例：每行输入两个数，代表两点之间有边存在，顶点编号最大为100.</p>
+
+<p>描述代码为：</p>
+
+<pre><code>int Edge[101][101];
+    int n,m,i,j,u,v;
+    
+    while(scanf(&quot;%d%d&quot;,&amp;n,&amp;m))//n个点，m条边
+    {
+        memset(Edge,0,sizeof(Edge));
+        if(n == 0 &amp;&amp; m == 0)
+            break;
+        for(i = 0;i &lt; m;i++)
+        {
+            scanf(&quot;%d%d&quot;,&amp;u,&amp;v);//读入边的起点和终点
+            Edge[u][v] = 1;//标记该边已存在
+        }
+        for(i = 1;i &lt;= n;i++)//计算每个顶点的出度
+        {
+            int od = 0;
+            for(j = 1;j &lt;= n;j++)
+            {
+                od += Edge[i][j];
+            }
+            printf(&quot;第%d个顶点的出度为%d\n&quot;,i,od);
+        }
+//用相似的方法计算每个顶点的入度，固定j,遍历i即可。
+    }
+</code></pre>
+
+<p>2.邻接表</p>
+
+<p><img src="media/14838700446484/linjiebiao.jpg" alt="linjiebiao"/></p>
+
+<p>如上图所示，最右边的矩阵是最左边的图对应的邻接矩阵</p>
+
+<p>中间是最左边的图对应的邻接表。可以看出，邻接表是一个个链表的形式，前面是一个头结点，代表没一个顶点，后面是一条条的链表，代表该顶点相关联的边的另一个顶点。</p>
+
+<p>邻接表的结构体声明：</p>
+
+<pre><code>#define MAXN 100
+struct ArcNode//边结点
+{
+    int adjvex;//有向边的另一个邻接点的序号
+    ArcNode *nextarc;//指向下一个边结点的指针
+};
+struct VNode//顶点
+{
+    int data;//顶点信息
+    ArcNode *head1;//出边表的表头指针
+    ArcNode *head2;//入边表的表头指针
+};
+struct LGraph//图的邻接表存储结构
+{
+    VNode vertexs[MAXN];//顶点数组
+    int vexnum , arcnum;//顶点数目和边的数目
+};
+LGraph lg;
+</code></pre>
+
+<p>建立邻接表的基本操作为：</p>
+
+<pre><code>void CreateLG()
+{
+    int i = 0;
+    ArcNode *pi;
+    int v1,v2;
+    lg.vexnum = lg.arcnum = 0;
+    scanf(&quot;%d%d&quot;,&amp;lg.vexnum,&amp;lg.arcnum);
+    for(i = 0;i &lt; lg.vexnum;i++)
+    {
+        lg.vertexs[i].head1 = lg.vertexs[i].head2 = NULL;
+    }
+    for(i = 0;i &lt; lg.arcnum;i++)
+    {
+        scanf(&quot;%d%d&quot;,&amp;v1,&amp;v2);
+        pi = new ArcNode;
+        pi-&gt;adjvex = v2;
+        pi-&gt;nextarc = lg.vertexs[v1].head1;
+        lg.vertexs[v1].head1 = pi;
+        pi = new ArcNode;
+        pi-&gt;adjvex = v1;
+        pi-&gt;nextarc = lg.vertexs[v2].head2;
+        lg.vertexs[v2].head2 = pi;
+    }
+}
+</code></pre>
+
+<p>存储分析</p>
+
+<p>1.邻接表的时间复杂度为O（m）或O(2m)（无向图），邻接矩阵的时间复杂度为O(n<sup>2)。</sup></p>
+
+<p>2.邻接表的空间复杂度为O(n+ m）或O(n + 2 * m)；邻接矩阵的空间复杂度为O(n * n);</p>
+
+
+    
+
+      </div>
+
+      <div class="row">
+        <div class="large-6 columns">
+        <p class="text-left" style="padding:15px 0px;">
+      
+          <a href="14838706264843.html" 
+          title="Previous Post: 二叉树总结">&laquo; 二叉树总结</a>
+      
+        </p>
+        </div>
+        <div class="large-6 columns">
+      <p class="text-right" style="padding:15px 0px;">
+      
+          <a  href="14838699157833.html" 
+          title="Next Post: 字典树">字典树 &raquo;</a>
+      
+      </p>
+        </div>
+      </div>
+      <div class="comments-wrap">
+        <div class="share-comments">
+          
+
+          
+
+          
+        </div>
+      </div>
+    </div><!-- article-wrap -->
+  </div><!-- large 8 -->
+
+
+
+
+ <div class="large-4 medium-4 columns">
+  <div class="hide-for-small">
+    <div id="sidebar" class="sidebar">
+          <div id="site-info" class="site-info">
+            
+                <h1>挂在树上的兔子</h1>
+                <div class="site-des"></div>
+                <div class="social">
+
+
+
+
+
+
+
+
+
+
+
+  <a target="_blank" class="rss" href="atom.xml" title="RSS">RSS</a>
+                
+              	 </div>
+          	</div>
+
+             
+
+              <div id="site-categories" class="side-item ">
+                <div class="side-header">
+                  <h2>Categories</h2>
+                </div>
+                <div class="side-content">
+
+      	<p class="cat-list">
+        
+            <a href="%E6%95%B0%E6%8D%AE%E5%BA%93.html"><strong>数据库</strong></a>
+        
+            <a href="Python.html"><strong>Python</strong></a>
+        
+            <a href="%E9%9A%8F%E6%83%B3.html"><strong>随想</strong></a>
+        
+            <a href="%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84&%E7%AE%97%E6%B3%95.html"><strong>数据结构&算法</strong></a>
+        
+            <a href="PHP.html"><strong>PHP</strong></a>
+        
+            <a href="Ubuntu.html"><strong>Ubuntu</strong></a>
+         
+        </p>
+
+
+                </div>
+              </div>
+
+              <div id="site-categories" class="side-item">
+                <div class="side-header">
+                  <h2>Recent Posts</h2>
+                </div>
+                <div class="side-content">
+                <ul class="posts-list">
+	      
+		      
+			      <li class="post">
+			        <a href="14830907697555.html">MySQL数据库☞数据库编码</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="14830842110487.html">MySQL数据库☞中文乱码问题</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="14819928857822.html">MySQL的基本命令☞数据表的基本管理</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="14745361920074.html">python容器数据类型☞collections</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="14724629382123.html">python对列表进行操作</a>
+			      </li>
+		     
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		   
+		  		</ul>
+                </div>
+              </div>
+        </div><!-- sidebar -->
+      </div><!-- hide for small -->
+</div><!-- large 4 -->
+
+</div><!-- row -->
+
+ <div class="page-bottom clearfix">
+  <div class="row">
+   <p class="copyright">Copyright &copy; 2015
+Powered by <a target="_blank" href="http://www.mweb.im">MWeb</a>,&nbsp; 
+Theme used <a target="_blank" href="http://github.com">GitHub CSS</a>.</p>
+  </div>
+</div>
+
+        </section>
+      </div>
+    </div>
+
+  
+    
+
+    <script src="asset/js/foundation.min.js"></script>
+    <script>
+      $(document).foundation();
+      function fixSidebarHeight(){
+        var w1 = $('.markdown-body').height();
+          var w2 = $('#sidebar').height();
+          if (w1 > w2) { $('#sidebar').height(w1); };
+      }
+      $(function(){
+        fixSidebarHeight();
+      })
+      $(window).load(function(){
+          fixSidebarHeight();
+      });
+     
+    </script>
+
+    <script src="asset/chart/all-min.js"></script><script type="text/javascript">$(function(){    var mwebii=0;    var mwebChartEleId = 'mweb-chart-ele-';    $('pre>code').each(function(){        mwebii++;        var eleiid = mwebChartEleId+mwebii;        if($(this).hasClass('language-sequence')){            var ele = $(this).addClass('nohighlight').parent();            $('<div id="'+eleiid+'"></div>').insertAfter(ele);            ele.hide();            var diagram = Diagram.parse($(this).text());            diagram.drawSVG(eleiid,{theme: 'simple'});        }else if($(this).hasClass('language-flow')){            var ele = $(this).addClass('nohighlight').parent();            $('<div id="'+eleiid+'"></div>').insertAfter(ele);            ele.hide();            var diagram = flowchart.parse($(this).text());            diagram.drawSVG(eleiid);        }    });});</script>
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script type="text/x-mathjax-config">MathJax.Hub.Config({TeX: { equationNumbers: { autoNumber: "AMS" } }});</script>
+
+
+  </body>
+</html>

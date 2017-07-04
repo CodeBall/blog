@@ -1,0 +1,491 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+    
+  MySQL学习笔记（5）——函数 - 挂在树上的兔子
+  
+  </title>
+  
+  
+  <link href="atom.xml" rel="alternate" title="挂在树上的兔子" type="application/atom+xml">
+    <link rel="stylesheet" href="asset/css/foundation.min.css" />
+    <link rel="stylesheet" href="asset/css/docs.css" />
+    <script src="asset/js/vendor/modernizr.js"></script>
+    <script src="asset/js/vendor/jquery.js"></script>
+  <script src="asset/highlightjs/highlight.pack.js"></script>
+  <link href="asset/highlightjs/styles/github.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script>hljs.initHighlightingOnLoad();</script>
+<script type="text/javascript">
+  function before_search(){
+    var searchVal = 'site:blog.yanzl.net ' + document.getElementById('search_input').value;
+    document.getElementById('search_q').value = searchVal;
+    return true;
+  }
+</script>
+  </head>
+  <body class="antialiased hide-extras">
+    
+    <div class="marketing off-canvas-wrap" data-offcanvas>
+      <div class="inner-wrap">
+
+
+<nav class="top-bar docs-bar hide-for-small" data-topbar>
+
+
+  <section class="top-bar-section">
+  <div class="row">
+      <div style="position: relative;width:100%;"><div style="position: absolute; width:100%;">
+        <ul id="main-menu" class="left">
+        
+        <li id=""><a target="self" href="index.html">Home</a></li>
+        
+        <li id=""><a target="_self" href="archives.html">Archives</a></li>
+        
+        </ul>
+
+        <ul class="right" id="search-wrap">
+          <li>
+<form target="_blank" onsubmit="return before_search();" action="http://google.com/search" method="get">
+    <input type="hidden" id="search_q" name="q" value="" />
+    <input tabindex="1" type="search" id="search_input"  placeholder="Search"/>
+</form>
+</li>
+          </ul>
+      </div></div>
+  </div>
+  </section>
+
+</nav>
+
+        <nav class="tab-bar show-for-small">
+  <a href="javascript:void(0)" class="left-off-canvas-toggle menu-icon">
+    <span> &nbsp; 挂在树上的兔子</span>
+  </a>
+</nav>
+
+<aside class="left-off-canvas-menu">
+      <ul class="off-canvas-list">
+       
+       <li><a href="index.html">HOME</a></li>
+    <li><a href="archives.html">Archives</a></li>
+    <li><a href="about.html">ABOUT</a></li>
+
+    <li><label>Categories</label></li>
+
+        
+            <li><a href="%E6%95%B0%E6%8D%AE%E5%BA%93.html">数据库</a></li>
+        
+            <li><a href="Python.html">Python</a></li>
+        
+            <li><a href="%E9%9A%8F%E6%83%B3.html">随想</a></li>
+        
+            <li><a href="%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84&%E7%AE%97%E6%B3%95.html">数据结构&算法</a></li>
+        
+            <li><a href="PHP.html">PHP</a></li>
+        
+            <li><a href="Ubuntu.html">Ubuntu</a></li>
+         
+
+      </ul>
+    </aside>
+
+<a class="exit-off-canvas" href="#"></a>
+
+
+        <section id="main-content" role="main" class="scroll-container">
+        
+       
+
+ <script type="text/javascript">
+  $(function(){
+    $('#menu_item_index').addClass('is_active');
+  });
+</script>
+<div class="row">
+  <div class="large-8 medium-8 columns">
+      <div class="markdown-body article-wrap">
+       <div class="article">
+          
+          <h1>MySQL学习笔记（5）——函数</h1>
+     
+        <div class="read-more clearfix">
+          <span class="date">2016/1/24</span>
+
+          <span>posted in&nbsp;</span> 
+          
+              <span class="posted-in"><a href='%E6%95%B0%E6%8D%AE%E5%BA%93.html'>数据库</a></span>
+           
+         
+          <span class="comments">
+            
+
+            
+          </span>
+
+        </div>
+      </div><!-- article -->
+
+      <div class="article-content">
+      <p>MySQL有很多函数哦，而且函数是可以套用的~~</p>
+
+<p>字符函数</p>
+
+<p>字符连接：concat();例如：把名和姓进行连接输出：</p>
+
+<p>select concat(first_name,last_name) as name from user;<br/>
+使用指定的分隔符进行字符连接：concat_ws();</p>
+
+<p>该函数第一个参数是使用的连接符，剩下的参数是需要连接的字符串，个数不限，如：</p>
+
+<p>select concat(&#39;_&#39;,first_name,last_name) as name from user;<br/>
+数字格式化：format();</p>
+
+<p>把数字划分成千分位格式，3位为一段，第一个参数是操作的数字，第二个参数小数位数，参数不可以省略。例如：</p>
+
+<p>select format(22343.5464,3);<br/>
+转换成小写字母：lower();转换成大写字母：upper();只有一个参数，就是要操作的字符串。</p>
+
+<p>获取左侧字符left();获取右侧字符right();有两个参数，第一个参数是操作的字符串，第二个参数是获取的长度。</p>
+
+<p>获取字符串长度：length();参数就是操作的字符串</p>
+
+<p>select lower(&#39;JHDSyuJH&#39;);<br/>
+select upper(&#39;sdferfreHjs&#39;);<br/>
+select left(&#39;ewferfr&#39;,3);<br/>
+select right(&#39;ewferggrt&#39;,6);<br/>
+select length(&#39;dscfd测试汉字dkj&#39;);<br/>
+删除前导空格：ltrim();删除后续空格：rtrim();删除前导和后续空格：trim();</p>
+
+<p>select ltrim(&#39;   删除前导空格   &#39;);<br/>
+select rtrim(&#39;  删除后续空格    &#39;);<br/>
+select trim(&#39;   删除前导和后续空格   &#39;);<br/>
+trim()函数还可以删除前导和后续的其他字符</p>
+
+<p>select trim(leading &#39;?&#39; from &#39;???这里删除前导的问号&#39;);<br/>
+select trim(trailing &#39;?&#39; from &#39;??这里删除后续的问号???&#39;);<br/>
+select trim(both &#39;?&#39; from &#39;???这里删除前导和后续的问号???&#39;);<br/>
+字符串截取：substring();该函数有三个参数，第一个是操作的字符串，第二个是从哪个字符开始截取，第三个是截取的长度，如果没有第三个参数，则默认截取到结尾。</p>
+
+<p>这里需要注意的是：如果该函数配合length()函数一起使用，则对于汉字形式数据会有偏差，length()函数计算出来的长度每个汉字占两个字节，substring()函数截取的时候一个汉字占1个字节。</p>
+
+<p>select substring(&#39;jjdei截取的数据ijduhu&#39;,2,8);<br/>
+select substring(&#39;jjdei截取的数据ijduhu&#39;,2,5);<br/>
+模式匹配：[not] like;其中%代表任意字符串（长度不限），_代表任意一个字符</p>
+
+<p>字符串替换：replace();将某一个字符穿替换成另一个字符串，有三个参数，第一个是操作的字符串，第二个是替换掉的字符串，第三个是替换成的字符串</p>
+
+<p>select * from user where user_name like &#39;%亮&#39;;<br/>
+select replace(&#39;??将问号??替换成/??null????&#39;,&#39;?&#39;,&#39;&#39;);<br/>
+数值运算符和函数</p>
+
+<p>数值运算符中，+,-,*,/自然是不用说的，下面说说其他的数值运算符</p>
+
+<p>进一取整：ceil();无论小数部分有多小，都进1</p>
+
+<p>舍一取整：floor();无论小数部分有多达，都舍掉</p>
+
+<p>整数除法：div();不要余数，只要整除的部分</p>
+
+<p>取余数：mod()或者%;获取除法运算之后余数部分，而不是小数部分哦。既可以对整数取余也可以对小数取余。</p>
+
+<p>幂运算：power();</p>
+
+<p>四舍五入：pound();有两个参数，第一个是操作的数字，第二个是保留的小数的位数</p>
+
+<p>数字截取：truncate();有两个参数，第一个是操作的数字，第二个是保留的小数的位数，但是注意，该方法不进行四舍五入，而是直接截取</p>
+
+<p>比较运算符和函数</p>
+
+<p>[not] between ... And...指的是在或者不在某个区间内，这个区间是闭合的，包括边界</p>
+
+<p>[not] in(),指的是在不在括号内的集合里，给出的是有限的内容点，而不是区间</p>
+
+<p>Is [not] null,查看是否为空。注意：null 是空，空的字符串不是空，0也不是空</p>
+
+<p>日期时间函数</p>
+
+<p>当前日期和时间：now();</p>
+
+<p>当前日期：curdate();</p>
+
+<p>当前时间：curtime();</p>
+
+<p>日期变化：date_add();可以增加日期，也可以减少日期，有两个参数，第一个参数是变化的基数，第二个参数是变化量，可以是year,month,day,week,hour,minute,second等时间单位。</p>
+
+<p>日期差值：datediff();计算两个日期的差值，当然有两个参数了，在计算的时候，用第一个参数减去第二个参数。</p>
+
+<p>日期格式化：date_format();也有两个参数，第一个是操作的日期，第二个是转换的格式。</p>
+
+<p>select date_add(now(),interval 1 year);//将当前时间加上一年显示出来，如果是减去一年，则1变为-1 <br/>
+select datediff(now(),curdate());//这个结果是0，不信可以试试哦~~ <br/>
+select date_format(now(),&#39;%m/%d/%y %h:%m:%s&#39;);//注意日期格式中，字母的大小写含义是不一样的<br/>
+信息函数</p>
+
+<p>连接ID：connection_id();</p>
+
+<p>当前数据库：database();</p>
+
+<p>最后插入记录的id号：last_insert_id();数据表中必须存在一个自动编号的字段</p>
+
+<p>当前用户：user();</p>
+
+<p>版本信息：version();</p>
+
+<p>聚合函数</p>
+
+<p>聚合函数只有一个返回值，这在之前就已经说过了，这里只提一下常用的聚合函数</p>
+
+<p>平均值：avg();</p>
+
+<p>计数：count();</p>
+
+<p>最大值：max();</p>
+
+<p>最小值：min();</p>
+
+<p>求和：sum();</p>
+
+<p>加密函数</p>
+
+<p>信息摘要算法：md5();</p>
+
+<p>密码算法：password();</p>
+
+<p>自定义函数</p>
+
+<p>语法结构：</p>
+
+<p>create function 函数名(参数)//没有参数括号内可以没有内容<br/>
+returns 返回类型<br/>
+return 函数体<br/>
+函数体可以是任意合法的SQL语句，简单的select或者insert语句，如果函数体是复合结构，则使用begin...end语句，复合结构可以包含声明，循环，控制结构。</p>
+
+<p>创建不带参数的自定义函数:写一个日期类型转换的函数：</p>
+
+<p>create function f1()<br/>
+returns varchar(30)<br/>
+return date_format(now(),&#39;%Y年%m月%d日&#39;);<br/>
+创建带有参数的自定义函数：写一个计算平均值的函数</p>
+
+<p>create function f2(num1 int ,num2 int)<br/>
+returns float(10,2)<br/>
+return (num1 + num2)/2;<br/>
+创建具有复合结构函数体的自定义函数</p>
+
+<p>create function adduser(username varchar(20))<br/>
+returns int<br/>
+begin<br/>
+insert tdb_goods(goods_name) values(username);<br/>
+return last_insert_id();<br/>
+end//<br/>
+注意：</p>
+
+<p>创建复合结构函数体时，因为内部语句用到了“;”，但是分号是语句的结束，所以会引起歧义，最好使用delimiter关键字修改mysql的结束符，如：delimiter //,即以“//”为结束符，这样就不会引起冲突了。</p>
+
+
+    
+
+      </div>
+
+      <div class="row">
+        <div class="large-6 columns">
+        <p class="text-left" style="padding:15px 0px;">
+      
+          <a href="14857040317702.html" 
+          title="Previous Post: MySQL学习笔记（6）——存储过程">&laquo; MySQL学习笔记（6）——存储过程</a>
+      
+        </p>
+        </div>
+        <div class="large-6 columns">
+      <p class="text-right" style="padding:15px 0px;">
+      
+          <a  href="14857038899615.html" 
+          title="Next Post: MySQL学习笔记（4）——查询">MySQL学习笔记（4）——查询 &raquo;</a>
+      
+      </p>
+        </div>
+      </div>
+      <div class="comments-wrap">
+        <div class="share-comments">
+          
+
+          
+
+          
+        </div>
+      </div>
+    </div><!-- article-wrap -->
+  </div><!-- large 8 -->
+
+
+
+
+ <div class="large-4 medium-4 columns">
+  <div class="hide-for-small">
+    <div id="sidebar" class="sidebar">
+          <div id="site-info" class="site-info">
+            
+                <h1>挂在树上的兔子</h1>
+                <div class="site-des"></div>
+                <div class="social">
+
+
+
+
+
+
+
+
+
+
+
+  <a target="_blank" class="rss" href="atom.xml" title="RSS">RSS</a>
+                
+              	 </div>
+          	</div>
+
+             
+
+              <div id="site-categories" class="side-item ">
+                <div class="side-header">
+                  <h2>Categories</h2>
+                </div>
+                <div class="side-content">
+
+      	<p class="cat-list">
+        
+            <a href="%E6%95%B0%E6%8D%AE%E5%BA%93.html"><strong>数据库</strong></a>
+        
+            <a href="Python.html"><strong>Python</strong></a>
+        
+            <a href="%E9%9A%8F%E6%83%B3.html"><strong>随想</strong></a>
+        
+            <a href="%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84&%E7%AE%97%E6%B3%95.html"><strong>数据结构&算法</strong></a>
+        
+            <a href="PHP.html"><strong>PHP</strong></a>
+        
+            <a href="Ubuntu.html"><strong>Ubuntu</strong></a>
+         
+        </p>
+
+
+                </div>
+              </div>
+
+              <div id="site-categories" class="side-item">
+                <div class="side-header">
+                  <h2>Recent Posts</h2>
+                </div>
+                <div class="side-content">
+                <ul class="posts-list">
+	      
+		      
+			      <li class="post">
+			        <a href="14830907697555.html">MySQL数据库☞数据库编码</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="14830842110487.html">MySQL数据库☞中文乱码问题</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="14819928857822.html">MySQL的基本命令☞数据表的基本管理</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="14745361920074.html">python容器数据类型☞collections</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="14724629382123.html">python对列表进行操作</a>
+			      </li>
+		     
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		   
+		  		</ul>
+                </div>
+              </div>
+        </div><!-- sidebar -->
+      </div><!-- hide for small -->
+</div><!-- large 4 -->
+
+</div><!-- row -->
+
+ <div class="page-bottom clearfix">
+  <div class="row">
+   <p class="copyright">Copyright &copy; 2015
+Powered by <a target="_blank" href="http://www.mweb.im">MWeb</a>,&nbsp; 
+Theme used <a target="_blank" href="http://github.com">GitHub CSS</a>.</p>
+  </div>
+</div>
+
+        </section>
+      </div>
+    </div>
+
+  
+    
+
+    <script src="asset/js/foundation.min.js"></script>
+    <script>
+      $(document).foundation();
+      function fixSidebarHeight(){
+        var w1 = $('.markdown-body').height();
+          var w2 = $('#sidebar').height();
+          if (w1 > w2) { $('#sidebar').height(w1); };
+      }
+      $(function(){
+        fixSidebarHeight();
+      })
+      $(window).load(function(){
+          fixSidebarHeight();
+      });
+     
+    </script>
+
+    <script src="asset/chart/all-min.js"></script><script type="text/javascript">$(function(){    var mwebii=0;    var mwebChartEleId = 'mweb-chart-ele-';    $('pre>code').each(function(){        mwebii++;        var eleiid = mwebChartEleId+mwebii;        if($(this).hasClass('language-sequence')){            var ele = $(this).addClass('nohighlight').parent();            $('<div id="'+eleiid+'"></div>').insertAfter(ele);            ele.hide();            var diagram = Diagram.parse($(this).text());            diagram.drawSVG(eleiid,{theme: 'simple'});        }else if($(this).hasClass('language-flow')){            var ele = $(this).addClass('nohighlight').parent();            $('<div id="'+eleiid+'"></div>').insertAfter(ele);            ele.hide();            var diagram = flowchart.parse($(this).text());            diagram.drawSVG(eleiid);        }    });});</script>
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script type="text/x-mathjax-config">MathJax.Hub.Config({TeX: { equationNumbers: { autoNumber: "AMS" } }});</script>
+
+
+  </body>
+</html>

@@ -1,0 +1,415 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+    
+  哈希表 - 挂在树上的兔子
+  
+  </title>
+  
+  
+  <link href="atom.xml" rel="alternate" title="挂在树上的兔子" type="application/atom+xml">
+    <link rel="stylesheet" href="asset/css/foundation.min.css" />
+    <link rel="stylesheet" href="asset/css/docs.css" />
+    <script src="asset/js/vendor/modernizr.js"></script>
+    <script src="asset/js/vendor/jquery.js"></script>
+  <script src="asset/highlightjs/highlight.pack.js"></script>
+  <link href="asset/highlightjs/styles/github.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script>hljs.initHighlightingOnLoad();</script>
+<script type="text/javascript">
+  function before_search(){
+    var searchVal = 'site:blog.yanzl.net ' + document.getElementById('search_input').value;
+    document.getElementById('search_q').value = searchVal;
+    return true;
+  }
+</script>
+  </head>
+  <body class="antialiased hide-extras">
+    
+    <div class="marketing off-canvas-wrap" data-offcanvas>
+      <div class="inner-wrap">
+
+
+<nav class="top-bar docs-bar hide-for-small" data-topbar>
+
+
+  <section class="top-bar-section">
+  <div class="row">
+      <div style="position: relative;width:100%;"><div style="position: absolute; width:100%;">
+        <ul id="main-menu" class="left">
+        
+        <li id=""><a target="self" href="index.html">Home</a></li>
+        
+        <li id=""><a target="_self" href="archives.html">Archives</a></li>
+        
+        </ul>
+
+        <ul class="right" id="search-wrap">
+          <li>
+<form target="_blank" onsubmit="return before_search();" action="http://google.com/search" method="get">
+    <input type="hidden" id="search_q" name="q" value="" />
+    <input tabindex="1" type="search" id="search_input"  placeholder="Search"/>
+</form>
+</li>
+          </ul>
+      </div></div>
+  </div>
+  </section>
+
+</nav>
+
+        <nav class="tab-bar show-for-small">
+  <a href="javascript:void(0)" class="left-off-canvas-toggle menu-icon">
+    <span> &nbsp; 挂在树上的兔子</span>
+  </a>
+</nav>
+
+<aside class="left-off-canvas-menu">
+      <ul class="off-canvas-list">
+       
+       <li><a href="index.html">HOME</a></li>
+    <li><a href="archives.html">Archives</a></li>
+    <li><a href="about.html">ABOUT</a></li>
+
+    <li><label>Categories</label></li>
+
+        
+            <li><a href="%E6%95%B0%E6%8D%AE%E5%BA%93.html">数据库</a></li>
+        
+            <li><a href="Python.html">Python</a></li>
+        
+            <li><a href="%E9%9A%8F%E6%83%B3.html">随想</a></li>
+        
+            <li><a href="%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84&%E7%AE%97%E6%B3%95.html">数据结构&算法</a></li>
+        
+            <li><a href="PHP.html">PHP</a></li>
+        
+            <li><a href="Ubuntu.html">Ubuntu</a></li>
+         
+
+      </ul>
+    </aside>
+
+<a class="exit-off-canvas" href="#"></a>
+
+
+        <section id="main-content" role="main" class="scroll-container">
+        
+       
+
+ <script type="text/javascript">
+  $(function(){
+    $('#menu_item_index').addClass('is_active');
+  });
+</script>
+<div class="row">
+  <div class="large-8 medium-8 columns">
+      <div class="markdown-body article-wrap">
+       <div class="article">
+          
+          <h1>哈希表</h1>
+     
+        <div class="read-more clearfix">
+          <span class="date">2014/12/28</span>
+
+          <span>posted in&nbsp;</span> 
+          
+              <span class="posted-in"><a href='%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84&%E7%AE%97%E6%B3%95.html'>数据结构&算法</a></span>
+           
+         
+          <span class="comments">
+            
+
+            
+          </span>
+
+        </div>
+      </div><!-- article -->
+
+      <div class="article-content">
+      <p>概念</p>
+
+<p>为了方便查找，在存储位置和关键字之间建立一个确定的关系，当查找关键字的时候，根据建立的关系对存储位置进行访问，有效地减少了多次比较带来的时间的浪费。这个关系称为哈希函数，这种思想称为哈希思想。</p>
+
+<p>哈希函数是一个映像，可以灵活得定义。但是，对于不同的关键字，经过相同的哈希函数的处理后，有可能得到相同的地址，这种现象称为冲突，并且，一般情况下，冲突只能尽可能的减少，而不能完全避免。</p>
+
+<p>哈希函数的构造方法</p>
+
+<p>（1）直接定址法</p>
+
+<p>去关键字或关键字的某个线性函数作为哈希函数，由此计算哈希地址的方法。</p>
+
+<p>H(key) = key或H(key) = a*key + b(a,b为常数)。</p>
+
+<p>（2）数字分析法</p>
+
+<p>假设关键字是R进制数，并且哈希表中可能出现的关键字都是事先知道的，则可取关键字的若干数位组成哈希地址。</p>
+
+<p>（3）平方取中法</p>
+
+<p>取关键字平方后的中间几位作为哈希地址。</p>
+
+<p>（4）折叠法</p>
+
+<p>将关键字分割成位数相同的几部分（最后一部分的位数可以不同），然后取这几部分的叠加和作为哈希地址的方法。</p>
+
+<p>适用于关键字位数很多，而且关键字中每一位上数字分布大致均匀。</p>
+
+<p>（5）除留余数法（最简单，最常用）</p>
+
+<p>取关键字被某个不大于哈希表表长m的数p除后所得余数为哈希地址。H（key） = key % p;</p>
+
+<p>在选取p的时候，一般选质数或者不包含小于20的质因数的和数。</p>
+
+<p>（6）随机数法</p>
+
+<p>选择一个随机函数，取关键字的随机函数值为它的哈希地址。</p>
+
+<p>冲突的处理</p>
+
+<p>（1）开放定址法</p>
+
+<p>Hi = （H（key）+di）%m;i = 1,2,...,k（k &lt;= m-1）</p>
+
+<p>H（key）为哈希函数，m为哈希表表长，di为递增序列</p>
+
+<p>di有三种取法</p>
+
+<p>线性探测再散列：di = 1,2,3,...,m-1;保证只要哈希表未填满，总能找到一个不发生冲突的地址</p>
+
+<p>二次探测再散列：di = 1<em>1,-1</em>-1,2<em>2,-2</em>-2,3<em>3,...,k</em>k,-k<em>-k;只有在哈希表长满足4</em>j+3一形式的素数时才会将冲突处理好。</p>
+
+<p>伪随机探测再散列：di = 伪随机数序列。</p>
+
+<p>二次聚集  在处理冲突过程中发生的两个第一个哈希地址不同的记录争夺同一个后记哈希地址的现象，即在处理同义词的冲突过程中又添加了非同义词的冲突。</p>
+
+<p>（2）再哈希表</p>
+
+<p>Hi = R*Hi(key)，i = 1,2,3。。。k;</p>
+
+<p>R*Hi(key)均是不相同的哈希函数，即在同义词产生地址冲突时计算另一个哈希函数，直到不产生地址冲突为止。</p>
+
+<p>（3）链地址法（方便，常用）</p>
+
+<p>将所有关键字为同义词的记录存储在同一线性链表中。假设某哈希函数产生的哈希地址在区间【0,m-1】中，则建立一个头链表。每个链结的初始状态都是空指针，当有关键字对应一个链结的时候，在该链结后加关键字，如图</p>
+
+<p><img src="media/14838698180972/haxibiao.png" alt="haxibiao"/></p>
+
+<p>（4）建立一个公共溢出区</p>
+
+<p>一个基本表，每个分量存放一个记录，另设一个溢出表，所有关键字和基本表中关键字为同义词的记录，不管哈希地址是什么，一旦发生冲突，都填入溢出表。</p>
+
+<p>哈希表的查找</p>
+
+<p>给定K值，根据建表时设定的哈希函数求得哈希地址，若表中此位置上没有记录，则查找不成功，否则比较关键字，如果给定的K和表中记录相等，则查找成功；否则根据建表时设定的冲突处理的方法进行下一个地址的查找，直到哈希表的某个位置为空或者找到为止。</p>
+
+<p>查找过程中需和给定值进行比较的关键字的个数取决于三个因素：哈希函数，处理冲突的方法和哈希表的装填因子。</p>
+
+<p>装填因子：a = （表中填入的记录数）/（哈希表的长度）。标志哈希表的装满程度。</p>
+
+
+    
+
+      </div>
+
+      <div class="row">
+        <div class="large-6 columns">
+        <p class="text-left" style="padding:15px 0px;">
+      
+          <a href="14838699157833.html" 
+          title="Previous Post: 字典树">&laquo; 字典树</a>
+      
+        </p>
+        </div>
+        <div class="large-6 columns">
+      <p class="text-right" style="padding:15px 0px;">
+      
+          <a  href="14838696378349.html" 
+          title="Next Post: 平衡二叉树">平衡二叉树 &raquo;</a>
+      
+      </p>
+        </div>
+      </div>
+      <div class="comments-wrap">
+        <div class="share-comments">
+          
+
+          
+
+          
+        </div>
+      </div>
+    </div><!-- article-wrap -->
+  </div><!-- large 8 -->
+
+
+
+
+ <div class="large-4 medium-4 columns">
+  <div class="hide-for-small">
+    <div id="sidebar" class="sidebar">
+          <div id="site-info" class="site-info">
+            
+                <h1>挂在树上的兔子</h1>
+                <div class="site-des"></div>
+                <div class="social">
+
+
+
+
+
+
+
+
+
+
+
+  <a target="_blank" class="rss" href="atom.xml" title="RSS">RSS</a>
+                
+              	 </div>
+          	</div>
+
+             
+
+              <div id="site-categories" class="side-item ">
+                <div class="side-header">
+                  <h2>Categories</h2>
+                </div>
+                <div class="side-content">
+
+      	<p class="cat-list">
+        
+            <a href="%E6%95%B0%E6%8D%AE%E5%BA%93.html"><strong>数据库</strong></a>
+        
+            <a href="Python.html"><strong>Python</strong></a>
+        
+            <a href="%E9%9A%8F%E6%83%B3.html"><strong>随想</strong></a>
+        
+            <a href="%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84&%E7%AE%97%E6%B3%95.html"><strong>数据结构&算法</strong></a>
+        
+            <a href="PHP.html"><strong>PHP</strong></a>
+        
+            <a href="Ubuntu.html"><strong>Ubuntu</strong></a>
+         
+        </p>
+
+
+                </div>
+              </div>
+
+              <div id="site-categories" class="side-item">
+                <div class="side-header">
+                  <h2>Recent Posts</h2>
+                </div>
+                <div class="side-content">
+                <ul class="posts-list">
+	      
+		      
+			      <li class="post">
+			        <a href="14830907697555.html">MySQL数据库☞数据库编码</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="14830842110487.html">MySQL数据库☞中文乱码问题</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="14819928857822.html">MySQL的基本命令☞数据表的基本管理</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="14745361920074.html">python容器数据类型☞collections</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="14724629382123.html">python对列表进行操作</a>
+			      </li>
+		     
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		   
+		  		</ul>
+                </div>
+              </div>
+        </div><!-- sidebar -->
+      </div><!-- hide for small -->
+</div><!-- large 4 -->
+
+</div><!-- row -->
+
+ <div class="page-bottom clearfix">
+  <div class="row">
+   <p class="copyright">Copyright &copy; 2015
+Powered by <a target="_blank" href="http://www.mweb.im">MWeb</a>,&nbsp; 
+Theme used <a target="_blank" href="http://github.com">GitHub CSS</a>.</p>
+  </div>
+</div>
+
+        </section>
+      </div>
+    </div>
+
+  
+    
+
+    <script src="asset/js/foundation.min.js"></script>
+    <script>
+      $(document).foundation();
+      function fixSidebarHeight(){
+        var w1 = $('.markdown-body').height();
+          var w2 = $('#sidebar').height();
+          if (w1 > w2) { $('#sidebar').height(w1); };
+      }
+      $(function(){
+        fixSidebarHeight();
+      })
+      $(window).load(function(){
+          fixSidebarHeight();
+      });
+     
+    </script>
+
+    <script src="asset/chart/all-min.js"></script><script type="text/javascript">$(function(){    var mwebii=0;    var mwebChartEleId = 'mweb-chart-ele-';    $('pre>code').each(function(){        mwebii++;        var eleiid = mwebChartEleId+mwebii;        if($(this).hasClass('language-sequence')){            var ele = $(this).addClass('nohighlight').parent();            $('<div id="'+eleiid+'"></div>').insertAfter(ele);            ele.hide();            var diagram = Diagram.parse($(this).text());            diagram.drawSVG(eleiid,{theme: 'simple'});        }else if($(this).hasClass('language-flow')){            var ele = $(this).addClass('nohighlight').parent();            $('<div id="'+eleiid+'"></div>').insertAfter(ele);            ele.hide();            var diagram = flowchart.parse($(this).text());            diagram.drawSVG(eleiid);        }    });});</script>
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script type="text/x-mathjax-config">MathJax.Hub.Config({TeX: { equationNumbers: { autoNumber: "AMS" } }});</script>
+
+
+  </body>
+</html>

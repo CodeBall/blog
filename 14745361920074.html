@@ -1,0 +1,903 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+    
+  python容器数据类型☞collections - 挂在树上的兔子
+  
+  </title>
+  
+  
+  <link href="atom.xml" rel="alternate" title="挂在树上的兔子" type="application/atom+xml">
+    <link rel="stylesheet" href="asset/css/foundation.min.css" />
+    <link rel="stylesheet" href="asset/css/docs.css" />
+    <script src="asset/js/vendor/modernizr.js"></script>
+    <script src="asset/js/vendor/jquery.js"></script>
+  <script src="asset/highlightjs/highlight.pack.js"></script>
+  <link href="asset/highlightjs/styles/github.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script>hljs.initHighlightingOnLoad();</script>
+<script type="text/javascript">
+  function before_search(){
+    var searchVal = 'site:blog.yanzl.net ' + document.getElementById('search_input').value;
+    document.getElementById('search_q').value = searchVal;
+    return true;
+  }
+</script>
+  </head>
+  <body class="antialiased hide-extras">
+    
+    <div class="marketing off-canvas-wrap" data-offcanvas>
+      <div class="inner-wrap">
+
+
+<nav class="top-bar docs-bar hide-for-small" data-topbar>
+
+
+  <section class="top-bar-section">
+  <div class="row">
+      <div style="position: relative;width:100%;"><div style="position: absolute; width:100%;">
+        <ul id="main-menu" class="left">
+        
+        <li id=""><a target="self" href="index.html">Home</a></li>
+        
+        <li id=""><a target="_self" href="archives.html">Archives</a></li>
+        
+        </ul>
+
+        <ul class="right" id="search-wrap">
+          <li>
+<form target="_blank" onsubmit="return before_search();" action="http://google.com/search" method="get">
+    <input type="hidden" id="search_q" name="q" value="" />
+    <input tabindex="1" type="search" id="search_input"  placeholder="Search"/>
+</form>
+</li>
+          </ul>
+      </div></div>
+  </div>
+  </section>
+
+</nav>
+
+        <nav class="tab-bar show-for-small">
+  <a href="javascript:void(0)" class="left-off-canvas-toggle menu-icon">
+    <span> &nbsp; 挂在树上的兔子</span>
+  </a>
+</nav>
+
+<aside class="left-off-canvas-menu">
+      <ul class="off-canvas-list">
+       
+       <li><a href="index.html">HOME</a></li>
+    <li><a href="archives.html">Archives</a></li>
+    <li><a href="about.html">ABOUT</a></li>
+
+    <li><label>Categories</label></li>
+
+        
+            <li><a href="%E6%95%B0%E6%8D%AE%E5%BA%93.html">数据库</a></li>
+        
+            <li><a href="Python.html">Python</a></li>
+        
+            <li><a href="%E9%9A%8F%E6%83%B3.html">随想</a></li>
+        
+            <li><a href="%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84&%E7%AE%97%E6%B3%95.html">数据结构&算法</a></li>
+        
+            <li><a href="PHP.html">PHP</a></li>
+        
+            <li><a href="Ubuntu.html">Ubuntu</a></li>
+         
+
+      </ul>
+    </aside>
+
+<a class="exit-off-canvas" href="#"></a>
+
+
+        <section id="main-content" role="main" class="scroll-container">
+        
+       
+
+ <script type="text/javascript">
+  $(function(){
+    $('#menu_item_index').addClass('is_active');
+  });
+</script>
+<div class="row">
+  <div class="large-8 medium-8 columns">
+      <div class="markdown-body article-wrap">
+       <div class="article">
+          
+          <h1>python容器数据类型☞collections</h1>
+     
+        <div class="read-more clearfix">
+          <span class="date">2016/9/22</span>
+
+          <span>posted in&nbsp;</span> 
+          
+              <span class="posted-in"><a href='Python.html'>Python</a></span>
+           
+         
+          <span class="comments">
+            
+
+            
+          </span>
+
+        </div>
+      </div><!-- article -->
+
+      <div class="article-content">
+      <h2 id="toc_0">namedtuple(命名元组)</h2>
+
+<p>元组tuple是python内置的数据类型，其特点是一次写入不可修改，元组内每个元素的数据类型都是可以不一样的。但有时候，我们需要给每个元素起一个名字，以便更好地区分每个元素的身份。命名元组namedtuple就可以完美的实现这个功能,它用来创建一个自定义的元组对象，规定元组对象的个数，可以用属性名来读取对象元素的值。<br/>
+命名元组会返回一个元组的基类，数据类型已经变成class，而不再是tuple</p>
+
+<h3 id="toc_1">函数原型</h3>
+
+<pre><code class="language-python">collections.namedtuple(typename, field_names, verbose=False, rename=False)
+</code></pre>
+
+<ul>
+<li>field_names:命名元组中各属性的名称，可以是字母，数字，下划线表示，但只能以字母开头。定义方法有多种形式，可以是一个字符串，以空格或者逗号分割，也可以是一个列表。有几个需要注意的地方：
+
+<ul>
+<li>属性名不能够重复</li>
+<li>属性名不能够使用python关键字</li>
+</ul></li>
+<li>verbose：布尔值类型数据，默认为False，如果为True。则会在命名元组创建之后打印类的定义，但是这种访问类定义的方法已经很少会被用到了，更多的是使用_source属性，后面会讲。</li>
+<li>rename：布尔值类型数据，默认为False，如果为True，则会将field_names中不合法的命名进行自动替换，在False的情况下，遇到不合法的命名程序会报错。</li>
+</ul>
+
+<h3 id="toc_2">类属性</h3>
+
+<p>上面已经说过，namedtuple会返回一个元组基类，这里介绍几个类属性：</p>
+
+<ul>
+<li>namedtuplename._make(iterable): 把一个变量内容赋值给namedtuple</li>
+<li>namedtuplename.asdict(): 把命名元组转换成字典类型</li>
+<li>namedtuplename._source: 打印命名元组的定义语句</li>
+<li>namedtuplename._replace(kwargs）：为命名元组的元素重置值</li>
+<li>namedtuplename._fields:返回namedtuple的所有属性名</li>
+</ul>
+
+<h3 id="toc_3">示例代码</h3>
+
+<pre><code class="language-python"># 引入模块
+from collections import namedtuple
+# namedtuple的定义和基本使用
+Users = namedtuple(&quot;Users&quot;, [&quot;name&quot;, &quot;age&quot;, &quot;weight&quot;, &quot;height&quot;, &quot;hobby&quot;], False)
+user_info = Users(&quot;zhangsan&quot;, 12, 82, 156, &quot;basketball&quot;)
+print(user_info)
+print(type(user_info))
+
+# rename的开启和关闭和打印namedtuple的属性名
+Users = namedtuple(&quot;Users&quot;, [&quot;name&quot;, &quot;age&quot;, &quot;def&quot;, &quot;height&quot;, &quot;age&quot;], False, True)
+Users1 = namedtuple(&quot;Users&quot;, [&quot;name&quot;, &quot;age&quot;, &quot;weight&quot;, &quot;height&quot;, &quot;hobby&quot;], False)
+Users2 = namedtuple(&quot;Users&quot;, [&quot;name&quot;, &quot;age&quot;, &quot;def&quot;, &quot;2dhfv&quot;, &quot;age&quot;], False, True)
+print(Users._fields)
+print(Users1._fields)
+print(Users2._fields)
+
+# 整体给namedtuple赋值
+Users = namedtuple(&quot;Users&quot;, [&quot;name&quot;, &quot;age&quot;, &quot;weight&quot;, &quot;height&quot;, &quot;hobby&quot;], False)
+user_info = (&quot;zhangsan&quot;, 12, 82, 155, &quot;football&quot;) # 可以是列表,也可以是元组
+print(Users._make(user_info))
+
+# 命名元组转换成字典类型
+Users = namedtuple(&quot;Users&quot;, [&quot;name&quot;, &quot;age&quot;, &quot;weight&quot;, &quot;height&quot;, &quot;hobby&quot;], False)
+user_info = Users(&quot;zhangsan&quot;, 12, 82, 156, &quot;basketball&quot;)
+print(type(user_info))
+print(type(user_info._asdict()))
+
+# 查看namedtuple的定义语句
+Users = namedtuple(&quot;Users&quot;, [&quot;name&quot;, &quot;age&quot;, &quot;weight&quot;, &quot;height&quot;, &quot;hobby&quot;], False)
+print(Users._source)
+
+# 更改namedtuple的元素值
+Users = namedtuple(&quot;Users&quot;, [&quot;name&quot;, &quot;age&quot;, &quot;weight&quot;, &quot;height&quot;, &quot;hobby&quot;], False)
+user_info = Users(&quot;zhangsan&quot;, 12, 82, 156, &quot;basketball&quot;)
+print(user_info)
+user_info2 = user_info ._replace(hobby=&quot;football&quot;)
+print(user_info)
+print(user_info2)
+</code></pre>
+
+<h3 id="toc_4">参考结果</h3>
+
+<pre><code class="language-python"># 命名元组的基本赋值应用
+Users(name=&#39;zhangsan&#39;, age=12, weight=82, height=156, hobby=&#39;basketball&#39;)
+&lt;class &#39;__main__.Users&#39;&gt;
+# 开启rename模式与不开启的对比,开启之后会将不合法的命名自动改为合法的命名，使用_fields类方法可以查看属性名
+(&#39;name&#39;, &#39;age&#39;, &#39;_2&#39;, &#39;height&#39;, &#39;_4&#39;)
+(&#39;name&#39;, &#39;age&#39;, &#39;weight&#39;, &#39;height&#39;, &#39;hobby&#39;)
+(&#39;name&#39;, &#39;age&#39;, &#39;_2&#39;, &#39;_3&#39;, &#39;_4&#39;)
+# 使用_make()方法整体给namedtuple赋值，可以看出和分开赋值并没有什么区别
+Users(name=&#39;zhangsan&#39;, age=12, weight=82, height=155, hobby=&#39;football&#39;)
+# 使用_asdict()方法将命名元组转换成字典类型
+&lt;class &#39;__main__.Users&#39;&gt;
+&lt;class &#39;collections.OrderedDict&#39;&gt;
+# 查看namedtuple的定义语句运行结果比较长，可以自行运行查看结果
+# 使用_replace()方法对属性值进行更改，该方法会返回一个新的对象，而不是从原来的对象上面进行修改
+Users(name=&#39;zhangsan&#39;, age=12, weight=82, height=156, hobby=&#39;basketball&#39;)
+Users(name=&#39;zhangsan&#39;, age=12, weight=82, height=156, hobby=&#39;basketball&#39;)
+Users(name=&#39;zhangsan&#39;, age=12, weight=82, height=156, hobby=&#39;football&#39;)
+</code></pre>
+
+<h2 id="toc_5">deque（双端队列）</h2>
+
+<p>deque的全称是double-ended queue，可以实现从队列的头部快速添加和取出元素，这是一个双向列表，可以从右端操作元素，也可以从左端操作元素，且时间复杂度都为O(1)</p>
+
+<h3 id="toc_6">函数原型</h3>
+
+<p>class collections.deque([iterable[, maxlen]]）</p>
+
+<ul>
+<li>interable： 可选参数，在队列创建的时候根据数值从左往右初始化队列,如果是多个元素，必须用括号括起来，否则会报错。没有该参数时会初始化一个空的队列</li>
+<li>maxlen：指定队列的最大长度,如果超出长度，则会自动丢掉左边超出的部分，如果采用左添加时元素长度超出，会舍掉右端的元素</li>
+</ul>
+
+<p>示例代码</p>
+
+<pre><code class="language-python">from collections import deque
+data = [&quot;one&quot;, &quot;two&quot;, &quot;three&quot;, 123, &quot;yes&quot;]
+d = deque(data)
+d1 = deque(data, 2)
+print(&quot;正常初始化队列:{}&quot;.format(d))
+print(&quot;超出长度限制的初始化队列:{}&quot;.format(d1))
+
+d.append(&quot;abc&quot;)
+print(&quot;执行正常添加操作:{}&quot;.format(d))
+d1.append(&quot;no&quot;)
+print(&quot;超出长度限制的右添加操作:{}&quot;.format(d1))
+d1.appendleft(&quot;ok&quot;)
+print(&quot;超出长度限制的左添加操作:{}&quot;.format(d1))
+</code></pre>
+
+<p>参考结果</p>
+
+<pre><code class="language-python">正常初始化队列:deque([&#39;one&#39;, &#39;two&#39;, &#39;three&#39;, 123, &#39;yes&#39;])
+超出长度限制的初始化队列:deque([123, &#39;yes&#39;], maxlen=2)
+执行正常添加操作:deque([&#39;one&#39;, &#39;two&#39;, &#39;three&#39;, 123, &#39;yes&#39;, &#39;abc&#39;])
+超出长度限制的右添加操作:deque([&#39;yes&#39;, &#39;no&#39;], maxlen=2)
+超出长度限制的左添加操作:deque([&#39;ok&#39;, &#39;yes&#39;], maxlen=2)
+</code></pre>
+
+<h3 id="toc_7">常用方法</h3>
+
+<h4 id="toc_8">添加元素</h4>
+
+<ul>
+<li>添加一个值的情况：分为左添加（appendleft()）和右添加（append()）,操作是对原对象进行操作，并且不会返回任何值</li>
+<li>添加多个制的情况：分为左添加（extendleft()）和右添加(extend()),注意左添加多个元素时，是按照顺序依次向队列左端进行添加，所以先加入的数据会在右边</li>
+</ul>
+
+<p>示例代码</p>
+
+<pre><code class="language-pyton">from collections import deque
+data = [&quot;one&quot;, &quot;two&quot;, &quot;three&quot;, 123, &quot;yes&quot;]
+d = deque(data)
+d.append(&quot;right&quot;)
+print(&quot;执行右添加之后的结果:{}&quot;.format(d))
+d.appendleft(&quot;left&quot;)
+print(&quot;执行左添加之后的结果:{}&quot;.format(d))
+d.extendleft((&quot;left1&quot;, &quot;left2&quot;))
+print(&quot;向左边添加多个元素:{}&quot;.format(d))
+d.extend((&quot;right1&quot;, &quot;right2&quot;))
+print(&quot;向右边添加多个元素:{}&quot;.format(d))
+</code></pre>
+
+<p>参考结果</p>
+
+<pre><code class="language-python">执行右添加之后的结果:deque([&#39;one&#39;, &#39;two&#39;, &#39;three&#39;, 123, &#39;yes&#39;, &#39;right&#39;])
+执行左添加之后的结果:deque([&#39;left&#39;, &#39;one&#39;, &#39;two&#39;, &#39;three&#39;, 123, &#39;yes&#39;, &#39;right&#39;])
+向左边添加多个元素:deque([&#39;left2&#39;, &#39;left1&#39;, &#39;left&#39;, &#39;one&#39;, &#39;two&#39;, &#39;three&#39;, 123, &#39;yes&#39;, &#39;right&#39;])
+向右边添加多个元素:deque([&#39;left2&#39;, &#39;left1&#39;, &#39;left&#39;, &#39;one&#39;, &#39;two&#39;, &#39;three&#39;, 123, &#39;yes&#39;, &#39;right&#39;, &#39;right1&#39;, &#39;right2&#39;])
+</code></pre>
+
+<h4 id="toc_9">清空队列</h4>
+
+<p>clear()方法可以将队列进行清空</p>
+
+<p>示例代码</p>
+
+<pre><code class="language-python">from collections import deque
+data = [&quot;one&quot;, &quot;two&quot;, &quot;three&quot;, 123, &quot;yes&quot;]
+d = deque(data)
+print(&quot;初始化之后的队列:{}&quot;.format(d))
+d.clear()
+print(&quot;清空之后的队列:{}&quot;.format(d))
+</code></pre>
+
+<p>参考结果</p>
+
+<pre><code class="language-python">初始化之后的队列:deque([&#39;one&#39;, &#39;two&#39;, &#39;three&#39;, 123, &#39;yes&#39;])
+清空之后的队列:deque([])
+</code></pre>
+
+<h4 id="toc_10">拷贝队列</h4>
+
+<p>copy（）方法可用于拷贝队列，返回一个新的队列，可将这个新的队列赋值给一个变量，两个队列虽然值相同，但存储位置是不一样的。<br/>
+示例代码</p>
+
+<pre><code class="language-python">from collections import deque
+data = [&quot;one&quot;, &quot;two&quot;, &quot;three&quot;, 123, &quot;yes&quot;]
+d = deque(data)
+print(&quot;拷贝之前的队列:{}, 存储位置为:{}&quot;.format(d, id(d)))
+d_c = d.copy()
+print(&quot;拷贝之后的队列:{},存储位置为:{}&quot;.format(d_c, id(d_c)))
+</code></pre>
+
+<p>参考结果</p>
+
+<pre><code class="language-python">拷贝之前的队列:deque([&#39;one&#39;, &#39;two&#39;, &#39;three&#39;, 123, &#39;yes&#39;]), 存储位置为:4315002048
+拷贝之后的队列:deque([&#39;one&#39;, &#39;two&#39;, &#39;three&#39;, 123, &#39;yes&#39;]),存储位置为:4315002152
+</code></pre>
+
+<h4 id="toc_11">计算某元素出现的次数</h4>
+
+<p>count(x)方法可用来计算队列中x元素一共出现了多少次<br/>
+示例代码</p>
+
+<pre><code class="language-python">from collections import deque
+data = [&quot;one&quot;, &quot;two&quot;, &quot;three&quot;, 123, &quot;yes&quot;, &quot;yes&quot;]
+d = deque(data, maxlen=6)
+print(&quot;队列中的元素出现的次数为:{}&quot;.format(d.count(&quot;yes&quot;)))
+</code></pre>
+
+<p>参考结果</p>
+
+<pre><code class="language-python">队列中的元素个数为:2
+</code></pre>
+
+<h4 id="toc_12">查看某个元素的索引</h4>
+
+<p>index（）方法可用于查找某个元素的索引位置，从0开始索引。如果队列中有多个相同元素，则返回第一个的位置。也可以用于查找某个元素在某一段位置区间下的索引位置，如果找不到会抛出元素不在队列的错误</p>
+
+<p>示例代码</p>
+
+<pre><code class="language-python">from collections import deque
+data = [&quot;one&quot;, &quot;two&quot;, &quot;three&quot;, 123, &quot;yes&quot;, &quot;yes&quot;]
+d = deque(data)
+print(&quot;查找整个队列中某元素的索引位置:{}&quot;.format(d.index(&quot;yes&quot;)))
+print(&quot;查找第一个位置到第三个位置中某元素的索引位置:{}&quot;.format(d.index(&quot;yes&quot;, 1, 3)))
+</code></pre>
+
+<p>参考结果</p>
+
+<pre><code class="language-python">Traceback (most recent call last):
+  File &quot;/Users/yanzilu/Project/Test/collection_test.py&quot;, line 91, in &lt;module&gt;
+    print(&quot;查找第一个位置到第三个位置中某元素的索引位置:{}&quot;.format(d.index(&quot;yes&quot;, 1, 3)))
+ValueError: &#39;yes&#39; is not in deque
+查找整个队列中某元素的索引位置:4
+</code></pre>
+
+<h4 id="toc_13">向某位置插入元素</h4>
+
+<p>insert()方法可以实现向队列中某个索引位置插入某个元素，且只能插入一个元素,插入多个元素会报错</p>
+
+<p>示例代码</p>
+
+<pre><code class="language-python">from collections import deque
+data = [&quot;one&quot;, &quot;two&quot;, &quot;three&quot;, 123, &quot;yes&quot;, &quot;yes&quot;]
+d = deque(data)
+
+d.insert(3, &quot;add&quot;)
+print(&quot;向索引为3的位置插入元素:{}&quot;.format(d))
+d.insert(4, [&quot;four&quot;, &quot;five&quot;])
+print(&quot;向索引为4的位置插入多个元素:{}&quot;.format(d))
+d.insert(4, &quot;four&quot;, &quot;five&quot;)
+print(&quot;向索引为4的位置插入多个元素:{}&quot;.format(d))
+</code></pre>
+
+<p>参考结果</p>
+
+<pre><code class="language-python">向索引为3的位置插入元素:deque([&#39;one&#39;, &#39;two&#39;, &#39;three&#39;, &#39;add&#39;, 123, &#39;yes&#39;, &#39;yes&#39;])
+向索引为4的位置插入多个元素:deque([&#39;one&#39;, &#39;two&#39;, &#39;three&#39;, &#39;add&#39;, [&#39;four&#39;, &#39;five&#39;], 123, &#39;yes&#39;, &#39;yes&#39;])
+Traceback (most recent call last):
+  File &quot;/Users/yanzilu/Project/Test/collection_test.py&quot;, line 100, in &lt;module&gt;
+    d.insert(4, &quot;four&quot;, &quot;five&quot;)
+TypeError: insert() takes exactly 2 arguments (3 given)
+</code></pre>
+
+<h4 id="toc_14">取出和移除元素</h4>
+
+<ul>
+<li>取出元素分为从左边取出元素（popleft()）和从右边取出元素（pop()）,函数会将取出的值返回出来并在队列中删除</li>
+<li>移除元素可以使用remove(value)方法，该方法指定要移除的元素值，并且直接移除元素，不会进行返回，如果该元素不存在，则会报元素不在队列中的错误</li>
+</ul>
+
+<p>示例代码</p>
+
+<pre><code class="language-python">from collections import deque
+data = [&quot;one&quot;, &quot;two&quot;, &quot;three&quot;, 123, &quot;yes&quot;, &quot;yes&quot;]
+d = deque(data)
+
+print(&quot;操作之前的数据:{}&quot;.format(d))
+print(&quot;执行从队列右侧取出元素的返回值:{},队列变成:{}&quot;.format(d.pop(), d))
+print(&quot;执行从队列左侧取出元素返回值:{}, 队列变成:{}&quot;.format(d.popleft(), d))
+print(&quot;移除值为three的元素:{}, 队列变成:{}&quot;.format(d.remove(&quot;three&quot;), d))
+print(&quot;移除一个不存在的值:{}&quot;.format(d.remove(&quot;four&quot;)))
+</code></pre>
+
+<p>参考结果</p>
+
+<pre><code class="language-python">操作之前的数据:deque([&#39;one&#39;, &#39;two&#39;, &#39;three&#39;, 123, &#39;yes&#39;, &#39;yes&#39;])
+执行从队列右侧取出元素的返回值:yes,队列变成:deque([&#39;one&#39;, &#39;two&#39;, &#39;three&#39;, 123, &#39;yes&#39;])
+执行从队列左侧取出元素返回值:one, 队列变成:deque([&#39;two&#39;, &#39;three&#39;, 123, &#39;yes&#39;])
+移除值为three的元素:None, 队列变成:deque([&#39;two&#39;, 123, &#39;yes&#39;])
+Traceback (most recent call last):
+  File &quot;/Users/yanzilu/Project/Test/collection_test.py&quot;, line 111, in &lt;module&gt;
+    print(&quot;移除一个不存在的值:{}&quot;.format(d.remove(&quot;four&quot;)))
+ValueError: deque.remove(x): x not in deque
+</code></pre>
+
+<h4 id="toc_15">反转队列和旋转队列</h4>
+
+<ul>
+<li>反转：reverse()方法可以实现队列的反转</li>
+<li>旋转: rotate(n)方法可以向右旋转n个元素，如果n是负值，则为向左旋转n个元素</li>
+</ul>
+
+<p>示例代码</p>
+
+<pre><code class="language-python">from collections import deque
+data = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+d = deque(data)
+
+print(&quot;反转之前的队列:{}&quot;.format(d))
+d.reverse()
+print(&quot;反转之后的队列:{}&quot;.format(d))
+d.rotate(4)
+print(&quot;旋转队列4个元素:{}&quot;.format(d))
+d.rotate(-2)
+print(&quot;旋转队列-4个元素:{}&quot;.format(d))
+</code></pre>
+
+<p>参考结果</p>
+
+<pre><code class="language-python">反转之前的队列:deque([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11])
+反转之后的队列:deque([11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1])
+旋转队列4个元素:deque([4, 3, 2, 1, 11, 10, 9, 8, 7, 6, 5])
+旋转队列-4个元素:deque([2, 1, 11, 10, 9, 8, 7, 6, 5, 4, 3])
+</code></pre>
+
+<h2 id="toc_16">Counter(计数器)</h2>
+
+<p>用来跟踪值出现的次数。它是一个无序的容器类型，以字典的键值对形式存储，其中元素作为key，其计数作为value。计数值可以是任意的Interger（包括0和负数）。</p>
+
+<h3 id="toc_17">类的创建</h3>
+
+<p>Counter类有四种常用的创建方法：</p>
+
+<pre><code class="language-python">from collections import Counter
+
+c = Counter()
+print(&quot;这是一个空的Counter类:{}&quot;.format(c))
+c = Counter(&#39;iterable object&#39;)
+print(&quot;从一个可迭代的对象(list、tuple、dict、字符串等)创建Counter类:{}&quot;.format(c))
+c = Counter({&quot;one&quot;: 1, &quot;two&quot;: 2})
+print(&quot;从一个字典对象创建Counter类:{}&quot;.format(c))
+c = Counter(one=1, two=2)
+print(&quot;从一组键值对创建:{}&quot;.format(c))
+</code></pre>
+
+<p>创建结果如下：</p>
+
+<pre><code class="language-python">这是一个空的Counter类:Counter()
+从一个可迭代的对象(list、tuple、dict、字符串等)创建Counter类:Counter({&#39;e&#39;: 3, &#39;t&#39;: 2, &#39;b&#39;: 2, &#39;c&#39;: 1, &#39;r&#39;: 1, &#39;j&#39;: 1, &#39;o&#39;: 1, &#39;l&#39;: 1, &#39; &#39;: 1, &#39;a&#39;: 1, &#39;i&#39;: 1})
+从一个字典对象创建Counter类:Counter({&#39;two&#39;: 2, &#39;one&#39;: 1})
+从一组键值对创建:Counter({&#39;two&#39;: 2, &#39;one&#39;: 1})
+</code></pre>
+
+<h3 id="toc_18">计数器的更新和值的访问</h3>
+
+<ul>
+<li>访问分为两种情况，一种是访问的键存在，返回该键所对应的值；另一种是键不存在的情况，返回的是0</li>
+<li>使用update方法增加计数器，有两种方法，一种是通过可迭代对象，另一种是通过另一个Counter对象</li>
+<li>使用subtract()方法减少计数器，有两种方法，一种是通过可迭代对象，另一种是通过另一个Counter对象</li>
+</ul>
+
+<p>示例代码</p>
+
+<pre><code class="language-python">from collections import Counter
+
+c = Counter(one=1, two=2)
+print(&quot;访问一个存在的键:{}&quot;.format(c[&quot;one&quot;]))
+# 即使访问不存在的键，键名也不会添加进计数器中
+print(&quot;访问一个不存在的键:{},访问过后计数器变成:{}&quot;.format(c[&quot;three&quot;], c))
+# 注意这里如果不加中括号，则添加的就不是&quot;one&quot;和“two”的次数，而是每个字符
+c.update([&quot;one&quot;, &quot;two&quot;])
+print(&quot;通过另一个迭代器进行更新:{}&quot;.format(c))
+c1 = Counter({&quot;one&quot;: 10, &quot;two&quot;: 20})
+c.update(c1)
+print(&quot;通过另一个Counter对象进行计数器的增加:{}&quot;.format(c))
+# 减少计数器的使用和增加很像,需要注意的是减少到0时不会将键删除，而是继续减少，即次数可以是赋值
+c1 = Counter({&quot;one&quot;: 30, &quot;two&quot;: 40})
+c.subtract(c1)
+print(&quot;通过另一个Counter对象进行计数器的减少:{}&quot;.format(c))
+</code></pre>
+
+<p>参考结果</p>
+
+<pre><code class="language-python">访问一个存在的键:1
+访问一个不存在的键:0,访问过后计数器变成:Counter({&#39;two&#39;: 2, &#39;one&#39;: 1})
+通过另一个迭代器进行更新:Counter({&#39;two&#39;: 3, &#39;one&#39;: 2})
+通过另一个Counter对象进行计数器的增加:Counter({&#39;two&#39;: 23, &#39;one&#39;: 12})
+通过另一个Counter对象进行计数器的减少:Counter({&#39;two&#39;: -17, &#39;one&#39;: -18})
+</code></pre>
+
+<h3 id="toc_19">键的删除</h3>
+
+<p>使用del对键进行删除，可以使用update()方法在更新时把没有的键添加进去</p>
+
+<p>示例代码</p>
+
+<pre><code class="language-python">from collections import Counter
+
+c = Counter(one=1, two=2)
+del c[&quot;one&quot;]
+print(&quot;删除one键之后的计数器变成:{}&quot;.format(c))
+</code></pre>
+
+<p>参考结果</p>
+
+<pre><code class="language-python">删除one键之后的计数器变成:Counter({&#39;two&#39;: 2})
+</code></pre>
+
+<h3 id="toc_20">elements()方法</h3>
+
+<p>该方法返回一个迭代器。元素被重复了多少次，在该迭代器中就包含多少个该元素。所有元素按照字母序排序，个数小于1的元素不被包含。</p>
+
+<p>示例代码</p>
+
+<pre><code class="language-python">from collections import Counter
+c = Counter(one=5, two=3)
+print(&quot;迭代之后的元素:{}&quot;.format(list(c.elements())))
+print(&quot;迭代之后的元素:{}&quot;.format(set(c.elements())))
+</code></pre>
+
+<p>参考结果</p>
+
+<pre><code class="language-python">迭代之后的元素:[&#39;two&#39;, &#39;two&#39;, &#39;two&#39;, &#39;one&#39;, &#39;one&#39;, &#39;one&#39;, &#39;one&#39;, &#39;one&#39;]
+迭代之后的元素:{&#39;two&#39;, &#39;one&#39;}
+</code></pre>
+
+<h3 id="toc_21">most_common([n])方法</h3>
+
+<p>该方法返回一个含前n个元素计数的列表。如果n没有被指定，则返回所有元素。当多个元素计数值相同时，按照字母序排列。</p>
+
+<p>示例代码</p>
+
+<pre><code class="language-python">from collections import Counter
+c = Counter(one=5, two=3, three=12)
+print(&quot;返回所有元素的计数:{}&quot;.format(c.most_common()))
+print(&quot;返回前2个元素的计数:{}&quot;.format(c.most_common(2)))
+</code></pre>
+
+<p>参考结果</p>
+
+<pre><code class="language-python">返回所有元素的计数:[(&#39;three&#39;, 12), (&#39;one&#39;, 5), (&#39;two&#39;, 3)]
+返回前2个元素的计数:[(&#39;three&#39;, 12), (&#39;one&#39;, 5)]
+</code></pre>
+
+<h2 id="toc_22">OrderedDict（排序字典）</h2>
+
+<p>在Python中，dict这个数据结构由于hash的特性，是无序的，有时候我们会用到键的顺序，collections模块为我们提供了OrderedDict，当要获得一个有序的字典对象时，就可以使用OrderedDict。<br/>
+OrderedDict的数据都是以每个键值对作为一个元组组成的列表。</p>
+
+<h3 id="toc_23">类的原型</h3>
+
+<pre><code class="language-python">class collections.OrderedDict([items])
+</code></pre>
+
+<h3 id="toc_24">初始化</h3>
+
+<p>有序字典的顺序是元素添加的顺序.初始化的时候如果有多个元素，注意初始值之间的顺序，列表，元组等有序数据结构都是可以的，但是字典是无序的，在初始的时候顺序有可能不会是写的顺序。</p>
+
+<p>示例代码</p>
+
+<pre><code class="language-python">from collections import OrderedDict
+
+od = OrderedDict([(&quot;one&quot;, 1), (&#39;two&#39;, 2), (&#39;three&#39;, 3)])
+print(od)
+di = {&quot;one&quot;:1, &quot;two&quot;: 2, &quot;three&quot;: 3}
+print(&quot;对比普通字典: {}&quot;.format(di))
+od[&quot;four&quot;] = 4
+print(&quot;添加一个元素之后的字典:{}&quot;.format(od))
+</code></pre>
+
+<p>参考结果</p>
+
+<pre><code class="language-python">OrderedDict([(&#39;one&#39;, 1), (&#39;two&#39;, 2), (&#39;three&#39;, 3)])
+对比普通字典: {&#39;two&#39;: 2, &#39;one&#39;: 1, &#39;three&#39;: 3}
+添加一个元素之后的字典:OrderedDict([(&#39;one&#39;, 1), (&#39;two&#39;, 2), (&#39;three&#39;, 3), (&#39;four&#39;, 4)])
+</code></pre>
+
+<h3 id="toc_25">popitem(last=True)方法</h3>
+
+<p>该方法用来移除字典中的元素，如果last值为真，则采取先进后出的原则，移除最后的元素，last值为假时，采取先进先出的原则，移除最开始的元素</p>
+
+<p>示例代码</p>
+
+<pre><code class="language-python">from collections import OrderedDict
+
+od = OrderedDict([(&quot;one&quot;, 1), (&#39;two&#39;, 2), (&#39;three&#39;, 3), (&quot;four&quot;, 4)])
+print(&quot;移除元素之前的字典:{}&quot;.format(od))
+od.popitem()
+print(&quot;先进后出移除元素之后的字典:{}&quot;.format(od))
+od.popitem(False)
+print(&quot;先进先出移除元素之后的字典:{}&quot;.format(od))
+</code></pre>
+
+<p>参考结果</p>
+
+<pre><code class="language-python">移除元素之前的字典:OrderedDict([(&#39;one&#39;, 1), (&#39;two&#39;, 2), (&#39;three&#39;, 3), (&#39;four&#39;, 4)])
+先进后出移除元素之后的字典:OrderedDict([(&#39;one&#39;, 1), (&#39;two&#39;, 2), (&#39;three&#39;, 3)])
+先进先出移除元素之后的字典:OrderedDict([(&#39;two&#39;, 2), (&#39;three&#39;, 3)])
+</code></pre>
+
+<h3 id="toc_26">move_to_end(key, last=True)方法</h3>
+
+<p>将字典中的某个元素移动到最后的位置，需要注意的是最后的位置是根据last值决定的，值为True时，为先进后出（栈）模式，则最后进来的那一端为后端，值为False时，为先进先出（队列）模式,最先进来的一端为后端。<br/>
+总之，后端的确定是popitem()时，从哪一边开始移除元素，哪一边就是后端</p>
+
+<p>示例代码</p>
+
+<pre><code class="language-python">from collections import OrderedDict
+
+od = OrderedDict([(&quot;one&quot;, 1), (&#39;two&#39;, 2), (&#39;three&#39;, 3), (&quot;four&quot;, 4)])
+print(&quot;移动元素之前的字典:{}&quot;.format(od))
+od.move_to_end(&quot;one&quot;)
+print(&quot;先进后出移动元素之后的字典:{}&quot;.format(od))
+od.move_to_end(&quot;three&quot;, last=False)
+print(&quot;先进先出移动元素之后的字典:{}&quot;.format(od))
+</code></pre>
+
+<p>参考结果</p>
+
+<pre><code class="language-python">移动元素之前的字典:OrderedDict([(&#39;one&#39;, 1), (&#39;two&#39;, 2), (&#39;three&#39;, 3), (&#39;four&#39;, 4)])
+先进后出移动元素之后的字典:OrderedDict([(&#39;two&#39;, 2), (&#39;three&#39;, 3), (&#39;four&#39;, 4), (&#39;one&#39;, 1)])
+先进先出移动元素之后的字典:OrderedDict([(&#39;three&#39;, 3), (&#39;two&#39;, 2), (&#39;four&#39;, 4), (&#39;one&#39;, 1)])
+</code></pre>
+
+<h2 id="toc_27">defaultdict(默认字典)</h2>
+
+<p>使用字典的时候，如果某个key不存在而被访问，程序会报错。如果希望如果希望key不存在时，返回一个默认值，就可以用defaultdict。</p>
+
+<h3 id="toc_28">defaultdict()方法的使用</h3>
+
+<p>该方法接受两个参数，第一个参数是一个数据类型，代表当访问的key不存在时，默认返回一个什么类型的数据，第二个参数是初始化的字典数据</p>
+
+<p>示例代码</p>
+
+<pre><code class="language-python">from collections import defaultdict
+
+di = defaultdict(tuple, {&quot;one&quot;: 1, &quot;two&quot;: 2, &quot;three&quot;: 3})
+print(di[&quot;four&quot;])
+print(di)
+</code></pre>
+
+<p>参考结果</p>
+
+<pre><code class="language-python">()
+defaultdict(&lt;class &#39;tuple&#39;&gt;, {&#39;two&#39;: 2, &#39;four&#39;: (), &#39;one&#39;: 1, &#39;three&#39;: 3})
+</code></pre>
+
+<h2 id="toc_29">个人感悟</h2>
+
+<p>collections模块中常用的功能有namedtuple, deque, Counter, OrderedDict和defaultdict.</p>
+
+<ul>
+<li>namedtuple一般用于对元素不会进行修改，并且需要对每个元素有一个属性名。</li>
+<li>deque是一个双列表，解决列表两端读取和删除的性能问题，和列表的绝大多数操作方法一致，有一些是队列特有的左端元素操作方法。</li>
+<li>Counter类用于对元素出现的次数进行计算，可以用于统计一个字符串中每个字符出现的次数。</li>
+<li>OrderedDict类用于对字典进行顺序确定，能够保证字典中元素的顺序是元素添加的顺序。</li>
+<li>defaultdict类用于给字典中没有出现的元素一个默认值类型，保证在获取不到某个元素值的时候程序能够正常运行。</li>
+</ul>
+
+
+    
+
+      </div>
+
+      <div class="row">
+        <div class="large-6 columns">
+        <p class="text-left" style="padding:15px 0px;">
+      
+          <a href="14819928857822.html" 
+          title="Previous Post: MySQL的基本命令☞数据表的基本管理">&laquo; MySQL的基本命令☞数据表的基本管理</a>
+      
+        </p>
+        </div>
+        <div class="large-6 columns">
+      <p class="text-right" style="padding:15px 0px;">
+      
+          <a  href="14724629382123.html" 
+          title="Next Post: python对列表进行操作">python对列表进行操作 &raquo;</a>
+      
+      </p>
+        </div>
+      </div>
+      <div class="comments-wrap">
+        <div class="share-comments">
+          
+
+          
+
+          
+        </div>
+      </div>
+    </div><!-- article-wrap -->
+  </div><!-- large 8 -->
+
+
+
+
+ <div class="large-4 medium-4 columns">
+  <div class="hide-for-small">
+    <div id="sidebar" class="sidebar">
+          <div id="site-info" class="site-info">
+            
+                <h1>挂在树上的兔子</h1>
+                <div class="site-des"></div>
+                <div class="social">
+
+
+
+
+
+
+
+
+
+
+
+  <a target="_blank" class="rss" href="atom.xml" title="RSS">RSS</a>
+                
+              	 </div>
+          	</div>
+
+             
+
+              <div id="site-categories" class="side-item ">
+                <div class="side-header">
+                  <h2>Categories</h2>
+                </div>
+                <div class="side-content">
+
+      	<p class="cat-list">
+        
+            <a href="%E6%95%B0%E6%8D%AE%E5%BA%93.html"><strong>数据库</strong></a>
+        
+            <a href="Python.html"><strong>Python</strong></a>
+        
+            <a href="%E9%9A%8F%E6%83%B3.html"><strong>随想</strong></a>
+        
+            <a href="%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84&%E7%AE%97%E6%B3%95.html"><strong>数据结构&算法</strong></a>
+        
+            <a href="PHP.html"><strong>PHP</strong></a>
+        
+            <a href="Ubuntu.html"><strong>Ubuntu</strong></a>
+         
+        </p>
+
+
+                </div>
+              </div>
+
+              <div id="site-categories" class="side-item">
+                <div class="side-header">
+                  <h2>Recent Posts</h2>
+                </div>
+                <div class="side-content">
+                <ul class="posts-list">
+	      
+		      
+			      <li class="post">
+			        <a href="14830907697555.html">MySQL数据库☞数据库编码</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="14830842110487.html">MySQL数据库☞中文乱码问题</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="14819928857822.html">MySQL的基本命令☞数据表的基本管理</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="14745361920074.html">python容器数据类型☞collections</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="14724629382123.html">python对列表进行操作</a>
+			      </li>
+		     
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		   
+		  		</ul>
+                </div>
+              </div>
+        </div><!-- sidebar -->
+      </div><!-- hide for small -->
+</div><!-- large 4 -->
+
+</div><!-- row -->
+
+ <div class="page-bottom clearfix">
+  <div class="row">
+   <p class="copyright">Copyright &copy; 2015
+Powered by <a target="_blank" href="http://www.mweb.im">MWeb</a>,&nbsp; 
+Theme used <a target="_blank" href="http://github.com">GitHub CSS</a>.</p>
+  </div>
+</div>
+
+        </section>
+      </div>
+    </div>
+
+  
+    
+
+    <script src="asset/js/foundation.min.js"></script>
+    <script>
+      $(document).foundation();
+      function fixSidebarHeight(){
+        var w1 = $('.markdown-body').height();
+          var w2 = $('#sidebar').height();
+          if (w1 > w2) { $('#sidebar').height(w1); };
+      }
+      $(function(){
+        fixSidebarHeight();
+      })
+      $(window).load(function(){
+          fixSidebarHeight();
+      });
+     
+    </script>
+
+    <script src="asset/chart/all-min.js"></script><script type="text/javascript">$(function(){    var mwebii=0;    var mwebChartEleId = 'mweb-chart-ele-';    $('pre>code').each(function(){        mwebii++;        var eleiid = mwebChartEleId+mwebii;        if($(this).hasClass('language-sequence')){            var ele = $(this).addClass('nohighlight').parent();            $('<div id="'+eleiid+'"></div>').insertAfter(ele);            ele.hide();            var diagram = Diagram.parse($(this).text());            diagram.drawSVG(eleiid,{theme: 'simple'});        }else if($(this).hasClass('language-flow')){            var ele = $(this).addClass('nohighlight').parent();            $('<div id="'+eleiid+'"></div>').insertAfter(ele);            ele.hide();            var diagram = flowchart.parse($(this).text());            diagram.drawSVG(eleiid);        }    });});</script>
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script type="text/x-mathjax-config">MathJax.Hub.Config({TeX: { equationNumbers: { autoNumber: "AMS" } }});</script>
+
+
+  </body>
+</html>

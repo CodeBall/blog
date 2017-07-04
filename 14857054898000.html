@@ -1,0 +1,436 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+    
+  python3  获取中文的首字母 - 挂在树上的兔子
+  
+  </title>
+  
+  
+  <link href="atom.xml" rel="alternate" title="挂在树上的兔子" type="application/atom+xml">
+    <link rel="stylesheet" href="asset/css/foundation.min.css" />
+    <link rel="stylesheet" href="asset/css/docs.css" />
+    <script src="asset/js/vendor/modernizr.js"></script>
+    <script src="asset/js/vendor/jquery.js"></script>
+  <script src="asset/highlightjs/highlight.pack.js"></script>
+  <link href="asset/highlightjs/styles/github.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script>hljs.initHighlightingOnLoad();</script>
+<script type="text/javascript">
+  function before_search(){
+    var searchVal = 'site:blog.yanzl.net ' + document.getElementById('search_input').value;
+    document.getElementById('search_q').value = searchVal;
+    return true;
+  }
+</script>
+  </head>
+  <body class="antialiased hide-extras">
+    
+    <div class="marketing off-canvas-wrap" data-offcanvas>
+      <div class="inner-wrap">
+
+
+<nav class="top-bar docs-bar hide-for-small" data-topbar>
+
+
+  <section class="top-bar-section">
+  <div class="row">
+      <div style="position: relative;width:100%;"><div style="position: absolute; width:100%;">
+        <ul id="main-menu" class="left">
+        
+        <li id=""><a target="self" href="index.html">Home</a></li>
+        
+        <li id=""><a target="_self" href="archives.html">Archives</a></li>
+        
+        </ul>
+
+        <ul class="right" id="search-wrap">
+          <li>
+<form target="_blank" onsubmit="return before_search();" action="http://google.com/search" method="get">
+    <input type="hidden" id="search_q" name="q" value="" />
+    <input tabindex="1" type="search" id="search_input"  placeholder="Search"/>
+</form>
+</li>
+          </ul>
+      </div></div>
+  </div>
+  </section>
+
+</nav>
+
+        <nav class="tab-bar show-for-small">
+  <a href="javascript:void(0)" class="left-off-canvas-toggle menu-icon">
+    <span> &nbsp; 挂在树上的兔子</span>
+  </a>
+</nav>
+
+<aside class="left-off-canvas-menu">
+      <ul class="off-canvas-list">
+       
+       <li><a href="index.html">HOME</a></li>
+    <li><a href="archives.html">Archives</a></li>
+    <li><a href="about.html">ABOUT</a></li>
+
+    <li><label>Categories</label></li>
+
+        
+            <li><a href="%E6%95%B0%E6%8D%AE%E5%BA%93.html">数据库</a></li>
+        
+            <li><a href="Python.html">Python</a></li>
+        
+            <li><a href="%E9%9A%8F%E6%83%B3.html">随想</a></li>
+        
+            <li><a href="%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84&%E7%AE%97%E6%B3%95.html">数据结构&算法</a></li>
+        
+            <li><a href="PHP.html">PHP</a></li>
+        
+            <li><a href="Ubuntu.html">Ubuntu</a></li>
+         
+
+      </ul>
+    </aside>
+
+<a class="exit-off-canvas" href="#"></a>
+
+
+        <section id="main-content" role="main" class="scroll-container">
+        
+       
+
+ <script type="text/javascript">
+  $(function(){
+    $('#menu_item_index').addClass('is_active');
+  });
+</script>
+<div class="row">
+  <div class="large-8 medium-8 columns">
+      <div class="markdown-body article-wrap">
+       <div class="article">
+          
+          <h1>python3  获取中文的首字母</h1>
+     
+        <div class="read-more clearfix">
+          <span class="date">2016/8/21</span>
+
+          <span>posted in&nbsp;</span> 
+          
+              <span class="posted-in"><a href='Python.html'>Python</a></span>
+           
+         
+          <span class="comments">
+            
+
+            
+          </span>
+
+        </div>
+      </div><!-- article -->
+
+      <div class="article-content">
+      <p>前话</p>
+
+<p>python 3中只有unicode str，所以把decode方法去掉了，所以如果要获取中文的首字母就不需要繁琐的decode转换方法。<br/>
+encode()方法可以将Unicode编码转换成指定的编码格式，这里是将Unicode转换成gbk的编码，如果是中文的话，也可以指定gb2312，不过gbk支持的中文会更多<br/>
+应该知道的一点是每个中文占两个字节<br/>
+基本思路</p>
+
+<p>首先把中文字符串转换成gbk格式的编码，这个时候会是一串字节码<br/>
+循环遍历字节码,每一个循环会得到每个字节相应的ascii码,判断是否对应大小写字母，如果是字母，则直接转换<br/>
+如果是汉字，则每两个字节做一次汉字转换，获取首字母<br/>
+存在的问题</p>
+
+<p>因为不熟悉汉字中的每个字节对应的ascii关系，所以这里只处理了汉字和字母，如果字符串中存在英文字符，则无法显示正确结果，如果有大神知道解决方案，欢迎给出评论指导，博主也会尽快查找资料填补这部分漏洞。</p>
+
+<p>执行代码</p>
+
+<p>def get_head_letter(str_input):<br/>
+    str_input = str_input.encode(&#39;gbk&#39;)<br/>
+    print(type(str_input))<br/>
+    print(str_input)<br/>
+    return_list = []<br/>
+    num = 0<br/>
+    for one_unicode in str_input:<br/>
+        if (one_unicode &gt;= 97 and one_unicode &lt;= 122) or (one_unicode &gt;= 65 and one_unicode &lt;= 90):<br/>
+            return_list.append(chr(one_unicode))<br/>
+            continue<br/>
+        print(type(one_unicode))<br/>
+        print(one_unicode)<br/>
+        if num == 0:<br/>
+            first = one_unicode<br/>
+            num += 1<br/>
+        elif num == 1:<br/>
+            last = one_unicode<br/>
+            num += 1<br/>
+        if num == 2:<br/>
+            num = 0<br/>
+            return_list.append(single_letter(first, last))<br/>
+    return return_list</p>
+
+<p>def single_letter(first, last):<br/>
+    asc = first * 256 + last - 65536<br/>
+    if asc &gt;= -20319 and asc &lt;= -20284:<br/>
+        return &#39;a&#39;<br/>
+    if asc &gt;= -20283 and asc &lt;= -19776:<br/>
+        return &#39;b&#39;<br/>
+    if asc &gt;= -19775 and asc &lt;= -19219:<br/>
+        return &#39;c&#39;<br/>
+    if asc &gt;= -19218 and asc &lt;= -18711:<br/>
+        return &#39;d&#39;<br/>
+    if asc &gt;= -18710 and asc &lt;= -18527:<br/>
+        return &#39;e&#39;<br/>
+    if asc &gt;= -18526 and asc &lt;= -18240:<br/>
+        return &#39;f&#39;<br/>
+    if asc &gt;= -18239 and asc &lt;= -17923:<br/>
+        return &#39;g&#39;<br/>
+    if asc &gt;= -17922 and asc &lt;= -17418:<br/>
+        return &#39;h&#39;<br/>
+    if asc &gt;= -17417 and asc &lt;= -16475:<br/>
+        return &#39;j&#39;<br/>
+    if asc &gt;= -16474 and asc &lt;= -16213:<br/>
+        return &#39;k&#39;<br/>
+    if asc &gt;= -16212 and asc &lt;= -15641:<br/>
+        return &#39;l&#39;<br/>
+    if asc &gt;= -15640 and asc &lt;= -15166:<br/>
+        return &#39;m&#39;<br/>
+    if asc &gt;= -15165 and asc &lt;= -14923:<br/>
+        return &#39;n&#39;<br/>
+    if asc &gt;= -14922 and asc &lt;= -14915:<br/>
+        return &#39;o&#39;<br/>
+    if asc &gt;= -14914 and asc &lt;= -14631:<br/>
+        return &#39;p&#39;<br/>
+    if asc &gt;= -14630 and asc &lt;= -14150:<br/>
+        return &#39;q&#39;<br/>
+    if asc &gt;= -14149 and asc &lt;= -14091:<br/>
+        return &#39;r&#39;<br/>
+    if asc &gt;= -14090 and asc &lt;= -13119:<br/>
+        return &#39;s&#39;<br/>
+    if asc &gt;= -13118 and asc &lt;= -12839:<br/>
+        return &#39;t&#39;<br/>
+    if asc &gt;= -12838 and asc &lt;= -12557:<br/>
+        return &#39;w&#39;<br/>
+    if asc &gt;= -12556 and asc &lt;= -11848:<br/>
+        return &#39;x&#39;<br/>
+    if asc &gt;= -11847 and asc &lt;= -11056:<br/>
+        return &#39;y&#39;<br/>
+    if asc &gt;= -11055 and asc &lt;= -10247:<br/>
+        return &#39;z&#39;<br/>
+    return &#39;&#39;</p>
+
+<p>def main(str_input):<br/>
+    a = get_head_letter(str_input)<br/>
+    print(a)<br/>
+    b = &#39;&#39;<br/>
+    for i in a:<br/>
+        b = b + i<br/>
+    print(b)</p>
+
+<p>if <strong>name</strong> == &quot;__main__&quot;:<br/>
+    str_input = &#39;A测试获取c中文首字母,js&#39;<br/>
+    main(str_input)</p>
+
+
+    
+
+      </div>
+
+      <div class="row">
+        <div class="large-6 columns">
+        <p class="text-left" style="padding:15px 0px;">
+      
+          <a href="14720317525979.html" 
+          title="Previous Post: Python Time模块">&laquo; Python Time模块</a>
+      
+        </p>
+        </div>
+        <div class="large-6 columns">
+      <p class="text-right" style="padding:15px 0px;">
+      
+          <a  href="14702800236946.html" 
+          title="Next Post: jQuery中的ajax实现异步请求">jQuery中的ajax实现异步请求 &raquo;</a>
+      
+      </p>
+        </div>
+      </div>
+      <div class="comments-wrap">
+        <div class="share-comments">
+          
+
+          
+
+          
+        </div>
+      </div>
+    </div><!-- article-wrap -->
+  </div><!-- large 8 -->
+
+
+
+
+ <div class="large-4 medium-4 columns">
+  <div class="hide-for-small">
+    <div id="sidebar" class="sidebar">
+          <div id="site-info" class="site-info">
+            
+                <h1>挂在树上的兔子</h1>
+                <div class="site-des"></div>
+                <div class="social">
+
+
+
+
+
+
+
+
+
+
+
+  <a target="_blank" class="rss" href="atom.xml" title="RSS">RSS</a>
+                
+              	 </div>
+          	</div>
+
+             
+
+              <div id="site-categories" class="side-item ">
+                <div class="side-header">
+                  <h2>Categories</h2>
+                </div>
+                <div class="side-content">
+
+      	<p class="cat-list">
+        
+            <a href="%E6%95%B0%E6%8D%AE%E5%BA%93.html"><strong>数据库</strong></a>
+        
+            <a href="Python.html"><strong>Python</strong></a>
+        
+            <a href="%E9%9A%8F%E6%83%B3.html"><strong>随想</strong></a>
+        
+            <a href="%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84&%E7%AE%97%E6%B3%95.html"><strong>数据结构&算法</strong></a>
+        
+            <a href="PHP.html"><strong>PHP</strong></a>
+        
+            <a href="Ubuntu.html"><strong>Ubuntu</strong></a>
+         
+        </p>
+
+
+                </div>
+              </div>
+
+              <div id="site-categories" class="side-item">
+                <div class="side-header">
+                  <h2>Recent Posts</h2>
+                </div>
+                <div class="side-content">
+                <ul class="posts-list">
+	      
+		      
+			      <li class="post">
+			        <a href="14830907697555.html">MySQL数据库☞数据库编码</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="14830842110487.html">MySQL数据库☞中文乱码问题</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="14819928857822.html">MySQL的基本命令☞数据表的基本管理</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="14745361920074.html">python容器数据类型☞collections</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="14724629382123.html">python对列表进行操作</a>
+			      </li>
+		     
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		   
+		  		</ul>
+                </div>
+              </div>
+        </div><!-- sidebar -->
+      </div><!-- hide for small -->
+</div><!-- large 4 -->
+
+</div><!-- row -->
+
+ <div class="page-bottom clearfix">
+  <div class="row">
+   <p class="copyright">Copyright &copy; 2015
+Powered by <a target="_blank" href="http://www.mweb.im">MWeb</a>,&nbsp; 
+Theme used <a target="_blank" href="http://github.com">GitHub CSS</a>.</p>
+  </div>
+</div>
+
+        </section>
+      </div>
+    </div>
+
+  
+    
+
+    <script src="asset/js/foundation.min.js"></script>
+    <script>
+      $(document).foundation();
+      function fixSidebarHeight(){
+        var w1 = $('.markdown-body').height();
+          var w2 = $('#sidebar').height();
+          if (w1 > w2) { $('#sidebar').height(w1); };
+      }
+      $(function(){
+        fixSidebarHeight();
+      })
+      $(window).load(function(){
+          fixSidebarHeight();
+      });
+     
+    </script>
+
+    <script src="asset/chart/all-min.js"></script><script type="text/javascript">$(function(){    var mwebii=0;    var mwebChartEleId = 'mweb-chart-ele-';    $('pre>code').each(function(){        mwebii++;        var eleiid = mwebChartEleId+mwebii;        if($(this).hasClass('language-sequence')){            var ele = $(this).addClass('nohighlight').parent();            $('<div id="'+eleiid+'"></div>').insertAfter(ele);            ele.hide();            var diagram = Diagram.parse($(this).text());            diagram.drawSVG(eleiid,{theme: 'simple'});        }else if($(this).hasClass('language-flow')){            var ele = $(this).addClass('nohighlight').parent();            $('<div id="'+eleiid+'"></div>').insertAfter(ele);            ele.hide();            var diagram = flowchart.parse($(this).text());            diagram.drawSVG(eleiid);        }    });});</script>
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script type="text/x-mathjax-config">MathJax.Hub.Config({TeX: { equationNumbers: { autoNumber: "AMS" } }});</script>
+
+
+  </body>
+</html>

@@ -1,0 +1,496 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+    
+  欧拉回路的应用 - 挂在树上的兔子
+  
+  </title>
+  
+  
+  <link href="atom.xml" rel="alternate" title="挂在树上的兔子" type="application/atom+xml">
+    <link rel="stylesheet" href="asset/css/foundation.min.css" />
+    <link rel="stylesheet" href="asset/css/docs.css" />
+    <script src="asset/js/vendor/modernizr.js"></script>
+    <script src="asset/js/vendor/jquery.js"></script>
+  <script src="asset/highlightjs/highlight.pack.js"></script>
+  <link href="asset/highlightjs/styles/github.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script>hljs.initHighlightingOnLoad();</script>
+<script type="text/javascript">
+  function before_search(){
+    var searchVal = 'site:blog.yanzl.net ' + document.getElementById('search_input').value;
+    document.getElementById('search_q').value = searchVal;
+    return true;
+  }
+</script>
+  </head>
+  <body class="antialiased hide-extras">
+    
+    <div class="marketing off-canvas-wrap" data-offcanvas>
+      <div class="inner-wrap">
+
+
+<nav class="top-bar docs-bar hide-for-small" data-topbar>
+
+
+  <section class="top-bar-section">
+  <div class="row">
+      <div style="position: relative;width:100%;"><div style="position: absolute; width:100%;">
+        <ul id="main-menu" class="left">
+        
+        <li id=""><a target="self" href="index.html">Home</a></li>
+        
+        <li id=""><a target="_self" href="archives.html">Archives</a></li>
+        
+        </ul>
+
+        <ul class="right" id="search-wrap">
+          <li>
+<form target="_blank" onsubmit="return before_search();" action="http://google.com/search" method="get">
+    <input type="hidden" id="search_q" name="q" value="" />
+    <input tabindex="1" type="search" id="search_input"  placeholder="Search"/>
+</form>
+</li>
+          </ul>
+      </div></div>
+  </div>
+  </section>
+
+</nav>
+
+        <nav class="tab-bar show-for-small">
+  <a href="javascript:void(0)" class="left-off-canvas-toggle menu-icon">
+    <span> &nbsp; 挂在树上的兔子</span>
+  </a>
+</nav>
+
+<aside class="left-off-canvas-menu">
+      <ul class="off-canvas-list">
+       
+       <li><a href="index.html">HOME</a></li>
+    <li><a href="archives.html">Archives</a></li>
+    <li><a href="about.html">ABOUT</a></li>
+
+    <li><label>Categories</label></li>
+
+        
+            <li><a href="%E6%95%B0%E6%8D%AE%E5%BA%93.html">数据库</a></li>
+        
+            <li><a href="Python.html">Python</a></li>
+        
+            <li><a href="%E9%9A%8F%E6%83%B3.html">随想</a></li>
+        
+            <li><a href="%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84&%E7%AE%97%E6%B3%95.html">数据结构&算法</a></li>
+        
+            <li><a href="PHP.html">PHP</a></li>
+        
+            <li><a href="Ubuntu.html">Ubuntu</a></li>
+         
+
+      </ul>
+    </aside>
+
+<a class="exit-off-canvas" href="#"></a>
+
+
+        <section id="main-content" role="main" class="scroll-container">
+        
+       
+
+ <script type="text/javascript">
+  $(function(){
+    $('#menu_item_index').addClass('is_active');
+  });
+</script>
+<div class="row">
+  <div class="large-8 medium-8 columns">
+      <div class="markdown-body article-wrap">
+       <div class="article">
+          
+          <h1>欧拉回路的应用</h1>
+     
+        <div class="read-more clearfix">
+          <span class="date">2015/2/6</span>
+
+          <span>posted in&nbsp;</span> 
+          
+              <span class="posted-in"><a href='%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84&%E7%AE%97%E6%B3%95.html'>数据结构&算法</a></span>
+           
+         
+          <span class="comments">
+            
+
+            
+          </span>
+
+        </div>
+      </div><!-- article -->
+
+      <div class="article-content">
+      <p>上一篇文章主要总结的是欧拉函数的基础知识，重点是欧拉回路的基本原理和判定是否能够组成欧拉回路，这篇文章重点总结欧拉回路在能够组成的基础上，输出路径问题。</p>
+
+<p>查找欧拉回路的路径主要有两种方法，一种是DFS搜索，一种是Fleury（弗罗莱）算法。</p>
+
+<p>DFS搜索</p>
+
+<p>利用欧拉定理判断出一个图能够构成欧拉回路后，利用DFS算法遍历所有的边，并且保证每条边只遍历一遍。</p>
+
+<p>用示例说明DFS算法：</p>
+
+<p>题目描述：</p>
+
+<p>给定n张骨牌，每张骨牌有左右两个点数（从1到6），问能不能交换骨牌的顺序交换左右两个点数，使得任意相邻骨牌的相邻字段为相等的数字。</p>
+
+<p>输入描述：</p>
+
+<p>输入文件中有多个测试数据。每个测试数据的第一行为一个整数N，1&lt;=N&lt;=100，表示多米诺骨牌的总数；接下来N行对每一张牌进行描述：每一行表示一张牌的左右两点的数字，用空格隔开。</p>
+
+<p>输出描述：</p>
+
+<p>对输入文件中的每个测试数据，如果不能满足要求，输出“No solution”；如果有解，输出任意一个即可：每张牌必须从左到右打印；每一行都要包含当前牌的序号和符号（+号代表没有翻转，-号代表左右翻转），每个测试数据的输出之后输入一个空行。</p>
+
+<p>解析：这是一个无向图，骨牌可以翻转，而且一共有六个顶点，两个顶点之间可能有多条边，所以选择用邻接表存储图，每条边有两个方向，一正一负，这是需要记录的，每条边的两个顶点，边的序号都是需要记录的。通过边的度数判断能否构成欧拉通路，之后再利用DFS的搜索方法进行路径搜索。</p>
+
+<p>存图——&gt;判断能否构成欧拉回路——&gt;DFS搜索路径——&gt;打印路径</p>
+
+<p>示例代码：</p>
+
+<h1 id="toc_0">define MAXN 101</h1>
+
+<p>using namespace std;</p>
+
+<p>struct EdgeNode<br/>
+{<br/>
+    int adjvex;//边的令一个邻接点的序号<br/>
+    int EdgeNo;//边的序号<br/>
+    int flag;//判断边有没有反转，没有为1，翻转为-1<br/>
+    EdgeNode *next;//指向下一个边结点<br/>
+};<br/>
+EdgeNode *EdgeLink[10];//邻接表的头结点<br/>
+int visited[MAXN];//记录每条边是否被遍历过<br/>
+int path[MAXN];//记录加进欧拉图里的边，用边的序号标记<br/>
+int pi;//记录当前已经加图里的边的数目<br/>
+int N;//总边数<br/>
+int du[10];//记录每个顶点的数目</p>
+
+<p>void createLG()<br/>
+{<br/>
+    int i,j,k,a,b;<br/>
+    EdgeNode <em>p,</em>q;<br/>
+    for(i = 1;i &lt;= N;i++)<br/>
+    {<br/>
+        scanf(&quot;%d%d&quot;,&amp;a,&amp;b);<br/>
+        du[a]++;//整理度数<br/>
+        du[b]++;<br/>
+        p = new EdgeNode;//开辟第一个节点的内存<br/>
+        q = new EdgeNode;//开辟第二个节点的内存<br/>
+        p-&gt;adjvex = b;<br/>
+        p-&gt;EdgeNo = i;<br/>
+        p-&gt;flag = 1;<br/>
+        p-&gt;next = EdgeLink[a];<br/>
+        EdgeLink[a] = p;<br/>
+        q-&gt;adjvex = a;<br/>
+        q-&gt;EdgeNo = i;<br/>
+        q-&gt;flag = -1;<br/>
+        q-&gt;next = EdgeLink[b];<br/>
+        EdgeLink[b] = q;<br/>
+    }<br/>
+}</p>
+
+<p>void DFS(int start)<br/>
+{<br/>
+    while(pi &lt;= N)<br/>
+    {<br/>
+        EdgeNode *p;<br/>
+        p = EdgeLink[start];<br/>
+        while(p != NULL)<br/>
+        {<br/>
+            if(!visited[p-&gt;EdgeNo])<br/>
+            {<br/>
+                //标记改边已经被遍历过了<br/>
+                visited[p-&gt;EdgeNo] = 1;<br/>
+                //根据判断该边是否翻转决定存入数组数据正负号<br/>
+                if(p-&gt;flag &gt; 0)<br/>
+                    path[pi] = p-&gt;EdgeNo;<br/>
+                else<br/>
+                    path[pi] = -p-&gt;EdgeNo;<br/>
+                pi++;<br/>
+                DFS(p-&gt;adjvex);<br/>
+            }<br/>
+            else<br/>
+                p = p-&gt;next;<br/>
+        }<br/>
+    }<br/>
+}</p>
+
+<p>void Domino()<br/>
+{<br/>
+    int start1,start2,jd = 0;<br/>
+    //判断能不能构成欧拉路<br/>
+    for(int i = 1;i &lt;= 6;i++)<br/>
+    {<br/>
+        if(du[i] % 2)<br/>
+        {<br/>
+            start1 = i;<br/>
+            jd++;<br/>
+        }<br/>
+        if(du[i] != 0)<br/>
+            start2 = i;<br/>
+    }<br/>
+    if(jd != 0 &amp;&amp; jd != 2)<br/>
+    {<br/>
+        printf(&quot;NO Solution!\n&quot;);<br/>
+        return ;<br/>
+    }<br/>
+    pi = 1;<br/>
+    if(jd == 2)<br/>
+        DFS(start1);//有奇度的点，从奇度的点开始出发<br/>
+    else<br/>
+        DFS(start2);//没有奇度的点，从任一有边的点出发都可以<br/>
+        char flag1 = &#39;+&#39;,flag2 = &#39;-&#39;;<br/>
+        for(int i = 1;i &lt; pi;i++)<br/>
+        {<br/>
+            if(path[i] &gt; 0)<br/>
+                printf(&quot;%d%c\n&quot;,path[i],flag1);<br/>
+            else<br/>
+                printf(&quot;%d%c\n&quot;,-path[i],flag2);<br/>
+        }<br/>
+}</p>
+
+<p>void delet()<br/>
+{<br/>
+    EdgeNode *p;<br/>
+    for(int i = 1;i &lt;= 6;i++)<br/>
+    {<br/>
+        p = EdgeLink[i];<br/>
+        while(p != NULL)<br/>
+        {<br/>
+            EdgeLink[i] = p-&gt;next;<br/>
+            delete p;<br/>
+            p = EdgeLink[i];<br/>
+        }<br/>
+    }<br/>
+}</p>
+
+<p>int main()<br/>
+{<br/>
+    while(~scanf(&quot;%d&quot;,&amp;N))<br/>
+    {<br/>
+        memset(du,0,sizeof(du));<br/>
+        memset(visited,0,sizeof(visited));<br/>
+        memset(path,0,sizeof(path));<br/>
+        for(int i = 1;i &lt;= 6;i++)<br/>
+            EdgeLink[i] = NULL;<br/>
+        createLG();//建图，记录度数<br/>
+        Domino();<br/>
+        delet();//用来释放内存<br/>
+    }<br/>
+    return 0;<br/>
+}</p>
+
+
+    
+
+      </div>
+
+      <div class="row">
+        <div class="large-6 columns">
+        <p class="text-left" style="padding:15px 0px;">
+      
+          <a href="14857048402362.html" 
+          title="Previous Post: 集训总结">&laquo; 集训总结</a>
+      
+        </p>
+        </div>
+        <div class="large-6 columns">
+      <p class="text-right" style="padding:15px 0px;">
+      
+          <a  href="14857046093556.html" 
+          title="Next Post: 欧拉回路">欧拉回路 &raquo;</a>
+      
+      </p>
+        </div>
+      </div>
+      <div class="comments-wrap">
+        <div class="share-comments">
+          
+
+          
+
+          
+        </div>
+      </div>
+    </div><!-- article-wrap -->
+  </div><!-- large 8 -->
+
+
+
+
+ <div class="large-4 medium-4 columns">
+  <div class="hide-for-small">
+    <div id="sidebar" class="sidebar">
+          <div id="site-info" class="site-info">
+            
+                <h1>挂在树上的兔子</h1>
+                <div class="site-des"></div>
+                <div class="social">
+
+
+
+
+
+
+
+
+
+
+
+  <a target="_blank" class="rss" href="atom.xml" title="RSS">RSS</a>
+                
+              	 </div>
+          	</div>
+
+             
+
+              <div id="site-categories" class="side-item ">
+                <div class="side-header">
+                  <h2>Categories</h2>
+                </div>
+                <div class="side-content">
+
+      	<p class="cat-list">
+        
+            <a href="%E6%95%B0%E6%8D%AE%E5%BA%93.html"><strong>数据库</strong></a>
+        
+            <a href="Python.html"><strong>Python</strong></a>
+        
+            <a href="%E9%9A%8F%E6%83%B3.html"><strong>随想</strong></a>
+        
+            <a href="%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84&%E7%AE%97%E6%B3%95.html"><strong>数据结构&算法</strong></a>
+        
+            <a href="PHP.html"><strong>PHP</strong></a>
+        
+            <a href="Ubuntu.html"><strong>Ubuntu</strong></a>
+         
+        </p>
+
+
+                </div>
+              </div>
+
+              <div id="site-categories" class="side-item">
+                <div class="side-header">
+                  <h2>Recent Posts</h2>
+                </div>
+                <div class="side-content">
+                <ul class="posts-list">
+	      
+		      
+			      <li class="post">
+			        <a href="14830907697555.html">MySQL数据库☞数据库编码</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="14830842110487.html">MySQL数据库☞中文乱码问题</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="14819928857822.html">MySQL的基本命令☞数据表的基本管理</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="14745361920074.html">python容器数据类型☞collections</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="14724629382123.html">python对列表进行操作</a>
+			      </li>
+		     
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		   
+		  		</ul>
+                </div>
+              </div>
+        </div><!-- sidebar -->
+      </div><!-- hide for small -->
+</div><!-- large 4 -->
+
+</div><!-- row -->
+
+ <div class="page-bottom clearfix">
+  <div class="row">
+   <p class="copyright">Copyright &copy; 2015
+Powered by <a target="_blank" href="http://www.mweb.im">MWeb</a>,&nbsp; 
+Theme used <a target="_blank" href="http://github.com">GitHub CSS</a>.</p>
+  </div>
+</div>
+
+        </section>
+      </div>
+    </div>
+
+  
+    
+
+    <script src="asset/js/foundation.min.js"></script>
+    <script>
+      $(document).foundation();
+      function fixSidebarHeight(){
+        var w1 = $('.markdown-body').height();
+          var w2 = $('#sidebar').height();
+          if (w1 > w2) { $('#sidebar').height(w1); };
+      }
+      $(function(){
+        fixSidebarHeight();
+      })
+      $(window).load(function(){
+          fixSidebarHeight();
+      });
+     
+    </script>
+
+    <script src="asset/chart/all-min.js"></script><script type="text/javascript">$(function(){    var mwebii=0;    var mwebChartEleId = 'mweb-chart-ele-';    $('pre>code').each(function(){        mwebii++;        var eleiid = mwebChartEleId+mwebii;        if($(this).hasClass('language-sequence')){            var ele = $(this).addClass('nohighlight').parent();            $('<div id="'+eleiid+'"></div>').insertAfter(ele);            ele.hide();            var diagram = Diagram.parse($(this).text());            diagram.drawSVG(eleiid,{theme: 'simple'});        }else if($(this).hasClass('language-flow')){            var ele = $(this).addClass('nohighlight').parent();            $('<div id="'+eleiid+'"></div>').insertAfter(ele);            ele.hide();            var diagram = flowchart.parse($(this).text());            diagram.drawSVG(eleiid);        }    });});</script>
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script type="text/x-mathjax-config">MathJax.Hub.Config({TeX: { equationNumbers: { autoNumber: "AMS" } }});</script>
+
+
+  </body>
+</html>
