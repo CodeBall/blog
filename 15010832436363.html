@@ -1,0 +1,669 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+    
+  字典的使用 - 挂在树上的兔子
+  
+  </title>
+  
+  
+  <link href="atom.xml" rel="alternate" title="挂在树上的兔子" type="application/atom+xml">
+    <link rel="stylesheet" href="asset/css/foundation.min.css" />
+    <link rel="stylesheet" href="asset/css/docs.css" />
+    <script src="asset/js/vendor/modernizr.js"></script>
+    <script src="asset/js/vendor/jquery.js"></script>
+  <script src="asset/highlightjs/highlight.pack.js"></script>
+  <link href="asset/highlightjs/styles/github.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script>hljs.initHighlightingOnLoad();</script>
+<script type="text/javascript">
+  function before_search(){
+    var searchVal = 'site:blog.yanzl.net ' + document.getElementById('search_input').value;
+    document.getElementById('search_q').value = searchVal;
+    return true;
+  }
+</script>
+  </head>
+  <body class="antialiased hide-extras">
+    
+    <div class="marketing off-canvas-wrap" data-offcanvas>
+      <div class="inner-wrap">
+
+
+<nav class="top-bar docs-bar hide-for-small" data-topbar>
+
+
+  <section class="top-bar-section">
+  <div class="row">
+      <div style="position: relative;width:100%;"><div style="position: absolute; width:100%;">
+        <ul id="main-menu" class="left">
+        
+        <li id=""><a target="self" href="index.html">Home</a></li>
+        
+        <li id=""><a target="_self" href="archives.html">Archives</a></li>
+        
+        </ul>
+
+        <ul class="right" id="search-wrap">
+          <li>
+<form target="_blank" onsubmit="return before_search();" action="http://google.com/search" method="get">
+    <input type="hidden" id="search_q" name="q" value="" />
+    <input tabindex="1" type="search" id="search_input"  placeholder="Search"/>
+</form>
+</li>
+          </ul>
+      </div></div>
+  </div>
+  </section>
+
+</nav>
+
+        <nav class="tab-bar show-for-small">
+  <a href="javascript:void(0)" class="left-off-canvas-toggle menu-icon">
+    <span> &nbsp; 挂在树上的兔子</span>
+  </a>
+</nav>
+
+<aside class="left-off-canvas-menu">
+      <ul class="off-canvas-list">
+       
+       <li><a href="index.html">HOME</a></li>
+    <li><a href="archives.html">Archives</a></li>
+    <li><a href="about.html">ABOUT</a></li>
+
+    <li><label>Categories</label></li>
+
+        
+            <li><a href="%E6%95%B0%E6%8D%AE%E5%BA%93.html">数据库</a></li>
+        
+            <li><a href="Python.html">Python</a></li>
+        
+            <li><a href="%E9%9A%8F%E6%83%B3.html">随想</a></li>
+        
+            <li><a href="%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84&%E7%AE%97%E6%B3%95.html">数据结构&算法</a></li>
+        
+            <li><a href="Fluent%20Python.html">Fluent Python</a></li>
+        
+            <li><a href="PHP.html">PHP</a></li>
+        
+            <li><a href="Ubuntu.html">Ubuntu</a></li>
+         
+
+      </ul>
+    </aside>
+
+<a class="exit-off-canvas" href="#"></a>
+
+
+        <section id="main-content" role="main" class="scroll-container">
+        
+       
+
+ <script type="text/javascript">
+  $(function(){
+    $('#menu_item_index').addClass('is_active');
+  });
+</script>
+<div class="row">
+  <div class="large-8 medium-8 columns">
+      <div class="markdown-body article-wrap">
+       <div class="article">
+          
+          <h1>字典的使用</h1>
+     
+        <div class="read-more clearfix">
+          <span class="date">2017/7/26</span>
+
+          <span>posted in&nbsp;</span> 
+          
+              <span class="posted-in"><a href='Fluent%20Python.html'>Fluent Python</a></span>
+           
+         
+          <span class="comments">
+            
+
+            
+          </span>
+
+        </div>
+      </div><!-- article -->
+
+      <div class="article-content">
+      <h2 id="toc_0">可散列的数据类型</h2>
+
+<h3 id="toc_1">定义</h3>
+
+<p>如果一个对象是可散列的，那么在这个对象的生命周期中，它的散列值是不变的，而且这个对象需要实现<code>__hash()__</code>方法。<br/>
+另外，可散列对象还要有<code>__qe()__</code>方法，这样才能跟其他键作比较。<br/>
+如果两个可散列对象是相等的，那么它们的散列值一定是一样的。</p>
+
+<h3 id="toc_2">可散列数据举例</h3>
+
+<ul>
+<li>str,bytes和数值类型等原子不可变数据类型都是可散列的类型。</li>
+<li>对于元组来说，只有当一个元组包含的所有元素都是可散列类型的情况下，该元组才是可散列类型。</li>
+<li>自定义对象都是可散列的，散列值就是该对象的id()函数返回的值</li>
+</ul>
+
+<h2 id="toc_3">字典的构造方法</h2>
+
+<p>构造字典的方式有很多种，如下所示：</p>
+
+<pre><code class="language-python"># 字典的构造方法
+dict1 = {&quot;name&quot;: &quot;Alice&quot;, &quot;age&quot;: 23, &quot;email&quot;: &quot;test@126.com&quot;}
+dict2 = dict(name=&quot;Alice&quot;, age=23, email=&quot;test@126.com&quot;)
+dict3 = dict([(&quot;name&quot;, &quot;Alice&quot;), (&quot;age&quot;, 23), (&quot;email&quot;, &quot;test@126.com&quot;)])
+dict4 = dict(zip([&quot;name&quot;, &quot;age&quot;, &quot;email&quot;], [&quot;Alice&quot;, 23, &quot;test@126.com&quot;]))
+dict5 = dict({&quot;email&quot;: &quot;test@126.com&quot;, &quot;age&quot;: 23, &quot;name&quot;: &quot;Alice&quot;})
+
+print(dict1 == dict2 == dict3 == dict4 == dict5)
+</code></pre>
+
+<p>这个示例的输出结果会是<code>True</code>，由此可以看出,无论我们用什么方法、以什么顺序创造字典,在基本的字典类型中,只要字典中元素的键和值都是相等的,创造出来的字典都是相同的。</p>
+
+<h3 id="toc_4">字典推导(ﾉ*･ω･)ﾉ</h3>
+
+<p>和列表一样,字典也可以使用字典推导的方法来构建新的字典,来看下面两个例子：</p>
+
+<pre><code class="language-Python"># 示例一
+dial_codes = [(86, &#39;China&#39;), (91, &#39;India&#39;), (1, &#39;Unit States&#39;), (62, &#39;Indonesia&#39;), (55, &#39;Brazil&#39;), (92, &#39;Pakistan&#39;),
+              (880, &#39;Bangladesh&#39;), (234, &#39;Nigeria&#39;), (7, &#39;Russia&#39;), (81, &#39;Japan&#39;)]
+country_code1 = {country: code for code, country in dial_codes}
+print(country_code1)
+</code></pre>
+
+<pre><code class="language-python"># 示例二
+codes = [86, 91, 1, 62, 55, 92, 880, 234, 7, 81]
+countries = [&quot;China&quot;, &quot;India&quot;, &quot;Unit States&quot;, &quot;Indonesia&quot;, &quot;Brazil&quot;, &quot;Pakistan&quot;, &quot;Bangladesh&quot;, &quot;Nigeria&quot;, &quot;Russia&quot;,
+             &quot;Japan&quot;]
+country_code2 = {country: code for country in countries for code in codes}
+country_code3 = [{country: code} for country in countries for code in codes]
+print(country_code2)
+print(country_code3)
+</code></pre>
+
+<p>在示例二中,给出了两种推导的方法,一种是字典推导,会得到一个字典,另一种是列表推导,该示例和1_magic_method.py中生成纸牌的示例很相似,这里计算的是codes和countries的笛卡尔积。可以自己运行程序查看结果。</p>
+
+<p><strong>注：示例二中字典推导的结果和示例一中字典推导的结果是不一样的，示例一是正常的一个代号对应一个国家的字典展示，示例二中country_code2是country_code3的一部分，即一个代号对应的所有国家的结果</strong></p>
+
+<h2 id="toc_5">常见的映射方法</h2>
+
+<p>collections模块中有两个字典的变种类型，分别是defaultdict和OrderedDict，它们和dict类型也是有共同的方法。具体可以看下表的内容：</p>
+
+<table>
+<thead>
+<tr>
+<th>方法列表</th>
+<th>dict</th>
+<th>defaultdict</th>
+<th>OrderedDict</th>
+<th>备注</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><code>d.clear()</code></td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>移除所有的元素</td>
+</tr>
+<tr>
+<td><code>d.__contains__(k)</code></td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>检查k是否在d中</td>
+</tr>
+<tr>
+<td><code>d.copy()</code></td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>浅复制</td>
+</tr>
+<tr>
+<td><code>d.__copy__()</code></td>
+<td></td>
+<td>✅</td>
+<td></td>
+<td>用于支持浅复制</td>
+</tr>
+<tr>
+<td><code>d.default_factory</code></td>
+<td></td>
+<td>✅</td>
+<td></td>
+<td>在<code>__mising__</code>函数中被调用的函数，用于给未找到的元素设置值</td>
+</tr>
+<tr>
+<td><code>d.__delitem__(k)</code></td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td><code>del d(k)</code>, 移除键为k的元素</td>
+</tr>
+<tr>
+<td><code>d.fromkeys(it, [initial])</code></td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>将迭代器it里的元素设置为映射里的键， 如果有initial参数，就把它设为这些键对应的值，默认为None</td>
+</tr>
+<tr>
+<td><code>d.get(k, [default])</code></td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>返回键k对应的值，如果字典中没有该键，则返回default的值或者None</td>
+</tr>
+<tr>
+<td><code>d.__getitem__(k)</code></td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>让字典d能用<code>d[k]</code>的形式返回k对应的值，如果k找不到会报错</td>
+</tr>
+<tr>
+<td><code>d.items()</code></td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>返回d中所有的键值对</td>
+</tr>
+<tr>
+<td><code>d.__iter__()</code></td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>返回键的迭代器</td>
+</tr>
+<tr>
+<td><code>d.keys()</code></td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>返回字典的所有键</td>
+</tr>
+<tr>
+<td><code>d.__len__()</code></td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>可以使用<code>len(d)</code>的形式得到字典的键值对数量</td>
+</tr>
+<tr>
+<td><code>d.__missing__(k)</code></td>
+<td></td>
+<td>✅</td>
+<td></td>
+<td>当<code>__getitem__()</code>找不到相应的值时，会调用该方法</td>
+</tr>
+<tr>
+<td><code>d.move_to_end(k, [last])</code></td>
+<td></td>
+<td></td>
+<td>✅</td>
+<td>把键为k的元素移动到字典的最前面或者最后面， last默认为True</td>
+</tr>
+<tr>
+<td><code>d.pop(k, [default])</code></td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>返回键k所对应的值，然后移除这个键值对，如果k没有找到，则返回default的值或者None</td>
+</tr>
+<tr>
+<td><code>d.popitem()</code></td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>随机返回一个键值对，并在字典中移除掉</td>
+</tr>
+<tr>
+<td><code>d.__reversed__()</code></td>
+<td></td>
+<td></td>
+<td>✅</td>
+<td>返回倒序的键的迭代器</td>
+</tr>
+<tr>
+<td><code>d.setdefault(k, [default])</code></td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>若字典中有键k，则把它对应的值设定为default的值，然后返回这个值若无，则让<code>d[k] = default</code>，然后返回default</td>
+</tr>
+<tr>
+<td><code>d.__setitem__(k, v)</code></td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>实现d[k] = v的操作</td>
+</tr>
+<tr>
+<td><code>d.update(m, [**kargs])</code></td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>m可以是映射或者键值对迭代器，用来更新d中对应的条目</td>
+</tr>
+<tr>
+<td><code>d.values()</code></td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>返回字典中的所有值</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="toc_6">处理找不到的键的方法</h2>
+
+<p>从上面的表中可以得知，查找一个字典的键对应的值有多种方法</p>
+
+<ul>
+<li><code>d[k]</code>方法在找不到键k时，Python会直接抛出异常</li>
+<li><code>d.get(k, [default])</code> 方法在找不到键k时，会返回None, 如果default参数被设定了，则会返回该参数的值</li>
+</ul>
+
+<h3 id="toc_7">使用setdefault</h3>
+
+<p>如果除了拿到这个值外，还想对该值进行更新操作，并且在没有键的情况下，则执行添加操作，那么setdefault方法是最好的选择</p>
+
+<p><code>d.setdefault()</code>方法的使用十分简单，下面来看使用这个方法和不使用的代码对比：</p>
+
+<pre><code class="language-python"># 从字典country_code1中搜索Korea对应的号码, 如果没有则赋值为99999
+import time
+start_time = time.time()
+if &quot;Korea&quot; not in country_code1:
+    country_code1[&quot;Korea&quot;] = 99999
+    print((time.time() - start_time)*10000)
+
+# 从字典country_code1中搜索Canada对应的号码, 如果没有则赋值为251
+start_time = time.time()
+country_code1.setdefault(&quot;Canada&quot;, 251)
+print((time.time() - start_time)*10000)
+print(country_code1)
+</code></pre>
+
+<p>在上述示例中，计算出了两种方法的执行时间，从时间来看，使用<code>setdefault()</code>方法所用的时间会更短。</p>
+
+<h3 id="toc_8">自定义__missing__方法</h3>
+
+<p>如果只是单纯的查找取值，除了<code>d[k]</code> 和 <code>d.get(k, [default])</code> 两种方法，defaultdict类型还提供了<code>__missing__</code>方法。</p>
+
+<p>defaultdict类型的基本使用示例：</p>
+
+<pre><code class="language-python">import collections
+dd = collections.defaultdict(tuple, **country_code1)
+print(dd[&#39;China&#39;])
+print(dd.get(&quot;C&quot;))
+print(dd[&quot;C&quot;])
+print(dd[&quot;B&quot;])
+print(dd.get(&quot;B&quot;))
+</code></pre>
+
+<p>从上示例的结果可以看出，当从字典中查询一个不存在的键时，defaultdict会对该键初始化一个空的tuple作为值，之后在查询该键，则会返回空的tuple。<br/>
+并且，<code>__missing__</code>方法只会在<code>__getitem__</code>里被调用，其他方法是不会发挥作用的。</p>
+
+<p>如果觉得defaultdict中的<code>__missing__</code>太有局限性了，可以自己定义一个雷然后实现该方法，从而达到目的。<br/>
+比如以下示例：</p>
+
+<pre><code class="language-Python">class StrKeyDict0(dict):
+
+    def __missing__(self, key):
+        if isinstance(key, str):
+            raise KeyError(key)
+        return self[str(key)]
+
+    def get(self, key, default=None):
+        try:
+            return self[key]
+        except KeyError:
+            return default
+
+    def __contains__(self, item):
+        return item in self.keys() or str(item) in self.keys()
+
+d = StrKeyDict0([(&#39;2&#39;, &#39;two&#39;), (&#39;4&#39;, &#39;four&#39;)])
+print(d[&#39;2&#39;])
+print(d[4])
+print(d.get(&#39;2&#39;))
+print(d.get(4))
+print(d.get(1))
+print(2 in d)
+print(1 in d)
+print(d[1])
+</code></pre>
+
+<p>自定义类实现的功能是当请求的键是其他类型时，转换成字符串类型再去获取值。该类的实现有以下几点值得注意：</p>
+
+<ul>
+<li>get()方法把查找的工作以<code>self[key]</code>的形式进行处理，这样做可以在取值的时候调用<code>__getitem__()</code>方法，当获取不到键的时候，该方法会去调用<code>__missing__()</code>方法，于是就会触发将键的类型转换成字符串形式的操作。</li>
+<li>关于<code>__missing__()</code>方法中为什么还要判断key的类型是否是字符串，则是为了防止掉进无限递归的陷阱。<code>__missing__()</code>方法的返回还是使用<code>self[key]</code>的格式，该方法在获取不到键的时候会调用<code>__missing__()</code>方法，因此会形成一个无限递归。</li>
+<li>关于为什么会有<code>__contains__</code>方法，是因为在执行<code>in</code>操作的时候会用到该方法，但是dict中提供的这个方法不会在找不到键的时候调用<code>__missing__</code>方法。另外，在实现这个方法的时候，使用的是<code>key in self.keys()</code>的形式而不是<code>key in d</code>的形式，也是为了防止掉进无限递归的陷阱中。</li>
+</ul>
+
+<h2 id="toc_9">字典的变种</h2>
+
+<p>标准库collections模块中，有以下几种不同的映射类型：</p>
+
+<ul>
+<li>collections.OrderedDict</li>
+<li>collections.ChainMap</li>
+<li>collections.Counter</li>
+<li>collections.UserDict</li>
+</ul>
+
+<p>除此之外，Python3.3之后，types模块引入了一个封装类名叫<code>MappingProxyType</code>的不可变映射类型。如果给这个类一个映射，他会返回一个只读视图，但是这个视图也是动态的。因此可以直接对原映射做出改变，但是不能通过视图对原映射做出改变。</p>
+
+
+    
+
+      </div>
+
+      <div class="row">
+        <div class="large-6 columns">
+        <p class="text-left" style="padding:15px 0px;">
+      
+          <a href="15013419653919.html" 
+          title="Previous Post: 集合的使用">&laquo; 集合的使用</a>
+      
+        </p>
+        </div>
+        <div class="large-6 columns">
+      <p class="text-right" style="padding:15px 0px;">
+      
+          <a  href="15008213108914.html" 
+          title="Next Post: 列表的使用">列表的使用 &raquo;</a>
+      
+      </p>
+        </div>
+      </div>
+      <div class="comments-wrap">
+        <div class="share-comments">
+          
+
+          
+
+          
+        </div>
+      </div>
+    </div><!-- article-wrap -->
+  </div><!-- large 8 -->
+
+
+
+
+ <div class="large-4 medium-4 columns">
+  <div class="hide-for-small">
+    <div id="sidebar" class="sidebar">
+          <div id="site-info" class="site-info">
+            
+                <h1>挂在树上的兔子</h1>
+                <div class="site-des"></div>
+                <div class="social">
+
+
+
+
+
+
+
+
+
+
+
+  <a target="_blank" class="rss" href="atom.xml" title="RSS">RSS</a>
+                
+              	 </div>
+          	</div>
+
+             
+
+              <div id="site-categories" class="side-item ">
+                <div class="side-header">
+                  <h2>Categories</h2>
+                </div>
+                <div class="side-content">
+
+      	<p class="cat-list">
+        
+            <a href="%E6%95%B0%E6%8D%AE%E5%BA%93.html"><strong>数据库</strong></a>
+        
+            <a href="Python.html"><strong>Python</strong></a>
+        
+            <a href="%E9%9A%8F%E6%83%B3.html"><strong>随想</strong></a>
+        
+            <a href="%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84&%E7%AE%97%E6%B3%95.html"><strong>数据结构&算法</strong></a>
+        
+            <a href="Fluent%20Python.html"><strong>Fluent Python</strong></a>
+        
+            <a href="PHP.html"><strong>PHP</strong></a>
+        
+            <a href="Ubuntu.html"><strong>Ubuntu</strong></a>
+         
+        </p>
+
+
+                </div>
+              </div>
+
+              <div id="site-categories" class="side-item">
+                <div class="side-header">
+                  <h2>Recent Posts</h2>
+                </div>
+                <div class="side-content">
+                <ul class="posts-list">
+	      
+		      
+			      <li class="post">
+			        <a href="15033291458720.html">使用一等函数实现设计模式</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="15018651943030.html">一等函数</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="15018646605864.html">文本和字节序列</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="15013419653919.html">集合的使用</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="15010832436363.html">字典的使用</a>
+			      </li>
+		     
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		   
+		  		</ul>
+                </div>
+              </div>
+        </div><!-- sidebar -->
+      </div><!-- hide for small -->
+</div><!-- large 4 -->
+
+</div><!-- row -->
+
+ <div class="page-bottom clearfix">
+  <div class="row">
+   <p class="copyright">Copyright &copy; 2015
+Powered by <a target="_blank" href="http://www.mweb.im">MWeb</a>,&nbsp; 
+Theme used <a target="_blank" href="http://github.com">GitHub CSS</a>.</p>
+  </div>
+</div>
+
+        </section>
+      </div>
+    </div>
+
+  
+    
+
+    <script src="asset/js/foundation.min.js"></script>
+    <script>
+      $(document).foundation();
+      function fixSidebarHeight(){
+        var w1 = $('.markdown-body').height();
+          var w2 = $('#sidebar').height();
+          if (w1 > w2) { $('#sidebar').height(w1); };
+      }
+      $(function(){
+        fixSidebarHeight();
+      })
+      $(window).load(function(){
+          fixSidebarHeight();
+      });
+     
+    </script>
+
+    <script src="asset/chart/all-min.js"></script><script type="text/javascript">$(function(){    var mwebii=0;    var mwebChartEleId = 'mweb-chart-ele-';    $('pre>code').each(function(){        mwebii++;        var eleiid = mwebChartEleId+mwebii;        if($(this).hasClass('language-sequence')){            var ele = $(this).addClass('nohighlight').parent();            $('<div id="'+eleiid+'"></div>').insertAfter(ele);            ele.hide();            var diagram = Diagram.parse($(this).text());            diagram.drawSVG(eleiid,{theme: 'simple'});        }else if($(this).hasClass('language-flow')){            var ele = $(this).addClass('nohighlight').parent();            $('<div id="'+eleiid+'"></div>').insertAfter(ele);            ele.hide();            var diagram = flowchart.parse($(this).text());            diagram.drawSVG(eleiid);        }    });});</script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script type="text/x-mathjax-config">MathJax.Hub.Config({TeX: { equationNumbers: { autoNumber: "AMS" } }});</script>
+
+
+  </body>
+</html>

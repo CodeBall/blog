@@ -2,7 +2,42 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
   <loc>http://blog.yanzl.net/</loc>
-  <lastmod>2017-07-04T23:24:38+08:00</lastmod>
+  <lastmod>2017-08-30T17:38:14+08:00</lastmod>
+</url>
+
+<url>
+  <loc>http://blog.yanzl.net/15033291458720.html</loc>
+  <lastmod>2017-08-21T23:25:45+08:00</lastmod>
+</url>
+
+<url>
+  <loc>http://blog.yanzl.net/15018651943030.html</loc>
+  <lastmod>2017-08-05T00:46:34+08:00</lastmod>
+</url>
+
+<url>
+  <loc>http://blog.yanzl.net/15018646605864.html</loc>
+  <lastmod>2017-08-05T00:37:40+08:00</lastmod>
+</url>
+
+<url>
+  <loc>http://blog.yanzl.net/15013419653919.html</loc>
+  <lastmod>2017-07-29T23:26:05+08:00</lastmod>
+</url>
+
+<url>
+  <loc>http://blog.yanzl.net/15010832436363.html</loc>
+  <lastmod>2017-07-26T23:34:03+08:00</lastmod>
+</url>
+
+<url>
+  <loc>http://blog.yanzl.net/15008213108914.html</loc>
+  <lastmod>2017-07-23T22:48:30+08:00</lastmod>
+</url>
+
+<url>
+  <loc>http://blog.yanzl.net/15007111565327.html</loc>
+  <lastmod>2017-07-22T16:12:36+08:00</lastmod>
 </url>
 
 <url>
@@ -379,6 +414,10 @@
 
 <url>
   <loc>http://blog.yanzl.net/PHP.html</loc>
+</url>
+
+<url>
+  <loc>http://blog.yanzl.net/Fluent%20Python.html</loc>
 </url>
 
 

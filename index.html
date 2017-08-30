@@ -84,6 +84,8 @@
         
             <li><a href="%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84&%E7%AE%97%E6%B3%95.html">数据结构&算法</a></li>
         
+            <li><a href="Fluent%20Python.html">Fluent Python</a></li>
+        
             <li><a href="PHP.html">PHP</a></li>
         
             <li><a href="Ubuntu.html">Ubuntu</a></li>
@@ -109,23 +111,14 @@
 		<div class="markdown-body home-categories">
 		
 			<div class="article">
-                <a class="clearlink" href="14830907697555.html">
+                <a class="clearlink" href="15033291458720.html">
                 
-                  <h1>MySQL数据库☞数据库编码</h1>
+                  <h1>使用一等函数实现设计模式</h1>
                   <div class="a-content">
                       
                       <div class="a-content-text">
                         
-                        	<h2 id="toc_0">概述</h2>
-
-<p>MySQL是平时常用的数据库之一，在存储中文的时候，经常出现乱码的情况，今天总结一下关于乱码出现的原因以及解决方法。</p>
-
-<h2 id="toc_1">数据的存入取出</h2>
-
-<p>我们知道，MySQL的逻辑架构包括三层，最上表面一层是客户端，我们也是通过各类客户端来操作MySQL；中间一层是MySQL的核心所在，一般包括了查询解析、分析、优化、缓存、所有的内置函数、所有的跨存储引擎的功能（存储过程、触发器、视图等）都在这一层实现；最下面一层就是MySQL的存储引擎，包括我们熟悉的（InnoDB，MyIsAM等MySQL的内建存储引擎和第三方存储引擎）</p>
-
-<p>将数据存入MySQL的时候，</p>
-
+                        	
                         
                       </div>
                   </div>
@@ -133,10 +126,10 @@
                 <div class="read-more clearfix">
                   <div class="more-left left">
                   
-                    <span class="date">2016/12/30</span>
+                    <span class="date">2017/8/21</span>
                     <span>posted in&nbsp;</span> 
           				  
-          					    <span class="posted-in"><a href='%E6%95%B0%E6%8D%AE%E5%BA%93.html'>数据库</a></span>
+          					    <span class="posted-in"><a href='Fluent%20Python.html'>Fluent Python</a></span>
           				   
                   </div>
                   <div class="more-right right">
@@ -150,121 +143,798 @@
               </div><!-- article -->
         
 			<div class="article">
-                <a class="clearlink" href="14830842110487.html">
+                <a class="clearlink" href="15018651943030.html">
                 
-                  <h1>MySQL数据库☞中文乱码问题</h1>
+                  <h1>一等函数</h1>
                   <div class="a-content">
                       
                       <div class="a-content-text">
                         
-                        	<h2 id="toc_0">背景</h2>
+                        	<h2 id="toc_0">一等对象的定义</h2>
 
-<pre><code>show variables like &#39;character_set_%&#39;;
+<p>把一等对象定义为满足下述条件的程序实体：</p>
+
+<ul>
+<li>在运行时创建</li>
+<li>能赋值给变量或者数据结构中的元素</li>
+<li>能作为参数传给函数</li>
+<li>能作为函数的返回结果</li>
+</ul>
+
+<p>在python中，函数也是一等对象，可看如下示例：</p>
+
+<pre><code class="language-Python">def factorial(n):
+    &quot;&quot;&quot;
+    计算阶乘
+    :param n:
+    :return:
+    &quot;&quot;&quot;
+    return 1 if n &lt; 2 else n * factorial(n-1)
+
+print(factorial(3))
+print(factorial.__doc__)
+x = factorial
+print(x(3))
 </code></pre>
 
-<p>结果为：</p>
+<h2 id="toc_1">高阶函数的定义</h2>
+
+<p>接收函数为参数，或者吧函数作为返回值的函数就是高阶函数。<br/>
+最为人熟知的高阶函数有：<code>map</code>, <code>filter</code>, <code>reduce</code>.</p>
+
+<p><code>reduce</code>在python2中时内置函数，在python3中，放在了functools模块中，这个函数最常用的场景是用来求和，如下示例：</p>
+
+<pre><code class="language-Python">from functools import reduce
+from operator import add
+
+print(reduce(add, range(100)))
+# 在计算求和方面,sum函数完全可以代替reduce进行计算
+print(sum(range(100)))
+</code></pre>
+
+<h2 id="toc_2">可调用对象列举</h2>
+
+<ul>
+<li>用户定义的函数：使用def语句或者lambda表达式创建的函数。</li>
+<li>内置函数：使用C语言实现的内置函数，如<code>len</code>,<code>time.strftime</code>。</li>
+<li>内置方法：使用C语言实现的方法，如<code>dict.get</code>。</li>
+<li>方法：在类的定义中定义的函数。</li>
+<li>类：调用类时会运行类的<code>__new__</code>方法来创建一个实例，然后运行<code>__init__</code>方法，初始化实例，最后把实例返回给调用方。因为Python没有new运算符，所以调用类相当于调用函数。</li>
+<li>类的实例：如果定义了<code>__call__</code>方法，那么它的实例可以作为函数调用。</li>
+<li>生成器函数：使用<code>yield</code>关键字的函数或方法。调用生成器函数，返回的是生成器对象。</li>
+</ul>
+
+<h2 id="toc_3">自定义可调用类型</h2>
+
+<p>任何Python对象都可以表现的像函数，只需要实现实例方法<code>__call__</code>，如下示例所示：</p>
+
+<pre><code class="language-Python">import random
+
+
+class BingoCage:
+    def __init__(self, items):
+        self.items = list(items)
+        random.shuffle(self.items)
+
+    def pick(self):
+        try:
+            return self.items.pop()
+        except IndexError:
+            raise LookupError(&#39;pick from empty BingoCage&#39;)
+
+    def __call__(self):
+        return self.pick()
+
+bingo = BingoCage(range(3))
+print(bingo.pick())
+print(bingo())
+print(callable(bingo))
+</code></pre>
+
+<h2 id="toc_4">定位参数和仅限关键字参数</h2>
+
+<p>如下示例所示：</p>
+
+<ul>
+<li>name是必选参数</li>
+<li>cls是可选参数，且只能通过关键字参数传入</li>
+<li>name后面的任意个参数，都会被content捕获，存入一个元组中，直到遇到cls参数，或者关键字参数。</li>
+<li>关键字参数必须放在参数列表的最后面，当形参中没有对应的关键字时，会被attr参数捕获，存进一个字典中。关键字参数可以传入一个字典，<code>**dic</code>的形式，当形参中含有键名时，会直接赋值，没有对应键名时，会被attr捕获。</li>
+</ul>
+
+<pre><code class="language-python">def tag(name, *content, cls=None, **attr):
+    print(&quot;this tag name is : {}&quot;.format(name))
+
+    if cls:
+        print(&quot;the class name is : {}&quot;.format(cls))
+
+    if content:
+        st = &quot;the content is : &quot;
+        for c in content:
+            st += &quot;{}, &quot;.format(c)
+        print(st)
+
+    if attr:
+        st = &quot;the style is : &quot;
+        for key, value in attr.items():
+            st += &quot;{} = {}, &quot;.format(key, value)
+        print(st)
+
+
+tag(&quot;p&quot;, &quot;hello&quot;, &quot;zerol&quot;, cls=&quot;class_p&quot;, id=&quot;p_class&quot;, color=&quot;red&quot;)
+tag(&quot;p&quot;, cls=&quot;class_p&quot;, id=&quot;p_class&quot;, color=&quot;red&quot;)
+dic = {&quot;cls&quot;: &quot;class_p&quot;, &quot;id&quot;: &quot;p_class&quot;, &quot;color&quot;: &quot;red&quot;}
+tag(&quot;p&quot;, **dic)
+
+</code></pre>
+
+<p>仅限关键字参数是Python3新加的特性，上述示例中的cls就是一个仅限关键字参数，实现仅限关键字参数的方法就是把该参数放在前面有*的参数后面，如果函数中不想支持数量不定的定位参数，但想支持仅限关键字参数，则可以直接写个<code>*</code>，如下所示：</p>
+
+<pre><code class="language-python">def f(a, *, b):
+    return a, b
+
+print(f(12, b=23))
+</code></pre>
+
+<h2 id="toc_5">获取参数信息(inspect.signature的使用)</h2>
+
+<p>函数对象有个<code>__defaults__</code>属性，其值是一个元组，里面保存着定位参数和关键字参数的默认值。仅限关键字参数的默认值在<code>__kwdefaults__</code>属性中。但是这里面仅包含了值，不包含参数名称，具体请看下述示例：</p>
+
+<pre><code class="language-python">def args_info(text, max_len=10, *, kw=17, kw1=23, kw2):
+
+    end = 100
+    
+    if len(text) &gt; max_len:
+        end = len(text)
+    else:
+        end = max_len
+
+    return end
+
+print(args_info.__defaults__)
+print(args_info.__kwdefaults__)
+print(args_info.__code__)
+print(args_info.__code__.co_varnames)
+print(args_info.__code__.co_argcount)
+
+# 代码运行的结果如下：
+(10,)
+{&#39;kw&#39;: 17, &#39;kw1&#39;: 23}
+&lt;code object args_info at 0x1010f4f60, file &quot;6_first_class_function.py&quot;, line 77&gt;
+(&#39;text&#39;, &#39;max_len&#39;, &#39;kw&#39;, &#39;kw1&#39;, &#39;kw2&#39;, &#39;end&#39;)
+2
+</code></pre>
+
+<p>从上述示例可以得出以下结论：</p>
+
+<ul>
+<li><code>__defaults__</code>中存放了定位参数和关键字参数的默认值</li>
+<li><code>__kwdefaults__</code>中存放了仅限关键字参数的默认值，这是一个字典</li>
+<li><code>__code__.co_varnames</code>中不仅存放了定位参数和关键字参数的名字，还存放了仅限关键字参数的名字，以及方法中局部变量的名字。</li>
+<li><code>__code__.co_argcount</code>中存放了定位参数和关键字参数的个数。</li>
+</ul>
+
+<p>上面的示例中，我们如果想得到参数默认值，必须同时知道参数的个数、名字和值，并且是从后向前对应的。这使用起来会很麻烦，所以用到了<code>inspect</code>模块中的<code>signature</code>方法。</p>
+
+<pre><code class="language-python">from inspect import signature
+
+
+def args_info_by_signature():
+    sig = signature(args_info)
+    print(sig)
+    str(sig)
+
+    for name, param in sig.parameters.items():
+        print(param.kind, &#39;:&#39;, name, &#39;=&#39;, param.default)
+
+args_info_by_signature()
+
+# 代码运行的结果如下：
+(text, max_len=10, *, kw=17, kw1=23, kw2)
+POSITIONAL_OR_KEYWORD : text = &lt;class &#39;inspect._empty&#39;&gt;
+POSITIONAL_OR_KEYWORD : max_len = 10
+KEYWORD_ONLY : kw = 17
+KEYWORD_ONLY : kw1 = 23
+KEYWORD_ONLY : kw2 = &lt;class &#39;inspect._empty&#39;&gt;
+</code></pre>
+
+<p>kind属性的值是_ParameterKind类中的5个值之一，这5个值分别是：</p>
+
+<ul>
+<li>POSITIONAL_OR_KEYWORD:可以通过定位参数和关键字参数传入的形参</li>
+<li>VAR_POSITIONAL:定位形参元组</li>
+<li>VAR_KEYWORD:关键字参数字典</li>
+<li>KEYWORD_ONLY:仅限关键字参数</li>
+<li>POSITIONAL_ONLY:仅限定位参数</li>
+</ul>
+
+<p><code>inspect.Signature</code>对象有个<code>bind</code>方法，可以把任意个参数绑定到签名中的形参上，于是可以使用这个方法在真正调用函数前验证参数。</p>
+
+<pre><code class="language-python">def use_bind():
+    sig = signature(args_info)
+    args = {&#39;text&#39;: &quot;hello,world&quot;, &#39;max_len&#39;: 30, &#39;kw2&#39;: 190}
+    bound_args = sig.bind(**args)
+
+    print(bound_args)
+    for name, value in bound_args.arguments.items():
+        print(name, &#39;=&#39;, value)
+
+    del args[&#39;text&#39;]
+    bound_args = sig.bind(**args)
+
+use_bind()
+
+#代码运行的结果如下：
+&lt;BoundArguments (text=&#39;hello,world&#39;, max_len=30, kw2=190)&gt;
+text = hello,world
+max_len = 30
+kw2 = 190
+Traceback (most recent call last):
+  File &quot;6_first_class_function.py&quot;, line 119, in &lt;module&gt;
+    use_bind()
+  File &quot;6_first_class_function.py&quot;, line 117, in use_bind
+    bound_args = sig.bind(**args)
+  File &quot;/Library/Frameworks/Python.framework/Versions/3.5/lib/python3.5/inspect.py&quot;, line 2921, in bind
+    return args[0]._bind(args[1:], kwargs)
+  File &quot;/Library/Frameworks/Python.framework/Versions/3.5/lib/python3.5/inspect.py&quot;, line 2836, in _bind
+    raise TypeError(msg) from None
+TypeError: missing a required argument: &#39;text&#39;
+</code></pre>
+
+<p>可以看到最后程序抛出了参数缺失的错误。这就达到了我们进行参数验证的目的。</p>
+
+<h2 id="toc_6">函数注解</h2>
+
+<pre><code class="language-python">def fun_annotation(test:str, max_len:&#39;int &gt; 0&#39;=80) -&gt; str:
+    return &quot;just text&quot;
+</code></pre>
+
+<p>上述示例的函数定义中，就用到了函数注解，有注解的函数声明有以下特点：</p>
+
+<ul>
+<li>函数声明中的各个参数可以在<code>:</code>之后添加注解表达式</li>
+<li>如果参数有默认值，注解的放在参数名和<code>=</code>之间</li>
+<li>如果想注解返回值，在<code>)</code>和函数声明末尾的<code>:</code>之间添加<code>-&gt;</code>和一个表达式，该表达式可以是任何类型。</li>
+<li>注解中最常用的类型是类（如：str，int）和字符串（如 &#39;int &gt; 0&#39;）</li>
+</ul>
+
+<p><strong>注：注解不会做任何处理，python对注解所做的唯一事情是，把他们存储在函数的<code>__annotations__</code>属性里。</strong></p>
+
+<p><code>inspect.signature（）</code>函数可以提取注解，如下所示：</p>
+
+<pre><code class="language-python">def read_annotation():
+    sig = signature(fun_annotation)
+    print(sig.return_annotation)
+
+    for param in sig.parameters.values():
+        note = repr(param.annotation).ljust(13)
+        print(note, &#39;:&#39;, param.name, &#39;=&#39;, param.default)
+
+read_annotation()
+
+# 代码运行的结果如下：
+&lt;class &#39;str&#39;&gt;
+&lt;class &#39;str&#39;&gt; : test = &lt;class &#39;inspect._empty&#39;&gt;
+&#39;int &gt; 0&#39;     : max_len = 80
+</code></pre>
+
+<h2 id="toc_7">支持函数式编程的包</h2>
+
+<h3 id="toc_8">functools.partial</h3>
+
+<pre><code class="language-python">from operator import mul
+from functools import partial
+
+triple = partial(mul, 3)
+print(triple(7))
+</code></pre>
+
+<p>partial的第一个参数是一个可调用对象，后面跟着任意个要绑定的定位参数或者关键字参数。</p>
+
+                        
+                      </div>
+                  </div>
+                </a>
+                <div class="read-more clearfix">
+                  <div class="more-left left">
+                  
+                    <span class="date">2017/8/5</span>
+                    <span>posted in&nbsp;</span> 
+          				  
+          					    <span class="posted-in"><a href='Fluent%20Python.html'>Fluent Python</a></span>
+          				   
+                  </div>
+                  <div class="more-right right">
+                  <span class="comments">
+                      
+
+                       
+                  </span>
+                  </div>
+                </div>
+              </div><!-- article -->
+        
+			<div class="article">
+                <a class="clearlink" href="15018646605864.html">
+                
+                  <h1>文本和字节序列</h1>
+                  <div class="a-content">
+                      
+                      <div class="a-content-text">
+                        
+                        	<p>写在前面：这篇笔记只是简单地记录一下，因为对编码问题了解的比较少，所以在看的过程中并不算太懂，这里只把能够理解的以及应该记忆的列举出来。</p>
+
+<h2 id="toc_0">字符</h2>
+
+<p>字符的标识，即码位，是0~1114111的数字。<br/>
+字符的具体表述取决于编码，编码是在码位和字节序列之间转换时的算法。<br/>
+把码位转换成字节序列的过程是编码，把字节序列转换成码位的过程是解码。简单粗暴的来说，编码就是把人类可读的文本字符串转换成传输需要的字节序列，解码就是把字节序列转换成人类可读的本文字符串。</p>
+
+<h2 id="toc_1">字节</h2>
+
+<p>二进制序列各个字节的值可能会使用下列三种不同的方式展示：</p>
+
+<ul>
+<li>可打印的ASCII范围内的字节，使用ASCII字符本身。</li>
+<li>制表符、换行符、回车符和\对应的字节，使用转义序列\t、\n、\r和\</li>
+<li>其它字节的值使用十六进制转义序列（例如 \x00是空字节）</li>
+</ul>
+
+<h3 id="toc_2">构建bytes 和 bytearray实例</h3>
+
+<p>构建bytes 和 bytearray实例可以调用各自的构造方法，传入一下参数</p>
+
+<ul>
+<li>一个str对象和一个encoding关键字参数</li>
+<li>一个可迭代对象，提供0~255之间的数值</li>
+<li>一个实现了缓冲协议的对象（如：bytes, bytearray, memoryview, array.array()）;此时，把源对象中的字节序列复制到新建的二进制序列中</li>
+</ul>
+
+<h2 id="toc_3">处理UnicodeEncodeError</h2>
+
+<p>多数非UTF编解码器只能处理Unicode字符的一小部分，当我们把文本转换成字节序列时，如果目标编码中没有定义某个字符，就会抛出UnicodeEncodingError异常，除非把errors参数传给编码方法或函数。就像示例一样。</p>
+
+<pre><code class="language-python">city = &#39;São Paulo&#39;
+print(city.encode(&#39;utf_8&#39;))
+
+print(city.encode(&#39;utf_16&#39;))
+
+print(city.encode(&#39;iso8859_1&#39;))
+
+print(city.encode(&#39;cp437&#39;))
+</code></pre>
+
+<p>上述示例在运行到最后一个<code>print</code>语句的时候，程序会抛出UnicodeEncodeError，然后终止运行。如果希望程序能够自己解决这种编码问题。可以传递errors参数,告诉程序遇到无法编码的字符时的处理方法，如下面示例：</p>
+
+<pre><code class="language-python">city = &#39;São Paulo&#39;
+
+print(city.encode(&#39;cp437&#39;, errors=&#39;ignore&#39;))
+
+print(city.encode(&#39;cp437&#39;, errors=&#39;replace&#39;))
+
+print(city.encode(&#39;cp437&#39;, errors=&#39;xmlcharrefreplace&#39;))
+</code></pre>
+
+<p>上面示例的errors参数中的值都是已经注册好的，该参数的默认值是“strict”，该默认值的意思是直接抛出异常。另外，当遇到编码错误时，还可以使用自己注册的额外的字符串，方法是把一个名称和一个错误处理函数传给<code>codecs.register_error</code>函数。</p>
+
+<h2 id="toc_4">处理UnicodeDecodeError</h2>
+
+<p>不是每个字节都包含有效的ASCII字符，也不是每一个字符序列都是有效的UTF_8或UTF_16,当把二进制序列转换成文本时，如果是这两个编码中的一个，遇到无法转换的字节序列时，程序会抛出UnicodeDecodeError错误。</p>
+
+<pre><code class="language-python">octet = b&#39;Montr\xe9al&#39;
+print(octet.decode(&#39;cp1252&#39;))
+
+print(octet.decode(&#39;iso8859_7&#39;))
+
+print(octet.decode(&#39;koi8_r&#39;))
+
+print(octet.decode(&#39;utf_8&#39;))
+</code></pre>
+
+                        
+                      </div>
+                  </div>
+                </a>
+                <div class="read-more clearfix">
+                  <div class="more-left left">
+                  
+                    <span class="date">2017/8/5</span>
+                    <span>posted in&nbsp;</span> 
+          				  
+          					    <span class="posted-in"><a href='Fluent%20Python.html'>Fluent Python</a></span>
+          				   
+                  </div>
+                  <div class="more-right right">
+                  <span class="comments">
+                      
+
+                       
+                  </span>
+                  </div>
+                </div>
+              </div><!-- article -->
+        
+			<div class="article">
+                <a class="clearlink" href="15013419653919.html">
+                
+                  <h1>集合的使用</h1>
+                  <div class="a-content">
+                      
+                      <div class="a-content-text">
+                        
+                        	<h2 id="toc_0">集合和运算</h2>
+
+<ul>
+<li>集合的本质是许多唯一对象的聚集，因此，集合可以用来去重。</li>
+</ul>
+
+<pre><code class="language-python">l = [&#39;ABC&#39;, &#39;abc&#39;, &#39;ABC&#39;, &#39;def&#39;]
+print(set(l))
+</code></pre>
+
+<ul>
+<li>集合中的元素必须是散列的</li>
+<li>集合实现了很多中缀运算符，比如<code>a | b</code>代表求a和b的合集，<code>a &amp; b</code>代表求a和b的交集，<code>a - b</code>代表a和b的差集（属于a但是不属于b的元素组成的集合叫做a和b的差集）。</li>
+</ul>
+
+<pre><code class="language-python">l1 = {&#39;ABC&#39;, &#39;AYU&#39;}
+l2 = {&#39;ABC&#39;, &#39;DEF&#39;, &#39;abc&#39;, &#39;XYZ&#39;}
+print(l1 &amp; l2)
+# l1 和 l2的差集
+print(l1 - l2)
+# l2 和 l1 的差集
+print(l2 - l1)
+</code></pre>
+
+<h2 id="toc_1">集合字面量</h2>
+
+<p>集合的空集表示成：<code>set()</code><br/>
+集合其他形式的字面量展现为： <code>{1}, {1, 2}</code></p>
+
+<h2 id="toc_2">集合推导</h2>
+
+<p>和列表推导、字典推导一样，集合也可以通过集合推导的方式构建一个新的集合<br/>
+每一个字符都有自己的名字，下面的示例就是将名字中含有”SIGN“的字符构建一个集合，然后将这些字符的名字构成一个集合。</p>
+
+<pre><code class="language-python">from unicodedata import name
+l3 = {chr(i) for i in range(32, 256) if &#39;SIGN&#39; in name(chr(i), &#39;&#39;)}
+l4 = {name(chr(i)) for i in range(32, 256) if &#39;SIGN&#39; in name(chr(i), &#39;&#39;)}
+print(l3)
+print(l4)
+</code></pre>
+
+<h2 id="toc_3">集合的操作</h2>
+
+<h3 id="toc_4">集合的数学运算</h3>
 
 <table>
 <thead>
 <tr>
-<th>Variable_name</th>
-<th>Value</th>
+<th>数学符号</th>
+<th>Python运算符</th>
+<th>方法</th>
+<th>描述</th>
 </tr>
 </thead>
 
 <tbody>
 <tr>
-<td>character_set_client</td>
-<td>utf8</td>
+<td>S ∩ Z</td>
+<td>s &amp; z</td>
+<td><code>s.__and__(z)</code></td>
+<td>s 和 z 的交集</td>
 </tr>
 <tr>
-<td>character_set_connection</td>
-<td>utf8</td>
+<td>S ∩ Z</td>
+<td>z &amp; s</td>
+<td><code>s.__rand__(z)</code></td>
+<td>反向 &amp; 操作</td>
 </tr>
 <tr>
-<td>character_set_database</td>
-<td>utf8</td>
+<td>S ∩ Z</td>
+<td></td>
+<td><code>s.intersection(it, ...)</code></td>
+<td>把可迭代的it和其他所有参数转化为集合，然后求他们与s的交集</td>
 </tr>
 <tr>
-<td>character_set_filesystem</td>
-<td>binary</td>
+<td>S ∩ Z</td>
+<td>s &amp;= z</td>
+<td><code>s.__iand__(z)</code></td>
+<td>把s更新为s和z的交集</td>
 </tr>
 <tr>
-<td>character_set_results</td>
-<td>utf8</td>
+<td>S ∩ Z</td>
+<td></td>
+<td><code>s.intersection_update(it, ...)</code></td>
+<td>把可迭代的it和其他所有参数转化为集合，然后求他们与s的交集，然后把s更新为这个交集</td>
 </tr>
 <tr>
-<td>character_set_server</td>
-<td>utf8</td>
+<td>S ∪ Z</td>
+<td>s <code>|</code> z</td>
+<td><code>s.__or__(z)</code></td>
+<td>s和z的并集</td>
 </tr>
 <tr>
-<td>character_set_system</td>
-<td>utf8</td>
+<td>S ∪ Z</td>
+<td>z <code>|</code> s</td>
+<td><code>s.__ror__(z)</code></td>
+<td>并集的反向操作</td>
 </tr>
 <tr>
-<td>character_sets_dir</td>
-<td>/usr/local/Cellar/mysql/5.7.13/share/mysql/charsets/</td>
+<td>S ∪ Z</td>
+<td></td>
+<td><code>s.union(it, ...)</code></td>
+<td>把可迭代的it和其他所有参数转化为集合，然后求他们与s的并集</td>
+</tr>
+<tr>
+<td>S ∪ Z</td>
+<td>s <code>|=</code> z</td>
+<td><code>s.__ior__(z)</code></td>
+<td>把s更新为s和z的并集</td>
+</tr>
+<tr>
+<td>S ∪ Z</td>
+<td></td>
+<td><code>s.update(it, ...)</code></td>
+<td>把可迭代的it和其他所有参数转化为集合，然后求他们与s的并集，并把s更新为这个并集</td>
+</tr>
+<tr>
+<td>S \ Z</td>
+<td>s - z</td>
+<td><code>s.__sub__(z)</code></td>
+<td>s 和 z的差集，或者叫做相对补集</td>
+</tr>
+<tr>
+<td>S \ Z</td>
+<td>z - s</td>
+<td><code>s.__rsub__(z)</code></td>
+<td>差集的反向操作</td>
+</tr>
+<tr>
+<td>S \ Z</td>
+<td></td>
+<td><code>s.difference(it, ...)</code></td>
+<td>把可迭代的it和其他所有参数转化为集合，然后求他们与s的差集</td>
+</tr>
+<tr>
+<td>S \ Z</td>
+<td>s -= z</td>
+<td><code>s.__isub__(z)</code></td>
+<td>把s更新为它与z的差集</td>
+</tr>
+<tr>
+<td>S \ Z</td>
+<td></td>
+<td><code>s.difference_update(it, ...)</code></td>
+<td>把可迭代的it和其他所有参数转化为集合，然后求他们与s的差集，并把s更新成这个差集</td>
+</tr>
+<tr>
+<td>S △ Z</td>
+<td></td>
+<td><code>s.symmetric_difference(it)</code></td>
+<td>求s和set（it）的对称差集</td>
+</tr>
+<tr>
+<td>S △ Z</td>
+<td>s ^ z</td>
+<td><code>s.__xor__(z)</code></td>
+<td>求s和z的对称差集</td>
+</tr>
+<tr>
+<td>S △ Z</td>
+<td>z ^ s</td>
+<td><code>s.__rxor__(z)</code></td>
+<td>对称差集的反向操作</td>
+</tr>
+<tr>
+<td>S △ Z</td>
+<td></td>
+<td><code>s.symmetric_difference_update(it, ...)</code></td>
+<td>把可迭代的it和其他所有参数转化为集合，然后求他们与s的对称差集，然后把s更新成这个对称差集</td>
+</tr>
+<tr>
+<td>S △ Z</td>
+<td>s <sup>=</sup> z</td>
+<td><code>s.__ixor__(z)</code></td>
+<td>把s更新成它与z的对称差集</td>
 </tr>
 </tbody>
 </table>
 
-<p><strong>测试数据库的编码为：</strong> utf8</p>
+<h3 id="toc_5">集合的比较运算符，返回值是布尔类型</h3>
 
-<p><strong>创建数据表</strong></p>
+<table>
+<thead>
+<tr>
+<th>数学符号</th>
+<th>Python运算符</th>
+<th>方法</th>
+<th>描述</th>
+</tr>
+</thead>
 
-<pre><code class="language-mysql">CREATE TABLE `one` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(32) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=226 DEFAULT CHARSET=utf8 |
-</code></pre>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td><code>s.isdisjoint(z)</code></td>
+<td>查看s和z是否不相交（没有共同元素）</td>
+</tr>
+<tr>
+<td>e ∈ s</td>
+<td>e in s</td>
+<td><code>s.__contains__(e)</code></td>
+<td>元素e是否属于s</td>
+</tr>
+<tr>
+<td>S ⊆ Z</td>
+<td>s &lt;= z</td>
+<td><code>s.__le__(z)</code></td>
+<td>s 是否为 z 的子集</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td><code>s.issubset(it)</code></td>
+<td>把可迭代的it转换为集合，然后查看s是否是它的子集</td>
+</tr>
+<tr>
+<td>S ⊂ Z</td>
+<td>s &lt; z</td>
+<td><code>s.__lt__(z)</code></td>
+<td>s 是否为 z 的真子集</td>
+</tr>
+<tr>
+<td>S ⊇ Z</td>
+<td>s &gt;= z</td>
+<td><code>s.__ge__(z)</code></td>
+<td>s 是否为 z 的父集</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td><code>s.issuperset(it)</code></td>
+<td>把可迭代的it转换为集合，然后查看s是否是它的父集</td>
+</tr>
+<tr>
+<td>S ⊃ Z</td>
+<td>s &gt; z</td>
+<td><code>s.__gt__(z)</code></td>
+<td>s 是否为 z 的真父集</td>
+</tr>
+</tbody>
+</table>
 
-<p>在该状态下写入一条语句：</p>
+<h3 id="toc_6">集合类型的其他方法</h3>
 
-<pre><code class="language-mysql">insert into one (name) values(&quot;测试姓名&quot;);
-</code></pre>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>set</th>
+<th>frozenset</th>
+<th>描述</th>
+</tr>
+</thead>
 
-<p>&quot;测试名字&quot;数据是在所有的字符集都是utf8的情况下插入的<br/>
-&quot;测试名字123&quot;数据是在表的字符集属于latin1的情况下插入的<br/>
-“测试名字abc”数据是在表和连接的字符集是latin1的情况下插入的<br/>
-&quot;测试名字456&quot;数据是在连接的字符集是latin1的情况下插入的，</p>
+<tbody>
+<tr>
+<td><code>s.add(e)</code></td>
+<td>✅</td>
+<td></td>
+<td>把元素e添加到集合s中</td>
+</tr>
+<tr>
+<td><code>s.clear()</code></td>
+<td>✅</td>
+<td></td>
+<td>清空s集合</td>
+</tr>
+<tr>
+<td><code>s.copy()</code></td>
+<td>✅</td>
+<td>✅</td>
+<td>对s进行浅复制</td>
+</tr>
+<tr>
+<td><code>s.discard(e)</code></td>
+<td>✅</td>
+<td></td>
+<td>如果s中有e这个元素，则将其移除</td>
+</tr>
+<tr>
+<td><code>s.__iter__()</code></td>
+<td>✅</td>
+<td>✅</td>
+<td>返回s的迭代器</td>
+</tr>
+<tr>
+<td><code>s.__len__()</code></td>
+<td>✅</td>
+<td>✅</td>
+<td><code>len(s)</code></td>
+</tr>
+<tr>
+<td><code>s.pop()</code></td>
+<td>✅</td>
+<td></td>
+<td>从s中移除一个元素，并返回它的值，若s为空，则抛出KeyError异常</td>
+</tr>
+<tr>
+<td><code>s.remove(e)</code></td>
+<td>✅</td>
+<td></td>
+<td>从s中移除e元素，若e元素不存在，则抛出KeyError异常</td>
+</tr>
+</tbody>
+</table>
 
-<h2 id="toc_1">开始测试</h2>
+<h2 id="toc_7">字典中的散列表</h2>
 
-<h3 id="toc_2">测试单一非正常字符集对中文的影响</h3>
+<p>散列表其实是一个稀疏数组，散列表的单元通常叫做表元。Python会设法保证大概有三分之一的表元是空的，所以在快要达到这个阙值的时候，会将所有的散列表复制到一个更大的空间。<br/>
+在dict的散列表中，一个表元包含两部分，一个是键的引用，一个是值的引用，因为都是引用，所以表元的大小都是一致的，从而实现了通过偏移量读取表元。</p>
 
-<p>分别执行以下操作：</p>
+<h3 id="toc_8">散列值和相等性</h3>
 
-<pre><code>alter table one default character set latin1;
-set character_set_connection=latin1;
-alter database test default character set latin1;
-set character_set_client=latin1;
-</code></pre>
+<p>如果要将一个元素放进散列表中，则必须计算这个元素的散列值，内置的<code>hash()</code>可以用于所有的内置类型对象，也可以自己实现<code>__hash__()</code>方法，要保证的是如果两个对象在比较的时候是相等的，则其散列值必须相同。</p>
 
-<p>然后分别查询表中的中文数据，发现能够正常显示中文数据&quot;测试名字&quot;，可见中文乱码与其中一个非正常字符集是没有关系的。</p>
+<h3 id="toc_9">散列表算法</h3>
 
-<h3 id="toc_3">测试组合非正常字符集对中文的影响</h3>
+<p>从字典中取值的算法流程图如下所示：</p>
 
-<p>一起执行如下语句：</p>
+<p><img src="http://cdn.blog.yanzl.net/2017-07-30-hash_search.png" alt=""/></p>
 
-<pre><code>alter table one default character set latin1;
-set character_set_connection=latin1;
-alter database test default character set latin1;
-set character_set_client=latin1;
-</code></pre>
+<ul>
+<li>首先，python会调用<code>hash(search_key)</code>来计算search_key的散列值，然后把这个值最低的几位数字当做偏移量。</li>
+<li>根据计算出来的偏移量查找对应的表元</li>
+<li>如果表元不存在则抛出KeyError异常</li>
+<li>如果表元存在，则表元中会存在found_key:found_value,python会验证表元中的found_key是否和search_key相等，如果想等则返回found_value。</li>
+<li>如果<code>found_kay != search_key</code>，则发生了散列冲突，利用解决冲突的方法计算出下一个表元的位置，再次判断表元首否为空，直到抛出KeyError异常或者找到这个元素所在的表元为止。</li>
+</ul>
 
-<p>查询表中中文数据，发现能够正常显示数据“测试名字”,&quot;测试名字123&quot;</p>
+<h4 id="toc_10">关于散列冲突</h4>
 
-<pre><code>set character_set_connection=latin1;
-alter table one default character set latin1;
-</code></pre>
+<p>散列表所做的其实是把随机的元素映射到只有几位的数字上，而散列表本身的索引依赖于这个数字的一部分，为了解决散列冲突，算法会在散列值中另外再取几位，然后用特殊的方法处理一下，把新得到的数字在当做索引来寻找表元。</p>
 
-<p>查询表中中文数据，发现“测试名字”，“测试名字123”显示正常， “测试名字abc”乱码</p>
+<h3 id="toc_11">dict的实现及其导致的结果</h3>
 
-<pre><code>set character_set_connection=latin1;
-</code></pre>
+<h4 id="toc_12">键必须是可散列的</h4>
 
-<p>查询表中数据，发现&quot;测试名字&quot;， “测试名字123”显示正常， “测试名字abc”乱码</p>
+<p>一个可散列的对象必须满足以下要求：</p>
+
+<ul>
+<li>支持<code>hash()</code>函数，并且通过<code>__hash__()</code>所得到的散列值是不变的</li>
+<li>支持通过<code>__eq__()</code>方法来检测性等性</li>
+<li>若<code>a == b</code>为真，则<code>hash(a) == hash(b)</code>也为真</li>
+</ul>
+
+<h4 id="toc_13">字典在内存上的开销巨大</h4>
+
+<p>具体原因上面已经提到过，散列表是稀疏数组，空间的利用率比较低。因此，如果要存放数量巨大的对象，使用元组或者命名元组是比较好的选择，这样做一方面能够避免散列表所消耗的空间，另一方面也无需记录中字段的名字在每个元素里都存一遍。</p>
+
+<h4 id="toc_14">键查询很快</h4>
+
+<p>字典的实现就是用空间换时间，虽然字典在内存上的开销很大，但查询速度也是非常快的。</p>
+
+<h4 id="toc_15">键的次序取决于添加顺序</h4>
+
+<p>当往字典中添加新建而又发生散列冲突的时候，新建可能会被安排到另一个新的位置，这会造成以不同元素顺序存入的两个字典，在存储过程中如果发生了散列冲突，则字典是相等的，但是键在字典中出现的顺序是不一样的。</p>
+
+<h4 id="toc_16">往字典中添加新键可能会改变已有键的顺序</h4>
+
+<p>在往字典中添加新的元素时，字典会启动是否需要扩容的判断，在扩容执行的时候，可能会发生新的散列冲突，导致原有的键的顺序发生了变化。</p>
+
+<h3 id="toc_17">set的实现及其导致的结果</h3>
+
+<p>set 和 frozenaet的实现也依赖于散列表，只是表元中存储的只有元素的引用，其特点和上面提到的字典的特点是一样的，总结如下：</p>
+
+<ul>
+<li>集合中的元素必须是可散列的</li>
+<li>集合很消耗内存</li>
+<li>集合可以很高效地判断元素是否存在于某个集合中</li>
+<li>元素的次序取决于被添加到集合中的次序</li>
+<li>忘记何种添加元素，可能会改变集合中已有的元素的次序</li>
+</ul>
 
                         
                       </div>
@@ -273,10 +943,10 @@ alter table one default character set latin1;
                 <div class="read-more clearfix">
                   <div class="more-left left">
                   
-                    <span class="date">2016/12/30</span>
+                    <span class="date">2017/7/29</span>
                     <span>posted in&nbsp;</span> 
           				  
-          					    <span class="posted-in"><a href='%E6%95%B0%E6%8D%AE%E5%BA%93.html'>数据库</a></span>
+          					    <span class="posted-in"><a href='Fluent%20Python.html'>Fluent Python</a></span>
           				   
                   </div>
                   <div class="more-right right">
@@ -290,165 +960,342 @@ alter table one default character set latin1;
               </div><!-- article -->
         
 			<div class="article">
-                <a class="clearlink" href="14819928857822.html">
+                <a class="clearlink" href="15010832436363.html">
                 
-                  <h1>MySQL的基本命令☞数据表的基本管理</h1>
+                  <h1>字典的使用</h1>
                   <div class="a-content">
                       
                       <div class="a-content-text">
                         
-                        	<h2 id="toc_0">创建数据表</h2>
+                        	<h2 id="toc_0">可散列的数据类型</h2>
 
-<pre><code>CREATE TABLE `table_name` (
-  `name` varchar(30) NOT NULL DEFAULT &#39;&#39;,
-  `age` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+<h3 id="toc_1">定义</h3>
 
-CREATE TABLE `user` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `first_name` varchar(64) DEFAULT NULL,
-  `last_name` varchar(64) DEFAULT NULL,
-  `email` varchar(128) DEFAULT NULL,
-  `phone` varchar(32) DEFAULT NULL,
-  `city` varchar(128) DEFAULT NULL,
-  `country` varchar(128) DEFAULT NULL,
-  `notes` text,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=226 DEFAULT CHARSET=utf8;
-</code></pre>
+<p>如果一个对象是可散列的，那么在这个对象的生命周期中，它的散列值是不变的，而且这个对象需要实现<code>__hash()__</code>方法。<br/>
+另外，可散列对象还要有<code>__qe()__</code>方法，这样才能跟其他键作比较。<br/>
+如果两个可散列对象是相等的，那么它们的散列值一定是一样的。</p>
 
-<h2 id="toc_1">添加一个主键字段</h2>
-
-<p>添加主键其实是两个操作，一个是添加一个字段，另一个操作是设置该字段为主键</p>
-
-<pre><code>alter table table_name add id int not null auto_increment,
-add primary key (id);
-</code></pre>
-
-<h2 id="toc_2">为一个字段添加主键</h2>
-
-<pre><code>alter table table_name add primary key (age);
-</code></pre>
-
-<h2 id="toc_3">添加一个普通字段</h2>
-
-<pre><code>alter table table_name add user_id int not null;
-</code></pre>
-
-<h2 id="toc_4">删除一个字段</h2>
-
-<pre><code>alter table user drop column phone;
-</code></pre>
-
-<h2 id="toc_5">修改一个字段</h2>
-
-<p>只修改一个字段的类型：</p>
-
-<pre><code>alter table user modify city varchar(100);
-</code></pre>
-
-<p>修改字段的全部定义,该方法也用于重命名：</p>
-
-<pre><code>alter table user change city user_city varchar(128) not null default &#39;&#39;;
-</code></pre>
-
-<h2 id="toc_6">添加外键</h2>
-
-<p><strong>注意这里设置的外键字段（user_id）必须在表中存在</strong></p>
-
-<pre><code>alter table table_name add CONSTRAINT `table_name_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user`(`id`);
-</code></pre>
-
-<h2 id="toc_7">删除外键</h2>
-
-<p>删除外键用到的外键名是添加外键时指定的外键符号，即constraint 后面的单词，如果建表时没有指定外键符号，MySQL会自动创建，只需要通过<code>show create table table_name;</code> 进行查看就可以了。</p>
-
-<pre><code>alter table table_name drop foreign key table_name_ibfk_1;
-</code></pre>
-
-<p><strong>这里顺便写一下修改外键的方法：先删除原来的外键，再添加新的外键</strong></p>
-
-<h2 id="toc_8">添加唯一索引</h2>
-
-<pre><code>alter table table_name add unique (name);
-create unique index unique_index_name on table_name (name);
-</code></pre>
-
-<h2 id="toc_9">添加普通索引</h2>
-
-<pre><code>alter table table_name add index name_index (name);
-create index name_index on table_name (name);
-</code></pre>
-
-<h2 id="toc_10">添加全文索引</h2>
-
-<pre><code>ALTER TABLE `table_name` ADD FULLTEXT ( `name`);
-</code></pre>
-
-<h2 id="toc_11">添加联合索引</h2>
-
-<p><strong>注意联合索引是有顺序的</strong></p>
-
-<pre><code>ALTER TABLE `table_name` ADD INDEX union_index_name (`id`, `name`);
-</code></pre>
-
-<h2 id="toc_12">删除索引</h2>
-
-<p>除了删除主键索引需要用到<code>alter table table_name primary key</code>语句之外，删除其它索引都可以使用如下两种方法：</p>
-
-<pre><code>drop index union_index_name on table_name;
-alter table table_name drop index union_index_name;
-alter table table_name drop index name_index;
-alter table table_name drop index name;
-alter table table_name drop index name_2;
-</code></pre>
-
-<h2 id="toc_13">查看所有索引</h2>
-
-<pre><code>show index from table_name;
-show keys from table_name;
-</code></pre>
+<h3 id="toc_2">可散列数据举例</h3>
 
 <ul>
-<li>Table :表的名称。</li>
-<li>Non_unique :如果索引不能包括重复词，则为0。如果可以，则为1。</li>
-<li>Key_name :索引的名称。</li>
-<li>Seq_in_index :索引中的列序列号，从1开始。</li>
-<li>Column_name :列名称。</li>
-<li>Collation :列以什么方式存储在索引中。在MySQL中，有值‘A’（升序）或NULL（无分类）。</li>
-<li>Cardinality :索引中唯一值的数目的估计值。通过运行ANALYZE TABLE或myisamchk -a可以更新。基数根据被存储为整数的统计数据来计数，所以即使对于小型表，该值也没有必要是精确的。基数越大，当进行联合时，MySQL使用该索引的机会就越大。</li>
-<li>Sub_part :如果列只是被部分地编入索引，则为被编入索引的字符的数目。如果整列被编入索引，则为NULL。</li>
-<li>Packed :指示关键字如何被压缩。如果没有被压缩，则为NULL。</li>
-<li>Null :如果列含有NULL，则含有YES。如果没有，则该列含有NO。</li>
-<li>Index_type :用过的索引方法（BTREE, FULLTEXT, HASH, RTREE）。</li>
-<li>Comment</li>
+<li>str,bytes和数值类型等原子不可变数据类型都是可散列的类型。</li>
+<li>对于元组来说，只有当一个元组包含的所有元素都是可散列类型的情况下，该元组才是可散列类型。</li>
+<li>自定义对象都是可散列的，散列值就是该对象的id()函数返回的值</li>
 </ul>
 
-<h2 id="toc_14">修改表名</h2>
+<h2 id="toc_3">字典的构造方法</h2>
 
-<pre><code>ALTER  TABLE table_name RENAME TO test_table;
+<p>构造字典的方式有很多种，如下所示：</p>
+
+<pre><code class="language-python"># 字典的构造方法
+dict1 = {&quot;name&quot;: &quot;Alice&quot;, &quot;age&quot;: 23, &quot;email&quot;: &quot;test@126.com&quot;}
+dict2 = dict(name=&quot;Alice&quot;, age=23, email=&quot;test@126.com&quot;)
+dict3 = dict([(&quot;name&quot;, &quot;Alice&quot;), (&quot;age&quot;, 23), (&quot;email&quot;, &quot;test@126.com&quot;)])
+dict4 = dict(zip([&quot;name&quot;, &quot;age&quot;, &quot;email&quot;], [&quot;Alice&quot;, 23, &quot;test@126.com&quot;]))
+dict5 = dict({&quot;email&quot;: &quot;test@126.com&quot;, &quot;age&quot;: 23, &quot;name&quot;: &quot;Alice&quot;})
+
+print(dict1 == dict2 == dict3 == dict4 == dict5)
 </code></pre>
 
-<h2 id="toc_15">删除表</h2>
+<p>这个示例的输出结果会是<code>True</code>，由此可以看出,无论我们用什么方法、以什么顺序创造字典,在基本的字典类型中,只要字典中元素的键和值都是相等的,创造出来的字典都是相同的。</p>
 
-<pre><code>drop table table_name
+<h3 id="toc_4">字典推导(ﾉ*･ω･)ﾉ</h3>
+
+<p>和列表一样,字典也可以使用字典推导的方法来构建新的字典,来看下面两个例子：</p>
+
+<pre><code class="language-Python"># 示例一
+dial_codes = [(86, &#39;China&#39;), (91, &#39;India&#39;), (1, &#39;Unit States&#39;), (62, &#39;Indonesia&#39;), (55, &#39;Brazil&#39;), (92, &#39;Pakistan&#39;),
+              (880, &#39;Bangladesh&#39;), (234, &#39;Nigeria&#39;), (7, &#39;Russia&#39;), (81, &#39;Japan&#39;)]
+country_code1 = {country: code for code, country in dial_codes}
+print(country_code1)
 </code></pre>
 
-<h2 id="toc_16">创建包含各种索引类型的表</h2>
-
-<pre><code>CREATE TABLE `test_table` (
-  `name` varchar(30) NOT NULL DEFAULT &#39;&#39;,
-  `age` int(11) NOT NULL,
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `unique_index_name` (`name`),
-  KEY `table_name_ibfk_1` (`user_id`),
-  KEY `name_index` (`name`),
-  KEY `union_index_name` (`id`,`name`),
-  FULLTEXT KEY `name` (`name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8
+<pre><code class="language-python"># 示例二
+codes = [86, 91, 1, 62, 55, 92, 880, 234, 7, 81]
+countries = [&quot;China&quot;, &quot;India&quot;, &quot;Unit States&quot;, &quot;Indonesia&quot;, &quot;Brazil&quot;, &quot;Pakistan&quot;, &quot;Bangladesh&quot;, &quot;Nigeria&quot;, &quot;Russia&quot;,
+             &quot;Japan&quot;]
+country_code2 = {country: code for country in countries for code in codes}
+country_code3 = [{country: code} for country in countries for code in codes]
+print(country_code2)
+print(country_code3)
 </code></pre>
+
+<p>在示例二中,给出了两种推导的方法,一种是字典推导,会得到一个字典,另一种是列表推导,该示例和1_magic_method.py中生成纸牌的示例很相似,这里计算的是codes和countries的笛卡尔积。可以自己运行程序查看结果。</p>
+
+<p><strong>注：示例二中字典推导的结果和示例一中字典推导的结果是不一样的，示例一是正常的一个代号对应一个国家的字典展示，示例二中country_code2是country_code3的一部分，即一个代号对应的所有国家的结果</strong></p>
+
+<h2 id="toc_5">常见的映射方法</h2>
+
+<p>collections模块中有两个字典的变种类型，分别是defaultdict和OrderedDict，它们和dict类型也是有共同的方法。具体可以看下表的内容：</p>
+
+<table>
+<thead>
+<tr>
+<th>方法列表</th>
+<th>dict</th>
+<th>defaultdict</th>
+<th>OrderedDict</th>
+<th>备注</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><code>d.clear()</code></td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>移除所有的元素</td>
+</tr>
+<tr>
+<td><code>d.__contains__(k)</code></td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>检查k是否在d中</td>
+</tr>
+<tr>
+<td><code>d.copy()</code></td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>浅复制</td>
+</tr>
+<tr>
+<td><code>d.__copy__()</code></td>
+<td></td>
+<td>✅</td>
+<td></td>
+<td>用于支持浅复制</td>
+</tr>
+<tr>
+<td><code>d.default_factory</code></td>
+<td></td>
+<td>✅</td>
+<td></td>
+<td>在<code>__mising__</code>函数中被调用的函数，用于给未找到的元素设置值</td>
+</tr>
+<tr>
+<td><code>d.__delitem__(k)</code></td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td><code>del d(k)</code>, 移除键为k的元素</td>
+</tr>
+<tr>
+<td><code>d.fromkeys(it, [initial])</code></td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>将迭代器it里的元素设置为映射里的键， 如果有initial参数，就把它设为这些键对应的值，默认为None</td>
+</tr>
+<tr>
+<td><code>d.get(k, [default])</code></td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>返回键k对应的值，如果字典中没有该键，则返回default的值或者None</td>
+</tr>
+<tr>
+<td><code>d.__getitem__(k)</code></td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>让字典d能用<code>d[k]</code>的形式返回k对应的值，如果k找不到会报错</td>
+</tr>
+<tr>
+<td><code>d.items()</code></td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>返回d中所有的键值对</td>
+</tr>
+<tr>
+<td><code>d.__iter__()</code></td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>返回键的迭代器</td>
+</tr>
+<tr>
+<td><code>d.keys()</code></td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>返回字典的所有键</td>
+</tr>
+<tr>
+<td><code>d.__len__()</code></td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>可以使用<code>len(d)</code>的形式得到字典的键值对数量</td>
+</tr>
+<tr>
+<td><code>d.__missing__(k)</code></td>
+<td></td>
+<td>✅</td>
+<td></td>
+<td>当<code>__getitem__()</code>找不到相应的值时，会调用该方法</td>
+</tr>
+<tr>
+<td><code>d.move_to_end(k, [last])</code></td>
+<td></td>
+<td></td>
+<td>✅</td>
+<td>把键为k的元素移动到字典的最前面或者最后面， last默认为True</td>
+</tr>
+<tr>
+<td><code>d.pop(k, [default])</code></td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>返回键k所对应的值，然后移除这个键值对，如果k没有找到，则返回default的值或者None</td>
+</tr>
+<tr>
+<td><code>d.popitem()</code></td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>随机返回一个键值对，并在字典中移除掉</td>
+</tr>
+<tr>
+<td><code>d.__reversed__()</code></td>
+<td></td>
+<td></td>
+<td>✅</td>
+<td>返回倒序的键的迭代器</td>
+</tr>
+<tr>
+<td><code>d.setdefault(k, [default])</code></td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>若字典中有键k，则把它对应的值设定为default的值，然后返回这个值若无，则让<code>d[k] = default</code>，然后返回default</td>
+</tr>
+<tr>
+<td><code>d.__setitem__(k, v)</code></td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>实现d[k] = v的操作</td>
+</tr>
+<tr>
+<td><code>d.update(m, [**kargs])</code></td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>m可以是映射或者键值对迭代器，用来更新d中对应的条目</td>
+</tr>
+<tr>
+<td><code>d.values()</code></td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>返回字典中的所有值</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="toc_6">处理找不到的键的方法</h2>
+
+<p>从上面的表中可以得知，查找一个字典的键对应的值有多种方法</p>
+
+<ul>
+<li><code>d[k]</code>方法在找不到键k时，Python会直接抛出异常</li>
+<li><code>d.get(k, [default])</code> 方法在找不到键k时，会返回None, 如果default参数被设定了，则会返回该参数的值</li>
+</ul>
+
+<h3 id="toc_7">使用setdefault</h3>
+
+<p>如果除了拿到这个值外，还想对该值进行更新操作，并且在没有键的情况下，则执行添加操作，那么setdefault方法是最好的选择</p>
+
+<p><code>d.setdefault()</code>方法的使用十分简单，下面来看使用这个方法和不使用的代码对比：</p>
+
+<pre><code class="language-python"># 从字典country_code1中搜索Korea对应的号码, 如果没有则赋值为99999
+import time
+start_time = time.time()
+if &quot;Korea&quot; not in country_code1:
+    country_code1[&quot;Korea&quot;] = 99999
+    print((time.time() - start_time)*10000)
+
+# 从字典country_code1中搜索Canada对应的号码, 如果没有则赋值为251
+start_time = time.time()
+country_code1.setdefault(&quot;Canada&quot;, 251)
+print((time.time() - start_time)*10000)
+print(country_code1)
+</code></pre>
+
+<p>在上述示例中，计算出了两种方法的执行时间，从时间来看，使用<code>setdefault()</code>方法所用的时间会更短。</p>
+
+<h3 id="toc_8">自定义__missing__方法</h3>
+
+<p>如果只是单纯的查找取值，除了<code>d[k]</code> 和 <code>d.get(k, [default])</code> 两种方法，defaultdict类型还提供了<code>__missing__</code>方法。</p>
+
+<p>defaultdict类型的基本使用示例：</p>
+
+<pre><code class="language-python">import collections
+dd = collections.defaultdict(tuple, **country_code1)
+print(dd[&#39;China&#39;])
+print(dd.get(&quot;C&quot;))
+print(dd[&quot;C&quot;])
+print(dd[&quot;B&quot;])
+print(dd.get(&quot;B&quot;))
+</code></pre>
+
+<p>从上示例的结果可以看出，当从字典中查询一个不存在的键时，defaultdict会对该键初始化一个空的tuple作为值，之后在查询该键，则会返回空的tuple。<br/>
+并且，<code>__missing__</code>方法只会在<code>__getitem__</code>里被调用，其他方法是不会发挥作用的。</p>
+
+<p>如果觉得defaultdict中的<code>__missing__</code>太有局限性了，可以自己定义一个雷然后实现该方法，从而达到目的。<br/>
+比如以下示例：</p>
+
+<pre><code class="language-Python">class StrKeyDict0(dict):
+
+    def __missing__(self, key):
+        if isinstance(key, str):
+            raise KeyError(key)
+        return self[str(key)]
+
+    def get(self, key, default=None):
+        try:
+            return self[key]
+        except KeyError:
+            return default
+
+    def __contains__(self, item):
+        return item in self.keys() or str(item) in self.keys()
+
+d = StrKeyDict0([(&#39;2&#39;, &#39;two&#39;), (&#39;4&#39;, &#39;four&#39;)])
+print(d[&#39;2&#39;])
+print(d[4])
+print(d.get(&#39;2&#39;))
+print(d.get(4))
+print(d.get(1))
+print(2 in d)
+print(1 in d)
+print(d[1])
+</code></pre>
+
+<p>自定义类实现的功能是当请求的键是其他类型时，转换成字符串类型再去获取值。该类的实现有以下几点值得注意：</p>
+
+<ul>
+<li>get()方法把查找的工作以<code>self[key]</code>的形式进行处理，这样做可以在取值的时候调用<code>__getitem__()</code>方法，当获取不到键的时候，该方法会去调用<code>__missing__()</code>方法，于是就会触发将键的类型转换成字符串形式的操作。</li>
+<li>关于<code>__missing__()</code>方法中为什么还要判断key的类型是否是字符串，则是为了防止掉进无限递归的陷阱。<code>__missing__()</code>方法的返回还是使用<code>self[key]</code>的格式，该方法在获取不到键的时候会调用<code>__missing__()</code>方法，因此会形成一个无限递归。</li>
+<li>关于为什么会有<code>__contains__</code>方法，是因为在执行<code>in</code>操作的时候会用到该方法，但是dict中提供的这个方法不会在找不到键的时候调用<code>__missing__</code>方法。另外，在实现这个方法的时候，使用的是<code>key in self.keys()</code>的形式而不是<code>key in d</code>的形式，也是为了防止掉进无限递归的陷阱中。</li>
+</ul>
+
+<h2 id="toc_9">字典的变种</h2>
+
+<p>标准库collections模块中，有以下几种不同的映射类型：</p>
+
+<ul>
+<li>collections.OrderedDict</li>
+<li>collections.ChainMap</li>
+<li>collections.Counter</li>
+<li>collections.UserDict</li>
+</ul>
+
+<p>除此之外，Python3.3之后，types模块引入了一个封装类名叫<code>MappingProxyType</code>的不可变映射类型。如果给这个类一个映射，他会返回一个只读视图，但是这个视图也是动态的。因此可以直接对原映射做出改变，但是不能通过视图对原映射做出改变。</p>
 
                         
                       </div>
@@ -457,687 +1304,10 @@ show keys from table_name;
                 <div class="read-more clearfix">
                   <div class="more-left left">
                   
-                    <span class="date">2016/12/18</span>
+                    <span class="date">2017/7/26</span>
                     <span>posted in&nbsp;</span> 
           				  
-          					    <span class="posted-in"><a href='%E6%95%B0%E6%8D%AE%E5%BA%93.html'>数据库</a></span>
-          				   
-                  </div>
-                  <div class="more-right right">
-                  <span class="comments">
-                      
-
-                       
-                  </span>
-                  </div>
-                </div>
-              </div><!-- article -->
-        
-			<div class="article">
-                <a class="clearlink" href="14745361920074.html">
-                
-                  <h1>python容器数据类型☞collections</h1>
-                  <div class="a-content">
-                      
-                      <div class="a-content-text">
-                        
-                        	<h2 id="toc_0">namedtuple(命名元组)</h2>
-
-<p>元组tuple是python内置的数据类型，其特点是一次写入不可修改，元组内每个元素的数据类型都是可以不一样的。但有时候，我们需要给每个元素起一个名字，以便更好地区分每个元素的身份。命名元组namedtuple就可以完美的实现这个功能,它用来创建一个自定义的元组对象，规定元组对象的个数，可以用属性名来读取对象元素的值。<br/>
-命名元组会返回一个元组的基类，数据类型已经变成class，而不再是tuple</p>
-
-<h3 id="toc_1">函数原型</h3>
-
-<pre><code class="language-python">collections.namedtuple(typename, field_names, verbose=False, rename=False)
-</code></pre>
-
-<ul>
-<li>field_names:命名元组中各属性的名称，可以是字母，数字，下划线表示，但只能以字母开头。定义方法有多种形式，可以是一个字符串，以空格或者逗号分割，也可以是一个列表。有几个需要注意的地方：
-
-<ul>
-<li>属性名不能够重复</li>
-<li>属性名不能够使用python关键字</li>
-</ul></li>
-<li>verbose：布尔值类型数据，默认为False，如果为True。则会在命名元组创建之后打印类的定义，但是这种访问类定义的方法已经很少会被用到了，更多的是使用_source属性，后面会讲。</li>
-<li>rename：布尔值类型数据，默认为False，如果为True，则会将field_names中不合法的命名进行自动替换，在False的情况下，遇到不合法的命名程序会报错。</li>
-</ul>
-
-<h3 id="toc_2">类属性</h3>
-
-<p>上面已经说过，namedtuple会返回一个元组基类，这里介绍几个类属性：</p>
-
-<ul>
-<li>namedtuplename._make(iterable): 把一个变量内容赋值给namedtuple</li>
-<li>namedtuplename.asdict(): 把命名元组转换成字典类型</li>
-<li>namedtuplename._source: 打印命名元组的定义语句</li>
-<li>namedtuplename._replace(kwargs）：为命名元组的元素重置值</li>
-<li>namedtuplename._fields:返回namedtuple的所有属性名</li>
-</ul>
-
-<h3 id="toc_3">示例代码</h3>
-
-<pre><code class="language-python"># 引入模块
-from collections import namedtuple
-# namedtuple的定义和基本使用
-Users = namedtuple(&quot;Users&quot;, [&quot;name&quot;, &quot;age&quot;, &quot;weight&quot;, &quot;height&quot;, &quot;hobby&quot;], False)
-user_info = Users(&quot;zhangsan&quot;, 12, 82, 156, &quot;basketball&quot;)
-print(user_info)
-print(type(user_info))
-
-# rename的开启和关闭和打印namedtuple的属性名
-Users = namedtuple(&quot;Users&quot;, [&quot;name&quot;, &quot;age&quot;, &quot;def&quot;, &quot;height&quot;, &quot;age&quot;], False, True)
-Users1 = namedtuple(&quot;Users&quot;, [&quot;name&quot;, &quot;age&quot;, &quot;weight&quot;, &quot;height&quot;, &quot;hobby&quot;], False)
-Users2 = namedtuple(&quot;Users&quot;, [&quot;name&quot;, &quot;age&quot;, &quot;def&quot;, &quot;2dhfv&quot;, &quot;age&quot;], False, True)
-print(Users._fields)
-print(Users1._fields)
-print(Users2._fields)
-
-# 整体给namedtuple赋值
-Users = namedtuple(&quot;Users&quot;, [&quot;name&quot;, &quot;age&quot;, &quot;weight&quot;, &quot;height&quot;, &quot;hobby&quot;], False)
-user_info = (&quot;zhangsan&quot;, 12, 82, 155, &quot;football&quot;) # 可以是列表,也可以是元组
-print(Users._make(user_info))
-
-# 命名元组转换成字典类型
-Users = namedtuple(&quot;Users&quot;, [&quot;name&quot;, &quot;age&quot;, &quot;weight&quot;, &quot;height&quot;, &quot;hobby&quot;], False)
-user_info = Users(&quot;zhangsan&quot;, 12, 82, 156, &quot;basketball&quot;)
-print(type(user_info))
-print(type(user_info._asdict()))
-
-# 查看namedtuple的定义语句
-Users = namedtuple(&quot;Users&quot;, [&quot;name&quot;, &quot;age&quot;, &quot;weight&quot;, &quot;height&quot;, &quot;hobby&quot;], False)
-print(Users._source)
-
-# 更改namedtuple的元素值
-Users = namedtuple(&quot;Users&quot;, [&quot;name&quot;, &quot;age&quot;, &quot;weight&quot;, &quot;height&quot;, &quot;hobby&quot;], False)
-user_info = Users(&quot;zhangsan&quot;, 12, 82, 156, &quot;basketball&quot;)
-print(user_info)
-user_info2 = user_info ._replace(hobby=&quot;football&quot;)
-print(user_info)
-print(user_info2)
-</code></pre>
-
-<h3 id="toc_4">参考结果</h3>
-
-<pre><code class="language-python"># 命名元组的基本赋值应用
-Users(name=&#39;zhangsan&#39;, age=12, weight=82, height=156, hobby=&#39;basketball&#39;)
-&lt;class &#39;__main__.Users&#39;&gt;
-# 开启rename模式与不开启的对比,开启之后会将不合法的命名自动改为合法的命名，使用_fields类方法可以查看属性名
-(&#39;name&#39;, &#39;age&#39;, &#39;_2&#39;, &#39;height&#39;, &#39;_4&#39;)
-(&#39;name&#39;, &#39;age&#39;, &#39;weight&#39;, &#39;height&#39;, &#39;hobby&#39;)
-(&#39;name&#39;, &#39;age&#39;, &#39;_2&#39;, &#39;_3&#39;, &#39;_4&#39;)
-# 使用_make()方法整体给namedtuple赋值，可以看出和分开赋值并没有什么区别
-Users(name=&#39;zhangsan&#39;, age=12, weight=82, height=155, hobby=&#39;football&#39;)
-# 使用_asdict()方法将命名元组转换成字典类型
-&lt;class &#39;__main__.Users&#39;&gt;
-&lt;class &#39;collections.OrderedDict&#39;&gt;
-# 查看namedtuple的定义语句运行结果比较长，可以自行运行查看结果
-# 使用_replace()方法对属性值进行更改，该方法会返回一个新的对象，而不是从原来的对象上面进行修改
-Users(name=&#39;zhangsan&#39;, age=12, weight=82, height=156, hobby=&#39;basketball&#39;)
-Users(name=&#39;zhangsan&#39;, age=12, weight=82, height=156, hobby=&#39;basketball&#39;)
-Users(name=&#39;zhangsan&#39;, age=12, weight=82, height=156, hobby=&#39;football&#39;)
-</code></pre>
-
-<h2 id="toc_5">deque（双端队列）</h2>
-
-<p>deque的全称是double-ended queue，可以实现从队列的头部快速添加和取出元素，这是一个双向列表，可以从右端操作元素，也可以从左端操作元素，且时间复杂度都为O(1)</p>
-
-<h3 id="toc_6">函数原型</h3>
-
-<p>class collections.deque([iterable[, maxlen]]）</p>
-
-<ul>
-<li>interable： 可选参数，在队列创建的时候根据数值从左往右初始化队列,如果是多个元素，必须用括号括起来，否则会报错。没有该参数时会初始化一个空的队列</li>
-<li>maxlen：指定队列的最大长度,如果超出长度，则会自动丢掉左边超出的部分，如果采用左添加时元素长度超出，会舍掉右端的元素</li>
-</ul>
-
-<p>示例代码</p>
-
-<pre><code class="language-python">from collections import deque
-data = [&quot;one&quot;, &quot;two&quot;, &quot;three&quot;, 123, &quot;yes&quot;]
-d = deque(data)
-d1 = deque(data, 2)
-print(&quot;正常初始化队列:{}&quot;.format(d))
-print(&quot;超出长度限制的初始化队列:{}&quot;.format(d1))
-
-d.append(&quot;abc&quot;)
-print(&quot;执行正常添加操作:{}&quot;.format(d))
-d1.append(&quot;no&quot;)
-print(&quot;超出长度限制的右添加操作:{}&quot;.format(d1))
-d1.appendleft(&quot;ok&quot;)
-print(&quot;超出长度限制的左添加操作:{}&quot;.format(d1))
-</code></pre>
-
-<p>参考结果</p>
-
-<pre><code class="language-python">正常初始化队列:deque([&#39;one&#39;, &#39;two&#39;, &#39;three&#39;, 123, &#39;yes&#39;])
-超出长度限制的初始化队列:deque([123, &#39;yes&#39;], maxlen=2)
-执行正常添加操作:deque([&#39;one&#39;, &#39;two&#39;, &#39;three&#39;, 123, &#39;yes&#39;, &#39;abc&#39;])
-超出长度限制的右添加操作:deque([&#39;yes&#39;, &#39;no&#39;], maxlen=2)
-超出长度限制的左添加操作:deque([&#39;ok&#39;, &#39;yes&#39;], maxlen=2)
-</code></pre>
-
-<h3 id="toc_7">常用方法</h3>
-
-<h4 id="toc_8">添加元素</h4>
-
-<ul>
-<li>添加一个值的情况：分为左添加（appendleft()）和右添加（append()）,操作是对原对象进行操作，并且不会返回任何值</li>
-<li>添加多个制的情况：分为左添加（extendleft()）和右添加(extend()),注意左添加多个元素时，是按照顺序依次向队列左端进行添加，所以先加入的数据会在右边</li>
-</ul>
-
-<p>示例代码</p>
-
-<pre><code class="language-pyton">from collections import deque
-data = [&quot;one&quot;, &quot;two&quot;, &quot;three&quot;, 123, &quot;yes&quot;]
-d = deque(data)
-d.append(&quot;right&quot;)
-print(&quot;执行右添加之后的结果:{}&quot;.format(d))
-d.appendleft(&quot;left&quot;)
-print(&quot;执行左添加之后的结果:{}&quot;.format(d))
-d.extendleft((&quot;left1&quot;, &quot;left2&quot;))
-print(&quot;向左边添加多个元素:{}&quot;.format(d))
-d.extend((&quot;right1&quot;, &quot;right2&quot;))
-print(&quot;向右边添加多个元素:{}&quot;.format(d))
-</code></pre>
-
-<p>参考结果</p>
-
-<pre><code class="language-python">执行右添加之后的结果:deque([&#39;one&#39;, &#39;two&#39;, &#39;three&#39;, 123, &#39;yes&#39;, &#39;right&#39;])
-执行左添加之后的结果:deque([&#39;left&#39;, &#39;one&#39;, &#39;two&#39;, &#39;three&#39;, 123, &#39;yes&#39;, &#39;right&#39;])
-向左边添加多个元素:deque([&#39;left2&#39;, &#39;left1&#39;, &#39;left&#39;, &#39;one&#39;, &#39;two&#39;, &#39;three&#39;, 123, &#39;yes&#39;, &#39;right&#39;])
-向右边添加多个元素:deque([&#39;left2&#39;, &#39;left1&#39;, &#39;left&#39;, &#39;one&#39;, &#39;two&#39;, &#39;three&#39;, 123, &#39;yes&#39;, &#39;right&#39;, &#39;right1&#39;, &#39;right2&#39;])
-</code></pre>
-
-<h4 id="toc_9">清空队列</h4>
-
-<p>clear()方法可以将队列进行清空</p>
-
-<p>示例代码</p>
-
-<pre><code class="language-python">from collections import deque
-data = [&quot;one&quot;, &quot;two&quot;, &quot;three&quot;, 123, &quot;yes&quot;]
-d = deque(data)
-print(&quot;初始化之后的队列:{}&quot;.format(d))
-d.clear()
-print(&quot;清空之后的队列:{}&quot;.format(d))
-</code></pre>
-
-<p>参考结果</p>
-
-<pre><code class="language-python">初始化之后的队列:deque([&#39;one&#39;, &#39;two&#39;, &#39;three&#39;, 123, &#39;yes&#39;])
-清空之后的队列:deque([])
-</code></pre>
-
-<h4 id="toc_10">拷贝队列</h4>
-
-<p>copy（）方法可用于拷贝队列，返回一个新的队列，可将这个新的队列赋值给一个变量，两个队列虽然值相同，但存储位置是不一样的。<br/>
-示例代码</p>
-
-<pre><code class="language-python">from collections import deque
-data = [&quot;one&quot;, &quot;two&quot;, &quot;three&quot;, 123, &quot;yes&quot;]
-d = deque(data)
-print(&quot;拷贝之前的队列:{}, 存储位置为:{}&quot;.format(d, id(d)))
-d_c = d.copy()
-print(&quot;拷贝之后的队列:{},存储位置为:{}&quot;.format(d_c, id(d_c)))
-</code></pre>
-
-<p>参考结果</p>
-
-<pre><code class="language-python">拷贝之前的队列:deque([&#39;one&#39;, &#39;two&#39;, &#39;three&#39;, 123, &#39;yes&#39;]), 存储位置为:4315002048
-拷贝之后的队列:deque([&#39;one&#39;, &#39;two&#39;, &#39;three&#39;, 123, &#39;yes&#39;]),存储位置为:4315002152
-</code></pre>
-
-<h4 id="toc_11">计算某元素出现的次数</h4>
-
-<p>count(x)方法可用来计算队列中x元素一共出现了多少次<br/>
-示例代码</p>
-
-<pre><code class="language-python">from collections import deque
-data = [&quot;one&quot;, &quot;two&quot;, &quot;three&quot;, 123, &quot;yes&quot;, &quot;yes&quot;]
-d = deque(data, maxlen=6)
-print(&quot;队列中的元素出现的次数为:{}&quot;.format(d.count(&quot;yes&quot;)))
-</code></pre>
-
-<p>参考结果</p>
-
-<pre><code class="language-python">队列中的元素个数为:2
-</code></pre>
-
-<h4 id="toc_12">查看某个元素的索引</h4>
-
-<p>index（）方法可用于查找某个元素的索引位置，从0开始索引。如果队列中有多个相同元素，则返回第一个的位置。也可以用于查找某个元素在某一段位置区间下的索引位置，如果找不到会抛出元素不在队列的错误</p>
-
-<p>示例代码</p>
-
-<pre><code class="language-python">from collections import deque
-data = [&quot;one&quot;, &quot;two&quot;, &quot;three&quot;, 123, &quot;yes&quot;, &quot;yes&quot;]
-d = deque(data)
-print(&quot;查找整个队列中某元素的索引位置:{}&quot;.format(d.index(&quot;yes&quot;)))
-print(&quot;查找第一个位置到第三个位置中某元素的索引位置:{}&quot;.format(d.index(&quot;yes&quot;, 1, 3)))
-</code></pre>
-
-<p>参考结果</p>
-
-<pre><code class="language-python">Traceback (most recent call last):
-  File &quot;/Users/yanzilu/Project/Test/collection_test.py&quot;, line 91, in &lt;module&gt;
-    print(&quot;查找第一个位置到第三个位置中某元素的索引位置:{}&quot;.format(d.index(&quot;yes&quot;, 1, 3)))
-ValueError: &#39;yes&#39; is not in deque
-查找整个队列中某元素的索引位置:4
-</code></pre>
-
-<h4 id="toc_13">向某位置插入元素</h4>
-
-<p>insert()方法可以实现向队列中某个索引位置插入某个元素，且只能插入一个元素,插入多个元素会报错</p>
-
-<p>示例代码</p>
-
-<pre><code class="language-python">from collections import deque
-data = [&quot;one&quot;, &quot;two&quot;, &quot;three&quot;, 123, &quot;yes&quot;, &quot;yes&quot;]
-d = deque(data)
-
-d.insert(3, &quot;add&quot;)
-print(&quot;向索引为3的位置插入元素:{}&quot;.format(d))
-d.insert(4, [&quot;four&quot;, &quot;five&quot;])
-print(&quot;向索引为4的位置插入多个元素:{}&quot;.format(d))
-d.insert(4, &quot;four&quot;, &quot;five&quot;)
-print(&quot;向索引为4的位置插入多个元素:{}&quot;.format(d))
-</code></pre>
-
-<p>参考结果</p>
-
-<pre><code class="language-python">向索引为3的位置插入元素:deque([&#39;one&#39;, &#39;two&#39;, &#39;three&#39;, &#39;add&#39;, 123, &#39;yes&#39;, &#39;yes&#39;])
-向索引为4的位置插入多个元素:deque([&#39;one&#39;, &#39;two&#39;, &#39;three&#39;, &#39;add&#39;, [&#39;four&#39;, &#39;five&#39;], 123, &#39;yes&#39;, &#39;yes&#39;])
-Traceback (most recent call last):
-  File &quot;/Users/yanzilu/Project/Test/collection_test.py&quot;, line 100, in &lt;module&gt;
-    d.insert(4, &quot;four&quot;, &quot;five&quot;)
-TypeError: insert() takes exactly 2 arguments (3 given)
-</code></pre>
-
-<h4 id="toc_14">取出和移除元素</h4>
-
-<ul>
-<li>取出元素分为从左边取出元素（popleft()）和从右边取出元素（pop()）,函数会将取出的值返回出来并在队列中删除</li>
-<li>移除元素可以使用remove(value)方法，该方法指定要移除的元素值，并且直接移除元素，不会进行返回，如果该元素不存在，则会报元素不在队列中的错误</li>
-</ul>
-
-<p>示例代码</p>
-
-<pre><code class="language-python">from collections import deque
-data = [&quot;one&quot;, &quot;two&quot;, &quot;three&quot;, 123, &quot;yes&quot;, &quot;yes&quot;]
-d = deque(data)
-
-print(&quot;操作之前的数据:{}&quot;.format(d))
-print(&quot;执行从队列右侧取出元素的返回值:{},队列变成:{}&quot;.format(d.pop(), d))
-print(&quot;执行从队列左侧取出元素返回值:{}, 队列变成:{}&quot;.format(d.popleft(), d))
-print(&quot;移除值为three的元素:{}, 队列变成:{}&quot;.format(d.remove(&quot;three&quot;), d))
-print(&quot;移除一个不存在的值:{}&quot;.format(d.remove(&quot;four&quot;)))
-</code></pre>
-
-<p>参考结果</p>
-
-<pre><code class="language-python">操作之前的数据:deque([&#39;one&#39;, &#39;two&#39;, &#39;three&#39;, 123, &#39;yes&#39;, &#39;yes&#39;])
-执行从队列右侧取出元素的返回值:yes,队列变成:deque([&#39;one&#39;, &#39;two&#39;, &#39;three&#39;, 123, &#39;yes&#39;])
-执行从队列左侧取出元素返回值:one, 队列变成:deque([&#39;two&#39;, &#39;three&#39;, 123, &#39;yes&#39;])
-移除值为three的元素:None, 队列变成:deque([&#39;two&#39;, 123, &#39;yes&#39;])
-Traceback (most recent call last):
-  File &quot;/Users/yanzilu/Project/Test/collection_test.py&quot;, line 111, in &lt;module&gt;
-    print(&quot;移除一个不存在的值:{}&quot;.format(d.remove(&quot;four&quot;)))
-ValueError: deque.remove(x): x not in deque
-</code></pre>
-
-<h4 id="toc_15">反转队列和旋转队列</h4>
-
-<ul>
-<li>反转：reverse()方法可以实现队列的反转</li>
-<li>旋转: rotate(n)方法可以向右旋转n个元素，如果n是负值，则为向左旋转n个元素</li>
-</ul>
-
-<p>示例代码</p>
-
-<pre><code class="language-python">from collections import deque
-data = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
-d = deque(data)
-
-print(&quot;反转之前的队列:{}&quot;.format(d))
-d.reverse()
-print(&quot;反转之后的队列:{}&quot;.format(d))
-d.rotate(4)
-print(&quot;旋转队列4个元素:{}&quot;.format(d))
-d.rotate(-2)
-print(&quot;旋转队列-4个元素:{}&quot;.format(d))
-</code></pre>
-
-<p>参考结果</p>
-
-<pre><code class="language-python">反转之前的队列:deque([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11])
-反转之后的队列:deque([11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1])
-旋转队列4个元素:deque([4, 3, 2, 1, 11, 10, 9, 8, 7, 6, 5])
-旋转队列-4个元素:deque([2, 1, 11, 10, 9, 8, 7, 6, 5, 4, 3])
-</code></pre>
-
-<h2 id="toc_16">Counter(计数器)</h2>
-
-<p>用来跟踪值出现的次数。它是一个无序的容器类型，以字典的键值对形式存储，其中元素作为key，其计数作为value。计数值可以是任意的Interger（包括0和负数）。</p>
-
-<h3 id="toc_17">类的创建</h3>
-
-<p>Counter类有四种常用的创建方法：</p>
-
-<pre><code class="language-python">from collections import Counter
-
-c = Counter()
-print(&quot;这是一个空的Counter类:{}&quot;.format(c))
-c = Counter(&#39;iterable object&#39;)
-print(&quot;从一个可迭代的对象(list、tuple、dict、字符串等)创建Counter类:{}&quot;.format(c))
-c = Counter({&quot;one&quot;: 1, &quot;two&quot;: 2})
-print(&quot;从一个字典对象创建Counter类:{}&quot;.format(c))
-c = Counter(one=1, two=2)
-print(&quot;从一组键值对创建:{}&quot;.format(c))
-</code></pre>
-
-<p>创建结果如下：</p>
-
-<pre><code class="language-python">这是一个空的Counter类:Counter()
-从一个可迭代的对象(list、tuple、dict、字符串等)创建Counter类:Counter({&#39;e&#39;: 3, &#39;t&#39;: 2, &#39;b&#39;: 2, &#39;c&#39;: 1, &#39;r&#39;: 1, &#39;j&#39;: 1, &#39;o&#39;: 1, &#39;l&#39;: 1, &#39; &#39;: 1, &#39;a&#39;: 1, &#39;i&#39;: 1})
-从一个字典对象创建Counter类:Counter({&#39;two&#39;: 2, &#39;one&#39;: 1})
-从一组键值对创建:Counter({&#39;two&#39;: 2, &#39;one&#39;: 1})
-</code></pre>
-
-<h3 id="toc_18">计数器的更新和值的访问</h3>
-
-<ul>
-<li>访问分为两种情况，一种是访问的键存在，返回该键所对应的值；另一种是键不存在的情况，返回的是0</li>
-<li>使用update方法增加计数器，有两种方法，一种是通过可迭代对象，另一种是通过另一个Counter对象</li>
-<li>使用subtract()方法减少计数器，有两种方法，一种是通过可迭代对象，另一种是通过另一个Counter对象</li>
-</ul>
-
-<p>示例代码</p>
-
-<pre><code class="language-python">from collections import Counter
-
-c = Counter(one=1, two=2)
-print(&quot;访问一个存在的键:{}&quot;.format(c[&quot;one&quot;]))
-# 即使访问不存在的键，键名也不会添加进计数器中
-print(&quot;访问一个不存在的键:{},访问过后计数器变成:{}&quot;.format(c[&quot;three&quot;], c))
-# 注意这里如果不加中括号，则添加的就不是&quot;one&quot;和“two”的次数，而是每个字符
-c.update([&quot;one&quot;, &quot;two&quot;])
-print(&quot;通过另一个迭代器进行更新:{}&quot;.format(c))
-c1 = Counter({&quot;one&quot;: 10, &quot;two&quot;: 20})
-c.update(c1)
-print(&quot;通过另一个Counter对象进行计数器的增加:{}&quot;.format(c))
-# 减少计数器的使用和增加很像,需要注意的是减少到0时不会将键删除，而是继续减少，即次数可以是赋值
-c1 = Counter({&quot;one&quot;: 30, &quot;two&quot;: 40})
-c.subtract(c1)
-print(&quot;通过另一个Counter对象进行计数器的减少:{}&quot;.format(c))
-</code></pre>
-
-<p>参考结果</p>
-
-<pre><code class="language-python">访问一个存在的键:1
-访问一个不存在的键:0,访问过后计数器变成:Counter({&#39;two&#39;: 2, &#39;one&#39;: 1})
-通过另一个迭代器进行更新:Counter({&#39;two&#39;: 3, &#39;one&#39;: 2})
-通过另一个Counter对象进行计数器的增加:Counter({&#39;two&#39;: 23, &#39;one&#39;: 12})
-通过另一个Counter对象进行计数器的减少:Counter({&#39;two&#39;: -17, &#39;one&#39;: -18})
-</code></pre>
-
-<h3 id="toc_19">键的删除</h3>
-
-<p>使用del对键进行删除，可以使用update()方法在更新时把没有的键添加进去</p>
-
-<p>示例代码</p>
-
-<pre><code class="language-python">from collections import Counter
-
-c = Counter(one=1, two=2)
-del c[&quot;one&quot;]
-print(&quot;删除one键之后的计数器变成:{}&quot;.format(c))
-</code></pre>
-
-<p>参考结果</p>
-
-<pre><code class="language-python">删除one键之后的计数器变成:Counter({&#39;two&#39;: 2})
-</code></pre>
-
-<h3 id="toc_20">elements()方法</h3>
-
-<p>该方法返回一个迭代器。元素被重复了多少次，在该迭代器中就包含多少个该元素。所有元素按照字母序排序，个数小于1的元素不被包含。</p>
-
-<p>示例代码</p>
-
-<pre><code class="language-python">from collections import Counter
-c = Counter(one=5, two=3)
-print(&quot;迭代之后的元素:{}&quot;.format(list(c.elements())))
-print(&quot;迭代之后的元素:{}&quot;.format(set(c.elements())))
-</code></pre>
-
-<p>参考结果</p>
-
-<pre><code class="language-python">迭代之后的元素:[&#39;two&#39;, &#39;two&#39;, &#39;two&#39;, &#39;one&#39;, &#39;one&#39;, &#39;one&#39;, &#39;one&#39;, &#39;one&#39;]
-迭代之后的元素:{&#39;two&#39;, &#39;one&#39;}
-</code></pre>
-
-<h3 id="toc_21">most_common([n])方法</h3>
-
-<p>该方法返回一个含前n个元素计数的列表。如果n没有被指定，则返回所有元素。当多个元素计数值相同时，按照字母序排列。</p>
-
-<p>示例代码</p>
-
-<pre><code class="language-python">from collections import Counter
-c = Counter(one=5, two=3, three=12)
-print(&quot;返回所有元素的计数:{}&quot;.format(c.most_common()))
-print(&quot;返回前2个元素的计数:{}&quot;.format(c.most_common(2)))
-</code></pre>
-
-<p>参考结果</p>
-
-<pre><code class="language-python">返回所有元素的计数:[(&#39;three&#39;, 12), (&#39;one&#39;, 5), (&#39;two&#39;, 3)]
-返回前2个元素的计数:[(&#39;three&#39;, 12), (&#39;one&#39;, 5)]
-</code></pre>
-
-<h2 id="toc_22">OrderedDict（排序字典）</h2>
-
-<p>在Python中，dict这个数据结构由于hash的特性，是无序的，有时候我们会用到键的顺序，collections模块为我们提供了OrderedDict，当要获得一个有序的字典对象时，就可以使用OrderedDict。<br/>
-OrderedDict的数据都是以每个键值对作为一个元组组成的列表。</p>
-
-<h3 id="toc_23">类的原型</h3>
-
-<pre><code class="language-python">class collections.OrderedDict([items])
-</code></pre>
-
-<h3 id="toc_24">初始化</h3>
-
-<p>有序字典的顺序是元素添加的顺序.初始化的时候如果有多个元素，注意初始值之间的顺序，列表，元组等有序数据结构都是可以的，但是字典是无序的，在初始的时候顺序有可能不会是写的顺序。</p>
-
-<p>示例代码</p>
-
-<pre><code class="language-python">from collections import OrderedDict
-
-od = OrderedDict([(&quot;one&quot;, 1), (&#39;two&#39;, 2), (&#39;three&#39;, 3)])
-print(od)
-di = {&quot;one&quot;:1, &quot;two&quot;: 2, &quot;three&quot;: 3}
-print(&quot;对比普通字典: {}&quot;.format(di))
-od[&quot;four&quot;] = 4
-print(&quot;添加一个元素之后的字典:{}&quot;.format(od))
-</code></pre>
-
-<p>参考结果</p>
-
-<pre><code class="language-python">OrderedDict([(&#39;one&#39;, 1), (&#39;two&#39;, 2), (&#39;three&#39;, 3)])
-对比普通字典: {&#39;two&#39;: 2, &#39;one&#39;: 1, &#39;three&#39;: 3}
-添加一个元素之后的字典:OrderedDict([(&#39;one&#39;, 1), (&#39;two&#39;, 2), (&#39;three&#39;, 3), (&#39;four&#39;, 4)])
-</code></pre>
-
-<h3 id="toc_25">popitem(last=True)方法</h3>
-
-<p>该方法用来移除字典中的元素，如果last值为真，则采取先进后出的原则，移除最后的元素，last值为假时，采取先进先出的原则，移除最开始的元素</p>
-
-<p>示例代码</p>
-
-<pre><code class="language-python">from collections import OrderedDict
-
-od = OrderedDict([(&quot;one&quot;, 1), (&#39;two&#39;, 2), (&#39;three&#39;, 3), (&quot;four&quot;, 4)])
-print(&quot;移除元素之前的字典:{}&quot;.format(od))
-od.popitem()
-print(&quot;先进后出移除元素之后的字典:{}&quot;.format(od))
-od.popitem(False)
-print(&quot;先进先出移除元素之后的字典:{}&quot;.format(od))
-</code></pre>
-
-<p>参考结果</p>
-
-<pre><code class="language-python">移除元素之前的字典:OrderedDict([(&#39;one&#39;, 1), (&#39;two&#39;, 2), (&#39;three&#39;, 3), (&#39;four&#39;, 4)])
-先进后出移除元素之后的字典:OrderedDict([(&#39;one&#39;, 1), (&#39;two&#39;, 2), (&#39;three&#39;, 3)])
-先进先出移除元素之后的字典:OrderedDict([(&#39;two&#39;, 2), (&#39;three&#39;, 3)])
-</code></pre>
-
-<h3 id="toc_26">move_to_end(key, last=True)方法</h3>
-
-<p>将字典中的某个元素移动到最后的位置，需要注意的是最后的位置是根据last值决定的，值为True时，为先进后出（栈）模式，则最后进来的那一端为后端，值为False时，为先进先出（队列）模式,最先进来的一端为后端。<br/>
-总之，后端的确定是popitem()时，从哪一边开始移除元素，哪一边就是后端</p>
-
-<p>示例代码</p>
-
-<pre><code class="language-python">from collections import OrderedDict
-
-od = OrderedDict([(&quot;one&quot;, 1), (&#39;two&#39;, 2), (&#39;three&#39;, 3), (&quot;four&quot;, 4)])
-print(&quot;移动元素之前的字典:{}&quot;.format(od))
-od.move_to_end(&quot;one&quot;)
-print(&quot;先进后出移动元素之后的字典:{}&quot;.format(od))
-od.move_to_end(&quot;three&quot;, last=False)
-print(&quot;先进先出移动元素之后的字典:{}&quot;.format(od))
-</code></pre>
-
-<p>参考结果</p>
-
-<pre><code class="language-python">移动元素之前的字典:OrderedDict([(&#39;one&#39;, 1), (&#39;two&#39;, 2), (&#39;three&#39;, 3), (&#39;four&#39;, 4)])
-先进后出移动元素之后的字典:OrderedDict([(&#39;two&#39;, 2), (&#39;three&#39;, 3), (&#39;four&#39;, 4), (&#39;one&#39;, 1)])
-先进先出移动元素之后的字典:OrderedDict([(&#39;three&#39;, 3), (&#39;two&#39;, 2), (&#39;four&#39;, 4), (&#39;one&#39;, 1)])
-</code></pre>
-
-<h2 id="toc_27">defaultdict(默认字典)</h2>
-
-<p>使用字典的时候，如果某个key不存在而被访问，程序会报错。如果希望如果希望key不存在时，返回一个默认值，就可以用defaultdict。</p>
-
-<h3 id="toc_28">defaultdict()方法的使用</h3>
-
-<p>该方法接受两个参数，第一个参数是一个数据类型，代表当访问的key不存在时，默认返回一个什么类型的数据，第二个参数是初始化的字典数据</p>
-
-<p>示例代码</p>
-
-<pre><code class="language-python">from collections import defaultdict
-
-di = defaultdict(tuple, {&quot;one&quot;: 1, &quot;two&quot;: 2, &quot;three&quot;: 3})
-print(di[&quot;four&quot;])
-print(di)
-</code></pre>
-
-<p>参考结果</p>
-
-<pre><code class="language-python">()
-defaultdict(&lt;class &#39;tuple&#39;&gt;, {&#39;two&#39;: 2, &#39;four&#39;: (), &#39;one&#39;: 1, &#39;three&#39;: 3})
-</code></pre>
-
-<h2 id="toc_29">个人感悟</h2>
-
-<p>collections模块中常用的功能有namedtuple, deque, Counter, OrderedDict和defaultdict.</p>
-
-<ul>
-<li>namedtuple一般用于对元素不会进行修改，并且需要对每个元素有一个属性名。</li>
-<li>deque是一个双列表，解决列表两端读取和删除的性能问题，和列表的绝大多数操作方法一致，有一些是队列特有的左端元素操作方法。</li>
-<li>Counter类用于对元素出现的次数进行计算，可以用于统计一个字符串中每个字符出现的次数。</li>
-<li>OrderedDict类用于对字典进行顺序确定，能够保证字典中元素的顺序是元素添加的顺序。</li>
-<li>defaultdict类用于给字典中没有出现的元素一个默认值类型，保证在获取不到某个元素值的时候程序能够正常运行。</li>
-</ul>
-
-                        
-                      </div>
-                  </div>
-                </a>
-                <div class="read-more clearfix">
-                  <div class="more-left left">
-                  
-                    <span class="date">2016/9/22</span>
-                    <span>posted in&nbsp;</span> 
-          				  
-          					    <span class="posted-in"><a href='Python.html'>Python</a></span>
-          				   
-                  </div>
-                  <div class="more-right right">
-                  <span class="comments">
-                      
-
-                       
-                  </span>
-                  </div>
-                </div>
-              </div><!-- article -->
-        
-			<div class="article">
-                <a class="clearlink" href="14724629382123.html">
-                
-                  <h1>python对列表进行操作</h1>
-                  <div class="a-content">
-                      
-                      <div class="a-content-text">
-                        
-                        	<p><strong>:Python3不可以对类似于[1,2,&#39;sjsu&#39;]列表进行排序，而2是支持的～</strong></p>
-
-<p>列表是可以被改变的,所以当对列表进行修改的时候,所对应的id是不变的,这和字符串不同</p>
-
-<h4 id="toc_0">定义列表</h4>
-
-<ul>
-<li>l[]</li>
-<li>l = [&#39;22&#39;,&#39;erer&#39;,[1,2]]</li>
-<li>l = list(&#39;cjdhfy&#39;)</li>
-<li>l = [x**2 for x in range(l[2:6])]
-#### 查找元素</li>
-<li>l[i],若i大于len(l),则返回错误(IndexError)</li>
-<li>l[i][j]</li>
-<li>顺便查看元素下标：for index, value in enumerate(I): print(index, value)
-#### 查看长度
-len(l)
-#### 切片
-l[x:y],如果x大于y,或者读取的范围大于l的长度,则返回空列表  .
-#### 列表拼接:</li>
-<li>+代表两个列表进行拼接，两边必须是相同类型的序列，比如一个列表，一个是字符串，这样是没有办法直接相加的，必须转换成相同类型</li>
-<li>*代表将列表重复
-#### 判断是否存在
-x in l
-#### 添加元素:</li>
-<li>append()  l.append(),添加一个元素</li>
-<li>extend()    l.extend(),可以添加多个元素,[]括起来,元素之间以,分割
-#### 插入元素:insert()<br/>
-l.insert(x,y),在索引为x的地方插入元素y
-#### 查找元素所在位置
-index()     l.index(y),查找元素y的索引,如果没有该元素,则会报错(ValueError)
-#### 查看某一个元素出现的次数
-count()   l.count(),只能查找某一个元素,如果没有返回0
-#### 反转列表:</li>
-<li>reversed()     list(reversed(l)),该方法转换之后的格式并不是list,需要进行转换格式</li>
-<li>reverse()  l.reverse()
-#### 删除元素:del</li>
-<li>del l[k] 删除l的第k个元素</li>
-<li>del l[k:m] 删除从第k个元素开始,到第m(不包括m)个元素,如果没有m,则删除k之后的内容.</li>
-<li>l[i:j] = []    删除从第i个元素开始,到第j(不包括j)个元素</li>
-<li>l.pop()   删除列表的最后一个元素</li>
-<li>l.remove(s) 移除s元素
-#### 修改元素: 
-l[索引] = 修改的值
-#### 排序:    l.sort(),默认会从小到大排序,如果要从大到小排序,则l.sort(reverse=True)</li>
-</ul>
-
-                        
-                      </div>
-                  </div>
-                </a>
-                <div class="read-more clearfix">
-                  <div class="more-left left">
-                  
-                    <span class="date">2016/8/29</span>
-                    <span>posted in&nbsp;</span> 
-          				  
-          					    <span class="posted-in"><a href='Python.html'>Python</a></span>
+          					    <span class="posted-in"><a href='Fluent%20Python.html'>Fluent Python</a></span>
           				   
                   </div>
                   <div class="more-right right">
@@ -1210,6 +1380,8 @@ l[索引] = 修改的值
         
             <a href="%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84&%E7%AE%97%E6%B3%95.html"><strong>数据结构&算法</strong></a>
         
+            <a href="Fluent%20Python.html"><strong>Fluent Python</strong></a>
+        
             <a href="PHP.html"><strong>PHP</strong></a>
         
             <a href="Ubuntu.html"><strong>Ubuntu</strong></a>
@@ -1229,31 +1401,31 @@ l[索引] = 修改的值
 	      
 		      
 			      <li class="post">
-			        <a href="14830907697555.html">MySQL数据库☞数据库编码</a>
+			        <a href="15033291458720.html">使用一等函数实现设计模式</a>
 			      </li>
 		     
 		  
 		      
 			      <li class="post">
-			        <a href="14830842110487.html">MySQL数据库☞中文乱码问题</a>
+			        <a href="15018651943030.html">一等函数</a>
 			      </li>
 		     
 		  
 		      
 			      <li class="post">
-			        <a href="14819928857822.html">MySQL的基本命令☞数据表的基本管理</a>
+			        <a href="15018646605864.html">文本和字节序列</a>
 			      </li>
 		     
 		  
 		      
 			      <li class="post">
-			        <a href="14745361920074.html">python容器数据类型☞collections</a>
+			        <a href="15013419653919.html">集合的使用</a>
 			      </li>
 		     
 		  
 		      
 			      <li class="post">
-			        <a href="14724629382123.html">python对列表进行操作</a>
+			        <a href="15010832436363.html">字典的使用</a>
 			      </li>
 		     
 		  
@@ -1329,7 +1501,7 @@ Theme used <a target="_blank" href="http://github.com">GitHub CSS</a>.</p>
     </script>
 
     <script src="asset/chart/all-min.js"></script><script type="text/javascript">$(function(){    var mwebii=0;    var mwebChartEleId = 'mweb-chart-ele-';    $('pre>code').each(function(){        mwebii++;        var eleiid = mwebChartEleId+mwebii;        if($(this).hasClass('language-sequence')){            var ele = $(this).addClass('nohighlight').parent();            $('<div id="'+eleiid+'"></div>').insertAfter(ele);            ele.hide();            var diagram = Diagram.parse($(this).text());            diagram.drawSVG(eleiid,{theme: 'simple'});        }else if($(this).hasClass('language-flow')){            var ele = $(this).addClass('nohighlight').parent();            $('<div id="'+eleiid+'"></div>').insertAfter(ele);            ele.hide();            var diagram = flowchart.parse($(this).text());            diagram.drawSVG(eleiid);        }    });});</script>
-<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script type="text/x-mathjax-config">MathJax.Hub.Config({TeX: { equationNumbers: { autoNumber: "AMS" } }});</script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script type="text/x-mathjax-config">MathJax.Hub.Config({TeX: { equationNumbers: { autoNumber: "AMS" } }});</script>
 
 
   </body>

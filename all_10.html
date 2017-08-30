@@ -84,6 +84,8 @@
         
             <li><a href="%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84&%E7%AE%97%E6%B3%95.html">数据结构&算法</a></li>
         
+            <li><a href="Fluent%20Python.html">Fluent Python</a></li>
+        
             <li><a href="PHP.html">PHP</a></li>
         
             <li><a href="Ubuntu.html">Ubuntu</a></li>
@@ -109,151 +111,20 @@
 		<div class="markdown-body home-categories">
 		
 			<div class="article">
-                <a class="clearlink" href="14857048746834.html">
+                <a class="clearlink" href="14857051817013.html">
                 
-                  <h1>PHP语法基础总结</h1>
+                  <h1>近日小感</h1>
                   <div class="a-content">
                       
                       <div class="a-content-text">
                         
-                        	<p>PHP语法标记符</p>
+                        	<p>好久没有来网站发表文章了，这一段时间，接了一个做学生会网站的项目，现在正在恶补知识的阶段，我很清楚，以我现在的能力写出一个网站真的是很难的事情，我想抓住这次的机会，从学习网站开发到现在，我还没有写过一个项目，我学完了PHP，HTML，CSS，JavaScript，数据库操作，但是我清楚，基础知识归基础知识，没有实践学得再多也没有用，我一定要学会运用。最近一段时间，我在学习thinkphp框架，准备用这个框架写后台。</p>
 
-<p>PHP程序以“&lt;?PHP” 开头，以“&gt;”结尾。</p>
+<p>其实，我很迷茫，学习这些，是出于兴趣，还是为了以后更好的生活，我甚至自己也分不清楚，我努力的想要学得更好，在别人眼里我是一名好学生，可是如果只为了好地生活而强迫自己学习又是多么的可悲；值得庆幸的是，我并不是完全没有兴趣，我喜欢敲代码，喜欢自己设计一些东西，但是，我深知，在我的身上，缺乏的就是创造力，思维能力。最近在读古典的《拆掉思维里的墙》，这给我很大的感触，我的这些致命的缺点，我所谓的那些“应该是”，把我紧紧的包围，让我无法冲破。我锻炼自己以发散的观念思考问题，可是这对于我一个小女生来说，似乎真的很难。这样说，大概也只是为了发发牢骚，我不是那种知难而退的人，我有着很强的上进心，总是迷茫，不知所措，我依然会坚持，也许冲出这片云雾，我就能够见到彩虹。</p>
 
-<p>变量和常量</p>
+<p>对于这一行业，我有一定的兴趣，有时候，单单只有兴趣是不够的，我还需要能力，需要发现新事物的能力，需要独立思考的能力，在众多事情面前，我更需要比别人看得更长远的能力，在IT界，永远要走在别人的前面，它要引领大众，做别人的指明灯。</p>
 
-<p>变量是在运行过程中能够被修改，常量只能被赋值一次，在运行过程中不能够被修改。</p>
-
-<p>&lt;?php<br/>
-//变量的使用<br/>
-\(a = 10;<br/>
-echo &quot;a = \)a<br />&quot;;<br/>
-\(b = 30;<br/>
-\)a = 20;<br/>
-\(c = \)a+\(b;<br/>
-echo &quot;a + b = \)c<br />&quot;;<br/>
-//常量的使用<br/>
-const x = 5;<br/>
-echo &quot;x = &quot;;<br/>
-echo x;<br/>
-//x = 10;这里不能够再重复对x进行赋值，因为已经声明它是常量<br/>
-//const x = 10;这句话在这里也是不可以的，因为重复定义了同一个常量<br/>
-//还有一种声明常量的方法<br/>
-define(&#39;y&#39;,100);<br/>
-echo y;<br/>
-?&gt;<br/>
-函数的使用</p>
-
-<p>有时候，一些代码会反复被使用很多次，这时候把这些代码封装进函数里，使用的时候直接调用即可。</p>
-
-<p>&lt;?php<br/>
-function wucan()//没有参数的函数，直接输出要输出的内容<br/>
-{<br/>
-    echo &quot;hello world!!<br />&quot;;<br/>
-}<br/>
-function onecan(\(name)//带有一个参数的函数，接收一个参数，执行相应操作<br/>
-{<br/>
-    echo &#39;hello &#39;.\)name.&#39;<br />&#39;;<br/>
-}<br/>
-function twocan(\(a,\)b)//带有多个参数的函数<br/>
-{<br/>
-    \(b += \)a;<br/>
-    echo &#39;a + b = &#39;. \(b.&#39;&lt;br /&gt;&#39;;<br/>
-}<br/>
-function fanhui(\)a,\(b)//带有返回值的函数<br/>
-{<br/>
-    echo &quot;a = \)a,b = \(b,a - b = &quot;;<br/>
-    return \)a - $b;<br/>
-}<br/>
-//四种函数的调用<br/>
-wucan();<br/>
-onecan(&#39;zhangsan&#39;);<br/>
-twocan(2,6);<br/>
-echo fanhui(10,7).&#39;<br />&#39;;<br/>
-?&gt;<br/>
-选择语句</p>
-
-<p>在PHP语言中有两种选择语句，switch语句和if...elseif...语句</p>
-
-<p>&lt;?php<br/>
- function if_chouse(\(source)<br/>
- {<br/>
-     if(\)source&gt;=90)<br/>
-         return &quot;优秀&quot;;<br/>
-     elseif(\(source &gt;= 70)<br/>
-         return &quot;良好&quot;;<br/>
-     elseif(\)source &gt;= 60)<br/>
-         return &quot;及格&quot;;<br/>
-     else<br/>
-         return &quot;不及格&quot;;<br/>
- }<br/>
-function switch_chouse(\(source)<br/>
-{<br/>
-    //这里如果不将小数转换成整数，在case中写起来就会很麻烦，转换成整数之后就相当于划定了一个区间。<br/>
-    switch(intval(\)source / 10))//intval()是一个将小数转换成整数的方法，直接接取整数部分，没有四舍五入的规则。<br/>
-    {<br/>
-        case 10:<br/>
-        case 9:<br/>
-            return &quot;优秀&quot;;<br/>
-        case 8:<br/>
-        case 7:<br/>
-            return &quot;良好&quot;;<br/>
-        case 6:<br/>
-            return &quot;及格&quot;;<br/>
-        default://指剩余的情况<br/>
-            return &quot;不及格&quot;;<br/>
-    }<br/>
-}<br/>
-echo if_chouse(50).&quot;<br />&quot;;<br/>
-echo switch_chouse(100);<br/>
-?&gt;<br/>
-循环语句</p>
-
-<p>循环语句在PHP中有3种，while循环，for循环，do......while循环</p>
-
-<p>while循环是先判断条件，在执行循环体内的语句。</p>
-
-<p>do......while循环是先执行一遍循环体内的语句然后再判断条件，看是否继续执行。</p>
-
-<p>&lt;?php<br/>
-for(\(i = 0;\)i &lt; 10;\(i++)<br/>
-{<br/>
-    echo &quot;hello&quot;.\)i.&quot;<br />&quot;;<br/>
-    if(\(i == 5)<br/>
-        continue;//continue的作用是停止当前这一次的循环，继续下一次的循环<br/>
-    echo &quot;run one&quot;.\)i.&quot;<br />&quot;;<br/>
-}<br/>
-\(i = 0;<br/>
-while(\)i &lt; 20)<br/>
-{<br/>
-    echo &quot;while hello&quot;.\(i.&quot;&lt;br /&gt;&quot;;<br/>
-    if(\)i == 10)<br/>
-        break;//直接跳出循环语句<br/>
-    \(i++;<br/>
-}<br/>
-do//先执行一次<br/>
-{<br/>
-    echo &quot;do.while hello&quot;.\)i.&quot;<br />&quot;;<br/>
-}while(i &lt; 10);//再对条件进行判断<br/>
-?&gt;<br/>
-逻辑语句</p>
-
-<p>PHP的逻辑语句有：与（&amp;&amp;），或（||），非（！）</p>
-
-<p>&lt;?php<br/>
-for(\(i = 0;\)i &lt; 50;\(i++) {<br/>
-if(\)i % 2 == 0 &amp;&amp; \(i % 3 == 0)//输出是2的倍数并且也是3的倍数的数字<br/>
-    echo \)i.&#39;<br />&#39;;<br/>
-}<br/>
-for(\(i = 0;\)i &lt; 50;\(i++) {<br/>
-    if(\)i % 2 == 0 || \(i % 3 == 0)//输出是2的倍数或者是3的倍数的数字<br/>
-        echo \)i.&#39;<br />&#39;;<br/>
-}<br/>
-for(\(i = 0;\)i &lt; 10;\(i++) {<br/>
-    if(\)i != 9)//输出不等于9的数字<br/>
-        echo $i.&#39;<br />&#39;;<br/>
-}<br/>
-?&gt;</p>
+<p>告诉自己，如果兔子离开了地面，挂在了树上，它会看到很多之前看不到了事物，从迷茫，到熟练，这是一个过程，只有坚持，才能圆梦！！</p>
 
                         
                       </div>
@@ -262,46 +133,7 @@ for(\(i = 0;\)i &lt; 10;\(i++) {<br/>
                 <div class="read-more clearfix">
                   <div class="more-left left">
                   
-                    <span class="date">2015/3/20</span>
-                    <span>posted in&nbsp;</span> 
-          				  
-          					    <span class="posted-in"><a href='PHP.html'>PHP</a></span>
-          				   
-                  </div>
-                  <div class="more-right right">
-                  <span class="comments">
-                      
-
-                       
-                  </span>
-                  </div>
-                </div>
-              </div><!-- article -->
-        
-			<div class="article">
-                <a class="clearlink" href="14857048402362.html">
-                
-                  <h1>集训总结</h1>
-                  <div class="a-content">
-                      
-                      <div class="a-content-text">
-                        
-                        	<p>2015年寒假集训就在最后的结训比赛中以一道题目惨烈结束了，这个假期，因为前几天有事，所以我比别的队友开始集训要晚几天。还记得开始的时候，我为自己制定了这一个寒假训练的计划，大体分为两方面，一方面是刷小白书上的题目，另一方面是看图论，并做相关的题目。计划中，每一天都安排得仔仔细细的，做多少题目，学习哪些知识点都涉及到了，可是真正实施下来，却没有那么容易，有的时候，我会被一道题目卡住一上午或是一下午，有时候为了学会一个知识点来回看好多遍的书，会为了一个简单的知识点放下当天的某些任务去做这一个知识点的题目，这样下来，效率根本就提不起来。任务不能够按时完成，让我每天都有些郁闷。。。。。。</p>
-
-<p>不过这个寒假中，对于我自己有一点我做的还是比较满意的，那就是我坚持每天都写总结，其实想想很容易，但是每天都坚持去写总结，尤其是一天中几乎什么事情也没有做，感觉写出来都不好意思，觉得很丢人的时候还要坚持住，真的是很不容易。曾经有几天，我都在学习欧拉，导致晚上写总结的时候都没什么可以写的。有的时候忙着晚上做CF，就直接忘记写总结，然后会在第二天开始学习之前就补上，有的时候几天学习一个知识点，就会把这几天的总结写在一起。通过每天的总结，我能看到这一天来我都做了些什么，刷了几道题目，是什么类型的，学习了多少知识，有哪些东西应该完成却没有完成，每天都会有一个反思的过程，不断的鞭策着我自己，不要松懈。</p>
-
-<p>整个寒假，写了40多篇博客，刷了40多道题目，最后还是被学弟吊打了。。。sad。。。不能说没有学到东西，但是事实证明我学的还不行。接下来的这段时间里，我要调整策略，在学习各种知识的基础上，做成套的题目，尽量不要在已经知道题型的情况下刷题目，而是学着自己去判断知识点，自己总结方法，锻炼独立思考的能力。</p>
-
-<p>一个大学，能够这样系统的学习知识的机会没有多少，时间是有限的，如果我想在某一方面有所成就，那么就必须放弃某些东西，时间是一定的，如何取舍，全在我自己。。。。。。加油吧，趁还年轻！！</p>
-
-                        
-                      </div>
-                  </div>
-                </a>
-                <div class="read-more clearfix">
-                  <div class="more-left left">
-                  
-                    <span class="date">2015/2/9</span>
+                    <span class="date">2015/4/23</span>
                     <span>posted in&nbsp;</span> 
           				  
           					    <span class="posted-in"><a href='%E9%9A%8F%E6%83%B3.html'>随想</a></span>
@@ -318,286 +150,197 @@ for(\(i = 0;\)i &lt; 10;\(i++) {<br/>
               </div><!-- article -->
         
 			<div class="article">
-                <a class="clearlink" href="14857047517618.html">
+                <a class="clearlink" href="14857051137850.html">
                 
-                  <h1>欧拉回路的应用</h1>
+                  <h1>PHP与MySQL（下篇）</h1>
                   <div class="a-content">
                       
                       <div class="a-content-text">
                         
-                        	<p>上一篇文章主要总结的是欧拉函数的基础知识，重点是欧拉回路的基本原理和判定是否能够组成欧拉回路，这篇文章重点总结欧拉回路在能够组成的基础上，输出路径问题。</p>
+                        	<p>连接数据库</p>
 
-<p>查找欧拉回路的路径主要有两种方法，一种是DFS搜索，一种是Fleury（弗罗莱）算法。</p>
+<p>对于用户的各种操作，都离不开数据库，所以在操作之前就要连接好数据库</p>
 
-<p>DFS搜索</p>
-
-<p>利用欧拉定理判断出一个图能够构成欧拉回路后，利用DFS算法遍历所有的边，并且保证每条边只遍历一遍。</p>
-
-<p>用示例说明DFS算法：</p>
-
-<p>题目描述：</p>
-
-<p>给定n张骨牌，每张骨牌有左右两个点数（从1到6），问能不能交换骨牌的顺序交换左右两个点数，使得任意相邻骨牌的相邻字段为相等的数字。</p>
-
-<p>输入描述：</p>
-
-<p>输入文件中有多个测试数据。每个测试数据的第一行为一个整数N，1&lt;=N&lt;=100，表示多米诺骨牌的总数；接下来N行对每一张牌进行描述：每一行表示一张牌的左右两点的数字，用空格隔开。</p>
-
-<p>输出描述：</p>
-
-<p>对输入文件中的每个测试数据，如果不能满足要求，输出“No solution”；如果有解，输出任意一个即可：每张牌必须从左到右打印；每一行都要包含当前牌的序号和符号（+号代表没有翻转，-号代表左右翻转），每个测试数据的输出之后输入一个空行。</p>
-
-<p>解析：这是一个无向图，骨牌可以翻转，而且一共有六个顶点，两个顶点之间可能有多条边，所以选择用邻接表存储图，每条边有两个方向，一正一负，这是需要记录的，每条边的两个顶点，边的序号都是需要记录的。通过边的度数判断能否构成欧拉通路，之后再利用DFS的搜索方法进行路径搜索。</p>
-
-<p>存图——&gt;判断能否构成欧拉回路——&gt;DFS搜索路径——&gt;打印路径</p>
-
-<p>示例代码：</p>
-
-<h1 id="toc_0">define MAXN 101</h1>
-
-<p>using namespace std;</p>
-
-<p>struct EdgeNode<br/>
+<p>//定义几个常量<br/>
+define(&#39;MYSQL_HOST&#39;,&#39;localhost&#39;);<br/>
+define(&#39;MYSQL_USER&#39;,&#39;root&#39;);<br/>
+define(&#39;MYSQL_PW&#39;,&#39;&#39;);<br/>
+function connectDb()<br/>
 {<br/>
-    int adjvex;//边的令一个邻接点的序号<br/>
-    int EdgeNo;//边的序号<br/>
-    int flag;//判断边有没有反转，没有为1，翻转为-1<br/>
-    EdgeNode *next;//指向下一个边结点<br/>
-};<br/>
-EdgeNode *EdgeLink[10];//邻接表的头结点<br/>
-int visited[MAXN];//记录每条边是否被遍历过<br/>
-int path[MAXN];//记录加进欧拉图里的边，用边的序号标记<br/>
-int pi;//记录当前已经加图里的边的数目<br/>
-int N;//总边数<br/>
-int du[10];//记录每个顶点的数目</p>
-
-<p>void createLG()<br/>
-{<br/>
-    int i,j,k,a,b;<br/>
-    EdgeNode <em>p,</em>q;<br/>
-    for(i = 1;i &lt;= N;i++)<br/>
-    {<br/>
-        scanf(&quot;%d%d&quot;,&amp;a,&amp;b);<br/>
-        du[a]++;//整理度数<br/>
-        du[b]++;<br/>
-        p = new EdgeNode;//开辟第一个节点的内存<br/>
-        q = new EdgeNode;//开辟第二个节点的内存<br/>
-        p-&gt;adjvex = b;<br/>
-        p-&gt;EdgeNo = i;<br/>
-        p-&gt;flag = 1;<br/>
-        p-&gt;next = EdgeLink[a];<br/>
-        EdgeLink[a] = p;<br/>
-        q-&gt;adjvex = a;<br/>
-        q-&gt;EdgeNo = i;<br/>
-        q-&gt;flag = -1;<br/>
-        q-&gt;next = EdgeLink[b];<br/>
-        EdgeLink[b] = q;<br/>
-    }<br/>
+    \(conn = mysql_connect(MYSQL_HOST,MYSQL_USER,MYSQL_PW);<br/>
+    mysql_select_db(&#39;myapp&#39;);<br/>
+    return \)conn;<br/>
 }</p>
 
-<p>void DFS(int start)<br/>
-{<br/>
-    while(pi &lt;= N)<br/>
-    {<br/>
-        EdgeNode *p;<br/>
-        p = EdgeLink[start];<br/>
-        while(p != NULL)<br/>
-        {<br/>
-            if(!visited[p-&gt;EdgeNo])<br/>
-            {<br/>
-                //标记改边已经被遍历过了<br/>
-                visited[p-&gt;EdgeNo] = 1;<br/>
-                //根据判断该边是否翻转决定存入数组数据正负号<br/>
-                if(p-&gt;flag &gt; 0)<br/>
-                    path[pi] = p-&gt;EdgeNo;<br/>
-                else<br/>
-                    path[pi] = -p-&gt;EdgeNo;<br/>
-                pi++;<br/>
-                DFS(p-&gt;adjvex);<br/>
-            }<br/>
-            else<br/>
-                p = p-&gt;next;<br/>
-        }<br/>
-    }<br/>
-}</p>
+<p>新增用户</p>
 
-<p>void Domino()<br/>
-{<br/>
-    int start1,start2,jd = 0;<br/>
-    //判断能不能构成欧拉路<br/>
-    for(int i = 1;i &lt;= 6;i++)<br/>
-    {<br/>
-        if(du[i] % 2)<br/>
-        {<br/>
-            start1 = i;<br/>
-            jd++;<br/>
-        }<br/>
-        if(du[i] != 0)<br/>
-            start2 = i;<br/>
-    }<br/>
-    if(jd != 0 &amp;&amp; jd != 2)<br/>
-    {<br/>
-        printf(&quot;NO Solution!\n&quot;);<br/>
-        return ;<br/>
-    }<br/>
-    pi = 1;<br/>
-    if(jd == 2)<br/>
-        DFS(start1);//有奇度的点，从奇度的点开始出发<br/>
-    else<br/>
-        DFS(start2);//没有奇度的点，从任一有边的点出发都可以<br/>
-        char flag1 = &#39;+&#39;,flag2 = &#39;-&#39;;<br/>
-        for(int i = 1;i &lt; pi;i++)<br/>
-        {<br/>
-            if(path[i] &gt; 0)<br/>
-                printf(&quot;%d%c\n&quot;,path[i],flag1);<br/>
-            else<br/>
-                printf(&quot;%d%c\n&quot;,-path[i],flag2);<br/>
-        }<br/>
-}</p>
+<p>在网页中，一般都是通过用户注册来实现用户的增加的，而注册的信息一般是通过表单进行提交，提交过之后交给PHP程序处理。</p>
 
-<p>void delet()<br/>
-{<br/>
-    EdgeNode *p;<br/>
-    for(int i = 1;i &lt;= 6;i++)<br/>
-    {<br/>
-        p = EdgeLink[i];<br/>
-        while(p != NULL)<br/>
-        {<br/>
-            EdgeLink[i] = p-&gt;next;<br/>
-            delete p;<br/>
-            p = EdgeLink[i];<br/>
-        }<br/>
-    }<br/>
-}</p>
+<p>注册页面</p>
 
-<p>int main()<br/>
-{<br/>
-    while(~scanf(&quot;%d&quot;,&amp;N))<br/>
-    {<br/>
-        memset(du,0,sizeof(du));<br/>
-        memset(visited,0,sizeof(visited));<br/>
-        memset(path,0,sizeof(path));<br/>
-        for(int i = 1;i &lt;= 6;i++)<br/>
-            EdgeLink[i] = NULL;<br/>
-        createLG();//建图，记录度数<br/>
-        Domino();<br/>
-        delet();//用来释放内存<br/>
-    }<br/>
-    return 0;<br/>
-}</p>
+<div style="background-color: #00fafa;width: 400px;height: 400px;margin-top: 10px;margin-left: 500px">
+    <form action="adduser.php" method="post">
+        <br />
+        <div style="margin-left: 50px">
+            <h2>&nbsp;&nbsp;&nbsp;&nbsp;用户注册</h2>
+            用户名称：<input type="text" name = 'name'>
+        </div>
 
-                        
-                      </div>
-                  </div>
-                </a>
-                <div class="read-more clearfix">
-                  <div class="more-left left">
-                  
-                    <span class="date">2015/2/6</span>
-                    <span>posted in&nbsp;</span> 
-          				  
-          					    <span class="posted-in"><a href='%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84&%E7%AE%97%E6%B3%95.html'>数据结构&算法</a></span>
-          				   
-                  </div>
-                  <div class="more-right right">
-                  <span class="comments">
-                      
-
-                       
-                  </span>
-                  </div>
-                </div>
-              </div><!-- article -->
-        
-			<div class="article">
-                <a class="clearlink" href="14857046093556.html">
-                
-                  <h1>欧拉回路</h1>
-                  <div class="a-content">
-                      
-                      <div class="a-content-text">
-                        
-                        	<p>基本概念及定理</p>
-
-<p>1.无向图的欧拉通路，欧拉回路，欧拉图</p>
-
-<p>（1）设G是无向图，则称经过G的每条边一次并且仅一次的路径为欧拉通路。</p>
-
-<p>（2）如果欧拉通路是回路，即起点和终点是同一个顶点，则称此回路为欧拉回路。</p>
-
-<p>（3）具有欧拉回路的无向图为欧拉图。</p>
-
-<p>2.有向图的欧拉通路，欧拉回路，欧拉图</p>
-
-<p>（1）设D是有向图，D的基图连通，则称经过D的每条边一次且仅经过一次的有向路径为有向欧拉路径。</p>
-
-<p>（2）如果有向欧拉通路是有向回路，则称此有向回路为有向欧拉回路。</p>
-
-<p>（3）具有有向欧拉回路的有向图D称为有向欧拉图。</p>
-
-<p>3.定理</p>
-
-<p>（1）无向图G存在欧拉通路的充要条件是：G为连通图，并且G仅有两个奇度结点或者没有奇度结点。</p>
-
-<p>定理（1）得出的三个推论：</p>
-
-<p>（1.1）当G是仅有两个奇度结点的连通图时，G的欧拉通路必定以这两个顶点为端点。</p>
-
-<p>（1.2）当G是无奇度结点的连通图时，G必有欧拉回路。</p>
-
-<p>（1.3）G为欧拉图（存在欧拉回路）的充分必要条件是：G为无奇度结点的连通图。</p>
-
-<p>（2）有向图D存在欧拉通路的充要条件是：D为有向图，D的基图连通，并且所有顶点的出度入度都相等；或者除了两个顶点外，其余顶点的入读出度都相等，而这两个顶点中，一个顶点的入度比出度多一，另一个顶点的出度比入度多一。</p>
-
-<p>定理（2）得出的三个推论：</p>
-
-<p>（2.1）当D除出度入度之差为1，-1两个顶点外，其余顶点的出度和入读都相同，D的有向欧拉通路必定以出度减入度等于1的顶点出发，到出度减入度等于-1的顶点结束。</p>
-
-<p>（2.2）当d的所有顶点的出度和入度都相等的时候，D中存在有向欧拉回路。</p>
-
-<p>（2.3）有向图D为有向欧拉图的充分必要条件是D的基图为连通图，并且所有顶点的出入度都相等。</p>
-
-<p>欧拉回路的应用</p>
-
-<p>（1）哥尼斯堡七桥问题</p>
-
-<p><img src="media/14857046093556/oula-qiqiao.jpg" alt="oula-qiqiao"/></p>
-
-<p>如图所示，蓝色的代表河流，黄色的代表桥梁，河流将白色的陆地分成四部分（四个小岛），问从一个小岛出发，能不能一次走遍所有的七座桥，并且每座桥梁经过且只经过一次。</p>
-
-<p>我们把图抽象一下，即小岛用点来表示，桥梁用边来表示，这样就构成了一个图，每条边经过且只经过一次，就成了判断欧拉路径的问题。</p>
-
-<p>计算每个点的出度和入度，A点度数为3，B点度数为3，C点度数为5，D点度数为3，而在无向图中，能够构成欧拉路径的条件是图仅有两个奇度结点或者一个奇度结点也没有，而这四个结点都是奇度结点，肯定不能实现一次走遍所有的七座桥并且每座桥只走一遍。</p>
-
-<p>（2）一笔画问题</p>
-
-<p>判定一个图能不能用一笔画画出来，其实也是用到了欧拉路径。如果这个图要求起点终点在一个顶点，那么就要判断是不是欧拉回路，没有要求的话，就判断是不是欧拉回路或欧拉通路，在判断的过程中，需要注意有向图和无向图是不一样的，具体看本文上面的定理。</p>
-
-<p>（3）旋转鼓轮的设计</p>
-
-<p>计算机鼓轮设计（模数转换问题）：设有旋转鼓轮其表面被等分成16个部分，如图1所示。 其中每一部分分别用绝缘体或导体组成，绝缘体部分给出信号0，导体部分给出信号1，在图中阴影部分表示导体，空白部分表示绝缘体，根据鼓轮的位置，触点将得到信息1101，如果鼓轮沿顺时针方向旋转一个部分，触点将有信息1010。问鼓轮上16个部分怎样安排导体及绝缘体，才能使鼓轮每旋转一个部分，四个触点能得到一组不同的四位二进制数信息。</p>
-
-<pre><code>        ![oula-tu1](media/14857046093556/oula-tu1.png)
-                                                 图片2
+<pre><code>    &lt;br /&gt;&lt;br /&gt;
+    &lt;div style=&quot;margin-left: 50px&quot;&gt;
+        设置密码：&lt;input type=&quot;password&quot; name=&quot;pas&quot;&gt;
+    &lt;/div&gt;
+    &lt;br /&gt;&lt;br /&gt;
+    &lt;div style=&quot;margin-left: 50px&quot;&gt;
+        确认密码：&lt;input type=&quot;password&quot; name = &quot;pass&quot;&gt;
+    &lt;/div&gt;
+    &lt;br /&gt;&lt;br /&gt;
+    &lt;div style=&quot;margin-left: 50px&quot;&gt;
+        用户年龄：&lt;input type=&quot;number&quot; name=&quot;age&quot;&gt;
+    &lt;/div&gt;
+    &lt;br /&gt;&lt;br /&gt;
+    &lt;div style=&quot;margin-left: 50px&quot;&gt;
+        用户学号：&lt;input type=&quot;text&quot; name=&quot;xuehao&quot;&gt;
+    &lt;/div&gt;
+    &lt;br /&gt;
+    &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;
+    &lt;input type=&quot;submit&quot; value=&quot;提交&quot;&gt;&amp;nbsp;
+    &amp;nbsp;&amp;nbsp;&amp;nbsp;
+    &lt;input type=&quot;reset&quot; value=&quot;重置&quot;&gt;
+&lt;/form&gt;
 </code></pre>
 
-<p>图1<br/>
-<img src="media/14857046093556/oula-tu2.png" alt="oula-tu2"/><br/>
-                                                                                                                          图2</p>
+<p></div><br/>
+在本示例中，通过post的方式进行提交数据到adduser.php文件，接下来就是该文件的处理</p>
 
-<p>设有一个八个结点的有向图（图2 ），其结点分别记为三位二进制数{000，001，010，011，100，101，110，111}，设ai∈{0，1}，从结点a1a2a3可引出两条有向边，其终点分别是a2a30以及a2a31。该两条边分别记为a1a2a30和a1a2a31。所以这八个节点之间可以构成16条分别不同的边。在这种图的任一条路中，其邻接的边必是a1a2a3a4和a2a3a4a5的形式，即是第一条边标号的后三位数与第二条边标号的头三位数相同。</p>
+<p>if(\(_POST[&#39;pas&#39;] != \)_POST[&#39;pass&#39;])<br/>
+    echo&#39;密码不统一，<a href="adduser.html">点击这里重新填写</a>&#39;;<br/>
+else<br/>
+{<br/>
+    //将获得的数据分离出来进行赋值操作<br/>
+    \(name = \)_POST[&#39;name&#39;];<br/>
+    \(pas = \)_POST[&#39;pas&#39;];<br/>
+    \(pass = \)_POST[&#39;pass&#39;];<br/>
+    \(age = \)_POST[&#39;age&#39;];<br/>
+    \(xuehao = \)_POST[&#39;xuehao&#39;];<br/>
+    if(empty(\(name) || empty(\)pas) || empty(\(pass) || empty(\)age) || empty(\(xuehao))<br/>
+        echo&#39;信息不完整，&lt;a href=&quot;adduser.html&quot;&gt;点击这里重新填写&lt;/a&gt;&#39;;<br/>
+    else<br/>
+    {<br/>
+        require_once &#39;functions.php&#39;;<br/>
+        \)conn = connectDb();<br/>
+        //echo &quot;\(name &lt;br /&gt;&quot;;<br/>
+        if(\)conn)<br/>
+        {<br/>
+            \(age = intval(\)age);<br/>
+            //注意：name是一个字符串，应该将其引起来再传参数<br/>
+            mysql_query(&quot;INSERT INTO user(name,password,age,xuehao) VALUES (&#39;\(name&#39;,&#39;\)pas&#39;,\(age,&#39;\)xuehao&#39;)&quot;);<br/>
+            //如果需要插入多条数据，则写成以下形式，即value中再写一个小括号<br/>
+            // mysql_query(&quot;INSERT INTO user(name,password,age,xuehao) VALUES (\(name,\)pas,\(age,\)xuehao),($name1...)&quot;);<br/>
+            if(mysql_errno())//判断写入的时候有没有错误<br/>
+            {<br/>
+                echo mysql_error();//如果有错误就输出错误<br/>
+            }<br/>
+                else<br/>
+            header(&quot;Location:index.php&quot;);<br/>
+        }<br/>
+        else<br/>
+            die(&#39;can not connect db&#39;);<br/>
+    }<br/>
+}<br/>
+添加用户对数据库的操作语句为：</p>
 
-<p>这16条边每条边都走一遍并且仅走一遍，那么就构成了欧拉回路，每个顶点都有两个出度，两个入度，自然是从哪个顶点出发就能够从那个顶点结束，途中经过的这些边的第一位数就是绝缘体和导体的分布。当然得出的结果并不是唯一的。</p>
+<p>mysql_query(&quot;INSERT INTO user(name,password,age,xuehao) VALUES (&#39;\(name&#39;,&#39;\)pas&#39;,\(age,&#39;\)xuehao&#39;)&quot;);<br/>
+修改用户数据</p>
 
-<p>上面的例子，我们可以把它推广到鼓轮具有n个触点的情况。为此，我们只要构造2n-1个结点的有向图，设每个结点标记为n-1位二进制数，从结点a1,a2,a3,a4...an出发，有一条终点为a1,a2,a3,a4...an-10的边，该边记为a1,a2,a3,a4,......an-10；还有一条边的终点为a2,a3,a4,...an-11的边，该边记为a1,a2,a3,a4...an-11。这样构造的有向图，其每一结点的出度和入度都是2，故必是欧拉图。由于邻接边的标记是第一条边的后n-1位二进制数与第二条边的前n-1位二进制数相同，为此就有一种2n个二进制数的环形排列与所求的鼓轮相对应。</p>
+<p>要修改用户信息，一般是要获取用户原来的信息，然后将修改后的信息传到数据库</p>
 
-<p>欧拉回路问题</p>
+<p>获取原来信息并修改</p>
 
-<p>（1）欧拉回路的判定问题：即判断一个无向图（有向图）是否存在欧拉回路（有向欧拉回路）。</p>
+<p>if(!empty(\(_GET[&#39;id&#39;]))<br/>
+{<br/>
+    \)conn = connectDb();//连接数据库<br/>
+    \(id = \)_GET[&#39;id&#39;];//获取要修改数据的id<br/>
+    //选择该id的数据<br/>
+    \(result = mysql_query(&quot;SELECT * FROM user WHERE ID = &#39;\)id&#39;&quot;);<br/>
+    if(mysql_errno())<br/>
+        echo mysql_error();<br/>
+    //将数据赋值给数组\(arr<br/>
+    \)arr = mysql_fetch_assoc(\(result);<br/>
+}<br/>
+else<br/>
+    die(&#39;id not define&#39;);<br/>
+?&gt;<br/>
+//用表单的形式显示数据并修改<br/>
+&lt;form action=&quot;adduser_change.php&quot; method=&quot;post&quot;&gt;<br/>
+    &lt;div&gt;<br/>
+       用户ＩＤ：&lt;input type=&quot;text&quot; name=&quot;id&quot; value=&quot;&lt;?php echo\)arr[&#39;ID&#39;];?&gt;&quot;&gt;<br/>
+    </div><br/>
+    <br /><br/>
+    <div><br/>
+        用户名称：<input type="text" name="name" value="<?php echo$arr['name'];?>&quot;&gt;<br/>
+    </div><br/>
+    <br /><br/>
+    <div><br/>
+        用户密码：<input type="password" name="pass" value="<?php echo$arr['password'];?>&quot;&gt;<br/>
+    </div><br/>
+    <br /><br/>
+    <div><br/>
+        用户年龄：<input type="number" name="age" value="<?php echo$arr['age'];?>&quot;&gt;<br/>
+    </div><br/>
+    <br /><br/>
+    <div><br/>
+        用户学号：<input type="text" name="xuehao" value="<?php echo$arr['xuehao'];?>&quot;&gt;<br/>
+    </div><br/>
+    <br /><br/>
+    <input type="submit" value="提交"><br/>
+</form><br/>
+将修改后得到的数据进行上传</p>
 
-<p>这一类问题比较简单，只需要根据定理进行判断即可，比较难的是把问题建模成一个图，并把问题的求解转换成求判断图中是否存在欧拉回路。这需要根据不同的情景进行判断。</p>
+<p>require_once&#39;functions.php&#39;;<br/>
+//调用函数，连接数据库<br/>
+\(conn = connectDb();<br/>
+//对于传过来的参数进行判断，如果没有填写完整，给出提示，退出程序的执行<br/>
+if(empty(\)_POST[&#39;id&#39;]) || empty(\(_POST[&#39;name&#39;]) || empty(\)_POST[&#39;pass&#39;]) || empty(\(_POST[&#39;age&#39;]) || empty(\)_POST[&#39;xuehao&#39;]))<br/>
+{<br/>
+    die (&quot;数据不完整!!&quot;);<br/>
+}<br/>
+else<br/>
+{<br/>
+    \(id = intval(\)_POST[&#39;id&#39;]);<br/>
+    \(name = \)_POST[&#39;name&#39;];<br/>
+    \(pass = \)_POST[&#39;pass&#39;];<br/>
+    \(age = intval(\)_POST[&#39;age&#39;]);<br/>
+    \(xuehao = \)_POST[&#39;xuehao&#39;];<br/>
+   if(\(conn)<br/>
+   {<br/>
+       mysql_query(&quot;UPDATE user SET name=&#39;\)name&#39;,password=&#39;\(pass&#39;,age=\)age,xuehao=&#39;\(xuehao&#39; WHERE id = \)id&quot;);<br/>
+       header(&quot;Location:index.php&quot;);//跳转至指定页面<br/>
+   }<br/>
+    else<br/>
+        echo &quot;can not connect db&quot;;<br/>
+}<br/>
+修改数据和数据库相关的语句</p>
 
-<p>（2）欧拉回路的求解：在判断图中已经存在欧拉回路后，输出这条欧拉回路。</p>
+<p>mysql_query(&quot;UPDATE user SET name=&#39;\(name&#39;,password=&#39;\)pass&#39;,age=\(age,xuehao=&#39;\)xuehao&#39; WHERE id = $id&quot;);<br/>
+删除数据</p>
+
+<p>删除数据比较简单，只需要根据要删除的数据的id进行删除操作即可</p>
+
+<p>require_once &#39;functions.php&#39;;<br/>
+            if(!empty(\(_GET[&#39;id&#39;]))<br/>
+            {<br/>
+                \)conn = connectDb();<br/>
+                \(id = \)_GET[&#39;id&#39;];<br/>
+                mysql_query(&quot;DELETE FROM user WHERE id=$id&quot;);<br/>
+                if(mysql_errno())<br/>
+                    die(&#39;用户删除失败!!&#39;);<br/>
+                else<br/>
+                    header(&quot;Location:index.php&quot;);<br/>
+            }<br/>
+删除数据的数据库相应语句</p>
+
+<p>mysql_query(&quot;DELETE FROM user WHERE id=$id&quot;);</p>
 
                         
                       </div>
@@ -606,10 +349,10 @@ int du[10];//记录每个顶点的数目</p>
                 <div class="read-more clearfix">
                   <div class="more-left left">
                   
-                    <span class="date">2015/2/5</span>
+                    <span class="date">2015/3/30</span>
                     <span>posted in&nbsp;</span> 
           				  
-          					    <span class="posted-in"><a href='%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84&%E7%AE%97%E6%B3%95.html'>数据结构&算法</a></span>
+          					    <span class="posted-in"><a href='PHP.html'>PHP</a></span>
           				   
                   </div>
                   <div class="more-right right">
@@ -623,241 +366,71 @@ int du[10];//记录每个顶点的数目</p>
               </div><!-- article -->
         
 			<div class="article">
-                <a class="clearlink" href="14857044682676.html">
+                <a class="clearlink" href="14857050642793.html">
                 
-                  <h1>最小生成树（总结）</h1>
+                  <h1>PHP会话管理</h1>
                   <div class="a-content">
                       
                       <div class="a-content-text">
                         
-                        	<p>定义</p>
+                        	<p>概述</p>
 
-<p>一个有 n 个结点的连通图的生成树是原图的极小连通子图，且包含原图中的所有 n 个结点，并且有保持图连通的最少的边。</p>
+<p>有时会在多个页面之间来共享数据，这样的话就用到了PHP的会话管理，在这里，有两种解决方案Cookie和Session。</p>
 
-<p>准则</p>
+<p>Cookie的数据存放在浏览器端，不同的浏览器有不同的存放方式，浏览器端的程序就可以访问Cookie数据，如果在服务器端获取客户端的信息，就可以直接访问Cookie中的数据。但因为很多浏览器都会禁用Cookie，这时候就可以使用URL参数，即POST和GET方式。</p>
 
-<p>构成最小生成树的准则有3条：</p>
+<p>Session的数据会存在服务器端，当访问服务器的时候，就会打开一个页面，服务器端会为我们创建一个ID，这个ID用来标识每一个用户，而用户的信息是在服务器端以键值对的形式存放。该方式高效，安全，不依赖浏览器环境（不会被禁用）。</p>
 
-<p>（1）必须是应该网络的边来构造最小生成树，不可以凭空捏造边哦。</p>
+<p>Cookie</p>
 
-<p>（2）必须使用且仅使用n-1条边来连接网络中的n个顶点。</p>
+<p>个人认为，Cookie把数据存入浏览器，在另一个文件中使用的时候直接读取就可以了。</p>
 
-<p>（3）不能使用产生回路的边。</p>
+<p>正常状态下，是可以进行数据传送的，比如：</p>
 
-<p>构成最小生成树的主要算法有：克鲁斯卡尔（Kruskal）算法，普利姆（Prim）算法，和Boruvka算法</p>
+<p>一个文件下写：</p>
 
-<p>普利姆（Prim）算法</p>
+<p>setcookie(&#39;name&#39;,&#39;zhangsan&#39;);//以键值对的形式存放<br/>
+header(&#39;Location:b.php&#39;);//使用此函数自动跳转<br/>
+在另一个文件b.php下写：</p>
 
-<p>基本思想</p>
+<p>echo $_COOKIE[&#39;name&#39;];<br/>
+这样，在a.php中填写的信息就可以在b.php页面显示。</p>
 
-<p>以顶点为主导地位，从起始顶点出发，通过选择当前可用的最小权值边依次把其他顶点加入到生成树中来。</p>
+<p>还可以在html文档里用一个用一个对话框呈现一个数据</p>
 
-<p>具体操作</p>
+<p><head lang = "en"><br/>
+    <meta charset = "UTF-8"><br/>
+    <script><br/>
+        alert(document.cookie);<br/>
+    </script><br/>
+</head><br/>
+但是，有时候浏览器就会屏蔽Cookie数据，所以可以使用URL参数来传递数据</p>
 
-<p>设连通无向网为G（V,E），在该算法中，将点集合分成两个子集合T,T&#39;，T代表在最小生成树里的点的集合，T&#39;代表不在当前生成树里的点的集合。</p>
+<p>在a.php文件中写下面一行语句：</p>
 
-<p>（1）从连通网G中选择一个起始顶点u0，首先将它加入到集合T中，然后选择与u0关联的，具有最小权值的边（u0，v），将顶点v加入到集合T中。</p>
+<p>header(&quot;Location:b.php?name=zhangsan&quot;);//直接跳转至b.php<br/>
+这行语句实际上就相当于用get方式传递参数，所以在b.php中将传的参数打印出来</p>
 
-<p>（2） 以后的每一步从一个顶点在T中，另一个顶点在T&#39;中 的各条边中选择权值最小的边（u,v），把顶点v加入到T中，如此继续，直到网络中的所有顶点都加入到集合T中。</p>
+<p>echo $_GET[&#39;name&#39;];<br/>
+ Session</p>
 
-<p><img src="media/14857044682676/shu.jpg" alt="shu"/></p>
+<p>Session处理方法是将数据存放至服务器，可以在多个页面之间共享数据。在使用之前一定要启动session。</p>
 
-<p>接下来以上图为例讲解prim算法的实现过程</p>
+<p>可以在a.php文件中填入数据</p>
 
-<p>（1）将顶点v1放入集合T中，此时，T中只有一个顶点，一个顶点在T,另一个顶点在T’中的边中权值最小的为1，即v1连接的v3顶点，这样，将v3顶点放入T集合中。</p>
+<p>session_start();//启用session<br/>
+//echo session_id();//获取客户端的id<br/>
+$_SESSION[&#39;name&#39;] = &quot;zhangsan&quot;;//存入数据<br/>
+header(&#39;Location:b.php&#39;);//执行页面跳转<br/>
+然后在b.php文件中访问数据</p>
 
-<p>（2）现在T集合中就有2个顶点v1,v3了，一个点在T中，另一个点在T&#39;中的边权值最少的是4，即v3和v6相连的边，所以v6也进入集合T中。</p>
+<p>session_start();<br/>
+echo $_SESSION[&#39;name&#39;];<br/>
+这一数据处理的方法常用来记录用户的登录状态，如果用户退出登录（即清除掉session的所有存储数据），那么可以执行下述语句</p>
 
-<p>（3）现在集合T中有3个顶点v1,v3,v6，一个点在T中，另一个点在T&#39;中的边权值最少的是2，即v4和v6连的边，所以v4也进入集合T中。</p>
-
-<p>（4）现在集合T中有4个顶点v1,v3,v6,v4,一个顶点在T中，另一个顶点在T&#39;中的边的权值最少的是5，即v3和v2相连的边，所以v2也加入到集合T中。</p>
-
-<p>（5）现在，T&#39;中只剩下一个顶点v5，也就是看，所有和v5 相连的边中权值最小的，我们找到了v5和v2相连的边，权值为3，所以v5也加入到了集合T中。</p>
-
-<p>（6）这样，最小生成树就建成功了。</p>
-
-<p>Prim的算法实现</p>
-
-<p>Prim算法一般应用于稠密图，所以一般采用邻接矩阵来存储图，在运算的过程中，我们需要知道的是存放顶点集合T‘内各顶点到顶点集合T内各顶点权值最小的边的权值，用lowcost[]存储，还需要知道的是顶点集合T&#39;内各顶点距离顶点集合T内哪个顶点最近，用nearvex[]存储，当nearvex[i]存储的值是-1的时候，表示i点已经放入T中。</p>
-
-<p>实现过程：</p>
-
-<p>（1）初始化：最初的时候T中只有一个顶点1，所以在nearvex[]数组中将nearvex[1] = -1,其他元素值都是1，lowcost[]数组初始值就是顶点1到其它点的距离。</p>
-
-<p>接下来重复一下步骤：</p>
-
-<p>（2）在lowcost[]数组中寻找权值最小的顶点并且该顶点没有加入到生成树中，用v进行标记。</p>
-
-<p>（3）将nearvex[v]更改为-1，代表已经将v点加入到生成树中，相应的对该边进行操作，比如加和，输出权值等操作。</p>
-
-<p>（4）修改lowost数组，因为加入新的顶点之后，就相当于新增加了和该点相邻的边，那么原来记录的T中顶点到T&#39;中顶点最短的距离可能就会发生变化，所以要更新距离数组。</p>
-
-<p>lowcost[10000];<br/>
-nearvex[10000];<br/>
-void Prim()<br/>
+<p>if(isset($_SESSION[&#39;name&#39;]))<br/>
 {<br/>
-    int i,j,sum = 0;<br/>
-    memset(nearvex,-1,sizeof(nearvex));<br/>
-    nearvex[1] = 1;<br/>
-    for(i = 1;i &lt;= n;i++)<br/>
-    {<br/>
-        lowcost[i] = mapp[1][i];<br/>
-    }<br/>
-    for(j = 1;j &lt; n;j++)<br/>
-    {<br/>
-        mi = 0x3f3f3f3f;<br/>
-        bj = 0;<br/>
-        for(i = 1;i &lt;= n;i++)<br/>
-        {<br/>
-            if(lowcost[i] &lt; mi &amp;&amp; nearvex[i] == -1)<br/>
-            {<br/>
-                bj = i;<br/>
-                mi = lowcost[i];<br/>
-            }<br/>
-        }<br/>
-        if(mi == 0x3f3f3f3f)<br/>
-            break;<br/>
-        sum += mi;<br/>
-        nearvex[bj] = 1;<br/>
-        for(i = 1;i &lt;= n;i++)<br/>
-        {<br/>
-            if(nearvex[i] == -1 &amp;&amp; mapp[bj][i] &lt; lowcost[i])<br/>
-            {<br/>
-                lowcost[i] = mapp[bj][i];<br/>
-            }<br/>
-        }<br/>
-    }<br/>
-}<br/>
- 克鲁斯卡尔（Kruskal）算法</p>
-
-<p>基本思想</p>
-
-<p>以边为主导地位，始终都是选择当前可用的最小权值的边。</p>
-
-<p>具体操作</p>
-
-<p>（1）设一个有n个顶点的联通网络为G（V,E），最初先构造一个只有n个顶点，没有边的非联通图T = {V,空}，图中每个顶点自称一个联通分量。</p>
-
-<p>（2）当在E中选择一条具有最小权值的边时，如果该边的权值落在不同的联通分量上，则将此边加入T中;否则，即这条边的两个顶点落在同一个联通分量上，则将此边舍去，重新选择一条权值最小的边。</p>
-
-<p>（3）重复上面的过程，直到所有顶点都在同一个联通分量上为止。</p>
-
-<p>从这三步的具体操作中，我们可以看出最重要的就是不断地向生成树中加边的过程，这个过程有两个最关键的步骤：</p>
-
-<p>（1）从E中选择当前权值最小的边(u,v)，实现时可以用两种方法，一种是最小堆存放边，另一种是将边的信息（顶点，权值）存放进一个结构体数组中，并将数组中的元素按照权值从小到大排序，然后按照先后顺序选用边。</p>
-
-<p>（2）当选取好一条边之后，需要查找这条边的两个顶点是不是在同一个连通分量中，如果是，则需要舍去，如果不是，那么将这两个顶点归并到同一个连通分量中。这个步骤的实现，就用到了之前讲过的并查集。这里对并查集的基础概念就不细写了，着重介绍并查集的搜索合并以及路径压缩。</p>
-
-<p>并查集简单应用</p>
-
-<p>并查集数据结构有3个主要的函数，一个是初始化，一个是根节点的查找，最后一个是合并集合，其中合并集合调用了根节点的查找函数。</p>
-
-<p>声明：这里运用的并查集父节点中存储的值是一个负数，其绝对值代表这棵树上节点的总个数，以此来记录总结点，判断是否所有节点都已经加进最小生成树中。</p>
-
-<p>void UFset()//初始化<br/>
-{<br/>
-    for(int i = 0;i &lt; n;i++)<br/>
-    {<br/>
-        parent[i] = -1;<br/>
-    }<br/>
-}</p>
-
-<p>int Find(int x)<br/>
-{<br/>
-    int s = x;<br/>
-    while(s &gt;= 0)s = parent[s];//查找根节点<br/>
-    //接下来是路径压缩，将x到其根节点的所有节点的父亲都归到根节点中去，<br/>
-    //减少生成树的高度，方便以后的遍历查找<br/>
-    while(s != x)<br/>
-    {<br/>
-        int tmp = parent[x];<br/>
-        parent[x] = s;<br/>
-        s = parent[x];<br/>
-    }<br/>
-}</p>
-
-<p>void Union(int x,int y)<br/>
-{<br/>
-    int fx = Find(x);//查找x的根节点<br/>
-    int fy = Find(y);//查找y的根节点<br/>
-    //记录两个联通变量的总结点个数（显示为负数）<br/>
-    int sum = parent[fx] + parent[fy];<br/>
-    if(fx != fy)<br/>
-    {<br/>
-        //如果x所在的树总结点大于y所在的树的总节点<br/>
-        //那么就吧y所在的树连接到x所在的树上<br/>
-        //因为个数是用负数展现的，所以这里是小于号<br/>
-        if(parent[fx] &lt; parent[fy])//这是优化方案——加权法则<br/>
-        {<br/>
-            parent[fy] = fx;//将y所在的树连接到x所在的树上<br/>
-            parent[fx] = sum;//更改总结点个数<br/>
-        }<br/>
-        else<br/>
-        {<br/>
-            parent[fx] = fy;<br/>
-            parent[fy] = sum;<br/>
-        }<br/>
-    }<br/>
-}<br/>
- Kruskal算法实现</p>
-
-<p>我们就以下面的示例图片进行讲解</p>
-
-<p><img src="media/14857044682676/shu-kruskal.jpg" alt="shu-kruska"/></p>
-
-<p>从图中，我们看出一共有6个顶点，10条边，边的权值从小到大依次为1（v1,v3），2（v4,v6），3（v2,v5），4（v3,v6），5（v1,v4）,5（v3,v4）,5（v2,v3）,6（v3,v5）,6（v1,v2）,6（v5,v6）。</p>
-
-<p>（1）初始状态下，每个顶点自成一个集合，和自己联通。</p>
-
-<p>（2）加入第一条边1（v1,v3）,调用并查集函数，发现v1,v3在不同的分量中，将他们两个连通，现在只有v1,v3连通。</p>
-
-<p>（3）加入第二条边2（v4,v6），调用函数发现v4,v6在不同的两个分量中，将他们连通，现在有v1,v3连通，v4,v6连通。</p>
-
-<p>（4）加入第三条边3（v2,v5）,调用函数发现v2,v5在不同的两个分量中，将他们连通，现在有v1,v3连通，v4,v6连通，v2,v5连通。</p>
-
-<p>（5）加入第四条边4（v3,v6）,调用函数发现v3,v6在不同的分量中，并且v3和v1连通，v6和v4连通，即v3所在的树有两个节点，v6所在的树有两个节点，将v6连接在v3所在的树上，现在有v1，v3，v4，v6连通，v2，v5连通。</p>
-
-<p>（6）加入第五条边5（v1,v4），调用函数发现v1,v4已经在同一个分量中了，所以不需要加这条边。</p>
-
-<p>（7）加入第六条边5（v3,v4）,调用函数发现v3,v4已经在同一个分量中了，所以不需要加这条边。</p>
-
-<p>（8）加入第七条边5（v2,v4），调用函数发现v4所在的树中有4个顶点，v2所在的树中有2个顶点，将v2所在的树连接到v4所在的树，现在有v1，v3，v4，v6，v2，v5连通，到现在为止，6个顶点全部连通，不需要之后的加边过程，最小生成树结束。</p>
-
-<p>（9）根据题目要求输出各种数据（总权值等）。</p>
-
-<p>下面是克鲁斯卡尔的代码实现过程：</p>
-
-<p>struct E<br/>
-{<br/>
-    int i,j;<br/>
-    int quan;<br/>
-};<br/>
-E edge[1000];</p>
-
-<p>int cmp(E a,E b)<br/>
-{<br/>
-    return a.quan &lt; b.quan;<br/>
-}</p>
-
-<p>void kruskal ()<br/>
-{<br/>
-    int i,j,k,u,v;<br/>
-    int sum = 0,num = 0;<br/>
-    sort(edge,edge+m,cmp);//对边进行从小到大排序<br/>
-    UFset();//对parent数组初始化<br/>
-    for(i = 0;i &lt; m;i++)<br/>
-    {<br/>
-        u = edge[i].i;v = edge[i].j;<br/>
-        if(Find(u) != Find(v))<br/>
-        {<br/>
-            sum += edge[i].quan;<br/>
-            num++;<br/>
-            union(u,v);<br/>
-        }<br/>
-        if(num &gt;= n-1)<br/>
-            break;<br/>
-    }<br/>
-    printf(&quot;%d\n&quot;,sum);<br/>
+    session_destroy();//销毁掉当前的session。<br/>
 }</p>
 
                         
@@ -867,10 +440,289 @@ E edge[1000];</p>
                 <div class="read-more clearfix">
                   <div class="more-left left">
                   
-                    <span class="date">2015/1/31</span>
+                    <span class="date">2015/3/27</span>
                     <span>posted in&nbsp;</span> 
           				  
-          					    <span class="posted-in"><a href='%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84&%E7%AE%97%E6%B3%95.html'>数据结构&算法</a></span>
+          					    <span class="posted-in"><a href='PHP.html'>PHP</a></span>
+          				   
+                  </div>
+                  <div class="more-right right">
+                  <span class="comments">
+                      
+
+                       
+                  </span>
+                  </div>
+                </div>
+              </div><!-- article -->
+        
+			<div class="article">
+                <a class="clearlink" href="14857049852974.html">
+                
+                  <h1>PHP常用库函数</h1>
+                  <div class="a-content">
+                      
+                      <div class="a-content-text">
+                        
+                        	<p>使用php的时间和日期</p>
+
+<p>&lt;?php<br/>
+echo time().&#39;<br />&#39;;//打印时间戳<br/>
+echo date_default_timezone_get();//查看默认时区<br/>
+date_default_timezone_set(&#39;Asia/Shanghai&#39;);//修改时区<br/>
+echo date(&#39;Y-m-d H:i:s D&#39;).&#39;<br />&#39;;//打印日期时间<br/>
+//把一个时间戳转换成日期<br/>
+echo date(&#39;Y-m-d H:i:s&#39;, &#39;2000&#39;);<br/>
+?&gt;<br/>
+1.获取时间戳：调用time()函数，从1970年1月1日开始计算并以秒为单位。</p>
+
+<p>2.输出时间戳：echo time();可以把时间戳转成日期。</p>
+
+<p>3.在现实生活中，时间是分时区的，在打印日期的时候，首先看默认时区，然后修改时区。</p>
+
+<p>4.在打印日期的时候，注意日期格式的选择：</p>
+
+<p>年的表示：‘Y’代表完整的表示，比如1994-2014；‘y’代表不完整的表示，比如94-14。</p>
+
+<p>月的表示：‘F’代表英文的表示，比如January；‘m’代表完整的阿拉伯数字表示，一共两位，不够的0来补，比如：01-12；‘M’表示英文的简写表示，比如Jan；‘n’代表省略的阿拉伯数字表示，比如：1-12;&#39;t&#39;表示这一个月份的天数，有28,29,30,31。</p>
+
+<p>日的表示：‘d’表示完整的阿拉伯数字，比如：01-31；‘D’表示英文简写表示星期几，比如：Mon，Sun；‘j’表示不完整的阿拉伯数字表示，比如：1-31；‘l’小写L，表示完整的英文表示星期几，比如：Sunday，Saturday。</p>
+
+<p>小时的表示：‘h’表示12小时的表示，比如：01-12；‘g’表示没有前补0的12小时的表示，比如：1-12；‘H’表示24小时的表示，比如00-23；‘G’表示24小时的没有前补0的表示，比如：0-23</p>
+
+<p>分钟的表示：‘i’表示分钟，从0-60。</p>
+
+<p>秒的表示：‘s’表示秒，从0-60。</p>
+
+<p>这些日期的表示，当把鼠标指针放在函数名中间时，按下F2键就可以显示出来。</p>
+
+<p>5.最后一个知识就是把时间戳转化成日期，只需要在转化函数中加入时间戳这一个变量即可。</p>
+
+<p>JSON格式数据的操作</p>
+
+<p>1.定义：首先说明数组和对象的区别，数组里面的值全部都是单个的值，而对象里面的值适合名字相对应的，我们称为键值对。对象里面是可以存放数组的，数组里面也可以存放对象。</p>
+
+<p>[1,2,3,4,&quot;hello&quot;,[5,6,7]];//这一行是数组，数组中可以包含数组<br/>
+{&quot;h&quot; : &quot;hello&quot;,&quot;w&quot; : &quot;world&quot;}//这一行是对象<br/>
+//数组中可以包含对象，而且对象中也可以包含数组，这就组成了JSON格式的数据，比如：<br/>
+[1,2,3,4,&quot;hello&quot;,[5,6,7]，{&quot;h&quot; : &quot;hello&quot;,&quot;w&quot; : &quot;world&quot;,[8,9,10]}]<br/>
+2.生成ISON格式的数据</p>
+
+<p>&lt;?php<br/>
+//把php的数组或者是对象转化成json格式的数据<br/>
+\(arr = array(1,2,5,8,&quot;hello&quot;,&quot;php&quot;,array(&quot;h&quot;=&gt;&quot;hello&quot;,&quot;n&quot;=&gt;&quot;name&quot;));<br/>
+echo json_encode(\)arr).&#39;<br />&#39;;//把一个对象转成一个JSON格式的数据<br/>
+\(obj = array(&quot;h&quot;=&gt;&quot;hello&quot;,&quot;w&quot;=&gt;&quot;world&quot;,array(1,2,3,4));<br/>
+echo json_encode(\)obj).&#39;<br />&#39;;<br/>
+//把json格式的数据转化成Php的对象<br/>
+\(jsonstr = &#39;{&quot;h&quot;:&quot;hello&quot;,&quot;w&quot;:&quot;world&quot;,&quot;0&quot;:[1,2,3,4]}&#39;;<br/>
+\)obj1 = json_decode(\(jsonstr);<br/>
+//print_r(\)obj1).&#39;<br />&#39;;<br/>
+//访问PHP对象中的元素：<br/>
+echo $obj1-&gt;h;<br/>
+?&gt;<br/>
+PHP的文件操作</p>
+
+<p>1.文件操作包含了打开文件，关闭文件，往文件里写数据，从文件里读取数据等操作。</p>
+
+<p>2.在执行打开文件的操作的时候，第一个参数是打开文件的名称，第二个参数是对文件执行什么样的操作，其中包含了‘w写文件，’r读文件。。。。。。可以按下f2进行查询。</p>
+
+<p>3.在读取文件的时候，fgets()函数只能读取文件的一行，如果想要全部读取出来，一种方法是使用循环去控制，另一种方法是调用file_get_contents()函数，该函数在读取的过程中自动忽略了回车换行。</p>
+
+<p>&lt;?php<br/>
+\(f = fopen(&#39;data&#39;,&#39;w&#39;);<br/>
+if(\)f)<br/>
+{<br/>
+    fwrite(\(f,&quot;hello php!!&quot;);<br/>
+    fclose(\)f);<br/>
+    echo &#39;OK!&#39;.&#39;<br />&#39;;<br/>
+}<br/>
+else<br/>
+    echo &quot;创建文件失败&quot;;<br/>
+\(f = fopen(&#39;data&#39;,&#39;r&#39;);<br/>
+if(\)f)<br/>
+{<br/>
+    while(!feof(\(f))<br/>
+    echo fgets(\)f).&#39;<br />&#39;;<br/>
+    fclose($f);<br/>
+}<br/>
+else<br/>
+    echo &quot;打开文件失败！1&quot;;<br/>
+//将文件中的所有内容全部读取出来。<br/>
+echo file_get_contents(&#39;data&#39;);<br/>
+?&gt;<br/>
+生成图像</p>
+
+<p>1.首先要知道图像处理库中的相关函数：<a href="http://php.net/manual/zh/ref.image.php">http://php.net/manual/zh/ref.image.php</a></p>
+
+<p>&lt;?php<br/>
+$img = imagecreate(400,300);</p>
+
+<p>//使用imagecreate()函数创建一个400px*300px的图片</p>
+
+<p>imagecolorallocate($img,255,181,200);</p>
+
+<p>//imagecolorallocate()函数指定该图片的颜色，当第一次使用时生成背景色，以后再使用就不会起作用了，<br/>
+//因为第一次已经起作用了。</p>
+
+<p>header(&#39;Content-type:image/png&#39;);</p>
+
+<p>//header()函数说明该图片是图片的形式，而不是文本的形式。<br/>
+//如果没有上属语句，在输出图片的时候，就会以文本的形式输出图片的各种信息</p>
+
+<p>//imagepng($img);</p>
+
+<p>//现在在图片上绘制一个圆形</p>
+
+<p>imageellipse(\(img,200,150,100,100,imagecolorallocate(\)img,255,0,0));</p>
+
+<p>//这里第二次用到了imagecolorallocate()函数，改变的就不会是背景色，而是前景色</p>
+
+<p>imagepng($img);<br/>
+?&gt;<br/>
+给图片打水印</p>
+
+<p>&lt;?php<br/>
+\(img = imagecreatefromjpeg(&#39;tt.jpeg&#39;);<br/>
+header(&#39;Content-type:image/jpeg&#39;);<br/>
+imagestring(\)img,2,5,5,&#39;大耳朵图图&#39;,imagecolorallocate(\(img,0,255,0));<br/>
+imagepng(\)img);<br/>
+?&gt;<br/>
+代码第四行实现了给图片$img打水印，水印为‘大耳朵图图’，样式还是需要按下f2来查询。</p>
+
+                        
+                      </div>
+                  </div>
+                </a>
+                <div class="read-more clearfix">
+                  <div class="more-left left">
+                  
+                    <span class="date">2015/3/23</span>
+                    <span>posted in&nbsp;</span> 
+          				  
+          					    <span class="posted-in"><a href='PHP.html'>PHP</a></span>
+          				   
+                  </div>
+                  <div class="more-right right">
+                  <span class="comments">
+                      
+
+                       
+                  </span>
+                  </div>
+                </div>
+              </div><!-- article -->
+        
+			<div class="article">
+                <a class="clearlink" href="14857049546518.html">
+                
+                  <h1>PHP面向对象</h1>
+                  <div class="a-content">
+                      
+                      <div class="a-content-text">
+                        
+                        	<p>命名空间</p>
+
+<p>再做一个大型项目的时候，常常需要多人分工合作，这样的话，每个人对于变量以及函数的命名就可能出现重复的现象，当项目整合运行的时候就会产生歧义导致程序出错，命名空间是将不同的功能模块的名称框进一个空间里，这样，即使是相同的名称，因为所在的空间不同，所以不会产生影响。</p>
+
+<p>类的声明和定义</p>
+
+<p>类是方法和变量的集合，是面向对象的，只对对象提供接口，而具体的操作则是在类内完成。</p>
+
+<p>&lt;?php<br/>
+class Person<br/>
+{<br/>
+    //对变量的顺序，类型进行提示。<br/>
+    /**<br/>
+     * @param string \(name<br/>
+     * @param int \)age<br/>
+     */<br/>
+    public function __construct(\(name,\)age)//类的构造函数<br/>
+    {<br/>
+        \(this-&gt;name1 = \)name;<br/>
+        \(this-&gt;age1 = \)age;<br/>
+        if(Person::\(Num &gt; Person::MAX_NUM)//如果创建的人数超过了指定人数，则会抛出一个异常<br/>
+            throw new Exception(&quot;不能创建更多的人！！&quot;);<br/>
+        Person::\)Num++;<br/>
+    }<br/>
+    public function getage()<br/>
+{<br/>
+    return \(this-&gt;age1;<br/>
+}<br/>
+    public function getname()<br/>
+    {<br/>
+        return \)this-&gt;name1;<br/>
+    }<br/>
+    public static  function  sayhello()//类方法（静态方法）<br/>
+    {<br/>
+        echo &quot;hello the person!!<br />&quot;;<br/>
+    }<br/>
+    private \(age1,\)name1;<br/>
+    private static \(Num = 0;<br/>
+    const MAX_NUM = 3;//指明一个常量<br/>
+}<br/>
+\)h = new Person(&#39;zhangsan&#39;,23);<br/>
+for(\(i = 0;\)i &lt; 400;\(i++)//循环创建示例，因为大于指定人数，所以程序异常<br/>
+{<br/>
+\)h = new Person(&quot;zhangli&quot;,23);<br/>
+}<br/>
+//根据上述错误，我们对for循环进行修改<br/>
+for(\(i = 1;\)i &lt; Person::MAX_NUM;\(i++)//循环创建示例，因为大于指定人数，所以程序异常<br/>
+{<br/>
+    \)h = new Person(&quot;zhangli&quot;,23);<br/>
+}<br/>
+echo \(h-&gt;getage().&#39;&lt;br /&gt;&#39;;<br/>
+echo \)h-&gt;getname().&#39;<br />&#39;;<br/>
+Person::sayhello();//调用类方法<br/>
+?&gt;</p>
+
+<p>在上述实例中，getage(),getname（），的方法就叫做成员方法，这种方法需要通过一个实例（对象）进行访问。</p>
+
+<p>sayhello()方法是类方法，静态方法，用来描述属性，调用的时候直接写类名，然后是两个冒号，类方法即可。</p>
+
+<p>静态常量，静态变量，静态方法都是描述类的属性，不需要示例去使用。</p>
+
+<p>类的继承</p>
+
+<p>用extends关键字进行类的继承，继承就是在一个类的基础上，新增自身的新的变量和方法。</p>
+
+<p>这里举一个示例，以上一个示例中Person类为基类，建一个Man类，即男性的类。</p>
+
+<p>class Man extends Person//定义一个子类，继承person类<br/>
+{<br/>
+    public function  <strong>construct(\(name,\)age,$sex)//定义构造方法<br/>
+    {<br/>
+        parent::</strong>construct(\(name,\)age);//调用父类中的构造方法<br/>
+        \(sex1 = \)sex;<br/>
+    }<br/>
+    public function  looksex()//定义打印性别的方法<br/>
+    {<br/>
+        echo &quot;the person sex is a MAN <br />&quot;;<br/>
+    }<br/>
+    public function getname()//对于父类中的姓名打印函数进行重写<br/>
+    {<br/>
+       // parent::getname();//延续父类的方法<br/>
+        //如果不想用父类中的方法，可以在子类中重新定义该方法，这就是方法的重写。<br/>
+        echo &quot;Man类中的打印名字方法！！&quot;;<br/>
+    }<br/>
+}<br/>
+ 方法重写</p>
+
+<p>对于父类中的方法，如果子类中没有，在调用的时候就会自动调用父类中的方法，如果子类和父类中都存在该方法，那么将会自动调用子类中的方法。如果在这种情况下想要调用父类中的方法，就要声明语句</p>
+
+<p>// parent::getname();//延续父类的方法</p>
+
+                        
+                      </div>
+                  </div>
+                </a>
+                <div class="read-more clearfix">
+                  <div class="more-left left">
+                  
+                    <span class="date">2015/3/22</span>
+                    <span>posted in&nbsp;</span> 
+          				  
+          					    <span class="posted-in"><a href='PHP.html'>PHP</a></span>
           				   
                   </div>
                   <div class="more-right right">
@@ -943,6 +795,8 @@ E edge[1000];</p>
         
             <a href="%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84&%E7%AE%97%E6%B3%95.html"><strong>数据结构&算法</strong></a>
         
+            <a href="Fluent%20Python.html"><strong>Fluent Python</strong></a>
+        
             <a href="PHP.html"><strong>PHP</strong></a>
         
             <a href="Ubuntu.html"><strong>Ubuntu</strong></a>
@@ -962,31 +816,31 @@ E edge[1000];</p>
 	      
 		      
 			      <li class="post">
-			        <a href="14830907697555.html">MySQL数据库☞数据库编码</a>
+			        <a href="15033291458720.html">使用一等函数实现设计模式</a>
 			      </li>
 		     
 		  
 		      
 			      <li class="post">
-			        <a href="14830842110487.html">MySQL数据库☞中文乱码问题</a>
+			        <a href="15018651943030.html">一等函数</a>
 			      </li>
 		     
 		  
 		      
 			      <li class="post">
-			        <a href="14819928857822.html">MySQL的基本命令☞数据表的基本管理</a>
+			        <a href="15018646605864.html">文本和字节序列</a>
 			      </li>
 		     
 		  
 		      
 			      <li class="post">
-			        <a href="14745361920074.html">python容器数据类型☞collections</a>
+			        <a href="15013419653919.html">集合的使用</a>
 			      </li>
 		     
 		  
 		      
 			      <li class="post">
-			        <a href="14724629382123.html">python对列表进行操作</a>
+			        <a href="15010832436363.html">字典的使用</a>
 			      </li>
 		     
 		  
@@ -1062,7 +916,7 @@ Theme used <a target="_blank" href="http://github.com">GitHub CSS</a>.</p>
     </script>
 
     <script src="asset/chart/all-min.js"></script><script type="text/javascript">$(function(){    var mwebii=0;    var mwebChartEleId = 'mweb-chart-ele-';    $('pre>code').each(function(){        mwebii++;        var eleiid = mwebChartEleId+mwebii;        if($(this).hasClass('language-sequence')){            var ele = $(this).addClass('nohighlight').parent();            $('<div id="'+eleiid+'"></div>').insertAfter(ele);            ele.hide();            var diagram = Diagram.parse($(this).text());            diagram.drawSVG(eleiid,{theme: 'simple'});        }else if($(this).hasClass('language-flow')){            var ele = $(this).addClass('nohighlight').parent();            $('<div id="'+eleiid+'"></div>').insertAfter(ele);            ele.hide();            var diagram = flowchart.parse($(this).text());            diagram.drawSVG(eleiid);        }    });});</script>
-<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script type="text/x-mathjax-config">MathJax.Hub.Config({TeX: { equationNumbers: { autoNumber: "AMS" } }});</script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script type="text/x-mathjax-config">MathJax.Hub.Config({TeX: { equationNumbers: { autoNumber: "AMS" } }});</script>
 
 
   </body>

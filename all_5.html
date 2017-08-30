@@ -84,6 +84,8 @@
         
             <li><a href="%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84&%E7%AE%97%E6%B3%95.html">数据结构&算法</a></li>
         
+            <li><a href="Fluent%20Python.html">Fluent Python</a></li>
+        
             <li><a href="PHP.html">PHP</a></li>
         
             <li><a href="Ubuntu.html">Ubuntu</a></li>
@@ -109,255 +111,121 @@
 		<div class="markdown-body home-categories">
 		
 			<div class="article">
-                <a class="clearlink" href="14857038899615.html">
+                <a class="clearlink" href="14857042974079.html">
                 
-                  <h1>MySQL学习笔记（4）——查询</h1>
+                  <h1>pymongo操作</h1>
                   <div class="a-content">
                       
                       <div class="a-content-text">
                         
-                        	<p>为什么要存储数据呢？当然是为了查询啦~~~嘿嘿，小小无聊一下。。。接下来进入正题——查询的各种方法</p>
+                        	<p>最近在写一个小项目,其中用到了mongodb数据库,python中使用pymongo操作mongodb数据库.所以将学习的一些知识点记录下来,方便以后查阅.</p>
 
-<p>where条件查询</p>
+<p>引用pymongo</p>
 
-<p>条件查询的适用范围比较广，更新，删除都用到了where条件查询，只需要在where之后添加要查询的条件即可。</p>
+<p>import pymongo<br/>
+建立连接</p>
 
-<p>group by语句对查询结果进行分组</p>
+<p>client = pymongo.MongoClient()<br/>
+连接数据库</p>
 
-<p>group by {字段名|字段位置}[asc|desc]<br/>
-该语句是对查询结果进行分组，分组完成之后也可以进行排序，asc是升序（默认），desc是降序，可以按照多个字段作为分组条件，字段之间以逗号分隔。</p>
+<p>db = client.数据库名<br/>
+db = client.words<br/>
+选择集合</p>
 
-<p>字段位置是select 语句中查询字段所在的位置（从1开始），并不是表中字段所在的位置，不建议这么做。</p>
+<p>collect = db.集合名<br/>
+collect = db.word<br/>
+添加数据</p>
 
-<p>group by语句有时也需要对分组进行条件确定，这时候配合使用having语句，在having之后设置分组条件，从而确定要进行分组的都有那些数据。</p>
+<h1 id="toc_0">添加一条数据</h1>
 
-<p>group by {字段名|字段位置} [asc|desc] having 分组条件<br/>
-having语句进行条件选择的时候，只有两种情况，一种是条件涉及到的字段出现在select语句中（即是查询的字段之一），另一种是聚合函数（比如sum(),count()等等，这些函数之所以称为聚合函数，是因为它们永远只有一个返回值）。如果不是这两种情况，查询条件就要使用where条件查询。</p>
+<p>word = {&quot;word_name&quot;:&quot;beaytiful&quot;,&quot;paraphrase&quot;:&quot;adj,美丽的,出色的,迷人的&quot;,&quot;exam_sent&quot;:&quot;She was a beautiful girl&quot;}<br/>
+collect.insert(word)</p>
 
-<p>order by 语句</p>
+<h1 id="toc_1">添加多条数据</h1>
 
-<p>order by {字段名|字段位置} [asc|desc]<br/>
-asc是默认的升序，desc是降序。也可以根据多个字段进行排序，进行排序时，先看前面的字段，前面相同再继续往下判断。</p>
-
-<p>limit限制</p>
-
-<p>limit限制查询结果返回的数量，一般语法结构为：</p>
-
-<p>select * from 表名 limit n<br/>
-select * from 表名 limit m,n<br/>
-Limit后面如果只有一个数字，即默认返回前n条数据，如果有两个数字(m,n)（数字之间以逗号分隔），则表示从第m条数据开始（从0开始计数，该计数是物理计数，和任何编号数据没有关系）,显示n条数据（包括第m条）。</p>
-
-<p>查询示例</p>
-
-<p>结合上述所学知识点进行小小的查询测试</p>
-
-<p>select username,age,sex<br/>
-from users<br/>
-group by age having sex is ‘男’<br/>
-order by age desc<br/>
-limit 5 ;<br/>
-子查询</p>
-
-<p>子查询是指嵌套在查询内部，以小括号括起来的完整的查询，子查询的外层查询可以是select,insert,update,delete,set或do都是可以的。</p>
-
-<p>子查询返回可以是一个标量，可以是一行，一列或者是一个子查询。</p>
-
-<p>由比较运算符引发的子查询</p>
-
-<p>比较运算符有：=,&gt;,&lt;,&gt;=,&lt;=,&lt;&gt;,!=,&lt;=&gt;...</p>
-
-<p>例如：查询价格在所有产品平均价格之上的产品名称和价格：</p>
-
-<p>select goods_name as 产品名称,goods_price as 产品价格<br/>
-from goods<br/>
-where goods_price &gt;=(<br/>
-select avg(goods_price) from goods);<br/>
-带有any,some,all修饰的比较运算符引发的子查询</p>
-
-<p>在子查询的返回结果中，有可能会有多个结果，而比较运算符只有确定和哪一个结果进行比较才可以正常运算，这时候就要用到any任何一个，some也是任何一个，all符合全部来进行修饰比较运算符。</p>
-
-<p>例如：查询产品价格比任何一个超极本电脑价格都贵的产品名称和价格:</p>
-
-<p>select goods_name as 产品名称,goods_price as 价格<br/>
-from goods<br/>
-where goods_price &gt; any(<br/>
-select goods_price from goods where goods_cate = &#39;超级本&#39;);<br/>
-由[not] in/exists引发的子查询</p>
-
-<p>In 和 not in代表是否在子查询的结果里面，exists 和 not exists代表查询数据是否存在，如果存在，则返回true，不存在返回false</p>
-
-<p>表的连接</p>
-
-<p>一张表不可能存储所有的数据，在读取表内容的时候，我们需要根据一张表读取另一张表的内容，就用到了表的连接</p>
-
-<p>使用on关键字来设定连接条件，where关键字进行结果集记录的过滤</p>
-
-<p>内连接：inner join，仅显示符合连接条件的记录</p>
-
-<p>左外连接：left join，显示左表中的全部和右表中的符合条件的数据，如果左表中数据在右表中没有符合条件的字段，则显示为null</p>
-
-<p>右外链接：right join，和左外连接相反</p>
-
-<p>无限级分类的表设计</p>
-
-<p>其实也是很简单的，表结构中除了原有的id,name等字段之外，再添加一个字段，那就是该分类的父类id。例如：</p>
-
-<p>CREATE TABLE tdb_goods_types(<br/>
-     type_id   SMALLINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,<br/>
-     type_name VARCHAR(20) NOT NULL,<br/>
-     parent_id SMALLINT UNSIGNED NOT NULL DEFAULT 0<br/>
-  );<br/>
-自身连接进行无限级分类的查找，找出每一个分类的自身id，自身名称，父类名称，这里将一张表想象成两张表进行左外连接（为什么选用左外连接呢？因为顶级分类是没有父级分类的，但是我们不能够不查询出来，所以采用左外连接，将子表设为左表）</p>
-
-<p>Select s.type_id as 自身id,s.type_name as 自身名称,p.type_name as 父类名称<br/>
-From tdb_goods_types as s left join tdb_goods_types as p on s.parent_id = p.type_id;</p>
-
-                        
-                      </div>
-                  </div>
-                </a>
-                <div class="read-more clearfix">
-                  <div class="more-left left">
-                  
-                    <span class="date">2016/1/23</span>
-                    <span>posted in&nbsp;</span> 
-          				  
-          					    <span class="posted-in"><a href='%E6%95%B0%E6%8D%AE%E5%BA%93.html'>数据库</a></span>
-          				   
-                  </div>
-                  <div class="more-right right">
-                  <span class="comments">
-                      
-
-                       
-                  </span>
-                  </div>
-                </div>
-              </div><!-- article -->
-        
-			<div class="article">
-                <a class="clearlink" href="14857038593747.html">
-                
-                  <h1>MySQL学习笔记（3）——修改数据表及写数据</h1>
-                  <div class="a-content">
-                      
-                      <div class="a-content-text">
-                        
-                        	<p>操作字段</p>
-
-<p>添加单个字段：</p>
-
-<p>alter table  表名 add [column]  字段名称 字段定义 [first|after 字段名称]<br/>
-first指明将该字段添加到表定义的最前端，after指明将该字段添加到某个字段的后面，默认情况下是添加到最后。</p>
-
-<p>添加多个字段：</p>
-
-<p>alter table 表名 add <a href="%E5%88%97%E5%90%8D%E7%A7%B01%20%E5%88%97%E5%AE%9A%E4%B9%891,%E5%88%97%E5%90%8D%E7%A7%B02%20%E5%88%97%E5%AE%9A%E4%B9%892,...">column</a><br/>
-添加多个字段是不能够指定位置的，很显然，没法指定。。。</p>
-
-<p>删除一个字段：</p>
-
-<p>alter table 表名 drop 字段名称<br/>
-删除多个字段：</p>
-
-<p>alter table 表名 drop 字段名称,drop 字段名称<br/>
-删除字段的同时添加字段：</p>
-
-<p>alter table 表名 drop 字段名称,drop 字段名称,add 字段名称 字段定义<br/>
-操作约束</p>
-
-<p>添加主键约束：</p>
-
-<p>alter table 表名 [constraint [约束名称]] primary key <a href="%E5%AD%97%E6%AE%B5%E5%90%8D">约束类型</a><br/>
-添加唯一约束：</p>
-
-<p>alter table 表名 [constraint [约束名称]] unique key <a href="%E5%AD%97%E6%AE%B5%E5%90%8D">约束类型</a><br/>
-添加外键约束：</p>
-
-<p>alter table 表名 [constraint [约束名称]] foreign key (外键字段名) references 从表名（字段）<br/>
-添加|删除默认约束：</p>
-
-<p>alter table 表名 later [column] 字段名 {set default 默认值|drop default}<br/>
-删除主键约束：</p>
-
-<p>alter table 表名 drop primary key<br/>
-删除唯一约束：</p>
-
-<p>alter table 表名 drop {index|key} 约束名<br/>
-删除外键约束：</p>
-
-<p>alter table 表名 drop foreign key 约束名<br/>
-操作数据表</p>
-
-<p>修改字段定义：</p>
-
-<p>alter table 表名 modify [column] 字段名 字段定义 [first|after 字段名]<br/>
-修改字段名称：</p>
-
-<p>alter table 表名 change [column] 旧字段名称 新字段名称 字段定义 [first|after 字段名]<br/>
-修改数据表名称：</p>
-
-<p>alter table 表名 rename [to|as] 新名称<br/>
-rename table 表名 to 新名 [,表名1 to 新名1]...<br/>
-插入数据</p>
-
-<p>方法一</p>
-
-<p>插入多条数据</p>
-
-<p>insert [into] 表名 [(字段名称)] values(字段值)<br/>
-字段名称可写可不写，如果不写，则字段值必须包含所有字段的值，如果字段是自动编号，则可以写为null或者default；如果写字段名，则按照给定的字段顺序依次填入相应的字段值，字段值可以是表达式，如果该字段有默认值，也可以是默认值（default）</p>
-
-<p>插入多条数据</p>
-
-<p>insert [into] 表名 [(字段名称)] values(字段值1),(字段值2),...<br/>
-如果插入多条数据，则必须有相同个字段，即不能第一条数据有3个值，第二条数据有5个值。</p>
-
-<p>方法二</p>
-
-<p>insert 表名 set 字段名1 = &#39;字段值1&#39;,字段名2 = &#39;字段值2&#39;,...<br/>
-这种方法只能插入一条语句，可以进行子查询，具体来说是比较运算符=引发的子查询</p>
-
-<p>方法三</p>
-
-<p>insert [into] 表名 [(字段名称)] select 选择语句<br/>
-这种方法借助查询语句来从另外一张表中查找到相应数据插入到该表中</p>
-
-<p>比如在产品表中查询产品的分类，将查询的结果写入到分类表中</p>
-
-<p>insert goods_cates (cate_name) select<br/>
-goods_cate from goods group by goods_cate;<br/>
+<p>words = [{&quot;word_name&quot;:&quot;like&quot;,&quot;paraphrase&quot;:&quot;vt,喜欢,愿意;vi,喜欢,希望;adv,可能&quot;,&quot;exam_sent&quot;:&quot;What did she look like?&quot;},{&quot;word_name&quot;:&quot;handsome&quot;,&quot;paraphrase&quot;:&quot;adj,英俊的,大方的,慷慨的,健美而端庄的&quot;,&quot;exam_sent&quot;:&quot;They will make a handsome profit on the property&quot;,&quot;exam_sent2&quot;:&quot;He is a handsomw sheep farmer.&quot;}]<br/>
+collect.insert(words)<br/>
 修改数据</p>
 
-<p>单表修改</p>
+<h1 id="toc_2">更新数据,为handsome单词所在的记录添加一个唯一标识</h1>
 
-<p>update 表名 set 字段名=’更新的该字段的值’[,字段名1=’更新的该字段的值1’,...] [where 更新条件]<br/>
-如果不写更新条件，则所有的数据都将更新</p>
+<p>collect.update({&quot;word_name&quot;:&quot;handsome&quot;},{&quot;$set&quot;:{&quot;word_id&quot;:1}})</p>
 
-<p>多表修改</p>
+<h1 id="toc_3">更新数据,为word_id为1的数据修改名字为China</h1>
 
-<p>多表更新涉及到表与表之间的连接，根据一张表的内容更新另一张表的内容</p>
-
-<p>例如：根据产品类型表(goods_cate)更新产品表(goods)中的产品类型</p>
-
-<p>Update goods inner join goods_cate on goods_cate = cate_name set goods_cate = cate_id;<br/>
+<p>collect.update({&quot;word_id&quot;:1},{&quot;$set&quot;:{&quot;word_name&quot;:&quot;China&quot;}})<br/>
 删除数据</p>
 
-<p>单表删除</p>
+<h1 id="toc_4">删除所选择的集合中的指定数据</h1>
 
-<p>Delete from 表名 [where 删除条件]<br/>
-如果不写删除条件，则该表中所有的数据都会被删除。</p>
+<p>collect.remove({&quot;word_id&quot;:1})</p>
 
-<p>多表删除</p>
+<h1 id="toc_5">删除所选择的集合中的所有数据</h1>
 
-<p>所谓的多表删除，就是通过多张表的连接来确定删除的内容。</p>
+<p>collect.remove()<br/>
+查询数据</p>
 
-<p>例如：在一张表(goods)中，有很多重复的记录，如果想删除重复的记录，不可能找到它们的id一个一个的删除，这就用到了多表删除。把这张表和由重复数据组成的虚拟的表进行连接，进而进行删除操作。</p>
+<h1 id="toc_6">查看集合中的指定数据</h1>
 
-<p>Delete t1 from goods as t1 left join(<br/>
-select goods_id,goods_name from goods group by goods_name having count(goods_name)&gt;=2) as t2 <br/>
-on t1.goods_name = t2.goods_name <br/>
-where t1.goods_id &gt; t2.goods_id;</p>
+<p>collect.find_one({&quot;word_id&quot;:1})</p>
+
+<h1 id="toc_7">查看集合中某个数据的某些字段的值.前一个花括号写查找的数据的查找条件,后一个花括号写查询那些字段值,1为显示,0为不显示默,认_id默认显示如果不想显示则可置为0</h1>
+
+<p>collect.find_one({&quot;word_id&quot;:2},{&quot;word_name&quot;:1,&quot;_id&quot;:0})<br/>
+collect.find_one({&quot;word_id&quot;:2},{&quot;word_name&quot;:1,&quot;exam_sent&quot;:1})</p>
+
+<h1 id="toc_8">查看多条数据</h1>
+
+<p>for i in collect.find():<br/>
+    i</p>
+
+<h1 id="toc_9">查看word_id大于1的数据的word_name,如果结果数目不止一个,采用循环打印</h1>
+
+<p>collect.find({&quot;word_id&quot;:{&quot;$gt&quot;:1}},{&quot;word_name&quot;:1,&quot;_id&quot;:0})</p>
+
+<h1 id="toc_10">查看word_id大于等于1的数据的word_name,如果结果数目不止一个,采用循环打印</h1>
+
+<p>collect.find({&quot;word_id&quot;:{&quot;$gte&quot;:1}},{&quot;word_name&quot;:1,&quot;_id&quot;:0})</p>
+
+<h1 id="toc_11">查看word_id小于等于1的数据的word_name,如果结果数目不止一个,采用循环打印</h1>
+
+<p>collect.find({&quot;word_id&quot;:{&quot;$lte&quot;:1}},{&quot;word_name&quot;:1,&quot;_id&quot;:0})</p>
+
+<h1 id="toc_12">查看word_id小于3的数据的word_name,如果结果数目不止一个,采用循环打印</h1>
+
+<p>collect.find({&quot;word_id&quot;:{&quot;$lt&quot;:3}},{&quot;word_name&quot;:1,&quot;_id&quot;:0})</p>
+
+<h1 id="toc_13">查看word_id不等于2的数据的word_name,如果结果数目不止一个,采用循环打印</h1>
+
+<p>collect.find({&quot;word_id&quot;:{&quot;$ne&quot;:2}},{&quot;word_name&quot;:1,&quot;_id&quot;:0})</p>
+
+<h1 id="toc_14">对查询结果进行升序排序,默认为升序</h1>
+
+<p>for i in collect.find().sort(&quot;word_id&quot;,pymongo.ASCENDING):<br/>
+    i</p>
+
+<h1 id="toc_15">对查询结果进行降序排序</h1>
+
+<p>for i in collect.find().sort(&quot;word_id&quot;,pymongo.DESCENDING):<br/>
+    i</p>
+
+<h1 id="toc_16">对查询的结果进行多列排序</h1>
+
+<p>for i in collect.find({},{&quot;word_id&quot;:1,&quot;word_name&quot;:1,&quot;_id&quot;:0}).sort([(&quot;word_name&quot;,pymongo.DESCENDING),(&quot;word_id&quot;,pymongo.DESCENDING)]):<br/>
+    i<br/>
+查看一个集合中的数据总数</p>
+
+<p>collect.find().count()<br/>
+模糊查询</p>
+
+<h1 id="toc_17">和更新数据是一样,$regex是指定该查询为模糊查询的关键,同时指定对哪一个字段进行模糊查询</h1>
+
+<p>Word = collect.find({&quot;word_name&quot;:{&quot;$regex&quot;:&quot;l&quot;}})</p>
+
+<h1 id="toc_18">多条件模糊查询</h1>
+
+<p>Word = collect.find({&quot;word_name&quot;:{&quot;\(regex&quot;:&quot;l&quot;},&quot;exam_sent&quot;:{&quot;\)regex&quot;:&quot;like&quot;}})<br/>
+Word = collect.find({&quot;word_name&quot;:{&quot;\(regex&quot;:&quot;l&quot;},&quot;word_name&quot;:{&quot;\)regex&quot;:&quot;b&quot;}})</p>
 
                         
                       </div>
@@ -366,7 +234,7 @@ where t1.goods_id &gt; t2.goods_id;</p>
                 <div class="read-more clearfix">
                   <div class="more-left left">
                   
-                    <span class="date">2016/1/21</span>
+                    <span class="date">2016/2/26</span>
                     <span>posted in&nbsp;</span> 
           				  
           					    <span class="posted-in"><a href='%E6%95%B0%E6%8D%AE%E5%BA%93.html'>数据库</a></span>
@@ -383,89 +251,20 @@ where t1.goods_id &gt; t2.goods_id;</p>
               </div><!-- article -->
         
 			<div class="article">
-                <a class="clearlink" href="14857038289810.html">
+                <a class="clearlink" href="14857042660628.html">
                 
-                  <h1>MySQL学习笔记（2）——数据类型及数据表操作</h1>
+                  <h1>一年又一年</h1>
                   <div class="a-content">
                       
                       <div class="a-content-text">
                         
-                        	<p>数据类型</p>
+                        	<p>时光荏苒,伴随着一阵阵的爆竹声,我又迎来了新的一年.一年又一年,随着年龄的增长,我也从当初那个期盼着过年的小女孩变成了有些害怕,有些担心,有些期待,各种感情交织在一起的大女孩......马上就要大学毕业的我,回想起来还是一心只要认真读书的学生年代,真是觉得还是那时候轻松啊.那时的期末考试成绩比起现在的男女朋友,工作薪资什么的又算的了什么,哎╮(╯▽╰)╭.</p>
 
-<p>1.整数类型：tinyint(8位)；smallint(16位)；mediumint(24位)；int(32位)；bigint(64位)。</p>
+<p>过去的一年里,感觉自己并没有做多少东西,就像脑子里总有一块橡皮擦,把之前曾经做过的事情都给擦掉了一样.其实当在写这句话的时候,我的心声在告诉我:&quot;哪里是有橡皮擦,分明就是自己不够上心,把该做的,重要的没有放在心上,所以才没有多大印象的......&quot;真是可笑.回想起来,总是觉得自己的付出和别人的比起来是多么的微不足道.我感觉自己真的是很奇怪,明明知道什么重要,什么不重要,可是为什么会不由自主的在行动上分不清主次.真是讨厌我这样讨厌自己,不管怎么说,我身上总是有发光点的吧,可是为什么找不到呢??</p>
 
-<p>2.浮点类型：float(m,d)；double(m,d)。m代表总共的位数,d代表小数的位数</p>
+<p>胡言乱语一通,其实写这篇文章也不知道是为什么而写,总想在新年的第一天写点什么,原因很简单,因为去年没写,我现在都不知道去年的这个时候我在想些什么...所以以后我要记录下来,看看一年又一年地过去,我心中所想的,当时所做的有没有什么变化.我也期待自己能够变得越来越有主见,不想做一个小女人,就从开阔眼界,了解最新信息做起吧.</p>
 
-<p>3.字符类型：char(m),0-255,定长类型，不够的空格补齐；varchar(m),0-65535,不定长类型；tinytext(8)；text(16)；mediumtext(24)；longtext(32)；enum(&#39;value1&#39;,&#39;value2&#39;,&#39;value3&#39;,...),枚举类型，取决于枚举的个数，最多65535个；set(&#39;value1&#39;,&#39;value2&#39;,...),最多64个。</p>
-
-<p>4.日期类型：year(默认为4为，从1970年到2069年)；time(-8385959-8385959)；date(1000.1.1-9999.12.31)；datetime(1000.1.1 0:0:0-9999.12.31 12:59:59),timestamp(时间戳，从1970.1.1 0:0:0-2037)</p>
-
-<p>注意：所谓的数据优化，就是在建表的时候，选择最合适的数据类型而不是选择最大的数据类型。</p>
-
-<p>数据表操作</p>
-
-<p>1.创建数据表：create table [if not exists] 数据表名(字段1和字段1定义,字段2和字段2定义,..)</p>
-
-<p>这种方法只是创建了一个空表，如果在建表的时候，想根据其他表的内容对新表添加数据，则可以采用create select语法结构，</p>
-
-<p>create table [if not exists] table_name(字段和数据类型) select<br/>
-例如：在建立产品品牌表（goods_brands）的时候，根据产品表(goods)中的产品品牌对新表进行数据填充：</p>
-
-<p>create table goods_brands(<br/>
-brand_id smallint unsigned primary key auto_increment,<br/>
-brand_name varchar(40) not null)ENGINE=InnoDB DEFAULT CHARSET=utf8<br/>
-selest brand_name from goods group by brand_name;<br/>
-2.查看数据表：show tables [from 数据库名];选择数据库名即可查看当前数据库之外的其他数据库的数据表信息，否则只能查看本数据库的表信息。</p>
-
-<p>3.查看数据表结构：(1).desc 表名 (2).show columns from 表名 (3).describe 表名 (4).show create table 表名</p>
-
-<p>4.查看数据表的创建命令</p>
-
-<p>show create table 表名;</p>
-
-<p>定义字段</p>
-
-<p>定义字段除了之明字段名称，字段类型之外，还包括以下几点</p>
-
-<p>1.记录的唯一性：为字段添加auto_increment属性，指明该字段自动增长，默认情况下从1开始，增量为1，可以自行设置。该属性必须与接下来涉及到的主键配合使用。</p>
-
-<p>2.无符号属性：unsigned指明该字段的数据类型是无符号的。</p>
-
-<p>3.约束：约束是为了保证数据完整性和一致性而设定的，根据数据列的数目可以将约束分为表级约束和列级约束，表级约束即为一个约束包含了多个字段，列级约束为一个约束包含了一个字段；根据功能，约束有以下5种</p>
-
-<p>a.主键约束：primary key 声明该字段为主键，每张表有且只有一个主键，而这个主键可以包含多个字段，自动为not null，声明了主键的字段值是不会重复的。</p>
-
-<p>b.唯一约束：unique key声明该字段有唯一约束，字段值是不能够重复的，但是可以出现一次null，每张表可以有多个唯一约束。</p>
-
-<p>c.默认约束：default指明字段的默认值，如：set varchar(6) enum(&#39;男&#39;,&#39;女&#39;,&#39;保密&#39;) default &#39;保密&#39;</p>
-
-<p>d.非空约束：null为允许该字段出现空值，not null为不允许字段出现空值</p>
-
-<p>e.外键约束：foreign key实现数据表一对一和一对多的关系，使用外键约束，外键字段和参照字段必须创建索引，如果参照字段没有索引，系统会自动创建。除此之外，外键字段和参照字段必须有相似的字段定义。而且，有外键的表称为子表，子表参照的表为父表。外键的定义格式为：foreign key (字段名) reference 父表名（参照字段）。</p>
-
-<p>拓展外键约束的参照操作</p>
-
-<p>更新表之后，子表是否进行相应的操作，在物理结构上可以通过外键约束的参照操作实现。</p>
-
-<p>（1）cascade:从父表删除或更新记录时同步到子表相应数据中，</p>
-
-<p>如：foreign key(字段名) reference 父表名（参照字段） on delete cascade on update cascade</p>
-
-<p>（2）set null:从父表删除或更新数据之后，子表中的相应数据置为null，如果使用该项，必须保证子表中该字段可以置为空值。</p>
-
-<p>（3）restrict:拒绝对父表的删除和更新操作</p>
-
-<p>（4）no action:与rectrict相同</p>
-
-<p>注意：</p>
-
-<p>外键约束只有innodb这种存储引擎才能支持，其他的存储引擎是不支持这种物理的外键约束的，所以在开发过程中，一般都使用逻辑的外键约束。</p>
-
-<p>修改数据表默认的存储引擎：找到MySQL配置文件my.ini，修改default-storage-engin = 存储引擎，外键约束必须依赖INNODB存储引擎，修改完成之后重启MySQL服务。</p>
-
-<p>查看表中索引</p>
-
-<p>show index from 表名</p>
+<p>加油,新年快乐!!不求以后能够顺顺利利,但求我能够一直坚强,勇敢,自主地走下去,遇到困难不是抱怨,而是想办法解决,逐渐地充实自我.就像有人对我所期望的:品味,独特而不庸俗;涵养,任何场合不要失礼;言行,让人舒适不觉低俗;知识,有广度,有深度!!</p>
 
                         
                       </div>
@@ -474,119 +273,240 @@ selest brand_name from goods group by brand_name;<br/>
                 <div class="read-more clearfix">
                   <div class="more-left left">
                   
-                    <span class="date">2016/1/20</span>
-                    <span>posted in&nbsp;</span> 
-          				  
-          					    <span class="posted-in"><a href='%E6%95%B0%E6%8D%AE%E5%BA%93.html'>数据库</a></span>
-          				   
-                  </div>
-                  <div class="more-right right">
-                  <span class="comments">
-                      
-
-                       
-                  </span>
-                  </div>
-                </div>
-              </div><!-- article -->
-        
-			<div class="article">
-                <a class="clearlink" href="14857038052908.html">
-                
-                  <h1>MySQL学习笔记（1）——概述</h1>
-                  <div class="a-content">
-                      
-                      <div class="a-content-text">
-                        
-                        	<p>MySQL默认端口号：3306</p>
-
-<p>MySQL语句规范</p>
-
-<p>（1）登录：mysql -u用户名 -p(回车写密码（密文）|直接写密码再回车（明文）)</p>
-
-<p>（2）登出：quit，\q，Ctrl+C都可以</p>
-
-<p>（3）修改MySQL提示符（默认情况下时mysql）：如果在登录时修改，则：mysql -u名称 -p密码 --prompt 提示符</p>
-
-<p>如果在登陆之后修改，则：prompt  新提示符</p>
-
-<p>提示符可以用参数表示，比如\D代表完整的日期，\d代表当前数据库，\h代表服务器名称，\u代表当前用户，例如：prompt &#39;\u@\h \d&gt;&#39;</p>
-
-<p>（4）显示当前服务器版本：select version()</p>
-
-<p>显示当前日期：select now()</p>
-
-<p>显示当前用户：select user()</p>
-
-<p>显示警告：show warning</p>
-
-<p>显示编码方式：show create database 数据库名称</p>
-
-<p>显示当前打开的数据库：select database()</p>
-
-<p>查看当前服务器下的数据库列表：show {databases|scheam}</p>
-
-<p>（5）MySQL语句规范</p>
-
-<p>a.关键字与函数名称全部大写;b.数据库名称，表名称，字段名称全部小写;c.sql语句必须以分号结尾。</p>
-
-<p>数据库基本操作</p>
-
-<p>（1）创建数据库：create {database|scheam} [if not exists] 数据库名称 [default] character set [=] 编码方式</p>
-
-<p>CREATE DATABASE db_name DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;<br/>
-（2）修改数据库：alter {databases|scheam} 数据库名称 [default] character set [=] 编码方式</p>
-
-<p>（3）删除数据库：drop {database|scheam} [if exists] 数据库名称</p>
-
-                        
-                      </div>
-                  </div>
-                </a>
-                <div class="read-more clearfix">
-                  <div class="more-left left">
-                  
-                    <span class="date">2016/1/19</span>
-                    <span>posted in&nbsp;</span> 
-          				  
-          					    <span class="posted-in"><a href='%E6%95%B0%E6%8D%AE%E5%BA%93.html'>数据库</a></span>
-          				   
-                  </div>
-                  <div class="more-right right">
-                  <span class="comments">
-                      
-
-                       
-                  </span>
-                  </div>
-                </div>
-              </div><!-- article -->
-        
-			<div class="article">
-                <a class="clearlink" href="14857039606285.html">
-                
-                  <h1>一直迷茫中</h1>
-                  <div class="a-content">
-                      
-                      <div class="a-content-text">
-                        
-                        	<p>已经很久很久没有打开我的博客了，久到我自己差点忘记了密码是什么。自从开通了博客，写的文章都是自己学习的过程中一些知识点的总结，然而我认为我的总结并没有多大的特色，我学习到的东西都很基础，甚至挖掘不到更好的信息。有时候去逛v2ex，看到别人提出来的很新奇的点子，总是感叹别人是怎么想到的，或许是我敏锐性不够高，或许是学到的东西不够深入，亦或许是我一直不善于收集资料。。。。。。</p>
-
-<p>记得刚刚开始学习的时候，我连百度都不怎么会用，遇到什么问题只是会向别人请教，后来，慢慢的学会了自己解决问题。不知道为什么，每次和别人交流，总是特别不自信，不敢把自己的想法说出来，因为总是觉得很幼稚，也许事实就是如此吧。大学三年马上就要过去了，回想这三年的时光，除了学习专业课程之外，剩下的都是一些很零碎的东西，根本就不成体系，我不知道，现在的这种状态，我还要如何走出学校，甚至连投简历的勇气都没有。我讨厌自己的不知所措，讨厌自己的迷茫，讨厌自己的不自信，这样的生活让我觉得糟糕透了。</p>
-
-<p>哎，我也不知道自己应该说些什么，不知道下一步具体应该做些什么，这种迷茫的状态什么时候才能打破。一个没有自我见解，无法把握全局的人，注定不会成功，然而，我不想就此堕落。那就努力地寻找新的目标，去实现吧！</p>
-
-                        
-                      </div>
-                  </div>
-                </a>
-                <div class="read-more clearfix">
-                  <div class="more-left left">
-                  
-                    <span class="date">2016/1/15</span>
+                    <span class="date">2016/2/8</span>
                     <span>posted in&nbsp;</span> 
           				  
           					    <span class="posted-in"><a href='%E9%9A%8F%E6%83%B3.html'>随想</a></span>
+          				   
+                  </div>
+                  <div class="more-right right">
+                  <span class="comments">
+                      
+
+                       
+                  </span>
+                  </div>
+                </div>
+              </div><!-- article -->
+        
+			<div class="article">
+                <a class="clearlink" href="14857042298405.html">
+                
+                  <h1>Ubuntu 修改apache默认目录</h1>
+                  <div class="a-content">
+                      
+                      <div class="a-content-text">
+                        
+                        	<p>Linux中运行程序会放在/var/www/目录下,但是我给该目录的空间比较小,所以采用软链接的方式在该目录下建立程序的链接.</p>
+
+<p>ln -s 程序所在目录 软链接所在目录<br/>
+ln -s /home/Project/abc /var/www/abc<br/>
+修改apache默认目录</p>
+
+<p>cd /etc/apache2/sites-enabled/<br/>
+vim 000-default.conf <br/>
+//修改000-default.conf文件中的DocumentRoot的值,更改为要修改的目录<br/>
+重启apache</p>
+
+<p>sudo /etc/init.d/apache2 restart</p>
+
+                        
+                      </div>
+                  </div>
+                </a>
+                <div class="read-more clearfix">
+                  <div class="more-left left">
+                  
+                    <span class="date">2016/1/31</span>
+                    <span>posted in&nbsp;</span> 
+          				  
+          					    <span class="posted-in"><a href='Ubuntu.html'>Ubuntu</a></span>
+          				   
+                  </div>
+                  <div class="more-right right">
+                  <span class="comments">
+                      
+
+                       
+                  </span>
+                  </div>
+                </div>
+              </div><!-- article -->
+        
+			<div class="article">
+                <a class="clearlink" href="14857041558957.html">
+                
+                  <h1>PHP与MySQL（总结篇）</h1>
+                  <div class="a-content">
+                      
+                      <div class="a-content-text">
+                        
+                        	<p>其实之前写过关于PHP中MySQL应用的总结，不过那是在使用thinkPHP框架写项目的时候总结的，当时还没有系统的学习数据库，还是很懵懂。现在想想当时写的总结，原来只是应用于thinkPHP中的MySQL函数，这次系统的学习PHP开发，才发现和MySQL直接交互的PHP操作并不是那些函数，。现在我就来做些总结吧。其实，只要掌握了要点，也没有多少内容。</p>
+
+<p>基本函数</p>
+
+<p>建立数据库连接：mysql_connect();该函数的参数有三个，主机地址，用户名，用户密码</p>
+
+<p>关闭数据库连接：mysql_close();该函数有一个参数，那就是来连接标识符</p>
+
+<p>其实，数据库连接是短暂性连接，用完之后会自己断开，可是为什么还需要关闭数据库连接函数呢？因为：存在必是合理。。。。</p>
+
+<p>选择使用的数据库：mysql_select_db();该函数的参数是要是用的数据库名</p>
+
+<p>执行sql语句：mysql_query();该函数的参数就是一个string类型的数据，是要执行的正确的sql语句。</p>
+
+<p>选择字符集：mysql_query(&quot;set names utf8&quot;);即选择utf8字符集。</p>
+
+<p>查看错误：mysql_error();该函数没有参数，一般就是在发现操作不成功的时候调用</p>
+
+<p>插入数据：mysql_query(sql插入语句);</p>
+
+<p>查看插入id：mysql_insert_id();用于插入操作之后，返回新插入的数据的id（必须得有自增id才可以哦），如果插入多条数据，则返回第一个插入的数据的id。此函数可以判断是否成功插入，因为如果不成功，id会为0哦。</p>
+
+<p>查看受影响的记录数目：mysql_affected_rows();传递的参数是连接标识符</p>
+
+<p>header(&quot;Content-type:text/html;charset=utf-8&quot;);<br/>
+//连接数据库<br/>
+if(\(con = mysql_connect(&quot;localhost&quot;,&#39;root&#39;,&#39;&#39;)) echo &quot;连接成功,返回true\n&quot;;<br/>
+else    echo &quot;连接失败，返回false\n&quot;;<br/>
+//选择数据库<br/>
+if(mysql_select_db(&#39;test&#39;)) echo &quot;数据库选择成功，返回true\n&quot;;<br/>
+else   echo &quot;数据库选择失败，返回false\n&quot;;<br/>
+//指定数据操作的编码<br/>
+mysql_query(&#39;set names utf8&#39;);<br/>
+//通过变量向数据库中插入数据<br/>
+\)name = &#39;Cate2&#39;;<br/>
+\(sql = &quot;insert into user(name) values(&#39;\)name&#39;)&quot;;//变量的单引号不能省略<br/>
+mysql_query(\(sql);<br/>
+\)re_id = mysql_insert_id();<br/>
+if( \(re_id == 0)<br/>
+    echo &quot;插入数据失败&quot;;<br/>
+else<br/>
+    echo &quot;插入数据成功，id为&quot;.\)re_id;<br/>
+//获取本次操作受影响的数据条数<br/>
+echo &quot;受影响的数据条数为：&quot;.mysql_affected_rows(\(con);<br/>
+if(mysql_close(\)con)) echo &quot;数据库关闭成功，返回true&quot;;<br/>
+else echo &quot;数据库关闭失败，返回false&quot;;<br/>
+数据查询</p>
+
+<p>查询语句：mysql_query(&quot;select 查询语句&quot;);该语句会返回一个资源句柄，可以通过该资源句柄获取到结果集中的数据</p>
+
+<p>获取数据的四种方法</p>
+
+<p>mysql_fetch_row()：该函数能够接收一个参数为资源标识符，标志着查询出来的结果所存放的位置，每执行一次，都会从结果集中依次取出一条数据，并以数组的形式返回出来，当所有的数据都取出来之后，再取数据的时候会返回空。返回的数组是一维索引数组，每一个下标与数据表中字段的位置相对应。</p>
+
+<p>Mysql_fetch_array():该函数的作用和mysql_fetch_row()是一样的，只不过该函数再返回的数据中除了有mysql_fetch_row()包含的数据外，还包含了一组关联数组，即字段名对应着字段值，这些数据以一维数组的形式展现。这个函数的好处就是可以根据字段名获取相应的字段值，而不需要知道每一个字段所在的位置，不过速度会很慢。该函数还有一个参数，该参数有3种形式：MYSQL_ASSOC只输出关联数组；MYSQL_NUM只输出数字索引数组；MYSQL_BOTH输出关联数组和索引数组，这也是默认状态。</p>
+
+<p>mysql_fetch_assoc()以关联数组形式获取数据，该函数和mysql_fetch_array(&#39;资源定位符&#39;,MYSQL_ASSOC)效果是一样的</p>
+
+<p>mysql_fetch_object()函数是从结果集中获取数据，然后以对象的形式打印出来,可以获取到对象中的任意一个属性。</p>
+
+<p>获取结果集中行的数目：mysql_num_rows();可以通过该方法判断是否查询到数据</p>
+
+<p>获取某一个值：mysql_result();该函数获取结果集中某一个字段的值，有三个参数，第一个参数是结果集的地址，第二个参数是行号（从0开始）,第三个参数是获取哪一个字段，默认为第一个字段（从0开始）。一般会用在直接取某一行的某一个字段，而不是循环显示的时候。</p>
+
+<p>//mysql_fetch_row()函数查询数据并打印<br/>
+\(res = mysql_query(&quot;select id,name,num from user&quot;);<br/>
+while(\)row1 = mysql_fetch_row(\(res)){print_r(\)row1);echo &quot;<br/>&quot;;}<br/>
+//mysql_fetch_array()函数只有一个参数的查询数据并打印<br/>
+\(res = mysql_query(&quot;select id,name,num from user&quot;);<br/>
+while(\)row1 = mysql_fetch_array(\(res)){print_r(\)row1);echo &quot;<br/>&quot;;}<br/>
+//mysql_fetch_array()函数有两个参数的查询数据并打印<br/>
+\(res = mysql_query(&quot;select id,name,num from user&quot;);<br/>
+while(\)row1 = mysql_fetch_array(\(res,MYSQL_ASSOC)){print_r(\)row1);echo &quot;<br/>&quot;;}<br/>
+//mysql_fetch_assoc()以关联数组形式获取数据<br/>
+\(res = mysql_query(&quot;select id,name,num from user&quot;);<br/>
+while(\)row1 = mysql_fetch_assoc(\(res)){print_r(\)row1);echo &quot;<br/>&quot;;}<br/>
+//mysql_fetch_object()函数是从结果集中获取数据，然后以对象的形式打印出来,可以获取到对象中的任意一个属性<br/>
+\(res = mysql_query(&quot;select id,name,num from user&quot;);<br/>
+while(\)row1 = mysql_fetch_object(\(res)){print_r(\)row1);echo \(row1-&gt;name.&quot;&lt;br/&gt;&quot;;}<br/>
+//获取结果集的行数<br/>
+\)res = mysql_query(&quot;select id,name,num from user&quot;);<br/>
+echo mysql_num_rows(\(res);<br/>
+//mysql_result()获取结果集中某一个字段的值<br/>
+\)res = mysql_query(&quot;select id,name,num from user&quot;);<br/>
+echo mysql_result($res,2,1);<br/>
+其实,其实,最后再加一句,PHP升级之后,这些操作mysql的一些函数已经过时了,取而代之的是mysqli扩展库.不过这些基础性的东西看一看也是没有坏处的.</p>
+
+                        
+                      </div>
+                  </div>
+                </a>
+                <div class="read-more clearfix">
+                  <div class="more-left left">
+                  
+                    <span class="date">2016/1/26</span>
+                    <span>posted in&nbsp;</span> 
+          				  
+          					    <span class="posted-in"><a href='PHP.html'>PHP</a></span>
+          				   
+                  </div>
+                  <div class="more-right right">
+                  <span class="comments">
+                      
+
+                       
+                  </span>
+                  </div>
+                </div>
+              </div><!-- article -->
+        
+			<div class="article">
+                <a class="clearlink" href="14857040510109.html">
+                
+                  <h1>MySQL学习笔记（7）——存储引擎</h1>
+                  <div class="a-content">
+                      
+                      <div class="a-content-text">
+                        
+                        	<p>存储引擎在之前学习过程中接触过一点，现在再写一些涉及到的更多的知识</p>
+
+<p>并发控制</p>
+
+<p>当多个连接对记录进行修改时保证数据的一致性和完整性，锁系统能够实现并发控制。</p>
+
+<p>锁系统</p>
+
+<p>锁系统是用来进行并发控制的，有两种锁，一种是共享锁（读锁）：在同一个时间内，多个用户可以读取同一个资源，因为不会对数据进行修改，所以是可以共同使用资源的，另一种是排它锁（写锁）：在任何时候只能有一个用户写入资源，当进行写锁时会阻塞其他的读锁或者写锁操作</p>
+
+<p>锁也有作用范围的大小，称为锁颗粒。比如表锁：是一种开销最小的锁，行锁：是一种开销最大的锁，支持的并发处理也是最大的。这里的开销，其实是锁的个数，表锁只对这张表加一个锁就可以了，所以开销最小，行锁要对相应的行加锁，所以开销最大。</p>
+
+<p>事务处理</p>
+
+<p>事务的主要作用为保证数据的完整性，事务有四大特性：原子性，一致性，隔离性，持久性；这四大特性简写为：ACID</p>
+
+<p>存储引擎的定义</p>
+
+<p>MySQL将数据以不同的技术存储在文件（内存）中，这种技术称为存储引擎。每一种存储引擎都是用不同的存储机制，索引技巧，锁定水平，最终提供广泛且不同的功能。</p>
+
+<p>MySQL支持的存储引擎</p>
+
+<p>MyISAM</p>
+
+<p>InnoDB</p>
+
+<p>Memory</p>
+
+<p>CSV：以逗号分隔</p>
+
+<p>Archive</p>
+
+<p>BlackHole:黑洞引擎，写入的数据都会消失，一般用作数据复制的中继</p>
+
+<p>这些存储引擎的特点如下图所示：<br/>
+<img src="media/14857040510109/mysql-suo.png" alt="mysql-suo"/></p>
+
+                        
+                      </div>
+                  </div>
+                </a>
+                <div class="read-more clearfix">
+                  <div class="more-left left">
+                  
+                    <span class="date">2016/1/25</span>
+                    <span>posted in&nbsp;</span> 
+          				  
+          					    <span class="posted-in"><a href='%E6%95%B0%E6%8D%AE%E5%BA%93.html'>数据库</a></span>
           				   
                   </div>
                   <div class="more-right right">
@@ -659,6 +579,8 @@ selest brand_name from goods group by brand_name;<br/>
         
             <a href="%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84&%E7%AE%97%E6%B3%95.html"><strong>数据结构&算法</strong></a>
         
+            <a href="Fluent%20Python.html"><strong>Fluent Python</strong></a>
+        
             <a href="PHP.html"><strong>PHP</strong></a>
         
             <a href="Ubuntu.html"><strong>Ubuntu</strong></a>
@@ -678,31 +600,31 @@ selest brand_name from goods group by brand_name;<br/>
 	      
 		      
 			      <li class="post">
-			        <a href="14830907697555.html">MySQL数据库☞数据库编码</a>
+			        <a href="15033291458720.html">使用一等函数实现设计模式</a>
 			      </li>
 		     
 		  
 		      
 			      <li class="post">
-			        <a href="14830842110487.html">MySQL数据库☞中文乱码问题</a>
+			        <a href="15018651943030.html">一等函数</a>
 			      </li>
 		     
 		  
 		      
 			      <li class="post">
-			        <a href="14819928857822.html">MySQL的基本命令☞数据表的基本管理</a>
+			        <a href="15018646605864.html">文本和字节序列</a>
 			      </li>
 		     
 		  
 		      
 			      <li class="post">
-			        <a href="14745361920074.html">python容器数据类型☞collections</a>
+			        <a href="15013419653919.html">集合的使用</a>
 			      </li>
 		     
 		  
 		      
 			      <li class="post">
-			        <a href="14724629382123.html">python对列表进行操作</a>
+			        <a href="15010832436363.html">字典的使用</a>
 			      </li>
 		     
 		  
@@ -778,7 +700,7 @@ Theme used <a target="_blank" href="http://github.com">GitHub CSS</a>.</p>
     </script>
 
     <script src="asset/chart/all-min.js"></script><script type="text/javascript">$(function(){    var mwebii=0;    var mwebChartEleId = 'mweb-chart-ele-';    $('pre>code').each(function(){        mwebii++;        var eleiid = mwebChartEleId+mwebii;        if($(this).hasClass('language-sequence')){            var ele = $(this).addClass('nohighlight').parent();            $('<div id="'+eleiid+'"></div>').insertAfter(ele);            ele.hide();            var diagram = Diagram.parse($(this).text());            diagram.drawSVG(eleiid,{theme: 'simple'});        }else if($(this).hasClass('language-flow')){            var ele = $(this).addClass('nohighlight').parent();            $('<div id="'+eleiid+'"></div>').insertAfter(ele);            ele.hide();            var diagram = flowchart.parse($(this).text());            diagram.drawSVG(eleiid);        }    });});</script>
-<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script type="text/x-mathjax-config">MathJax.Hub.Config({TeX: { equationNumbers: { autoNumber: "AMS" } }});</script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script type="text/x-mathjax-config">MathJax.Hub.Config({TeX: { equationNumbers: { autoNumber: "AMS" } }});</script>
 
 
   </body>
