@@ -5,12 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>
     
-  挂在树上的兔子
+  零度燕窝
   
   </title>
   
   
-  <link href="atom.xml" rel="alternate" title="挂在树上的兔子" type="application/atom+xml">
+  <link href="atom.xml" rel="alternate" title="零度燕窝" type="application/atom+xml">
     <link rel="stylesheet" href="asset/css/foundation.min.css" />
     <link rel="stylesheet" href="asset/css/docs.css" />
     <script src="asset/js/vendor/modernizr.js"></script>
@@ -62,7 +62,7 @@
 
         <nav class="tab-bar show-for-small">
   <a href="javascript:void(0)" class="left-off-canvas-toggle menu-icon">
-    <span> &nbsp; 挂在树上的兔子</span>
+    <span> &nbsp; 零度燕窝</span>
   </a>
 </nav>
 
@@ -85,6 +85,10 @@
             <li><a href="%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84&%E7%AE%97%E6%B3%95.html">数据结构&算法</a></li>
         
             <li><a href="Fluent%20Python.html">Fluent Python</a></li>
+        
+            <li><a href="%E8%AF%BB%E4%B9%A6%E9%9A%8F%E7%AC%94.html">读书随笔</a></li>
+        
+            <li><a href="%E6%9B%BE%E7%BB%8F%E6%9D%A5%E8%BF%87.html">曾经来过</a></li>
         
             <li><a href="PHP.html">PHP</a></li>
         
@@ -111,162 +115,92 @@
 		<div class="markdown-body home-categories">
 		
 			<div class="article">
-                <a class="clearlink" href="14838700446484.html">
+                <a class="clearlink" href="14857052295461.html">
                 
-                  <h1>图的基本概念及图的存储</h1>
+                  <h1>php实现后台登陆功能</h1>
                   <div class="a-content">
                       
                       <div class="a-content-text">
                         
-                        	<p>各种基本概念</p>
+                        	<p>最近想借助thinkphp框架写一个关于图书管理的小项目，经过一天对整个项目进行整体的规划之后决定先写后台。</p>
 
-<p>1.图：顶点集合和顶点间的二元关系集合组成的数据结构，用G（V,E）表示。其中顶点集合用V(G)表示，边的集合用E(G)表示。</p>
+<p>今天用php写了关于后台登陆功能，其中主要涉及到了从前端接收数据，在后台判断用户名和密码是否正确，刷新后台的时候自动判断用户是否已经登陆以及退出功能。</p>
 
-<p>2.无向图：图中所有的边都没有方向性的图成为无向图。</p>
+<p>接受数据用的I方法</p>
 
-<p>3.有向图：图中所有的边都有方向性的图成为有向图。</p>
+<p>I方法值input（输入），用于更加方便和安全的获取系统输入的变量，用法格式为:</p>
 
-<p>4.边和点：<u,v>表示一条从u到v的又向边，其中u是这条有向边的起点，v是这条有向边的终点。</p>
+<p>I(&#39;变量类型.变量名&#39;,[&#39;默认值&#39;],[&#39;过滤方法&#39;])</p>
 
-<p>5.基图：忽略有向图的所有边的方向，得到的图称为该有向图的基图。</p>
+<p>变量类型指post，get等请求方式或者输入类型，变量类型不区分大小写</p>
 
-<p>6.完全图：如果无向图中任何一对顶点之间都有一条边，这种无向图称为完全图。</p>
+<p>默认值和过滤方法属于可选参数，如果写过滤方法，就一定要写默认值，可以为空。</p>
 
-<p>7.有向完全图：如果有向图中任何一对顶点之间都有一条边，这种有向图称为有向完全图。</p>
+<p>I方法支持获取整个变量类型，比如：I(&#39;get&#39;);//获取整个get数组内容。</p>
 
-<p>8.稀疏图：边或弧的数目相对较少的图称为稀疏图。</p>
+<p>I方法中param是特殊的，它可以自动判断当前请求类型的变量获取方式，比如：I(&#39;param.id&#39;);等同于：I(&#39;id&#39;);</p>
 
-<p>9.稠密图：边或弧的数目相对较多的图称为稀疏图。</p>
+<p>所以，可以使用I方法获取从前端传输进来的数据：</p>
 
-<p>10.平凡图：只有一个顶点的图称为平凡图，平凡图的阶为1.</p>
+<p>\(username = I(&#39;username&#39;);<br/>
+ \)pas = I(&#39;password&#39;);<br/>
+用户信息验证</p>
 
-<p>11.零图：边的集合为空的图成为零图。</p>
+<p>提取到用户登录数据之后，在数据库中查找用户信息，看用户名和密码是否匹配。</p>
 
-<p>12.度：一个顶点的度数是与它相关联的边的数目，记作deg(u)。在有向图中，顶点的度数等于该顶点的入度和出度的和。某一个顶点的出度是以该顶点为起点的有向边的数目，记作od(u)，某个顶点的入度是以该顶点为终点的有向边的数目，记作id(u)。</p>
+<p>\(user = M(&#39;users&#39;)-&gt;where(array(&#39;user_name&#39;=&gt;\)username))-&gt;find();<br/>
+        if(!\(user || \)user[&#39;user_password&#39;]!=$pas)<br/>
+        {<br/>
+            echo &quot;用户名或密码错误&quot;;<br/>
+        }<br/>
+往session中写入数据</p>
 
-<p>拓展：在无向图和有向图中，所有顶点度数总和等于边数的两倍。</p>
+<p>在经过用户验证成功之后，就需要把用户信息写入session中，以减少客户端访问数据库的频率。</p>
 
-<p>13.奇点和偶点：度数为基数的顶点为奇点，度数为偶数的顶点为偶点。</p>
+<p>Session 的工作机制是：为每个访客创建一个唯一的 id (UID)，并基于这个 UID 来存储变量。UID 存储在 cookie 中，或者通过 URL 进行传导。</p>
 
-<p>14.孤立顶点：度数为0的顶点称为孤立顶点。</p>
+<p>//往session中写入数据<br/>
+        session(&#39;uid&#39;,\(user[&#39;user_id&#39;]);<br/>
+        session(&#39;username&#39;,\)user[&#39;user_name&#39;]);<br/>
+        session(&#39;userpwd&#39;,$user[&#39;user_password&#39;]);<br/>
+从登录页面跳转到后台首页面</p>
 
-<p>15.路径：从一个点出发，经过一系列的点到达另一个点的通路称为两点之间的路径（路径可以包含很多点）。</p>
+<p>$this-&gt;redirect(&#39;Admin/Index/index&#39;);<br/>
+判断用户是否登陆</p>
 
-<p>16.生成树：一个无向联通图的生成树是它的包含所有顶点的极小连通子图，这里所谓的极小指边的数目极小。</p>
+<p>在刷新后台页面或者进入后台的一个页面的过程中，我们都要判断用户是否已经登陆，因为如果用户没有登陆，就只能访问前端而不能访问后台，所以判断用户是否登陆是所有后台都需要执行的功能，为了方便，我们可以在要进入该页面之前自动调用判断方法，那么就需要有一个公共的控制器，然后后台所有页面的控制器都继承这个公共的控制器。</p>
 
-<p>17.连通分量：如果一个无向图不是连通的，则其极大连通子图成为连通分量。这里所谓的极大指子图中包含的顶点个数极大。</p>
+<p>新建控制器名为：CommonAction.class.php，在该控制器中写一个可以自动调用的方法。如果用户没有登陆，那么自动跳转到后台登录页面。</p>
 
-<p>18.强连通图：对于图中每一对顶点<u,v>，既存在从u到v的路径，也存在从v到u的路径，则称此图为强连通图。</p>
+<p>&lt;?php</p>
 
-<p>19.强连通分量：对于非强连通图，其极大强连通子图称为其强连通分量。</p>
+<p>Class CommonAction extends Action{<br/>
+    public function <u>initialize(){<br/>
+        if(!isset($</u>SESSION[&#39;uid&#39;])||!isset(\(_SESSION[&#39;username&#39;])){<br/>
+            \)this-&gt;redirect(&#39;Admin/Login/index&#39;);<br/>
+        }<br/>
+    }<br/>
+}<br/>
+?&gt;<br/>
+退出登陆</p>
 
-<p>图的存储表示</p>
+<p>在检测是否已经登陆的时候，我们是检测session中有没有数据，如果要退出登陆的话，就直接清楚session中的所有数据就可以了。</p>
 
-<p>1.邻接矩阵</p>
+<p>为后台首页退出按钮添加链接，即触发此事件之后就交由控制器的相应方法进行处理。</p>
 
-<p>设G(V,E)是一个具有n个顶点的图，矩阵是一个n*n的二维数组，用Edge[i][j]表示。</p>
+<p><a href="{:U('Admin/Login/logout')}" target="_self">退出</a><br/>
+清空session数据</p>
 
-<p>i,j分别代表一条边的两个端点，如果两个端点之间有直接相连的边，则Edge[i][j]存储为1，否则存储为0.</p>
+<p>public function logout(){<br/>
+        session_unset();<br/>
+        session_destroy();<br/>
+        \(this-&gt;redirect(&#39;Admin/Login/index&#39;);<br/>
+    }<br/>
+//session_unset()释放当前在内存中已经创建的所有\)_SESSION变量，但不删除session文件以及不释放对应的session id</p>
 
-<p>注意：邻接矩阵不能够表示以下形式：</p>
+<p>// session_destroy()删除当前用户对应的session文件以及释放session id，内存中的$_SESSION变量内容依然保留,因此，释放用户的session所有资源</p>
 
-<p>（1）图中存在自身环。</p>
-
-<p>（2）多条边的起点一样，终点也一样，称为重边。</p>
-
-<p>示例：每行输入两个数，代表两点之间有边存在，顶点编号最大为100.</p>
-
-<p>描述代码为：</p>
-
-<pre><code>int Edge[101][101];
-    int n,m,i,j,u,v;
-    
-    while(scanf(&quot;%d%d&quot;,&amp;n,&amp;m))//n个点，m条边
-    {
-        memset(Edge,0,sizeof(Edge));
-        if(n == 0 &amp;&amp; m == 0)
-            break;
-        for(i = 0;i &lt; m;i++)
-        {
-            scanf(&quot;%d%d&quot;,&amp;u,&amp;v);//读入边的起点和终点
-            Edge[u][v] = 1;//标记该边已存在
-        }
-        for(i = 1;i &lt;= n;i++)//计算每个顶点的出度
-        {
-            int od = 0;
-            for(j = 1;j &lt;= n;j++)
-            {
-                od += Edge[i][j];
-            }
-            printf(&quot;第%d个顶点的出度为%d\n&quot;,i,od);
-        }
-//用相似的方法计算每个顶点的入度，固定j,遍历i即可。
-    }
-</code></pre>
-
-<p>2.邻接表</p>
-
-<p><img src="media/14838700446484/linjiebiao.jpg" alt="linjiebiao"/></p>
-
-<p>如上图所示，最右边的矩阵是最左边的图对应的邻接矩阵</p>
-
-<p>中间是最左边的图对应的邻接表。可以看出，邻接表是一个个链表的形式，前面是一个头结点，代表没一个顶点，后面是一条条的链表，代表该顶点相关联的边的另一个顶点。</p>
-
-<p>邻接表的结构体声明：</p>
-
-<pre><code>#define MAXN 100
-struct ArcNode//边结点
-{
-    int adjvex;//有向边的另一个邻接点的序号
-    ArcNode *nextarc;//指向下一个边结点的指针
-};
-struct VNode//顶点
-{
-    int data;//顶点信息
-    ArcNode *head1;//出边表的表头指针
-    ArcNode *head2;//入边表的表头指针
-};
-struct LGraph//图的邻接表存储结构
-{
-    VNode vertexs[MAXN];//顶点数组
-    int vexnum , arcnum;//顶点数目和边的数目
-};
-LGraph lg;
-</code></pre>
-
-<p>建立邻接表的基本操作为：</p>
-
-<pre><code>void CreateLG()
-{
-    int i = 0;
-    ArcNode *pi;
-    int v1,v2;
-    lg.vexnum = lg.arcnum = 0;
-    scanf(&quot;%d%d&quot;,&amp;lg.vexnum,&amp;lg.arcnum);
-    for(i = 0;i &lt; lg.vexnum;i++)
-    {
-        lg.vertexs[i].head1 = lg.vertexs[i].head2 = NULL;
-    }
-    for(i = 0;i &lt; lg.arcnum;i++)
-    {
-        scanf(&quot;%d%d&quot;,&amp;v1,&amp;v2);
-        pi = new ArcNode;
-        pi-&gt;adjvex = v2;
-        pi-&gt;nextarc = lg.vertexs[v1].head1;
-        lg.vertexs[v1].head1 = pi;
-        pi = new ArcNode;
-        pi-&gt;adjvex = v1;
-        pi-&gt;nextarc = lg.vertexs[v2].head2;
-        lg.vertexs[v2].head2 = pi;
-    }
-}
-</code></pre>
-
-<p>存储分析</p>
-
-<p>1.邻接表的时间复杂度为O（m）或O(2m)（无向图），邻接矩阵的时间复杂度为O(n<sup>2)。</sup></p>
-
-<p>2.邻接表的空间复杂度为O(n+ m）或O(n + 2 * m)；邻接矩阵的空间复杂度为O(n * n);</p>
+<p>在所有数据都清空之后，自动转到后台登录页面。</p>
 
                         
                       </div>
@@ -275,7 +209,277 @@ LGraph lg;
                 <div class="read-more clearfix">
                   <div class="more-left left">
                   
-                    <span class="date">2015/1/21</span>
+                    <span class="date">2015/7/9</span>
+                    <span>posted in&nbsp;</span> 
+          				  
+          					    <span class="posted-in"><a href='PHP.html'>PHP</a></span>
+          				   
+                  </div>
+                  <div class="more-right right">
+                  <span class="comments">
+                      
+
+                       
+                  </span>
+                  </div>
+                </div>
+              </div><!-- article -->
+        
+			<div class="article">
+                <a class="clearlink" href="14857051817013.html">
+                
+                  <h1>近日小感</h1>
+                  <div class="a-content">
+                      
+                      <div class="a-content-text">
+                        
+                        	<p>好久没有来网站发表文章了，这一段时间，接了一个做学生会网站的项目，现在正在恶补知识的阶段，我很清楚，以我现在的能力写出一个网站真的是很难的事情，我想抓住这次的机会，从学习网站开发到现在，我还没有写过一个项目，我学完了PHP，HTML，CSS，JavaScript，数据库操作，但是我清楚，基础知识归基础知识，没有实践学得再多也没有用，我一定要学会运用。最近一段时间，我在学习thinkphp框架，准备用这个框架写后台。</p>
+
+<p>其实，我很迷茫，学习这些，是出于兴趣，还是为了以后更好的生活，我甚至自己也分不清楚，我努力的想要学得更好，在别人眼里我是一名好学生，可是如果只为了好地生活而强迫自己学习又是多么的可悲；值得庆幸的是，我并不是完全没有兴趣，我喜欢敲代码，喜欢自己设计一些东西，但是，我深知，在我的身上，缺乏的就是创造力，思维能力。最近在读古典的《拆掉思维里的墙》，这给我很大的感触，我的这些致命的缺点，我所谓的那些“应该是”，把我紧紧的包围，让我无法冲破。我锻炼自己以发散的观念思考问题，可是这对于我一个小女生来说，似乎真的很难。这样说，大概也只是为了发发牢骚，我不是那种知难而退的人，我有着很强的上进心，总是迷茫，不知所措，我依然会坚持，也许冲出这片云雾，我就能够见到彩虹。</p>
+
+<p>对于这一行业，我有一定的兴趣，有时候，单单只有兴趣是不够的，我还需要能力，需要发现新事物的能力，需要独立思考的能力，在众多事情面前，我更需要比别人看得更长远的能力，在IT界，永远要走在别人的前面，它要引领大众，做别人的指明灯。</p>
+
+<p>告诉自己，如果兔子离开了地面，挂在了树上，它会看到很多之前看不到了事物，从迷茫，到熟练，这是一个过程，只有坚持，才能圆梦！！</p>
+
+                        
+                      </div>
+                  </div>
+                </a>
+                <div class="read-more clearfix">
+                  <div class="more-left left">
+                  
+                    <span class="date">2015/4/23</span>
+                    <span>posted in&nbsp;</span> 
+          				  
+          					    <span class="posted-in"><a href='%E9%9A%8F%E6%83%B3.html'>随想</a></span>
+          				   
+                  </div>
+                  <div class="more-right right">
+                  <span class="comments">
+                      
+
+                       
+                  </span>
+                  </div>
+                </div>
+              </div><!-- article -->
+        
+			<div class="article">
+                <a class="clearlink" href="14857048402362.html">
+                
+                  <h1>集训总结</h1>
+                  <div class="a-content">
+                      
+                      <div class="a-content-text">
+                        
+                        	<p>2015年寒假集训就在最后的结训比赛中以一道题目惨烈结束了，这个假期，因为前几天有事，所以我比别的队友开始集训要晚几天。还记得开始的时候，我为自己制定了这一个寒假训练的计划，大体分为两方面，一方面是刷小白书上的题目，另一方面是看图论，并做相关的题目。计划中，每一天都安排得仔仔细细的，做多少题目，学习哪些知识点都涉及到了，可是真正实施下来，却没有那么容易，有的时候，我会被一道题目卡住一上午或是一下午，有时候为了学会一个知识点来回看好多遍的书，会为了一个简单的知识点放下当天的某些任务去做这一个知识点的题目，这样下来，效率根本就提不起来。任务不能够按时完成，让我每天都有些郁闷。。。。。。</p>
+
+<p>不过这个寒假中，对于我自己有一点我做的还是比较满意的，那就是我坚持每天都写总结，其实想想很容易，但是每天都坚持去写总结，尤其是一天中几乎什么事情也没有做，感觉写出来都不好意思，觉得很丢人的时候还要坚持住，真的是很不容易。曾经有几天，我都在学习欧拉，导致晚上写总结的时候都没什么可以写的。有的时候忙着晚上做CF，就直接忘记写总结，然后会在第二天开始学习之前就补上，有的时候几天学习一个知识点，就会把这几天的总结写在一起。通过每天的总结，我能看到这一天来我都做了些什么，刷了几道题目，是什么类型的，学习了多少知识，有哪些东西应该完成却没有完成，每天都会有一个反思的过程，不断的鞭策着我自己，不要松懈。</p>
+
+<p>整个寒假，写了40多篇博客，刷了40多道题目，最后还是被学弟吊打了。。。sad。。。不能说没有学到东西，但是事实证明我学的还不行。接下来的这段时间里，我要调整策略，在学习各种知识的基础上，做成套的题目，尽量不要在已经知道题型的情况下刷题目，而是学着自己去判断知识点，自己总结方法，锻炼独立思考的能力。</p>
+
+<p>一个大学，能够这样系统的学习知识的机会没有多少，时间是有限的，如果我想在某一方面有所成就，那么就必须放弃某些东西，时间是一定的，如何取舍，全在我自己。。。。。。加油吧，趁还年轻！！</p>
+
+                        
+                      </div>
+                  </div>
+                </a>
+                <div class="read-more clearfix">
+                  <div class="more-left left">
+                  
+                    <span class="date">2015/2/9</span>
+                    <span>posted in&nbsp;</span> 
+          				  
+          					    <span class="posted-in"><a href='%E9%9A%8F%E6%83%B3.html'>随想</a></span>
+          				   
+                  </div>
+                  <div class="more-right right">
+                  <span class="comments">
+                      
+
+                       
+                  </span>
+                  </div>
+                </div>
+              </div><!-- article -->
+        
+			<div class="article">
+                <a class="clearlink" href="14857047517618.html">
+                
+                  <h1>欧拉回路的应用</h1>
+                  <div class="a-content">
+                      
+                      <div class="a-content-text">
+                        
+                        	<p>上一篇文章主要总结的是欧拉函数的基础知识，重点是欧拉回路的基本原理和判定是否能够组成欧拉回路，这篇文章重点总结欧拉回路在能够组成的基础上，输出路径问题。</p>
+
+<p>查找欧拉回路的路径主要有两种方法，一种是DFS搜索，一种是Fleury（弗罗莱）算法。</p>
+
+<p>DFS搜索</p>
+
+<p>利用欧拉定理判断出一个图能够构成欧拉回路后，利用DFS算法遍历所有的边，并且保证每条边只遍历一遍。</p>
+
+<p>用示例说明DFS算法：</p>
+
+<p>题目描述：</p>
+
+<p>给定n张骨牌，每张骨牌有左右两个点数（从1到6），问能不能交换骨牌的顺序交换左右两个点数，使得任意相邻骨牌的相邻字段为相等的数字。</p>
+
+<p>输入描述：</p>
+
+<p>输入文件中有多个测试数据。每个测试数据的第一行为一个整数N，1&lt;=N&lt;=100，表示多米诺骨牌的总数；接下来N行对每一张牌进行描述：每一行表示一张牌的左右两点的数字，用空格隔开。</p>
+
+<p>输出描述：</p>
+
+<p>对输入文件中的每个测试数据，如果不能满足要求，输出“No solution”；如果有解，输出任意一个即可：每张牌必须从左到右打印；每一行都要包含当前牌的序号和符号（+号代表没有翻转，-号代表左右翻转），每个测试数据的输出之后输入一个空行。</p>
+
+<p>解析：这是一个无向图，骨牌可以翻转，而且一共有六个顶点，两个顶点之间可能有多条边，所以选择用邻接表存储图，每条边有两个方向，一正一负，这是需要记录的，每条边的两个顶点，边的序号都是需要记录的。通过边的度数判断能否构成欧拉通路，之后再利用DFS的搜索方法进行路径搜索。</p>
+
+<p>存图——&gt;判断能否构成欧拉回路——&gt;DFS搜索路径——&gt;打印路径</p>
+
+<p>示例代码：</p>
+
+<h1 id="toc_0">define MAXN 101</h1>
+
+<p>using namespace std;</p>
+
+<p>struct EdgeNode<br/>
+{<br/>
+    int adjvex;//边的令一个邻接点的序号<br/>
+    int EdgeNo;//边的序号<br/>
+    int flag;//判断边有没有反转，没有为1，翻转为-1<br/>
+    EdgeNode *next;//指向下一个边结点<br/>
+};<br/>
+EdgeNode *EdgeLink[10];//邻接表的头结点<br/>
+int visited[MAXN];//记录每条边是否被遍历过<br/>
+int path[MAXN];//记录加进欧拉图里的边，用边的序号标记<br/>
+int pi;//记录当前已经加图里的边的数目<br/>
+int N;//总边数<br/>
+int du[10];//记录每个顶点的数目</p>
+
+<p>void createLG()<br/>
+{<br/>
+    int i,j,k,a,b;<br/>
+    EdgeNode <em>p,</em>q;<br/>
+    for(i = 1;i &lt;= N;i++)<br/>
+    {<br/>
+        scanf(&quot;%d%d&quot;,&amp;a,&amp;b);<br/>
+        du[a]++;//整理度数<br/>
+        du[b]++;<br/>
+        p = new EdgeNode;//开辟第一个节点的内存<br/>
+        q = new EdgeNode;//开辟第二个节点的内存<br/>
+        p-&gt;adjvex = b;<br/>
+        p-&gt;EdgeNo = i;<br/>
+        p-&gt;flag = 1;<br/>
+        p-&gt;next = EdgeLink[a];<br/>
+        EdgeLink[a] = p;<br/>
+        q-&gt;adjvex = a;<br/>
+        q-&gt;EdgeNo = i;<br/>
+        q-&gt;flag = -1;<br/>
+        q-&gt;next = EdgeLink[b];<br/>
+        EdgeLink[b] = q;<br/>
+    }<br/>
+}</p>
+
+<p>void DFS(int start)<br/>
+{<br/>
+    while(pi &lt;= N)<br/>
+    {<br/>
+        EdgeNode *p;<br/>
+        p = EdgeLink[start];<br/>
+        while(p != NULL)<br/>
+        {<br/>
+            if(!visited[p-&gt;EdgeNo])<br/>
+            {<br/>
+                //标记改边已经被遍历过了<br/>
+                visited[p-&gt;EdgeNo] = 1;<br/>
+                //根据判断该边是否翻转决定存入数组数据正负号<br/>
+                if(p-&gt;flag &gt; 0)<br/>
+                    path[pi] = p-&gt;EdgeNo;<br/>
+                else<br/>
+                    path[pi] = -p-&gt;EdgeNo;<br/>
+                pi++;<br/>
+                DFS(p-&gt;adjvex);<br/>
+            }<br/>
+            else<br/>
+                p = p-&gt;next;<br/>
+        }<br/>
+    }<br/>
+}</p>
+
+<p>void Domino()<br/>
+{<br/>
+    int start1,start2,jd = 0;<br/>
+    //判断能不能构成欧拉路<br/>
+    for(int i = 1;i &lt;= 6;i++)<br/>
+    {<br/>
+        if(du[i] % 2)<br/>
+        {<br/>
+            start1 = i;<br/>
+            jd++;<br/>
+        }<br/>
+        if(du[i] != 0)<br/>
+            start2 = i;<br/>
+    }<br/>
+    if(jd != 0 &amp;&amp; jd != 2)<br/>
+    {<br/>
+        printf(&quot;NO Solution!\n&quot;);<br/>
+        return ;<br/>
+    }<br/>
+    pi = 1;<br/>
+    if(jd == 2)<br/>
+        DFS(start1);//有奇度的点，从奇度的点开始出发<br/>
+    else<br/>
+        DFS(start2);//没有奇度的点，从任一有边的点出发都可以<br/>
+        char flag1 = &#39;+&#39;,flag2 = &#39;-&#39;;<br/>
+        for(int i = 1;i &lt; pi;i++)<br/>
+        {<br/>
+            if(path[i] &gt; 0)<br/>
+                printf(&quot;%d%c\n&quot;,path[i],flag1);<br/>
+            else<br/>
+                printf(&quot;%d%c\n&quot;,-path[i],flag2);<br/>
+        }<br/>
+}</p>
+
+<p>void delet()<br/>
+{<br/>
+    EdgeNode *p;<br/>
+    for(int i = 1;i &lt;= 6;i++)<br/>
+    {<br/>
+        p = EdgeLink[i];<br/>
+        while(p != NULL)<br/>
+        {<br/>
+            EdgeLink[i] = p-&gt;next;<br/>
+            delete p;<br/>
+            p = EdgeLink[i];<br/>
+        }<br/>
+    }<br/>
+}</p>
+
+<p>int main()<br/>
+{<br/>
+    while(~scanf(&quot;%d&quot;,&amp;N))<br/>
+    {<br/>
+        memset(du,0,sizeof(du));<br/>
+        memset(visited,0,sizeof(visited));<br/>
+        memset(path,0,sizeof(path));<br/>
+        for(int i = 1;i &lt;= 6;i++)<br/>
+            EdgeLink[i] = NULL;<br/>
+        createLG();//建图，记录度数<br/>
+        Domino();<br/>
+        delet();//用来释放内存<br/>
+    }<br/>
+    return 0;<br/>
+}</p>
+
+                        
+                      </div>
+                  </div>
+                </a>
+                <div class="read-more clearfix">
+                  <div class="more-left left">
+                  
+                    <span class="date">2015/2/6</span>
                     <span>posted in&nbsp;</span> 
           				  
           					    <span class="posted-in"><a href='%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84&%E7%AE%97%E6%B3%95.html'>数据结构&算法</a></span>
@@ -292,224 +496,94 @@ LGraph lg;
               </div><!-- article -->
         
 			<div class="article">
-                <a class="clearlink" href="14838699157833.html">
+                <a class="clearlink" href="14857046093556.html">
                 
-                  <h1>字典树</h1>
+                  <h1>欧拉回路</h1>
                   <div class="a-content">
                       
                       <div class="a-content-text">
                         
-                        	<p>定义</p>
+                        	<p>基本概念及定理</p>
 
-<p>字典树又称单词查找树，Trie树，是一种如图1所示的树形结构。</p>
+<p>1.无向图的欧拉通路，欧拉回路，欧拉图</p>
 
-<p>字典树</p>
+<p>（1）设G是无向图，则称经过G的每条边一次并且仅一次的路径为欧拉通路。</p>
 
-<p><img src="media/14838699157833/zidianshu.jpg" alt="zidianshu"/></p>
+<p>（2）如果欧拉通路是回路，即起点和终点是同一个顶点，则称此回路为欧拉回路。</p>
 
-<p>图1</p>
+<p>（3）具有欧拉回路的无向图为欧拉图。</p>
 
-<p>动态存储</p>
+<p>2.有向图的欧拉通路，欧拉回路，欧拉图</p>
 
-<p>结构</p>
+<p>（1）设D是有向图，D的基图连通，则称经过D的每条边一次且仅经过一次的有向路径为有向欧拉路径。</p>
 
-<p>每棵字典树都有一个根节点，每一个结点都有26个指针，分别指向a到z26个字母，有一个数据域，存储要记录的数据，有一个标记域，标记字符串是否结束。</p>
+<p>（2）如果有向欧拉通路是有向回路，则称此有向回路为有向欧拉回路。</p>
 
-<pre><code>struct Trie
-{
-    //因为next与字符有一一对应的关系，所以不需要存储数据
-    int sign;//标记字符串结尾
-    struct Trie *next[26];//指向下一个字符
-}*head,*p,*now;
-开辟新的存储空间
+<p>（3）具有有向欧拉回路的有向图D称为有向欧拉图。</p>
 
-Trie *new()
-{
-    Trie *p = new Trie;//开辟内存
-    for(i = 0;i &lt; 26;i++)//初始化操作
-    {
-        p-&gt;next[i] = NULL;
-    }
-    p-&gt;sign = 0;
-    return p;
-}
+<p>3.定理</p>
+
+<p>（1）无向图G存在欧拉通路的充要条件是：G为连通图，并且G仅有两个奇度结点或者没有奇度结点。</p>
+
+<p>定理（1）得出的三个推论：</p>
+
+<p>（1.1）当G是仅有两个奇度结点的连通图时，G的欧拉通路必定以这两个顶点为端点。</p>
+
+<p>（1.2）当G是无奇度结点的连通图时，G必有欧拉回路。</p>
+
+<p>（1.3）G为欧拉图（存在欧拉回路）的充分必要条件是：G为无奇度结点的连通图。</p>
+
+<p>（2）有向图D存在欧拉通路的充要条件是：D为有向图，D的基图连通，并且所有顶点的出度入度都相等；或者除了两个顶点外，其余顶点的入读出度都相等，而这两个顶点中，一个顶点的入度比出度多一，另一个顶点的出度比入度多一。</p>
+
+<p>定理（2）得出的三个推论：</p>
+
+<p>（2.1）当D除出度入度之差为1，-1两个顶点外，其余顶点的出度和入读都相同，D的有向欧拉通路必定以出度减入度等于1的顶点出发，到出度减入度等于-1的顶点结束。</p>
+
+<p>（2.2）当d的所有顶点的出度和入度都相等的时候，D中存在有向欧拉回路。</p>
+
+<p>（2.3）有向图D为有向欧拉图的充分必要条件是D的基图为连通图，并且所有顶点的出入度都相等。</p>
+
+<p>欧拉回路的应用</p>
+
+<p>（1）哥尼斯堡七桥问题</p>
+
+<p><img src="media/14857046093556/oula-qiqiao.jpg" alt="oula-qiqiao"/></p>
+
+<p>如图所示，蓝色的代表河流，黄色的代表桥梁，河流将白色的陆地分成四部分（四个小岛），问从一个小岛出发，能不能一次走遍所有的七座桥，并且每座桥梁经过且只经过一次。</p>
+
+<p>我们把图抽象一下，即小岛用点来表示，桥梁用边来表示，这样就构成了一个图，每条边经过且只经过一次，就成了判断欧拉路径的问题。</p>
+
+<p>计算每个点的出度和入度，A点度数为3，B点度数为3，C点度数为5，D点度数为3，而在无向图中，能够构成欧拉路径的条件是图仅有两个奇度结点或者一个奇度结点也没有，而这四个结点都是奇度结点，肯定不能实现一次走遍所有的七座桥并且每座桥只走一遍。</p>
+
+<p>（2）一笔画问题</p>
+
+<p>判定一个图能不能用一笔画画出来，其实也是用到了欧拉路径。如果这个图要求起点终点在一个顶点，那么就要判断是不是欧拉回路，没有要求的话，就判断是不是欧拉回路或欧拉通路，在判断的过程中，需要注意有向图和无向图是不一样的，具体看本文上面的定理。</p>
+
+<p>（3）旋转鼓轮的设计</p>
+
+<p>计算机鼓轮设计（模数转换问题）：设有旋转鼓轮其表面被等分成16个部分，如图1所示。 其中每一部分分别用绝缘体或导体组成，绝缘体部分给出信号0，导体部分给出信号1，在图中阴影部分表示导体，空白部分表示绝缘体，根据鼓轮的位置，触点将得到信息1101，如果鼓轮沿顺时针方向旋转一个部分，触点将有信息1010。问鼓轮上16个部分怎样安排导体及绝缘体，才能使鼓轮每旋转一个部分，四个触点能得到一组不同的四位二进制数信息。</p>
+
+<pre><code>        ![oula-tu1](media/14857046093556/oula-tu1.png)
+                                                 图片2
 </code></pre>
 
-<p>字典树的初始化</p>
+<p>图1<br/>
+<img src="media/14857046093556/oula-tu2.png" alt="oula-tu2"/><br/>
+                                                                                                                          图2</p>
 
-<p>下面的代码只是添加一个字符串，如果添加多个字符串，可以在调用函数中进行修改，也可以在下面的函数中加循环进行控制。</p>
+<p>设有一个八个结点的有向图（图2 ），其结点分别记为三位二进制数{000，001，010，011，100，101，110，111}，设ai∈{0，1}，从结点a1a2a3可引出两条有向边，其终点分别是a2a30以及a2a31。该两条边分别记为a1a2a30和a1a2a31。所以这八个节点之间可以构成16条分别不同的边。在这种图的任一条路中，其邻接的边必是a1a2a3a4和a2a3a4a5的形式，即是第一条边标号的后三位数与第二条边标号的头三位数相同。</p>
 
-<pre><code>void init()
-{
-    char sz[30];
-    int i,j,k,l;
-    scanf(&quot;%s&quot;,sz);
-    l = strlen(sz);
-    head = new();
-    p = head;
-    for(i = 0;i &lt; l;i++)
-    {
-        j = sz[i] - &#39;a&#39;;
-        if(p-&gt;next[j] == NULL)
-        {
-            now = new();
-            now-&gt;data = sz[i];
-            p-&gt;next[j] = now;//将新建的节点连接在字典树上
-        }
-            p = p-&gt;next[j];
-    }
-    p-&gt;sign = 1;
-}
-</code></pre>
+<p>这16条边每条边都走一遍并且仅走一遍，那么就构成了欧拉回路，每个顶点都有两个出度，两个入度，自然是从哪个顶点出发就能够从那个顶点结束，途中经过的这些边的第一位数就是绝缘体和导体的分布。当然得出的结果并不是唯一的。</p>
 
-<p>字符串的查找</p>
+<p>上面的例子，我们可以把它推广到鼓轮具有n个触点的情况。为此，我们只要构造2n-1个结点的有向图，设每个结点标记为n-1位二进制数，从结点a1,a2,a3,a4...an出发，有一条终点为a1,a2,a3,a4...an-10的边，该边记为a1,a2,a3,a4,......an-10；还有一条边的终点为a2,a3,a4,...an-11的边，该边记为a1,a2,a3,a4...an-11。这样构造的有向图，其每一结点的出度和入度都是2，故必是欧拉图。由于邻接边的标记是第一条边的后n-1位二进制数与第二条边的前n-1位二进制数相同，为此就有一种2n个二进制数的环形排列与所求的鼓轮相对应。</p>
 
-<p>给定一个字符串，询问该字符串是否已经出现过，即在原来建立的字典树上进行查找的过程。</p>
+<p>欧拉回路问题</p>
 
-<p>字符串查找的过程和建树的过程很相似，只不过需要判断节点是不是字符串的结束。</p>
+<p>（1）欧拉回路的判定问题：即判断一个无向图（有向图）是否存在欧拉回路（有向欧拉回路）。</p>
 
-<pre><code>bool lookup()
-{
-    char sz[30];
-    int i,j,l;
-    scanf(&quot;%s&quot;,sz);
-    p = head;
-    l = strlen(sz);
-    for(i = 0;i &lt; l;i++)
-    {
-        j = sz[i] - &#39;a&#39;;
-        //没有这个字符，则下面都没有，返回失败
-        if(p-&gt;next[j] == NULL)
-            return false;
-        else
-            p = p-&gt;next[j];
-        //如果已是要查询的字符串最后一个字符，判断有没有结束标志
-        if(i == l - 1)
-        {
-            if(p-&gt;sign == 1)
-                return true;
-            else
-                return false;
-        }
-    }
-}
-</code></pre>
+<p>这一类问题比较简单，只需要根据定理进行判断即可，比较难的是把问题建模成一个图，并把问题的求解转换成求判断图中是否存在欧拉回路。这需要根据不同的情景进行判断。</p>
 
-<p>释放内存</p>
-
-<p>所有的这一组数据使用完之后，就要对其进行释放内存。</p>
-
-<pre><code>void delet(Trie *head)
-{
-    if(head)
-    {
-        for(int i = 0;i &lt; 26;i++)
-        {
-            if(head-&gt;next[i]!=NULL)
-                delet(head-&gt;next[i]);
-        }
-    }
-    delete head;
-    head = NULL;
-}
-</code></pre>
-
-<p>静态存储</p>
-
-<p>以上所讲述的字典树是动态开辟内存的方式，用完之后一定不要忘记释放内存，不然很容易就会MLE，当然，有些题目卡的就是动态存储，所以我们就要用到静态存储，接下来讲解静态存储。</p>
-
-<p>结构</p>
-
-<pre><code>//定义结构
-struct Trie
-{
-    int sign;
-    int next[26];
-}trie[MAX];
-int top = 0;
-</code></pre>
-
-<p>初始化新建的节点 并返回位置</p>
-
-<pre><code>Trie *newTrie()
-{
-    memset(trie[top].next,-1,sizeof(trie[top].next));
-    trie[top].sign = 0;
-    return top++;
-}
-</code></pre>
-
-<p>建立字典树</p>
-
-<pre><code>void init(int k,char *sz)
-{
-    int i,j,l;
-    l = strlen(sz);
-    for(i = 0;i &lt; l;i++)
-    {
-        j = sz[i] - &#39;a&#39;;
-        if(trie[k].next[j] == -1)
-        {
-            trie[k].next[j] = newTrie();
-        }
-        k = trie[k].next[j]; 
-    }
-    trie[k].sign = 1;
-}
-</code></pre>
-
-<p>查询有没有该字符串</p>
-
-<pre><code>int lookup(int k,char *sz)
-{
-    int i,j,l;
-    l = strlen(sz);
-    for(i = 0;i &lt; l;i++)
-    {
-        j = sz[i] - &#39;a&#39;;
-        if(trie[k].next[j] == -1)
-            return -1;
-        k = trie[k].next[j];
-    }
-    return trie[k].sign;
-}
-</code></pre>
-
-<p>字典树的性质</p>
-
-<p>（1）根节点不包含字符，除根节点外每一个结点都只包含一个字符</p>
-
-<p>（2）从根节点到某一个节点，路径上的节点连接起来就是一个字符串</p>
-
-<p>（3）每个节点的所有子节点包含的字符都不相同</p>
-
-<p>字典树的应用</p>
-
-<p>（1）串的检索</p>
-
-<p>给出一些已有的单词作为熟词，再给出一些词汇，找出这些词汇中没有在熟词里出现的词。</p>
-
-<p>可以用枚举，哈希，字典树进行搜索</p>
-
-<p>（2）“串”的排序</p>
-
-<p>给出一些互不相同的单词，按照字典序进行排列</p>
-
-<p>采用数组的方式创建字典树，这棵树的每个结点的儿子按照字母大小排序，再对这棵树进行先序遍历。</p>
-
-<p>（3）最长公共前缀</p>
-
-<p>查找任意两个字符串的最长公共前缀</p>
-
-<p>对所有串建立字典树，对于两个串的最长公共前缀的长度即他们所在的结点的公共祖先个数，于是，问题就转化为当时公共祖先问题。</p>
-
-<p>拓展：</p>
-
-<p>本文中用到的函数memset()</p>
-
-<p>void *memset(void *s, int ch, size_t n);<br/>
-函数解释：将s中前n个字节 （typedef unsigned int size_t ）用 ch 替换并返回 s 。<br/>
-memset：作用是在一段内存块中填充某个给定的值，它是对较大的结构体或数组进行清零操作的一种最快方法</p>
+<p>（2）欧拉回路的求解：在判断图中已经存在欧拉回路后，输出这条欧拉回路。</p>
 
                         
                       </div>
@@ -518,408 +592,7 @@ memset：作用是在一段内存块中填充某个给定的值，它是对较�
                 <div class="read-more clearfix">
                   <div class="more-left left">
                   
-                    <span class="date">2015/1/17</span>
-                    <span>posted in&nbsp;</span> 
-          				  
-          					    <span class="posted-in"><a href='%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84&%E7%AE%97%E6%B3%95.html'>数据结构&算法</a></span>
-          				   
-                  </div>
-                  <div class="more-right right">
-                  <span class="comments">
-                      
-
-                       
-                  </span>
-                  </div>
-                </div>
-              </div><!-- article -->
-        
-			<div class="article">
-                <a class="clearlink" href="14838698180972.html">
-                
-                  <h1>哈希表</h1>
-                  <div class="a-content">
-                      
-                      <div class="a-content-text">
-                        
-                        	<p>概念</p>
-
-<p>为了方便查找，在存储位置和关键字之间建立一个确定的关系，当查找关键字的时候，根据建立的关系对存储位置进行访问，有效地减少了多次比较带来的时间的浪费。这个关系称为哈希函数，这种思想称为哈希思想。</p>
-
-<p>哈希函数是一个映像，可以灵活得定义。但是，对于不同的关键字，经过相同的哈希函数的处理后，有可能得到相同的地址，这种现象称为冲突，并且，一般情况下，冲突只能尽可能的减少，而不能完全避免。</p>
-
-<p>哈希函数的构造方法</p>
-
-<p>（1）直接定址法</p>
-
-<p>去关键字或关键字的某个线性函数作为哈希函数，由此计算哈希地址的方法。</p>
-
-<p>H(key) = key或H(key) = a*key + b(a,b为常数)。</p>
-
-<p>（2）数字分析法</p>
-
-<p>假设关键字是R进制数，并且哈希表中可能出现的关键字都是事先知道的，则可取关键字的若干数位组成哈希地址。</p>
-
-<p>（3）平方取中法</p>
-
-<p>取关键字平方后的中间几位作为哈希地址。</p>
-
-<p>（4）折叠法</p>
-
-<p>将关键字分割成位数相同的几部分（最后一部分的位数可以不同），然后取这几部分的叠加和作为哈希地址的方法。</p>
-
-<p>适用于关键字位数很多，而且关键字中每一位上数字分布大致均匀。</p>
-
-<p>（5）除留余数法（最简单，最常用）</p>
-
-<p>取关键字被某个不大于哈希表表长m的数p除后所得余数为哈希地址。H（key） = key % p;</p>
-
-<p>在选取p的时候，一般选质数或者不包含小于20的质因数的和数。</p>
-
-<p>（6）随机数法</p>
-
-<p>选择一个随机函数，取关键字的随机函数值为它的哈希地址。</p>
-
-<p>冲突的处理</p>
-
-<p>（1）开放定址法</p>
-
-<p>Hi = （H（key）+di）%m;i = 1,2,...,k（k &lt;= m-1）</p>
-
-<p>H（key）为哈希函数，m为哈希表表长，di为递增序列</p>
-
-<p>di有三种取法</p>
-
-<p>线性探测再散列：di = 1,2,3,...,m-1;保证只要哈希表未填满，总能找到一个不发生冲突的地址</p>
-
-<p>二次探测再散列：di = 1<em>1,-1</em>-1,2<em>2,-2</em>-2,3<em>3,...,k</em>k,-k<em>-k;只有在哈希表长满足4</em>j+3一形式的素数时才会将冲突处理好。</p>
-
-<p>伪随机探测再散列：di = 伪随机数序列。</p>
-
-<p>二次聚集  在处理冲突过程中发生的两个第一个哈希地址不同的记录争夺同一个后记哈希地址的现象，即在处理同义词的冲突过程中又添加了非同义词的冲突。</p>
-
-<p>（2）再哈希表</p>
-
-<p>Hi = R*Hi(key)，i = 1,2,3。。。k;</p>
-
-<p>R*Hi(key)均是不相同的哈希函数，即在同义词产生地址冲突时计算另一个哈希函数，直到不产生地址冲突为止。</p>
-
-<p>（3）链地址法（方便，常用）</p>
-
-<p>将所有关键字为同义词的记录存储在同一线性链表中。假设某哈希函数产生的哈希地址在区间【0,m-1】中，则建立一个头链表。每个链结的初始状态都是空指针，当有关键字对应一个链结的时候，在该链结后加关键字，如图</p>
-
-<p><img src="media/14838698180972/haxibiao.png" alt="haxibiao"/></p>
-
-<p>（4）建立一个公共溢出区</p>
-
-<p>一个基本表，每个分量存放一个记录，另设一个溢出表，所有关键字和基本表中关键字为同义词的记录，不管哈希地址是什么，一旦发生冲突，都填入溢出表。</p>
-
-<p>哈希表的查找</p>
-
-<p>给定K值，根据建表时设定的哈希函数求得哈希地址，若表中此位置上没有记录，则查找不成功，否则比较关键字，如果给定的K和表中记录相等，则查找成功；否则根据建表时设定的冲突处理的方法进行下一个地址的查找，直到哈希表的某个位置为空或者找到为止。</p>
-
-<p>查找过程中需和给定值进行比较的关键字的个数取决于三个因素：哈希函数，处理冲突的方法和哈希表的装填因子。</p>
-
-<p>装填因子：a = （表中填入的记录数）/（哈希表的长度）。标志哈希表的装满程度。</p>
-
-                        
-                      </div>
-                  </div>
-                </a>
-                <div class="read-more clearfix">
-                  <div class="more-left left">
-                  
-                    <span class="date">2014/12/28</span>
-                    <span>posted in&nbsp;</span> 
-          				  
-          					    <span class="posted-in"><a href='%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84&%E7%AE%97%E6%B3%95.html'>数据结构&算法</a></span>
-          				   
-                  </div>
-                  <div class="more-right right">
-                  <span class="comments">
-                      
-
-                       
-                  </span>
-                  </div>
-                </div>
-              </div><!-- article -->
-        
-			<div class="article">
-                <a class="clearlink" href="14838696378349.html">
-                
-                  <h1>平衡二叉树</h1>
-                  <div class="a-content">
-                      
-                      <div class="a-content-text">
-                        
-                        	<p>基本概念</p>
-
-<p>平衡二叉树又称AVL树，它的左子树和右子树都是平衡二叉树，并且左子树和右子树的深度之差的绝对值不超过1.</p>
-
-<p>平衡因子：该结点的左子树的深度减去该结点的右子树的深度，所以平衡二叉树上的所有结点的平衡因子只可能是-1，0 ，1三种情况。只要平衡因子的绝对值大于1，则该二叉树就不是平衡的。</p>
-
-<p>失衡调节</p>
-
-<p>平衡二叉树的平均查找长度：log(n)</p>
-
-<p>空树是平衡二叉树，在不断加点的过程中，平衡二叉树由平衡逐渐变得不平衡，如果想让平衡二叉树继续平衡，就需要根据导致不平衡的不同原因执行不同的操作，从而进行调正。</p>
-
-<p>但是，无论哪种情况，首先需要处理的结点是插入新的结点后，所有祖宗结点中，距离新结点最近的节点。</p>
-
-<p>一、单向右旋型(LL旋转)</p>
-
-<p>原因：新插入的结点在不平衡结点的左子树的左子树中。</p>
-
-<p>处理：将不平衡的结点所在的子树进行一次向右顺时针旋转的操作。</p>
-
-<p>二、单向左旋型（RR旋转）</p>
-
-<p>原因：新插入的结点在不平衡结点的右子树的右子树中。</p>
-
-<p>处理：处理：将不平衡的结点所在的子树进行一次向左逆时针旋转的操作。</p>
-
-<p>LLRR<br/>
-<img src="media/14838696378349/LLRR.jpg" alt="LLR"/></p>
-
-<p>三、先右后左型（RL旋转）</p>
-
-<p>原因：新插入的结点在不平衡结点的右子树的左子树中。</p>
-
-<p>处理：先围绕不平衡结点的左孩子进行逆时针左旋，在围绕不平衡结点进行顺时针右旋。</p>
-
-<p>四、先左后右型（LR旋转）</p>
-
-<p>原因：新插入的结点在不平衡结点的左子树的右子树中。</p>
-
-<p>处理：先围绕不平衡结点的左孩子进行逆时针左旋，在围绕不平衡结点进行顺时针右旋。</p>
-
-<p><img src="media/14838696378349/RLLR-300x172.png" alt="RLLR-300x172"/></p>
-
-                        
-                      </div>
-                  </div>
-                </a>
-                <div class="read-more clearfix">
-                  <div class="more-left left">
-                  
-                    <span class="date">2014/12/27</span>
-                    <span>posted in&nbsp;</span> 
-          				  
-          					    <span class="posted-in"><a href='%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84&%E7%AE%97%E6%B3%95.html'>数据结构&算法</a></span>
-          				   
-                  </div>
-                  <div class="more-right right">
-                  <span class="comments">
-                      
-
-                       
-                  </span>
-                  </div>
-                </div>
-              </div><!-- article -->
-        
-			<div class="article">
-                <a class="clearlink" href="14838691956495.html">
-                
-                  <h1>BST 二叉排序（查找）树</h1>
-                  <div class="a-content">
-                      
-                      <div class="a-content-text">
-                        
-                        	<p>1.定义：除了空树之外，拥有下列性质的二叉树为二叉排序树：（1）.若它的左子树不空，则左子树上所有节点的值均小于它的根结点的值。（2）.若它的右子树不空，则它的右子树上所有的节点的值均大于它的根结点的值。（3）.它的左右子树也分别为二叉排序树。</p>
-
-<p>首先先看一下链表节点的定义：</p>
-
-<pre><code>struct node
-{
-    int data;
-    node *lc;
-    node *rc;
-}*head;
-int num[16] = {78,45,12,98,566,563,568};
-</code></pre>
-
-<p>2.二叉排序树的查找：</p>
-
-<p>不断地和结点值相比较，如果关键字大于结点值，则指针指向右孩子继续比较，如果小于结点值，则指针指向左孩子，继续比较。如果关键字和结点值相等，则返回查找成功，否则查找不成功。</p>
-
-<pre><code>bool Search_BST(int key,int i)
-{
-    if(BST[i] == key)
-        return true;
-    if(i &gt; (pow(2,15/2+1))-1)//这个地方一定要注意，因为数组建树是满二叉树
-        //所以判断没有找到的一定要注意区间范围
-        return false;
-    if(BST[i] &gt; key)
-        Insert_BST(key,i*2);
-    else
-        Insert_BST(key,i*2+1);
-}
-</code></pre>
-
-<p>现在用链表来实现查找：</p>
-
-<pre><code>node *findnode(int data,node *root)
-{
-    if(root == NULL)
-        return NULL;
-
-    if(data == root-&gt;data)
-        return root;
-    else if(data &lt; root-&gt;data)
-        return findnode(data,root-&gt;lc);//递归返回
-    else
-        return findnode(data,root-&gt;rc);
-}
-</code></pre>
-
-<p>3.二叉排序树的建树（插入）：</p>
-
-<p>创建二叉排序树和插入关键字相似，都是先查找，如果找不到就和查找的最后一个节点相比较，如果关键字大于结点值，则插到结点的右孩子的位置，如果关键字小于结点值，则插到结点的左孩子的位置。</p>
-
-<p>//在查找插入的过程中建树，注意这种用数组表示的方法<br/>
-//是满二叉树，所以BST数组中为0的元素代表了没有着一个结点</p>
-
-<pre><code>int BST[10000];
-void Insert_BST(int key,int i)
-{
-    if(BST[i] == 0)
-    {
-        BST[i] = key;
-        return ;
-    }
-    if(BST[i] &gt; key)
-        Insert_BST(key,i*2);
-    else
-        Insert_BST(key,i*2+1);
-}
-</code></pre>
-
-<p>用链表来实现插入：</p>
-
-<pre><code>void inst(node *rt,node *root)
-{
-    if(rt-&gt;data &lt; root-&gt;data)
-    {
-        if(root-&gt;lc == NULL)
-        {
-            root-&gt;lc = rt;
-            return ;
-        }
-        inst(rt,root-&gt;lc);
-    }
-    else
-    {
-        if(root-&gt;rc == NULL)
-        {
-            root-&gt;rc = rt;
-            return ;
-        }
-        inst(rt,root-&gt;rc);//这个地方应该是RC，hypo写错了
-    }
-}
-</code></pre>
-
-<p>还有一个操作，是借助插入来完成的，就是最初二叉排序表的建立：</p>
-
-<pre><code>node *build()
-{
-    node *root = NULL;
-    int i = 0;
-    while(i &lt; 7)
-    {
-        node *rt = new node;
-        rt-&gt;data = num[i];
-        rt-&gt;lc = NULL;
-        rt-&gt;rc = NULL;
-        if(root == NULL)
-            root = rt;
-        else
-            inst(rt,root);
-        i++;
-    }
-    return root;
-}
-</code></pre>
-
-<p>4.二叉排序树的删除</p>
-
-<p>首先需要明白，二叉排序树是有顺序的，如果随意删除一个结点，有可能会导致二叉排序树的顺序被破坏。如果要删除一个结点，则根据这个结点所在的位置进行讨论。</p>
-
-<p>如果要删除的结点是叶子结点，不用顾及，尽管删除哈！！</p>
-
-<p>如果要删除的结点只有一个孩子结点，左孩子也好，右孩子也好，总之把该结点删了，孩子代替父母位置就好了。</p>
-
-<p>如果要删除的结点很强大，既有左孩子，又有右孩子（好强大的结点呀）。在这种情况下，就要进行中序遍历，找到要删除结点的前驱，可以进行两种操作，一种：如果要删除的节点在父节点的左子树，令删除结点的左子树为父结点的左子树，删除结点的右子树为前驱结点的右子树；如果要删除的结点在父节点的右子树上，则把删除结点的右子树放在删除节点的位置，删除结点的左子树为右子树最左边的结点的左子树。第二种是将前驱结点拿到要删除结点的位置，并且删除前驱结点。相比之下，个人认为还是第二种方法好用，(<em><sup>__^</sup></em>) 嘻嘻。</p>
-
-<pre><code>node * delnode(node *root)//接收的结点是要删除结点的父结点
-{
-    node *rnt;
-    if(root-&gt;lc-&gt;data == data)
-        //判断删除的是父结点的左孩子还是右孩子还是根节点
-        rnt = root-&gt;lc;
-    else if(root-&gt;rc-&gt;data == data)
-        rnt = root-&gt;rc;
-    else
-        rnt = root;//rnt是当前要删除的结点
-        node *rt;
-    //采用的删除方法是第二种：
-    //找到前驱结点，拿到要删除的位置，再将前驱结点删除
-    if (rnt-&gt;lc)
-    {
-        rt = rnt-&gt;lc;
-        node *qian = rt;
-        while(rt-&gt;rc != NULL)
-        {
-            qian = rt;
-            rt = rt-&gt;rc;
-        }
-        if(rt-&gt;lc)
-        {
-            qian-&gt;rc = rt-&gt;lc;
-        }
-        rt-&gt;rc = rnt-&gt;rc;
-        rt-&gt;lc = rnt-&gt;lc;
-    }
-    else
-    {
-        rt = rnt-&gt;rc;
-    }
-    if(root-&gt;lc-&gt;data == data)
-        root-&gt;lc = rt;
-    else if(root-&gt;rc-&gt;data == data)
-        root-&gt;rc = rt;
-    delete(rnt);
-    return root;
-}
-
-node *finddlenode(int data,node *root)
-{
-    if(root)
-    {
-        if((root-&gt;lc &amp;&amp; root-&gt;lc-&gt;data == data) || (root-&gt;rc &amp;&amp; root-&gt;rc-&gt;data == data) || root-&gt;data == data)
-            root = delnode(root);//找到删除结点的父结点
-        else//查找要删除结点的父结点
-        {
-            if(data &lt; root-&gt;data)
-                root-&gt;lc = finddlenode(data,root-&gt;lc);
-            else
-                root-&gt;rc = finddlenode(data,root-&gt;rc);
-        }
-    }
-    return root;
-}
-</code></pre>
-
-                        
-                      </div>
-                  </div>
-                </a>
-                <div class="read-more clearfix">
-                  <div class="more-left left">
-                  
-                    <span class="date">2014/12/25</span>
+                    <span class="date">2015/2/5</span>
                     <span>posted in&nbsp;</span> 
           				  
           					    <span class="posted-in"><a href='%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84&%E7%AE%97%E6%B3%95.html'>数据结构&算法</a></span>
@@ -958,7 +631,7 @@ node *finddlenode(int data,node *root)
     <div id="sidebar" class="sidebar">
           <div id="site-info" class="site-info">
             
-                <h1>挂在树上的兔子</h1>
+                <h1>零度燕窝</h1>
                 <div class="site-des"></div>
                 <div class="social">
 
@@ -997,6 +670,10 @@ node *finddlenode(int data,node *root)
         
             <a href="Fluent%20Python.html"><strong>Fluent Python</strong></a>
         
+            <a href="%E8%AF%BB%E4%B9%A6%E9%9A%8F%E7%AC%94.html"><strong>读书随笔</strong></a>
+        
+            <a href="%E6%9B%BE%E7%BB%8F%E6%9D%A5%E8%BF%87.html"><strong>曾经来过</strong></a>
+        
             <a href="PHP.html"><strong>PHP</strong></a>
         
             <a href="Ubuntu.html"><strong>Ubuntu</strong></a>
@@ -1016,31 +693,31 @@ node *finddlenode(int data,node *root)
 	      
 		      
 			      <li class="post">
-			        <a href="15033291458720.html">使用一等函数实现设计模式</a>
+			        <a href="15406290433586.html">扎心！有人偷走了我的磁盘空间？！</a>
 			      </li>
 		     
 		  
 		      
 			      <li class="post">
-			        <a href="15018651943030.html">一等函数</a>
+			        <a href="15377924479103.html">记一次攒机经历</a>
 			      </li>
 		     
 		  
 		      
 			      <li class="post">
-			        <a href="15018646605864.html">文本和字节序列</a>
+			        <a href="15376924661136.html">SQL查询语句之坑</a>
 			      </li>
 		     
 		  
 		      
 			      <li class="post">
-			        <a href="15013419653919.html">集合的使用</a>
+			        <a href="15056428224967.html">![](http://cdn.blog.yanzl.net/2017-10-27-carthusian-2822971.jpg)</a>
 			      </li>
 		     
 		  
 		      
 			      <li class="post">
-			        <a href="15010832436363.html">字典的使用</a>
+			        <a href="15048580065601.html">Python內建类型对象的那些事</a>
 			      </li>
 		     
 		  

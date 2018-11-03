@@ -5,12 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>
     
-  挂在树上的兔子
+  零度燕窝
   
   </title>
   
   
-  <link href="atom.xml" rel="alternate" title="挂在树上的兔子" type="application/atom+xml">
+  <link href="atom.xml" rel="alternate" title="零度燕窝" type="application/atom+xml">
     <link rel="stylesheet" href="asset/css/foundation.min.css" />
     <link rel="stylesheet" href="asset/css/docs.css" />
     <script src="asset/js/vendor/modernizr.js"></script>
@@ -62,7 +62,7 @@
 
         <nav class="tab-bar show-for-small">
   <a href="javascript:void(0)" class="left-off-canvas-toggle menu-icon">
-    <span> &nbsp; 挂在树上的兔子</span>
+    <span> &nbsp; 零度燕窝</span>
   </a>
 </nav>
 
@@ -85,6 +85,10 @@
             <li><a href="%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84&%E7%AE%97%E6%B3%95.html">数据结构&算法</a></li>
         
             <li><a href="Fluent%20Python.html">Fluent Python</a></li>
+        
+            <li><a href="%E8%AF%BB%E4%B9%A6%E9%9A%8F%E7%AC%94.html">读书随笔</a></li>
+        
+            <li><a href="%E6%9B%BE%E7%BB%8F%E6%9D%A5%E8%BF%87.html">曾经来过</a></li>
         
             <li><a href="PHP.html">PHP</a></li>
         
@@ -111,87 +115,24 @@
 		<div class="markdown-body home-categories">
 		
 			<div class="article">
-                <a class="clearlink" href="14857049281168.html">
+                <a class="clearlink" href="14857036563095.html">
                 
-                  <h1>PHP的常用功能</h1>
+                  <h1>ThinkPHP奇葩现象:数据表新增字段无法存储数据</h1>
                   <div class="a-content">
                       
                       <div class="a-content-text">
                         
-                        	<p>数组</p>
+                        	<p>之前写的一个已经发布的网站中,需要根据用户登录账号判断投稿者,于是就在数据表中添加了一个字段,无奈在本机可以正常获取数据,但是上传到网站上却不能获取.</p>
 
-<p>在PHP中，数组有单纯的数组（以数字作为下标进行索引），关联数组（以字符串作为下标进行索引）。</p>
+<p>通过一步步的排查问题发现,从用户输入的数据可以正常获取,但是存储数据库的时候却不能够将新添加的字段数据更新进去,因为更新的SqL语句中根本没有这一项数据.</p>
 
-<p>当然，也可以两者结合起来使用。</p>
+<p>感觉真的是好奇怪,本来还以为apache出了问题,重启了一下,还是不能解决.于是在网上百度了以下这个状况,还真有前辈遇到了此问题并成功解决.</p>
 
-<p>数组的初始化有多种形式，可以一个一个地初始化，也可以调用函数。</p>
+<p>文章中提到这是ThinkPHP缓存文件Runtime导致的,将这个文件整个都删除就可以了.删除语句为:rm -fr Runtime/ 就成功解决了此问题,而删除语句中-fr参数的具体用法详见此文章:<a href="http://yanzl.net/1122.html">http://yanzl.net/1122.html</a>.</p>
 
-<p>元素的输出可以调用函数进行输出，也可以输出某一个元素。</p>
+<p>其中,有一个现象和参考文章作者遇到的现象是一样的,那就是在本机运行的时候,开启的是开发模式,即:Debug＝true,而上传到网站上之后,开启的是运行模式,即:Debug＝false,在运行模式下,运行缓存文件Runtime没有得到更新,所以该程序不认为又新添加了字段,故没有将该字段的数据存入数据库,把缓存文件删除之后,在此更新网站,会产生新的缓存文件,于是就将问题解决了.</p>
 
-<p>&lt;?php<br/>
-//关联数组，即下标是字符串的形式<br/>
-\(arr = array(4 =&gt; &#39;php&#39;,&#39;a&#39; =&gt; &#39;application&#39;,&#39;s&#39; =&gt; &#39;student&#39;);<br/>
-//一个数组既可以以字符串作为下标，也可以以数字作为下标，很灵活吧<br/>
-\)arr[0] = 2.5;<br/>
-\(arr[1] = &#39;hello!!!!!&#39;;<br/>
-\)arr[2] = &#39;world     &#39;;<br/>
-\(arr[3] = 3;<br/>
-print_r(\)arr);<br/>
-echo &#39;<br />&#39;.\(arr[&#39;a&#39;].&#39;&lt;br /&gt;&#39;;<br/>
-//使用函数对数组进行初始化<br/>
-\)tie = array();<br/>
-for(\(i = 0;\)i &lt; 10;\(i++)<br/>
-{<br/>
-    array_push(\)tie,&#39;time&#39;.\(i.&#39;&lt;br /&gt;&#39;);<br/>
-}<br/>
-print_r(\)tie);<br/>
-?&gt;<br/>
- 字符串</p>
-
-<p>字符串的操作包括了字符串的定义，获取某一个字符的位置，截取一个字符串，分个字符串以及连接字符串。</p>
-
-<p>&lt;?php<br/>
-\(str = &quot;hello world!! I love you! !!&quot;;<br/>
-echo &quot;\)str <br />&quot;;<br/>
-//获取一个字符或者一个子串在字符串中的位置，子串是起始位置。<br/>
-echo strpos(\(str,&#39;h&#39;);<br/>
-echo &#39;&lt;br /&gt;&#39;;<br/>
-echo strpos(\)str,&#39;world&#39;);<br/>
-//截取一个字符串<br/>
-\(str1 = substr(\)str,1,6);<br/>
-//第一个参数是要截取的字符串，第二个参数是起始位置，第三个参数是终止位置，如果不写第三个，默认到结尾。<br/>
-echo &quot;<br />&quot;.\(str1.&quot;&lt;br /&gt;&quot;;<br/>
-//分隔一个字符串,默认情况下是单个单个地分割<br/>
-\)ans = str_split(\(str);<br/>
-print_r(\)ans);<br/>
-echo &#39;<br />&#39;;<br/>
-//以每两个字符为一个单元的分割<br/>
-\(ans = str_split(\)str,2);<br/>
-print_r(\(ans);//注意，这里不能够用echo输出，因为其不支持整个数组的输出<br/>
-echo &#39;&lt;br /&gt;&#39;;<br/>
-//以空格作为分割,即将字符串中的每个单词都拿出来<br/>
-\)ans = explode(&#39; &#39;,\(str);<br/>
-print_r(\)ans);<br/>
-//字符串的连接<br/>
-\(num = 100;<br/>
-\)str2 = &#39;<br />&#39;.\(str.&#39;active&#39;.\)num.&#39;<br />&#39;;<br/>
-echo \(str2;<br/>
-\)str2 = &quot;\(str active \)num <br />&quot;;<br/>
-echo $str2;<br/>
-?&gt;<br/>
- include和require</p>
-
-<p>这经常用在多文件开发中，一个文件不可能写完全部的代码，这会没有条理，看起来很糟糕，所以我们经常采用多文件的形式，将不同的功能放进不同的文件中，当在一个文件中调用另一个文件中的方法时，就要用include或者require去包含所用到的文件，才可以正常的引用。</p>
-
-<p>两者的区别：</p>
-
-<p>使用include，如果要找的文件不存在的时候，提示警告，程序可以正常运行</p>
-
-<p>使用require，如果要找的文件不存在的时候，程序会提示一个错误，不能够继续运行下去。</p>
-
-<p>以上两个当两次以上引用同一个文件的时候，就会产生重新定义函数的错误（如果没有函数，则不会报错，因为我们都知道，同一个函数名不能够重复定义，而每执行一次require或者include的时候，就相当于定义了一次函数）。</p>
-
-<p>使用include_once和include_once就能够避免上述错误的产生。</p>
+<p>现在献上解决问题的参考文章:<a href="http://www.xcoder.cn/index.php/archives/1100">http://www.xcoder.cn/index.php/archives/1100</a></p>
 
                         
                       </div>
@@ -200,7 +141,7 @@ echo $str2;<br/>
                 <div class="read-more clearfix">
                   <div class="more-left left">
                   
-                    <span class="date">2015/3/21</span>
+                    <span class="date">2015/11/17</span>
                     <span>posted in&nbsp;</span> 
           				  
           					    <span class="posted-in"><a href='PHP.html'>PHP</a></span>
@@ -217,116 +158,71 @@ echo $str2;<br/>
               </div><!-- article -->
         
 			<div class="article">
-                <a class="clearlink" href="14857050897980.html">
+                <a class="clearlink" href="14857035303375.html">
                 
-                  <h1>PHP与MySQL（上篇）</h1>
+                  <h1>Python count()方法\replace()方法</h1>
                   <div class="a-content">
                       
                       <div class="a-content-text">
                         
-                        	<p>MySQL一个库可以用来存放很多数据表。</p>
+                        	<p>count()方法</p>
 
-<p>创建一个库</p>
+<p>函数原型</p>
 
-<p>打开浏览器，在地址栏中输入“localhost”——》点击进入“phpMyAdmin”——》就可以在左边看到很多文件夹，比如‘mysql’,&#39;cdcol&#39;，‘test’等，这些就是不同的库，现在，我们新建一个库——》点击菜单栏里面的数据库，填写数据库的名字和编码方式，一般会使用国际通用utf8——》点击创建，就可以成功地创建一个库了。</p>
+<p>str.count(sub, start= 0,end=len(string))<br/>
+函数描述</p>
 
-<p>在库中添加一个数据表</p>
+<p>count() 方法用于统计字符串里某个字符出现的次数。可选参数start和end为在字符串搜索的开始与结束位置。</p>
 
-<p>单击点开要添加数据表的数据库——》新建数据表——》填写数据表的名字和字段数（即在这个表中存放几种数据，比如要存放ID，姓名，密码，年龄就是用了4个字段）——》点击执行（go）就成功创建了一个表——》之后就是向数据表中添加要存放的数据名称（ID，姓名，密码，年龄）——》点击保存（save）就完成了。</p>
+<p>参数介绍</p>
 
-<p>注意：（1）A_I指autoincreasment自行增加，可以用于ID等数据的输入。</p>
+<p>sub -- 搜索的子字符串<br/>
+start -- 字符串开始搜索的位置。默认为第一个字符,第一个字符索引值为0。<br/>
+end -- 字符串中结束搜索的位置。字符中第一个字符的索引为 0。默认为字符串的最后一个位置。<br/>
+返回值</p>
 
-<p>（2）填写姓名可以写成是text类型，但是因为字符串很长（一般用于写博客的文本），所以可以选择是VARCHAR，自定义一个长度的字符.</p>
+<p>该方法返回子字符串在字符串中出现的次数。</p>
 
-<p>（3）年龄的选择因为比较小，所以可以不必选择INT类型，可以用TINYINT</p>
+<p>示例</p>
 
-<p>添加数据</p>
+<p>str = &quot;this is a string example&quot;<br/>
+sub = &#39;exa&#39;<br/>
+print &quot;str.count(&#39;is&#39;,0,len(str)):&quot;,str.count(&#39;is&#39;,0,len(str))<br/>
+print &quot;str.count(&#39;s&#39;):&quot;,str.count(&#39;s&#39;)<br/>
+print &quot;str.count(sub):&quot;,str.count(sub)</p>
 
-<p>点击要添加数据的数据表，点击插入，在空值框中填写各种数据点击执行就可以成功添加数据了。</p>
+<p>运行结果如下<br/>
+str.count(&#39;is&#39;,0,len(str)): 2<br/>
+str.count(&#39;s&#39;): 3<br/>
+str.count(sub): 1</p>
 
-<p>也可以使用SQL语句进行添加数据：</p>
+<p>replace()方法</p>
 
-<p>INSERT INTO <code>myapp</code>.<code>user</code> (<code>ID</code>, <code>name</code>, <code>password</code>, <code>age</code>) VALUES (NULL, &#39;李四&#39;, &#39;123567&#39;, &#39;31&#39;);<br/>
-用PHP操作MySQL数据库</p>
+<p>函数原型</p>
 
-<p>连接MySQL数据库</p>
+<p>str.replace(old, new[, max])<br/>
+函数描述</p>
 
-<p>$coun = mysql_connect(&#39;localhost&#39;,&#39;root&#39;,&#39;&#39;);//连接服务器,使用一个用户名来登录，后面是写密码，没有为空<br/>
-//如果mysql数据库的端口和服务器不是一个端口的话，要手动输入端口，比如端口是9000<br/>
-//mysql_connect(&#39;localhost:9000&#39;);<br/>
-连接成功后，对某一个数据库进行操作</p>
+<p>replace() 方法把字符串中的 old（旧字符串） 替换成 new(新字符串)，如果指定第三个参数max，则替换不超过 max 次。</p>
 
-<p>mysql_select_db(&#39;myapp&#39;,$coun);//指明是对myapp这个数据库进行操作的，并将连接成功的信息传递过去<br/>
-如果想呈现所有的数据，执行下面语句</p>
+<p>参数介绍</p>
 
-<p>$result =  mysql_query(&quot;SELECT * FROM user&quot;);‘*’代表所有的数据<br/>
-如果想根据某一个属性（比如ID，姓名，年龄等）打印数据，可以执行以下语句：</p>
+<p>old -- 将被替换的子字符串。<br/>
+new -- 新字符串，用于替换old子字符串。<br/>
+max -- 可选字符串, 替换不超过 max 次<br/>
+返回值</p>
 
-<p>//查找keke这个姓名的人，如果有，则打印yes，没有，打印no<br/>
-\(result =  mysql_query(&quot;SELECT * FROM user WHERE name = keke&quot;);<br/>
-if(\)result)<br/>
-    echo &quot;yes&quot;;<br/>
-else<br/>
-    echo &quot;no&quot;;<br/>
-//查找编号为1的人<br/>
-\(result =  mysql_query(&quot;SELECT * FROM user WHERE id = 1&quot;);<br/>
-//查找编号大于等于1并且编号小于等于3的数据<br/>
-\)result =  mysql_query(&quot;SELECT * FROM user WHERE id &gt;= 1 &amp;&amp; id &lt;= 3&quot;);<br/>
-//打印每条数据行的某一部分数据，比如只打印名字和年龄而不打印密码<br/>
-//两种控制并不冲突哦<br/>
-$result =  mysql_query(&quot;SELECT name,age FROM user WHERE id = 1&quot;);<br/>
-以数组的形式打印数据</p>
+<p>返回字符串中的 old（旧字符串） 替换成 new(新字符串)后生成的新字符串，如果指定第三个参数max，则替换不超过 max 次。</p>
 
-<p>//获取结果里面的数据,以数组的样式来呈现<br/>
-\(result_arr = mysql_fetch_array(\)result);<br/>
-print_r($result_arr);//打印出结果<br/>
-以键值对的形式打印数据</p>
+<p>示例</p>
 
-<p>//不通过数组的样式来呈现<br/>
-\(result_arr = mysql_fetch_assoc(\)result);<br/>
-print_r($result_arr);//打印出结果<br/>
-注意：</p>
+<p>str = &quot;this is string example....wow!!! this is really string&quot;;<br/>
+print str.replace(&quot;is&quot;, &quot;was&quot;);<br/>
+print str.replace(&quot;is&quot;, &quot;was&quot;, 3);</p>
 
-<p>通过mysql_fetch_array(\(result);和mysql_fetch_assoc(\)result);这两个函数，每次读取的都只是一行数据，即数据表中的一行。</p>
-
-<p>获取所有数据的条数并以循环的形式打印数据</p>
-
-<p>//使用循环打印出所有数据<br/>
-//获取到数据条数并付给一个变量<br/>
-\(data_num = mysql_num_rows(\)result);<br/>
-for(\(i = 0;\)i &lt; \(data_num;\)i++)<br/>
-{<br/>
-   print_r(mysql_fetch_assoc($result));<br/>
-}<br/>
-当然，使用上面一种方法获取数据的条数是非常慢的，可以写下面语句</p>
-
-<p>//快就快在当查询所有数据的时候就已经返回了数据的总条数，无需在调用函数进行查询<br/>
-    \(result = mysql_query(&quot;SELECT COUNT(*) FROM user&quot;);<br/>
-    \)result_arr = mysql_fetch_array($result);</p>
-
-<pre><code>$data_num = $result_arr[0];
-echo &quot;数据条数：&quot;.$data_num.;
-</code></pre>
-
-<p>用HTML中的表格的形式打印所有用户的信息</p>
-
-<p>\(data_num = mysql_num_rows(\)result);<br/>
-    for(\(i = 0;\)i &lt; \(data_num;\)i++)<br/>
-    {<br/>
-        \(result_arr = mysql_fetch_assoc(\)result);<br/>
-        //将获取到的数据赋值给变量<br/>
-        \(id = \)result_arr[&#39;ID&#39;];<br/>
-        \(name = \)result_arr[&#39;name&#39;];<br/>
-        \(age = \)result_arr[&#39;age&#39;];<br/>
-        \(xuehao = \)result_arr[&#39;xuehao&#39;];<br/>
-        echo &quot;<tr><th>\(id&lt;/th&gt;//表格打印<br/>
-                &lt;th&gt;\)name</th><br/>
-                <th>\(age&lt;/th&gt;<br/>
-                &lt;th&gt;\)xuehao</th><br/>
-                <th><a href='changeuser.php?id=$id'>修改</a></th><br/>
-                <th><a href='DeletUser.php?id=$id'>删除</a></th><br/>
-            </tr>&quot;;<br/>
-    }</p>
+<p>执行结果为:<br/>
+thwas was string example....wow!!! thwas was really string<br/>
+thwas was string example....wow!!! thwas is really string</p>
 
                         
                       </div>
@@ -335,10 +231,10 @@ echo &quot;数据条数：&quot;.$data_num.;
                 <div class="read-more clearfix">
                   <div class="more-left left">
                   
-                    <span class="date">2015/3/20</span>
+                    <span class="date">2015/11/1</span>
                     <span>posted in&nbsp;</span> 
           				  
-          					    <span class="posted-in"><a href='PHP.html'>PHP</a></span>
+          					    <span class="posted-in"><a href='Python.html'>Python</a></span>
           				   
                   </div>
                   <div class="more-right right">
@@ -352,151 +248,34 @@ echo &quot;数据条数：&quot;.$data_num.;
               </div><!-- article -->
         
 			<div class="article">
-                <a class="clearlink" href="14857048746834.html">
+                <a class="clearlink" href="14857035030101.html">
                 
-                  <h1>PHP语法基础总结</h1>
+                  <h1>Python capitalize()方法</h1>
                   <div class="a-content">
                       
                       <div class="a-content-text">
                         
-                        	<p>PHP语法标记符</p>
+                        	<p>函数原型</p>
 
-<p>PHP程序以“&lt;?PHP” 开头，以“&gt;”结尾。</p>
+<p>str.capitalize()<br/>
+函数描述</p>
 
-<p>变量和常量</p>
+<p>Python capitalize()将字符串的第一个字母变成大写,其他字母变小写。对于 8 位字节编码需要根据本地环境.</p>
 
-<p>变量是在运行过程中能够被修改，常量只能被赋值一次，在运行过程中不能够被修改。</p>
+<p>返回值</p>
 
-<p>&lt;?php<br/>
-//变量的使用<br/>
-\(a = 10;<br/>
-echo &quot;a = \)a<br />&quot;;<br/>
-\(b = 30;<br/>
-\)a = 20;<br/>
-\(c = \)a+\(b;<br/>
-echo &quot;a + b = \)c<br />&quot;;<br/>
-//常量的使用<br/>
-const x = 5;<br/>
-echo &quot;x = &quot;;<br/>
-echo x;<br/>
-//x = 10;这里不能够再重复对x进行赋值，因为已经声明它是常量<br/>
-//const x = 10;这句话在这里也是不可以的，因为重复定义了同一个常量<br/>
-//还有一种声明常量的方法<br/>
-define(&#39;y&#39;,100);<br/>
-echo y;<br/>
-?&gt;<br/>
-函数的使用</p>
+<p>该方法返回一个首字母大写的字符串,并且只有首字母是大写,其他字符都是小写。</p>
 
-<p>有时候，一些代码会反复被使用很多次，这时候把这些代码封装进函数里，使用的时候直接调用即可。</p>
+<p>示例</p>
 
-<p>&lt;?php<br/>
-function wucan()//没有参数的函数，直接输出要输出的内容<br/>
-{<br/>
-    echo &quot;hello world!!<br />&quot;;<br/>
-}<br/>
-function onecan(\(name)//带有一个参数的函数，接收一个参数，执行相应操作<br/>
-{<br/>
-    echo &#39;hello &#39;.\)name.&#39;<br />&#39;;<br/>
-}<br/>
-function twocan(\(a,\)b)//带有多个参数的函数<br/>
-{<br/>
-    \(b += \)a;<br/>
-    echo &#39;a + b = &#39;. \(b.&#39;&lt;br /&gt;&#39;;<br/>
-}<br/>
-function fanhui(\)a,\(b)//带有返回值的函数<br/>
-{<br/>
-    echo &quot;a = \)a,b = \(b,a - b = &quot;;<br/>
-    return \)a - $b;<br/>
-}<br/>
-//四种函数的调用<br/>
-wucan();<br/>
-onecan(&#39;zhangsan&#39;);<br/>
-twocan(2,6);<br/>
-echo fanhui(10,7).&#39;<br />&#39;;<br/>
-?&gt;<br/>
-选择语句</p>
+<p>str = &quot;this is a String!&quot;<br/>
+print &quot;str.capitalize():&quot;, str.capitalize()<br/>
+a = &#39;wORD&#39;<br/>
+print &quot;a.capitalize():&quot;,a.capitalize()</p>
 
-<p>在PHP语言中有两种选择语句，switch语句和if...elseif...语句</p>
-
-<p>&lt;?php<br/>
- function if_chouse(\(source)<br/>
- {<br/>
-     if(\)source&gt;=90)<br/>
-         return &quot;优秀&quot;;<br/>
-     elseif(\(source &gt;= 70)<br/>
-         return &quot;良好&quot;;<br/>
-     elseif(\)source &gt;= 60)<br/>
-         return &quot;及格&quot;;<br/>
-     else<br/>
-         return &quot;不及格&quot;;<br/>
- }<br/>
-function switch_chouse(\(source)<br/>
-{<br/>
-    //这里如果不将小数转换成整数，在case中写起来就会很麻烦，转换成整数之后就相当于划定了一个区间。<br/>
-    switch(intval(\)source / 10))//intval()是一个将小数转换成整数的方法，直接接取整数部分，没有四舍五入的规则。<br/>
-    {<br/>
-        case 10:<br/>
-        case 9:<br/>
-            return &quot;优秀&quot;;<br/>
-        case 8:<br/>
-        case 7:<br/>
-            return &quot;良好&quot;;<br/>
-        case 6:<br/>
-            return &quot;及格&quot;;<br/>
-        default://指剩余的情况<br/>
-            return &quot;不及格&quot;;<br/>
-    }<br/>
-}<br/>
-echo if_chouse(50).&quot;<br />&quot;;<br/>
-echo switch_chouse(100);<br/>
-?&gt;<br/>
-循环语句</p>
-
-<p>循环语句在PHP中有3种，while循环，for循环，do......while循环</p>
-
-<p>while循环是先判断条件，在执行循环体内的语句。</p>
-
-<p>do......while循环是先执行一遍循环体内的语句然后再判断条件，看是否继续执行。</p>
-
-<p>&lt;?php<br/>
-for(\(i = 0;\)i &lt; 10;\(i++)<br/>
-{<br/>
-    echo &quot;hello&quot;.\)i.&quot;<br />&quot;;<br/>
-    if(\(i == 5)<br/>
-        continue;//continue的作用是停止当前这一次的循环，继续下一次的循环<br/>
-    echo &quot;run one&quot;.\)i.&quot;<br />&quot;;<br/>
-}<br/>
-\(i = 0;<br/>
-while(\)i &lt; 20)<br/>
-{<br/>
-    echo &quot;while hello&quot;.\(i.&quot;&lt;br /&gt;&quot;;<br/>
-    if(\)i == 10)<br/>
-        break;//直接跳出循环语句<br/>
-    \(i++;<br/>
-}<br/>
-do//先执行一次<br/>
-{<br/>
-    echo &quot;do.while hello&quot;.\)i.&quot;<br />&quot;;<br/>
-}while(i &lt; 10);//再对条件进行判断<br/>
-?&gt;<br/>
-逻辑语句</p>
-
-<p>PHP的逻辑语句有：与（&amp;&amp;），或（||），非（！）</p>
-
-<p>&lt;?php<br/>
-for(\(i = 0;\)i &lt; 50;\(i++) {<br/>
-if(\)i % 2 == 0 &amp;&amp; \(i % 3 == 0)//输出是2的倍数并且也是3的倍数的数字<br/>
-    echo \)i.&#39;<br />&#39;;<br/>
-}<br/>
-for(\(i = 0;\)i &lt; 50;\(i++) {<br/>
-    if(\)i % 2 == 0 || \(i % 3 == 0)//输出是2的倍数或者是3的倍数的数字<br/>
-        echo \)i.&#39;<br />&#39;;<br/>
-}<br/>
-for(\(i = 0;\)i &lt; 10;\(i++) {<br/>
-    if(\)i != 9)//输出不等于9的数字<br/>
-        echo $i.&#39;<br />&#39;;<br/>
-}<br/>
-?&gt;</p>
+<p>运行结果为:<br/>
+str.capitalize(): This is a string!<br/>
+a.capitalize(): Word</p>
 
                         
                       </div>
@@ -505,10 +284,10 @@ for(\(i = 0;\)i &lt; 10;\(i++) {<br/>
                 <div class="read-more clearfix">
                   <div class="more-left left">
                   
-                    <span class="date">2015/3/20</span>
+                    <span class="date">2015/10/30</span>
                     <span>posted in&nbsp;</span> 
           				  
-          					    <span class="posted-in"><a href='PHP.html'>PHP</a></span>
+          					    <span class="posted-in"><a href='Python.html'>Python</a></span>
           				   
                   </div>
                   <div class="more-right right">
@@ -522,20 +301,79 @@ for(\(i = 0;\)i &lt; 10;\(i++) {<br/>
               </div><!-- article -->
         
 			<div class="article">
-                <a class="clearlink" href="14857048402362.html">
+                <a class="clearlink" href="14857034726928.html">
                 
-                  <h1>集训总结</h1>
+                  <h1>Python urllib库</h1>
                   <div class="a-content">
                       
                       <div class="a-content-text">
                         
-                        	<p>2015年寒假集训就在最后的结训比赛中以一道题目惨烈结束了，这个假期，因为前几天有事，所以我比别的队友开始集训要晚几天。还记得开始的时候，我为自己制定了这一个寒假训练的计划，大体分为两方面，一方面是刷小白书上的题目，另一方面是看图论，并做相关的题目。计划中，每一天都安排得仔仔细细的，做多少题目，学习哪些知识点都涉及到了，可是真正实施下来，却没有那么容易，有的时候，我会被一道题目卡住一上午或是一下午，有时候为了学会一个知识点来回看好多遍的书，会为了一个简单的知识点放下当天的某些任务去做这一个知识点的题目，这样下来，效率根本就提不起来。任务不能够按时完成，让我每天都有些郁闷。。。。。。</p>
+                        	<p>urlopen()方法</p>
 
-<p>不过这个寒假中，对于我自己有一点我做的还是比较满意的，那就是我坚持每天都写总结，其实想想很容易，但是每天都坚持去写总结，尤其是一天中几乎什么事情也没有做，感觉写出来都不好意思，觉得很丢人的时候还要坚持住，真的是很不容易。曾经有几天，我都在学习欧拉，导致晚上写总结的时候都没什么可以写的。有的时候忙着晚上做CF，就直接忘记写总结，然后会在第二天开始学习之前就补上，有的时候几天学习一个知识点，就会把这几天的总结写在一起。通过每天的总结，我能看到这一天来我都做了些什么，刷了几道题目，是什么类型的，学习了多少知识，有哪些东西应该完成却没有完成，每天都会有一个反思的过程，不断的鞭策着我自己，不要松懈。</p>
+<p>函数原型</p>
 
-<p>整个寒假，写了40多篇博客，刷了40多道题目，最后还是被学弟吊打了。。。sad。。。不能说没有学到东西，但是事实证明我学的还不行。接下来的这段时间里，我要调整策略，在学习各种知识的基础上，做成套的题目，尽量不要在已经知道题型的情况下刷题目，而是学着自己去判断知识点，自己总结方法，锻炼独立思考的能力。</p>
+<p>urllib.urlopen(url[, data[, proxies]]) ;</p>
 
-<p>一个大学，能够这样系统的学习知识的机会没有多少，时间是有限的，如果我想在某一方面有所成就，那么就必须放弃某些东西，时间是一定的，如何取舍，全在我自己。。。。。。加油吧，趁还年轻！！</p>
+<p>参数描述</p>
+
+<p>创建一个表示远程url的类文件对象，然后像本地文件一样操作这个类文件对象来获取远程数据。</p>
+
+<p>参数url表示远程数据的路径， 一般是网址；</p>
+
+<p>参数data表示以post方式提交到url的数据(玩过web的人应该知道提交数据的两种方式：post与get。</p>
+
+<p>参数proxies用于设置代理。</p>
+
+<p>urlopen返回 一个类文件对象，他提供了如下方法： read() , readline() , readlines() , fileno() , close() ：这些方法的使用方式与文件对象完全一样;</p>
+
+<p>info()：返回一个httplib.HTTPMessage 对象，表示远程服务器返回的头信息；</p>
+
+<p>getcode()：返回Http状态码。如果是http请求，200表示请求成功完成;404表示网址未找到；</p>
+
+<p>geturl()：返回请求的url；</p>
+
+<p>示例</p>
+
+<p>WORD_URL = &quot;<a href="http://learncodethehardway.org/words.txt">http://learncodethehardway.org/words.txt</a>&quot;<br/>
+WORDS = []<br/>
+for word in urlopen(WORD_URL).readlines():<br/>
+    WORDS.append(word.strip())</p>
+
+<p>print urlopen(WORD_URL).info()<br/>
+print urlopen(WORD_URL).getcode()<br/>
+print urlopen(WORD_URL).geturl()</p>
+
+<p>运行之后返回以下结果</p>
+
+<p>返回一个httplib.HTTPMessage 对象，表示远程服务器返回的头信息；<br/>
+Server: nginx/1.7.3<br/>
+Date: Wed, 28 Oct 2015 14:36:41 GMT<br/>
+Content-Type: text/plain<br/>
+Content-Length: 1688<br/>
+Last-Modified: Mon, 04 Jun 2012 00:12:01 GMT<br/>
+Connection: close<br/>
+ETag: &quot;4fcbfd51-698&quot;<br/>
+Accept-Ranges: bytes</p>
+
+<p>返回Http状态码。如果是http请求，200表示请求成功完成;404表示网址未找到；<br/>
+200</p>
+
+<p>返回请求的url；<br/>
+<a href="http://learncodethehardway.org/words.txt">http://learncodethehardway.org/words.txt</a></p>
+
+<p>urllib中一些辅助方法用于对url进行编码、解码</p>
+
+<p>url中是不能出现一些特殊的符号的，有些符号有特殊的用途。<br/>
+当以get方式提交数据的时候，会在url中添加key=value这样的字符串，<br/>
+所以在value中是不允许有&#39;=&#39;，因此要对其进行编码；与此同时服务器接收到这些参数的时候，要进行解码，<br/>
+还原成原始的数据。这个时候，这些辅助方法会很有用：<br/>
+urllib.quote(string[, safe])：对字符串进行编码,参数safe指定了不需要编码的字符;<br/>
+urllib.unquote(string) ：对字符串进行解码；<br/>
+urllib.quote_plus(string [ , safe ] ) ：与urllib.quote类似，但这个方法用&#39;+&#39;来替换&#39; &#39;，<br/>
+而quote用&#39;%20&#39;来代替&#39; &#39;<br/>
+urllib.unquote_plus(string ) ：对字符串进行解码；<br/>
+urllib.urlencode(query[, doseq])：将dict或者包含两个元素的元组列表转换成url参数。<br/>
+例如 字典{&#39;name&#39;: &#39;dark-bull&#39;, &#39;age&#39;: 200}将被转换为&quot;name=dark-bull&amp;age=200&quot; urllib.pathname2url(path)：将本地路径转换成url路径； urllib.url2pathname(path)：将url路径转换成本地路径；</p>
 
                         
                       </div>
@@ -544,10 +382,10 @@ for(\(i = 0;\)i &lt; 10;\(i++) {<br/>
                 <div class="read-more clearfix">
                   <div class="more-left left">
                   
-                    <span class="date">2015/2/9</span>
+                    <span class="date">2015/10/29</span>
                     <span>posted in&nbsp;</span> 
           				  
-          					    <span class="posted-in"><a href='%E9%9A%8F%E6%83%B3.html'>随想</a></span>
+          					    <span class="posted-in"><a href='Python.html'>Python</a></span>
           				   
                   </div>
                   <div class="more-right right">
@@ -561,173 +399,66 @@ for(\(i = 0;\)i &lt; 10;\(i++) {<br/>
               </div><!-- article -->
         
 			<div class="article">
-                <a class="clearlink" href="14857047517618.html">
+                <a class="clearlink" href="14857034394818.html">
                 
-                  <h1>欧拉回路的应用</h1>
+                  <h1>Python strip()函数介绍</h1>
                   <div class="a-content">
                       
                       <div class="a-content-text">
                         
-                        	<p>上一篇文章主要总结的是欧拉函数的基础知识，重点是欧拉回路的基本原理和判定是否能够组成欧拉回路，这篇文章重点总结欧拉回路在能够组成的基础上，输出路径问题。</p>
+                        	<p>方法功能</p>
 
-<p>查找欧拉回路的路径主要有两种方法，一种是DFS搜索，一种是Fleury（弗罗莱）算法。</p>
+<p>strip()方法用于移除字符串头尾指定的字符</p>
 
-<p>DFS搜索</p>
+<p>函数原型</p>
 
-<p>利用欧拉定理判断出一个图能够构成欧拉回路后，利用DFS算法遍历所有的边，并且保证每条边只遍历一遍。</p>
+<p>str.strip(ch)            删除str字符串中开头,结尾处,位于ch删除序列的字符</p>
 
-<p>用示例说明DFS算法：</p>
+<p>str.lstrip(ch)           删除str字符串中开头处,位于ch删除序列的字符</p>
 
-<p>题目描述：</p>
+<p>str.rstrip(ch)           删除str字符串中结尾处,位于ch删除序列的字符</p>
 
-<p>给定n张骨牌，每张骨牌有左右两个点数（从1到6），问能不能交换骨牌的顺序交换左右两个点数，使得任意相邻骨牌的相邻字段为相等的数字。</p>
+<p>返回值</p>
 
-<p>输入描述：</p>
+<p>返回移除过之后的字符串</p>
 
-<p>输入文件中有多个测试数据。每个测试数据的第一行为一个整数N，1&lt;=N&lt;=100，表示多米诺骨牌的总数；接下来N行对每一张牌进行描述：每一行表示一张牌的左右两点的数字，用空格隔开。</p>
+<p>示例</p>
 
-<p>输出描述：</p>
+<p>str = &quot;000this is a string\texample,let&#39;s look if carefuly!0000&quot;<br/>
+print &quot;注意:只有两端的才有效果,中间的制表符是没有效果的&quot;<br/>
+print str.strip(&#39;0&#39;)<br/>
+print str.lstrip(&#39;0&#39;)<br/>
+print str.rstrip(&#39;0&#39;)</p>
 
-<p>对输入文件中的每个测试数据，如果不能满足要求，输出“No solution”；如果有解，输出任意一个即可：每张牌必须从左到右打印；每一行都要包含当前牌的序号和符号（+号代表没有翻转，-号代表左右翻转），每个测试数据的输出之后输入一个空行。</p>
+<p>该段代码运行结果为:<br/>
+this is a string    example,let&#39;s look if carefuly!<br/>
+this is a string    example,let&#39;s look if carefuly!0000<br/>
+000this is a string example,let&#39;s look if carefuly!<br/>
+注意:</p>
 
-<p>解析：这是一个无向图，骨牌可以翻转，而且一共有六个顶点，两个顶点之间可能有多条边，所以选择用邻接表存储图，每条边有两个方向，一正一负，这是需要记录的，每条边的两个顶点，边的序号都是需要记录的。通过边的度数判断能否构成欧拉通路，之后再利用DFS的搜索方法进行路径搜索。</p>
+<p>1.如果ch为空的话,默认删除空白符（包括&#39;\n&#39;, &#39;\r&#39;,  &#39;\t&#39;,  &#39; &#39;)</p>
 
-<p>存图——&gt;判断能否构成欧拉回路——&gt;DFS搜索路径——&gt;打印路径</p>
+<p>a = &#39;      123&#39;<br/>
+b = &#39;\tabcd\t&#39;<br/>
+print a.strip()<br/>
+print b.strip()</p>
 
-<p>示例代码：</p>
+<p>该段代码的运行结果为:<br/>
+123<br/>
+abcd</p>
 
-<h1 id="toc_0">define MAXN 101</h1>
+<p>可见之前的空格和制表符的效果都消失了<br/>
+2.这里的rm删除序列是只要边（开头或结尾）上的字符在删除序列内，就删除掉,不管顺序是怎么样的</p>
 
-<p>using namespace std;</p>
+<p>c = &quot;123abc&quot;<br/>
+print c.strip(&#39;21&#39;)<br/>
+print c.strip(&#39;12&#39;)</p>
 
-<p>struct EdgeNode<br/>
-{<br/>
-    int adjvex;//边的令一个邻接点的序号<br/>
-    int EdgeNo;//边的序号<br/>
-    int flag;//判断边有没有反转，没有为1，翻转为-1<br/>
-    EdgeNode *next;//指向下一个边结点<br/>
-};<br/>
-EdgeNode *EdgeLink[10];//邻接表的头结点<br/>
-int visited[MAXN];//记录每条边是否被遍历过<br/>
-int path[MAXN];//记录加进欧拉图里的边，用边的序号标记<br/>
-int pi;//记录当前已经加图里的边的数目<br/>
-int N;//总边数<br/>
-int du[10];//记录每个顶点的数目</p>
+<p>这段代码的运行结果为:<br/>
+3abc<br/>
+3abc</p>
 
-<p>void createLG()<br/>
-{<br/>
-    int i,j,k,a,b;<br/>
-    EdgeNode <em>p,</em>q;<br/>
-    for(i = 1;i &lt;= N;i++)<br/>
-    {<br/>
-        scanf(&quot;%d%d&quot;,&amp;a,&amp;b);<br/>
-        du[a]++;//整理度数<br/>
-        du[b]++;<br/>
-        p = new EdgeNode;//开辟第一个节点的内存<br/>
-        q = new EdgeNode;//开辟第二个节点的内存<br/>
-        p-&gt;adjvex = b;<br/>
-        p-&gt;EdgeNo = i;<br/>
-        p-&gt;flag = 1;<br/>
-        p-&gt;next = EdgeLink[a];<br/>
-        EdgeLink[a] = p;<br/>
-        q-&gt;adjvex = a;<br/>
-        q-&gt;EdgeNo = i;<br/>
-        q-&gt;flag = -1;<br/>
-        q-&gt;next = EdgeLink[b];<br/>
-        EdgeLink[b] = q;<br/>
-    }<br/>
-}</p>
-
-<p>void DFS(int start)<br/>
-{<br/>
-    while(pi &lt;= N)<br/>
-    {<br/>
-        EdgeNode *p;<br/>
-        p = EdgeLink[start];<br/>
-        while(p != NULL)<br/>
-        {<br/>
-            if(!visited[p-&gt;EdgeNo])<br/>
-            {<br/>
-                //标记改边已经被遍历过了<br/>
-                visited[p-&gt;EdgeNo] = 1;<br/>
-                //根据判断该边是否翻转决定存入数组数据正负号<br/>
-                if(p-&gt;flag &gt; 0)<br/>
-                    path[pi] = p-&gt;EdgeNo;<br/>
-                else<br/>
-                    path[pi] = -p-&gt;EdgeNo;<br/>
-                pi++;<br/>
-                DFS(p-&gt;adjvex);<br/>
-            }<br/>
-            else<br/>
-                p = p-&gt;next;<br/>
-        }<br/>
-    }<br/>
-}</p>
-
-<p>void Domino()<br/>
-{<br/>
-    int start1,start2,jd = 0;<br/>
-    //判断能不能构成欧拉路<br/>
-    for(int i = 1;i &lt;= 6;i++)<br/>
-    {<br/>
-        if(du[i] % 2)<br/>
-        {<br/>
-            start1 = i;<br/>
-            jd++;<br/>
-        }<br/>
-        if(du[i] != 0)<br/>
-            start2 = i;<br/>
-    }<br/>
-    if(jd != 0 &amp;&amp; jd != 2)<br/>
-    {<br/>
-        printf(&quot;NO Solution!\n&quot;);<br/>
-        return ;<br/>
-    }<br/>
-    pi = 1;<br/>
-    if(jd == 2)<br/>
-        DFS(start1);//有奇度的点，从奇度的点开始出发<br/>
-    else<br/>
-        DFS(start2);//没有奇度的点，从任一有边的点出发都可以<br/>
-        char flag1 = &#39;+&#39;,flag2 = &#39;-&#39;;<br/>
-        for(int i = 1;i &lt; pi;i++)<br/>
-        {<br/>
-            if(path[i] &gt; 0)<br/>
-                printf(&quot;%d%c\n&quot;,path[i],flag1);<br/>
-            else<br/>
-                printf(&quot;%d%c\n&quot;,-path[i],flag2);<br/>
-        }<br/>
-}</p>
-
-<p>void delet()<br/>
-{<br/>
-    EdgeNode *p;<br/>
-    for(int i = 1;i &lt;= 6;i++)<br/>
-    {<br/>
-        p = EdgeLink[i];<br/>
-        while(p != NULL)<br/>
-        {<br/>
-            EdgeLink[i] = p-&gt;next;<br/>
-            delete p;<br/>
-            p = EdgeLink[i];<br/>
-        }<br/>
-    }<br/>
-}</p>
-
-<p>int main()<br/>
-{<br/>
-    while(~scanf(&quot;%d&quot;,&amp;N))<br/>
-    {<br/>
-        memset(du,0,sizeof(du));<br/>
-        memset(visited,0,sizeof(visited));<br/>
-        memset(path,0,sizeof(path));<br/>
-        for(int i = 1;i &lt;= 6;i++)<br/>
-            EdgeLink[i] = NULL;<br/>
-        createLG();//建图，记录度数<br/>
-        Domino();<br/>
-        delet();//用来释放内存<br/>
-    }<br/>
-    return 0;<br/>
-}</p>
+<p>可见两次处理结果是一样的</p>
 
                         
                       </div>
@@ -736,10 +467,10 @@ int du[10];//记录每个顶点的数目</p>
                 <div class="read-more clearfix">
                   <div class="more-left left">
                   
-                    <span class="date">2015/2/6</span>
+                    <span class="date">2015/10/28</span>
                     <span>posted in&nbsp;</span> 
           				  
-          					    <span class="posted-in"><a href='%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84&%E7%AE%97%E6%B3%95.html'>数据结构&算法</a></span>
+          					    <span class="posted-in"><a href='Python.html'>Python</a></span>
           				   
                   </div>
                   <div class="more-right right">
@@ -775,7 +506,7 @@ int du[10];//记录每个顶点的数目</p>
     <div id="sidebar" class="sidebar">
           <div id="site-info" class="site-info">
             
-                <h1>挂在树上的兔子</h1>
+                <h1>零度燕窝</h1>
                 <div class="site-des"></div>
                 <div class="social">
 
@@ -814,6 +545,10 @@ int du[10];//记录每个顶点的数目</p>
         
             <a href="Fluent%20Python.html"><strong>Fluent Python</strong></a>
         
+            <a href="%E8%AF%BB%E4%B9%A6%E9%9A%8F%E7%AC%94.html"><strong>读书随笔</strong></a>
+        
+            <a href="%E6%9B%BE%E7%BB%8F%E6%9D%A5%E8%BF%87.html"><strong>曾经来过</strong></a>
+        
             <a href="PHP.html"><strong>PHP</strong></a>
         
             <a href="Ubuntu.html"><strong>Ubuntu</strong></a>
@@ -833,31 +568,31 @@ int du[10];//记录每个顶点的数目</p>
 	      
 		      
 			      <li class="post">
-			        <a href="15033291458720.html">使用一等函数实现设计模式</a>
+			        <a href="15406290433586.html">扎心！有人偷走了我的磁盘空间？！</a>
 			      </li>
 		     
 		  
 		      
 			      <li class="post">
-			        <a href="15018651943030.html">一等函数</a>
+			        <a href="15377924479103.html">记一次攒机经历</a>
 			      </li>
 		     
 		  
 		      
 			      <li class="post">
-			        <a href="15018646605864.html">文本和字节序列</a>
+			        <a href="15376924661136.html">SQL查询语句之坑</a>
 			      </li>
 		     
 		  
 		      
 			      <li class="post">
-			        <a href="15013419653919.html">集合的使用</a>
+			        <a href="15056428224967.html">![](http://cdn.blog.yanzl.net/2017-10-27-carthusian-2822971.jpg)</a>
 			      </li>
 		     
 		  
 		      
 			      <li class="post">
-			        <a href="15010832436363.html">字典的使用</a>
+			        <a href="15048580065601.html">Python內建类型对象的那些事</a>
 			      </li>
 		     
 		  

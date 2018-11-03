@@ -5,12 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>
     
-  挂在树上的兔子
+  零度燕窝
   
   </title>
   
   
-  <link href="atom.xml" rel="alternate" title="挂在树上的兔子" type="application/atom+xml">
+  <link href="atom.xml" rel="alternate" title="零度燕窝" type="application/atom+xml">
     <link rel="stylesheet" href="asset/css/foundation.min.css" />
     <link rel="stylesheet" href="asset/css/docs.css" />
     <script src="asset/js/vendor/modernizr.js"></script>
@@ -62,7 +62,7 @@
 
         <nav class="tab-bar show-for-small">
   <a href="javascript:void(0)" class="left-off-canvas-toggle menu-icon">
-    <span> &nbsp; 挂在树上的兔子</span>
+    <span> &nbsp; 零度燕窝</span>
   </a>
 </nav>
 
@@ -85,6 +85,10 @@
             <li><a href="%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84&%E7%AE%97%E6%B3%95.html">数据结构&算法</a></li>
         
             <li><a href="Fluent%20Python.html">Fluent Python</a></li>
+        
+            <li><a href="%E8%AF%BB%E4%B9%A6%E9%9A%8F%E7%AC%94.html">读书随笔</a></li>
+        
+            <li><a href="%E6%9B%BE%E7%BB%8F%E6%9D%A5%E8%BF%87.html">曾经来过</a></li>
         
             <li><a href="PHP.html">PHP</a></li>
         
@@ -111,24 +115,242 @@
 		<div class="markdown-body home-categories">
 		
 			<div class="article">
-                <a class="clearlink" href="14838683777518.html">
+                <a class="clearlink" href="14857044682676.html">
                 
-                  <h1>回忆过去，展望未来</h1>
+                  <h1>最小生成树（总结）</h1>
                   <div class="a-content">
                       
                       <div class="a-content-text">
                         
-                        	<p>时间走得真快，不知不觉，我进入集训队已经满满一周年了。前几天参加13，14级的选拔赛，感觉又回到了过去，我还是那个样子，即便已经学习了一年的算法，可是做起题来还和当初参加选拔赛时一个样，没有自信，总是觉得自己做不出来，开了很多题目，不知道要做那一道好。。。。。。</p>
+                        	<p>定义</p>
 
-<p>去年寒假，大家一起参加集训，每天早上7点起床，上午学长讲讲知识点，自己就开始自学根本听不懂学长在讲些什么的东西，然后做相应的练习题目，晚上10点左右回到宿舍，有时候做做CF，有时候看看书，12点左右准时睡觉。那个时候，感觉真的很忙，但是却很充实，我有着明确的目标，因为我什么都不懂，但是我学的劲头很足。寒假结束了，接下来就是自己系统的安排时间，边学学校开的课程，边复习寒假学的算法。那个时候，我有一个小小的目标，那就是争取到参加省赛的机会，每天都努力呀努力。最后打星参加省赛，我们队还做了5道题目，当时小小的心瞬间就得到了满足，拿着我们的气球，抱着我们的队牌，好兴奋呀。</p>
+<p>一个有 n 个结点的连通图的生成树是原图的极小连通子图，且包含原图中的所有 n 个结点，并且有保持图连通的最少的边。</p>
 
-<p>转折点发生在暑假集训，我们学习的算法由基础转到了高级，我慢慢地就学不动了，和前边人的差距越来越大。每天就几道题目还做不完，我逐渐对自己失去了信心，曾经的我，是那么的阳光，认为不管如何困难，我总是能够学会。是什么，让我开始怀疑自己，而这种怀疑，潜移默化的付诸行动？是心，是我那颗不再坚定，不再踏实的心。大约从暑假开始，我的心变得浮躁，效率开始下降，再加上一点点的自卑，就这么一点一点地落了下来，知道网络赛结束，身边的同学都去打现场赛，我才意识到，我到底错过了什么。我对自己说：“我错过了网络赛，不能再错过省赛”。</p>
+<p>准则</p>
 
-<p>11月份，我给自己定了一个月的计划，将暑假里学的东西大体地过了一遍，有些东西还是不能更加深入下去，只会一点皮毛，如果说灵活的运用还是做不到。12月，当我准备过第二遍的时候，海波给了我一套计划，是UVA上的小白书的计划，他要按照小白书的顺序，把各种知识点再过一遍，时间为2个月，23场比赛。于是，我们几个人就开启了小白书之旅，为此，我们专门建立了属于自己的讨论群组，边刷题边讨论，有时感觉题目太恶心了，还会在群里一通吐槽。我感觉，我又回到了之前的状态，我感觉，有目标的感觉真好。能够开开心心的刷题，慢慢的，静下心来推导的感觉真好。</p>
+<p>构成最小生成树的准则有3条：</p>
 
-<p>经过一年的历练与变故，我走到了今天。如今的我，不再是大一时什么都不懂的孩子，我要有自己的目标。呆在实验室，认认真真的搞算法。就利用两个月的时间，结束23场比赛，期间不断的总结，不断的充实自己，对于不好的地方作出改进。这些工作做完之后，我还有POJ上的题目没有做完，回去把该做的题目补上。而这些题目，就有一些是暑假里学的高级算法，边学习边刷题，慢慢领悟。虽然我很笨，但只要我能够静下心来，一点一点地啃，在注意提高效率，我总能够学会的。</p>
+<p>（1）必须是应该网络的边来构造最小生成树，不可以凭空捏造边哦。</p>
 
-<p>回忆过去，展望未来。曾经，我迷失过自己，就将那些失败当做警钟，提醒自己，该做些什么。未来，加油！！</p>
+<p>（2）必须使用且仅使用n-1条边来连接网络中的n个顶点。</p>
+
+<p>（3）不能使用产生回路的边。</p>
+
+<p>构成最小生成树的主要算法有：克鲁斯卡尔（Kruskal）算法，普利姆（Prim）算法，和Boruvka算法</p>
+
+<p>普利姆（Prim）算法</p>
+
+<p>基本思想</p>
+
+<p>以顶点为主导地位，从起始顶点出发，通过选择当前可用的最小权值边依次把其他顶点加入到生成树中来。</p>
+
+<p>具体操作</p>
+
+<p>设连通无向网为G（V,E），在该算法中，将点集合分成两个子集合T,T&#39;，T代表在最小生成树里的点的集合，T&#39;代表不在当前生成树里的点的集合。</p>
+
+<p>（1）从连通网G中选择一个起始顶点u0，首先将它加入到集合T中，然后选择与u0关联的，具有最小权值的边（u0，v），将顶点v加入到集合T中。</p>
+
+<p>（2） 以后的每一步从一个顶点在T中，另一个顶点在T&#39;中 的各条边中选择权值最小的边（u,v），把顶点v加入到T中，如此继续，直到网络中的所有顶点都加入到集合T中。</p>
+
+<p><img src="media/14857044682676/shu.jpg" alt="shu"/></p>
+
+<p>接下来以上图为例讲解prim算法的实现过程</p>
+
+<p>（1）将顶点v1放入集合T中，此时，T中只有一个顶点，一个顶点在T,另一个顶点在T’中的边中权值最小的为1，即v1连接的v3顶点，这样，将v3顶点放入T集合中。</p>
+
+<p>（2）现在T集合中就有2个顶点v1,v3了，一个点在T中，另一个点在T&#39;中的边权值最少的是4，即v3和v6相连的边，所以v6也进入集合T中。</p>
+
+<p>（3）现在集合T中有3个顶点v1,v3,v6，一个点在T中，另一个点在T&#39;中的边权值最少的是2，即v4和v6连的边，所以v4也进入集合T中。</p>
+
+<p>（4）现在集合T中有4个顶点v1,v3,v6,v4,一个顶点在T中，另一个顶点在T&#39;中的边的权值最少的是5，即v3和v2相连的边，所以v2也加入到集合T中。</p>
+
+<p>（5）现在，T&#39;中只剩下一个顶点v5，也就是看，所有和v5 相连的边中权值最小的，我们找到了v5和v2相连的边，权值为3，所以v5也加入到了集合T中。</p>
+
+<p>（6）这样，最小生成树就建成功了。</p>
+
+<p>Prim的算法实现</p>
+
+<p>Prim算法一般应用于稠密图，所以一般采用邻接矩阵来存储图，在运算的过程中，我们需要知道的是存放顶点集合T‘内各顶点到顶点集合T内各顶点权值最小的边的权值，用lowcost[]存储，还需要知道的是顶点集合T&#39;内各顶点距离顶点集合T内哪个顶点最近，用nearvex[]存储，当nearvex[i]存储的值是-1的时候，表示i点已经放入T中。</p>
+
+<p>实现过程：</p>
+
+<p>（1）初始化：最初的时候T中只有一个顶点1，所以在nearvex[]数组中将nearvex[1] = -1,其他元素值都是1，lowcost[]数组初始值就是顶点1到其它点的距离。</p>
+
+<p>接下来重复一下步骤：</p>
+
+<p>（2）在lowcost[]数组中寻找权值最小的顶点并且该顶点没有加入到生成树中，用v进行标记。</p>
+
+<p>（3）将nearvex[v]更改为-1，代表已经将v点加入到生成树中，相应的对该边进行操作，比如加和，输出权值等操作。</p>
+
+<p>（4）修改lowost数组，因为加入新的顶点之后，就相当于新增加了和该点相邻的边，那么原来记录的T中顶点到T&#39;中顶点最短的距离可能就会发生变化，所以要更新距离数组。</p>
+
+<p>lowcost[10000];<br/>
+nearvex[10000];<br/>
+void Prim()<br/>
+{<br/>
+    int i,j,sum = 0;<br/>
+    memset(nearvex,-1,sizeof(nearvex));<br/>
+    nearvex[1] = 1;<br/>
+    for(i = 1;i &lt;= n;i++)<br/>
+    {<br/>
+        lowcost[i] = mapp[1][i];<br/>
+    }<br/>
+    for(j = 1;j &lt; n;j++)<br/>
+    {<br/>
+        mi = 0x3f3f3f3f;<br/>
+        bj = 0;<br/>
+        for(i = 1;i &lt;= n;i++)<br/>
+        {<br/>
+            if(lowcost[i] &lt; mi &amp;&amp; nearvex[i] == -1)<br/>
+            {<br/>
+                bj = i;<br/>
+                mi = lowcost[i];<br/>
+            }<br/>
+        }<br/>
+        if(mi == 0x3f3f3f3f)<br/>
+            break;<br/>
+        sum += mi;<br/>
+        nearvex[bj] = 1;<br/>
+        for(i = 1;i &lt;= n;i++)<br/>
+        {<br/>
+            if(nearvex[i] == -1 &amp;&amp; mapp[bj][i] &lt; lowcost[i])<br/>
+            {<br/>
+                lowcost[i] = mapp[bj][i];<br/>
+            }<br/>
+        }<br/>
+    }<br/>
+}<br/>
+ 克鲁斯卡尔（Kruskal）算法</p>
+
+<p>基本思想</p>
+
+<p>以边为主导地位，始终都是选择当前可用的最小权值的边。</p>
+
+<p>具体操作</p>
+
+<p>（1）设一个有n个顶点的联通网络为G（V,E），最初先构造一个只有n个顶点，没有边的非联通图T = {V,空}，图中每个顶点自称一个联通分量。</p>
+
+<p>（2）当在E中选择一条具有最小权值的边时，如果该边的权值落在不同的联通分量上，则将此边加入T中;否则，即这条边的两个顶点落在同一个联通分量上，则将此边舍去，重新选择一条权值最小的边。</p>
+
+<p>（3）重复上面的过程，直到所有顶点都在同一个联通分量上为止。</p>
+
+<p>从这三步的具体操作中，我们可以看出最重要的就是不断地向生成树中加边的过程，这个过程有两个最关键的步骤：</p>
+
+<p>（1）从E中选择当前权值最小的边(u,v)，实现时可以用两种方法，一种是最小堆存放边，另一种是将边的信息（顶点，权值）存放进一个结构体数组中，并将数组中的元素按照权值从小到大排序，然后按照先后顺序选用边。</p>
+
+<p>（2）当选取好一条边之后，需要查找这条边的两个顶点是不是在同一个连通分量中，如果是，则需要舍去，如果不是，那么将这两个顶点归并到同一个连通分量中。这个步骤的实现，就用到了之前讲过的并查集。这里对并查集的基础概念就不细写了，着重介绍并查集的搜索合并以及路径压缩。</p>
+
+<p>并查集简单应用</p>
+
+<p>并查集数据结构有3个主要的函数，一个是初始化，一个是根节点的查找，最后一个是合并集合，其中合并集合调用了根节点的查找函数。</p>
+
+<p>声明：这里运用的并查集父节点中存储的值是一个负数，其绝对值代表这棵树上节点的总个数，以此来记录总结点，判断是否所有节点都已经加进最小生成树中。</p>
+
+<p>void UFset()//初始化<br/>
+{<br/>
+    for(int i = 0;i &lt; n;i++)<br/>
+    {<br/>
+        parent[i] = -1;<br/>
+    }<br/>
+}</p>
+
+<p>int Find(int x)<br/>
+{<br/>
+    int s = x;<br/>
+    while(s &gt;= 0)s = parent[s];//查找根节点<br/>
+    //接下来是路径压缩，将x到其根节点的所有节点的父亲都归到根节点中去，<br/>
+    //减少生成树的高度，方便以后的遍历查找<br/>
+    while(s != x)<br/>
+    {<br/>
+        int tmp = parent[x];<br/>
+        parent[x] = s;<br/>
+        s = parent[x];<br/>
+    }<br/>
+}</p>
+
+<p>void Union(int x,int y)<br/>
+{<br/>
+    int fx = Find(x);//查找x的根节点<br/>
+    int fy = Find(y);//查找y的根节点<br/>
+    //记录两个联通变量的总结点个数（显示为负数）<br/>
+    int sum = parent[fx] + parent[fy];<br/>
+    if(fx != fy)<br/>
+    {<br/>
+        //如果x所在的树总结点大于y所在的树的总节点<br/>
+        //那么就吧y所在的树连接到x所在的树上<br/>
+        //因为个数是用负数展现的，所以这里是小于号<br/>
+        if(parent[fx] &lt; parent[fy])//这是优化方案——加权法则<br/>
+        {<br/>
+            parent[fy] = fx;//将y所在的树连接到x所在的树上<br/>
+            parent[fx] = sum;//更改总结点个数<br/>
+        }<br/>
+        else<br/>
+        {<br/>
+            parent[fx] = fy;<br/>
+            parent[fy] = sum;<br/>
+        }<br/>
+    }<br/>
+}<br/>
+ Kruskal算法实现</p>
+
+<p>我们就以下面的示例图片进行讲解</p>
+
+<p><img src="media/14857044682676/shu-kruskal.jpg" alt="shu-kruska"/></p>
+
+<p>从图中，我们看出一共有6个顶点，10条边，边的权值从小到大依次为1（v1,v3），2（v4,v6），3（v2,v5），4（v3,v6），5（v1,v4）,5（v3,v4）,5（v2,v3）,6（v3,v5）,6（v1,v2）,6（v5,v6）。</p>
+
+<p>（1）初始状态下，每个顶点自成一个集合，和自己联通。</p>
+
+<p>（2）加入第一条边1（v1,v3）,调用并查集函数，发现v1,v3在不同的分量中，将他们两个连通，现在只有v1,v3连通。</p>
+
+<p>（3）加入第二条边2（v4,v6），调用函数发现v4,v6在不同的两个分量中，将他们连通，现在有v1,v3连通，v4,v6连通。</p>
+
+<p>（4）加入第三条边3（v2,v5）,调用函数发现v2,v5在不同的两个分量中，将他们连通，现在有v1,v3连通，v4,v6连通，v2,v5连通。</p>
+
+<p>（5）加入第四条边4（v3,v6）,调用函数发现v3,v6在不同的分量中，并且v3和v1连通，v6和v4连通，即v3所在的树有两个节点，v6所在的树有两个节点，将v6连接在v3所在的树上，现在有v1，v3，v4，v6连通，v2，v5连通。</p>
+
+<p>（6）加入第五条边5（v1,v4），调用函数发现v1,v4已经在同一个分量中了，所以不需要加这条边。</p>
+
+<p>（7）加入第六条边5（v3,v4）,调用函数发现v3,v4已经在同一个分量中了，所以不需要加这条边。</p>
+
+<p>（8）加入第七条边5（v2,v4），调用函数发现v4所在的树中有4个顶点，v2所在的树中有2个顶点，将v2所在的树连接到v4所在的树，现在有v1，v3，v4，v6，v2，v5连通，到现在为止，6个顶点全部连通，不需要之后的加边过程，最小生成树结束。</p>
+
+<p>（9）根据题目要求输出各种数据（总权值等）。</p>
+
+<p>下面是克鲁斯卡尔的代码实现过程：</p>
+
+<p>struct E<br/>
+{<br/>
+    int i,j;<br/>
+    int quan;<br/>
+};<br/>
+E edge[1000];</p>
+
+<p>int cmp(E a,E b)<br/>
+{<br/>
+    return a.quan &lt; b.quan;<br/>
+}</p>
+
+<p>void kruskal ()<br/>
+{<br/>
+    int i,j,k,u,v;<br/>
+    int sum = 0,num = 0;<br/>
+    sort(edge,edge+m,cmp);//对边进行从小到大排序<br/>
+    UFset();//对parent数组初始化<br/>
+    for(i = 0;i &lt; m;i++)<br/>
+    {<br/>
+        u = edge[i].i;v = edge[i].j;<br/>
+        if(Find(u) != Find(v))<br/>
+        {<br/>
+            sum += edge[i].quan;<br/>
+            num++;<br/>
+            union(u,v);<br/>
+        }<br/>
+        if(num &gt;= n-1)<br/>
+            break;<br/>
+    }<br/>
+    printf(&quot;%d\n&quot;,sum);<br/>
+}</p>
 
                         
                       </div>
@@ -137,295 +359,7 @@
                 <div class="read-more clearfix">
                   <div class="more-left left">
                   
-                    <span class="date">2014/12/16</span>
-                    <span>posted in&nbsp;</span> 
-          				  
-          					    <span class="posted-in"><a href='%E9%9A%8F%E6%83%B3.html'>随想</a></span>
-          				   
-                  </div>
-                  <div class="more-right right">
-                  <span class="comments">
-                      
-
-                       
-                  </span>
-                  </div>
-                </div>
-              </div><!-- article -->
-        
-			<div class="article">
-                <a class="clearlink" href="14838684237499.html">
-                
-                  <h1>越担心失败越容易失败</h1>
-                  <div class="a-content">
-                      
-                      <div class="a-content-text">
-                        
-                        	<p>失败，不是个讨人喜欢的词呦。人们谈起它，唯恐避之不及，赶紧说：呸呸！人们遇上它，叫苦不迭，连声哀叹自己&quot;命不好&quot;。可是，会不会有许多失败的因子已经悄然潜伏在我们的潜意识中呢？</p>
-
-<p>作为一名临近毕业的大学生，我是有多担心自己的工作啊！每天上课、自习、考证、实习。似乎每件事都与未来有关。可分明一边还在焦虑着：现在就业那么难，未来是否会有一个岗位是属于我的？求职失败了我该肿么办？ 难道我这真的是&quot;未老先衰&quot;的节奏啊……</p>
-
-<p>别急，听我往下说。事实上，还有许多人如同我一样，提前预想到自己可能的&quot;下场&quot;，他们或许是焦躁难耐的大学生；或许是进退维谷的创业者；或许是压力山大的白领一族；更有可能是浮躁社会里的你你我我。担心失败的大有人在，单听他们的诉说，就让人慌了阵脚。我不禁想到：担心什么来什么。我们选择的是不安，结局亦是不安；我们选择把失败作为假想敌。结局就不言而喻，亦是失败！</p>
-
-<p>哎呀糟糕！开篇我就讲了这么多&quot;失败&quot;，接下来的运气肯定不会好了……事实果真是这样吗？听起来好像失败来得如此简单。有人说，这世界上存在一种&quot;吸引力&quot;法则，我们可以这样理解：你生命中所发生的一切，都是你吸引来的。这样说你会不会感觉心安呢？因为若是这样，成功也变得相当简单，你时常想着它念着它，没事把它放心里意淫千百次，成功它就真的追着你来了！</p>
-
-<p>成功与失败从来都不是耍大牌的大腕，而是挥之即来呼之即去的小喽啰！</p>
-
-<p>一、担心什么来什么（心理暗示的力量）</p>
-
-<p>澳大利亚一名电视工作者 朗达·拜恩，于2008年出版了一本名为 The Secret（《秘密》）的书，曾引起巨大反响。这本书最核心的内容就是阐述了一个法则，即 &quot;吸引力法则&quot;，大意是说&quot;心中所想之事越发强烈，似乎就越容易实现&quot;，这无疑会让人们联想到永远抱有巨奖梦的彩民们。</p>
-
-<p>这本书阐述的&quot;吸引力法则&quot;基本原理是这样的：人类所有的思维活动，都会产生某种特定的频率（脑电波），而这种频率就好比杜鹃用于求爱的信号、蝙蝠用来探路的超声波。它会吸引同样的频率，引发共振，从而将我们思维活动中所涉及到的任何事物吸引到我们的面前。</p>
-
-<p>据说有些彩民将自己买彩票中奖的幸运归结为&quot;自己的信念足够强大&quot;，好了，先别慨叹&quot;心想事成&quot;的力量之强大了。不管它是&quot;吸引力法则&quot;也好，&quot;心理暗示&quot;也好，作为相反的例子，我们越是担心失败，脑中的磁场就会充分调动周围的资源，将那些与失败相关的，充满负面思维的事物吸引至我们眼前。然后我们面对着它们，就好像面对着久久未见的眼熟人儿，既熟悉又陌生。因为担心失败，大脑就更关注失败，会想到很多和失败相关的事情，如失败后的各种后果。因为大脑的思考范围有限，这么多心思放在&quot;担心&quot;上，就没有足够能量来考虑解决问题的办法，自然没那么多精力去做或许能真正&quot;促进成功&quot;的事情，失败几率自然更大。</p>
-
-<p>二、墨菲定律的启示（心理倾向的作用）</p>
-
-<p>&quot;墨菲定律&quot;（Murphy&#39;s Law）：事情往往会向你所想到的不好的方向发展，只要有这个可能性。比如你衣袋里有两把钥匙，一把是你房间的，一把是汽车的；如果你现在想拿出车钥匙，会发生什么？是的，你往往是拿出了房间钥匙。这就是著名的&quot;墨菲定律&quot;，也叫&quot;倒霉蛋定律&quot;。根据它，我们得知：</p>
-
-<ol>
-<li><p>任何事都没有表面看起来那么简单；</p></li>
-<li><p>所有的事都会比你预计的时间长；</p></li>
-<li><p>会出错的事总会出错；</p></li>
-<li><p>如果你担心某种情况发生，那么它就更有可能发生。</p></li>
-</ol>
-
-<p>我们都有这样的体会，如果在街上准备拦一辆车去赴一个时间紧迫的约会，你会发现街上所有的出租车不是有客就是根本不搭理你，而当你不需要租车的时候，却发现有很多空车在你周围游弋，只待你的一扬手，车随时就停在你的面前。如果一个月前在浴室打碎镜子，尽管仔细检查和冲刷，也不敢光着脚走路，等过了一段时间确定没有危险了，不幸的事还是照样发生，你还是被碎玻璃扎了脚。</p>
-
-<p>在运动场上，我们也不乏看见这样的例子。美国射手埃蒙斯，在2004年雅典奥运会男子步枪三姿决赛，前九枪领先对手3环之多，最后一枪鬼使神差地把子弹打到了别人的靶子上。2008年北京奥运会男子50米步枪3x40决赛，埃蒙斯在倒数第二轮领先将近4环，金牌几乎唾手可得的情况下，重演了雅典的严重失误，最后一轮仅打出了4.4环。2012年伦敦奥运会射击项目的最后一个比赛日，男子50米步枪三姿决赛，埃蒙斯再次折在&quot;最后一枪&quot;。</p>
-
-<p>也许他与成功只相差一步。但心里若对比赛结果有那么一点点介意，便草木皆兵了罢。当我们在惋惜埃蒙斯的三度梦碎的时候，是否会从中得到一些启示呢？</p>
-
-<p>三、人的&quot;自我验证&quot;机制（心理预期的作用）</p>
-
-<p>&quot;安全感&quot;是大多数人所追求的。我们去幻想失败，也许没有其他的想法，只是为了证实自己心中所想，以达到心理预期，也就是所谓的安全感。我们在接受外界信息的时候往往都倾向于接受能够保持和强化自我概念的信息，来增强确定性，消除不确定性所带来的心理不安感。</p>
-
-<p><img src="media/14838684237499/84.jpg" alt="84"/></p>
-
-<p>根据swann的理论，有积极自我概念的人，认为自己会成功的人，他会选择营造验证自我的社会环境：（1）他会选择和成功的人交往；（2）他会在别人面前展示成功者的面貌；（3）采用能够验证自己成功的交往策略。而且会对现实信息进去主观歪曲：（1）选择性地注意那些成功的事迹；（2）选择性的对事情解释，失败的事情都能被解释为成功的事。</p>
-
-<p>用个例子来说明下：我准备了很久的考试，却每次都是考到我没有背的那些题目呢？原因可以解释为：</p>
-
-<p>1、反正会漏背，背不完，我就挑选几道可能考的题目（消极的策略）</p>
-
-<p>2、实际上有很多次刚好考到他背的题目，但他却总是记得那些漏背的考试，因为这是让人沮丧的情况所以让人印象深刻（选择性注意）</p>
-
-<p>3、实际上不是漏背，只是没背熟，他为了证明自己的倒霉而不是记忆力不好，解释为漏背了（选择性解释）</p>
-
-<p>所以，为什么越担心失败就越容易失败呢？因为这种担心失败的不积极的自我概念，会让我们展现出失败者的面貌，进而激发我们采取退缩、回避等消极策略。在面对问题时，消极策略让我们不能倾尽全力去付出，一旦结果不如人意将再次强化自己会失败的自我概念。就算在整件事当中有些事是成功的，但是我们往往选择性地忘记成功，反而牢牢地记住自己的失败，并深信不疑，觉得自己的成功是侥幸，失败是很经常和容易发生的（选择性歪曲）。</p>
-
-<p>说到这里，我想大家都知道了这个问题的答案了。原来我们心心念念的那个&quot;情人&quot;是&quot;失败&quot;呀！什么，你并不爱它？那么，为什么不从容地向成功挥一挥手，展示我们对它的热切渴望？成功，从来都不是大腕，它就是你身边一打杂儿的伙计，你向它招一招手，它就屁颠屁颠儿地跟来了，当然你得诚心诚意呼唤它，用100%努力去召唤它，这样它定不会背叛你。</p>
-
-<p>PS. 这一招在 Hard 难度以上的现实世界效果会打折扣。但起码是把成功拉向自己，而不是傲娇地一把把它推开。</p>
-
-                        
-                      </div>
-                  </div>
-                </a>
-                <div class="read-more clearfix">
-                  <div class="more-left left">
-                  
-                    <span class="date">2014/12/12</span>
-                    <span>posted in&nbsp;</span> 
-          				  
-          					    <span class="posted-in"><a href='%E9%9A%8F%E6%83%B3.html'>随想</a></span>
-          				   
-                  </div>
-                  <div class="more-right right">
-                  <span class="comments">
-                      
-
-                       
-                  </span>
-                  </div>
-                </div>
-              </div><!-- article -->
-        
-			<div class="article">
-                <a class="clearlink" href="14838682471813.html">
-                
-                  <h1>基本算法总结（字符串处理 KMP）</h1>
-                  <div class="a-content">
-                      
-                      <div class="a-content-text">
-                        
-                        	<h2 id="toc_0">（一）字符串处理</h2>
-
-<h3 id="toc_1">1.回文串相关</h3>
-
-<p>（1）最简单的考察方式：给定任意字符串，判断其是否是普通的回文串。</p>
-
-<p>解决方法：两个指针，一个从前往后指，一个从后往前指，如果前面的指针大于等于后面的指针，则遍历完成。期间，如果任意字符不相等，则不是普通回文串，跳出遍历。</p>
-
-<p>（2）只涉及到数字的回文数：一个数，如果不是回文数，则与倒序数相加，再判断是否是回文数，不是继续相加，知道是回文数，并且打印出路径</p>
-
-<p>解决方法：利用整形存储，回文数一定相等，所以将此数和倒序数相比较，如果不想等，加和存入数组，再比较</p>
-
-<p>（3）给定一个字符串，求该串最长的回文串</p>
-
-<p>解决方法：</p>
-
-<pre><code>int Maxsubstr(char a[],char b[])
-{
-    int start1,start2;
-    int count=0,Max=0;
-    for(int i=0; a[i]!=&#39;\0&#39;; i++)
-        for(int j=0; b[j]!=&#39;\0&#39;; j++)
-        {
-            start1=i;
-            start2=j;
-            while(a[start1]==b[start2] 
-                  &amp;&amp; start1&lt;strlen(a) 
-                  &amp;&amp; start2&lt;strlen(b))
-            {
-                start1++;
-                start2++;
-                count++;
-            }
-            if(count&gt;Max)
-                Max=count;
-            count=0;
-        }
-    return Max;
-}
-
-char *Switch(char a[])
-{
-    int n=strlen(a);
-    char temp;
-    for(int i=0; i&lt;n/2; i++)
-    {
-        temp=a[i];
-        a[i]=a[n-1-i];
-        a[n-1-i]=temp;
-    }
-    return a;
-}
-
-int main()
-{
-    char a[100];
-    char b[100];
-    char *c;
-    gets(a);
-    strcpy(b,a);
-    c=Switch(a);
-    cout&lt;&lt;Maxsubstr(b,c);
-    return 0;
-}
-</code></pre>
-
-<p>（4）求第i小回文数：</p>
-
-<pre><code>int main()
-{
-    long n;
-    int k=1;
-    long l;
-    cin&gt;&gt;n;
-    while(1)
-    {
-         if(n&lt;=9*pow((double)10,(k-1)/2))break;
-         n-=9*pow((double)10,(k-1)/2);
-         k++;
-    }
-    l=pow((double)10,(k-1)/2);
-    l+=n-1;
-    cout&lt;&lt;l;
-    l/=k%2==1?10:1;
-    while(l)
-    {
-        cout&lt;&lt;l;
-        l/=10;
-    }
-    cout&lt;&lt;endl;
-}
-</code></pre>
-
-<p>（5）将字符串变成回文串</p>
-
-<p>题目大意：<br/>
-一串字符，每添加一个字符或删去一个字符都要付出相应的花费<br/>
-求将这串字符变成回文串的最小花费</p>
-
-<p>思路：<br/>
-删除一个字符和添加一个字符是等价的，所以考虑最小的一种即可<br/>
-d[i][j]表示区间[i,j]的最小花费<br/>
-当a[i] == a[j]时， 区间[i,j]的花费就等于区间[i+1,j-1]的花费<br/>
-当a[i] != a[j]时<br/>
-添加或删除a[i]，花费为d[i+1][j]+cost[ a[i]-&#39;a&#39; ]<br/>
-添加或删除a[j]，花费为d[i][j-1]+cost[ a[j]-&#39;a&#39; ]</p>
-
-<pre><code>const int N = 2010;
-const int inf = 0x3f3f3f3f;
-char a[N];
-int cost[30];
-int d[N][N];
-int main()
-{
-    int n,m,i,j;
-    while(~scanf(&quot;%d%d&quot;,&amp;n,&amp;m))
-    {
-        scanf(&quot;%s&quot;,a);
-        while(n--)
-        {
-            char c[2];
-            scanf(&quot;%s%d%d&quot;,c,&amp;i,&amp;j);
-            cost[ c[0] - &#39;a&#39; ] = min(i, j);
-        }
-        memset(d, 0, sizeof(d));
-        for(j = 0; j &lt; m; j ++)
-        {
-            for(i = j-1; i &gt;= 0; i --)
-            {
-                if(a[i] == a[j])
-                    d[i][j] = d[i+1][j-1];
-                else
-                    d[i][j] = min(d[i+1][j] + cost[ a[i]-&#39;a&#39; ],
-                                   d[i][j-1] + cost[ a[j]-&#39;a&#39; ]);
-            }
-        }
-        printf(&quot;%d\n&quot;,d[0][m-1]);
-    }
-    return 0;
-}
-</code></pre>
-
-<h3 id="toc_2">2.KMP</h3>
-
-<p>KMP一般用于字符串的匹配</p>
-
-<pre><code>void next(int l)  
-{  
-    int i = 0,j = -1;  
-    next[0] = -1;  
-    while(i &lt; l)  
-    {  
-        if(j == -1 || st[i] == st[j])  
-        {  
-            i++;  
-            j++;  
-            if(st[i] != st[j])  
-                next[i] = j;  
-            else  
-                next[i] = next[j];  
-        }  
-        else  
-            j = next[j];  
-    }
-}
-</code></pre>
-
-<p>在计算完next数组之后，就可以用此串进行字符串的匹配，如果发生失配，则模式串的指针：j = next[j],母串的指针：i++。</p>
-
-                        
-                      </div>
-                  </div>
-                </a>
-                <div class="read-more clearfix">
-                  <div class="more-left left">
-                  
-                    <span class="date">2014/12/2</span>
+                    <span class="date">2015/1/31</span>
                     <span>posted in&nbsp;</span> 
           				  
           					    <span class="posted-in"><a href='%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84&%E7%AE%97%E6%B3%95.html'>数据结构&算法</a></span>
@@ -442,277 +376,739 @@ int main()
               </div><!-- article -->
         
 			<div class="article">
-                <a class="clearlink" href="14838678947631.html">
+                <a class="clearlink" href="14838710892101.html">
                 
-                  <h1>基本算法总结（查找，简单数学）</h1>
+                  <h1>Union-Find（并查集）总结</h1>
                   <div class="a-content">
                       
                       <div class="a-content-text">
                         
-                        	<h2 id="toc_0">一  查找</h2>
+                        	<p>并查集主要是运用在动态连通性的问题上，什么是动态连通性呢，让我们先看一张图片</p>
 
-<h3 id="toc_1">（1）哈希</h3>
+<p><img src="media/14838710892101/bingchaji1.png" alt="bingchaji1"/></p>
 
-<p>一般是以数组下标来存储数据，数组内表示数据出现的次数，有时数据太大，数组开不开，则需要进行取模并解决冲突（链地址法存储）</p>
+<p>许多点开始时单独成一集合，随着连线的不断增多，图的连通性质发生了改变，在联通的过程中，如果两个点之间已经连通，那么就不需要将这两个点再次连通。</p>
 
-<pre><code>struct hi
-{
-    int num;//存储出现次数
-    int date;//存储数据
-    struct hi *next;//指向下一个
-};
-struct hi a[100000];
-for(i = 0; i&lt;n; i++)
-{
-    int bj = 0;
-    scanf(&quot;%d&quot;,&amp;x);
-    j = x % 100000;
-    hi *p = &amp;a[j],*t;
-    t = p;
-    while(p != NULL)//查找该元素是否出现过
-    {
-        if(p -&gt;date == x)
-        {
-            bj = 1;
-            p -&gt; num++;
-            break;
-        }
-        p = p-&gt;next;
-        if(t -&gt;next != NULL)
-        {
-            t = t -&gt;next;
-        }
-    }
-    if(bj == 0)
-    {
-        p = t;
-        p -&gt;next = new hi;
-        p = p -&gt;next;
-        p -&gt;date = x;
-        p -&gt;next = NULL;
-        p -&gt;num = 1;
-    }
-}
+<p>动态连通性的应用场景常见的有两个</p>
+
+<p>网络连接判断：</p>
+
+<p>假设每一对点代表了一个网络节点，那么这一对点就表示这两个点是需要联通的，将这些需要连通的点建立动态连通图，以减少连边。在一定程度上降低成本</p>
+
+<p>两个对象属于同一个集合：</p>
+
+<p>无论是两个变量名指向同一个内存也好，还是两个人的爱好相同也好，将有相同性质的对象归结到同一个集合中，便于查询两个对象是否在同一个集合内。</p>
+
+<p>并查集</p>
+
+<p>在思考一个问题的时候，我们首先要考虑到的是这个问题的根本在哪里，同样，面对动态连通性问题，我们要解决的问题到底是什么？通过上面的总结分析，可以看出动态连通性就是给出两个点，判断是否连通，如果已经连通，联通路径是什么，如果没有连通且应该连通，就要想办法让其联通。</p>
+
+<p>首先，联通的节点属于同一个集合，不联通的点分别属于自己的集合，随着联通点对的输入，我们要判断这两个点是否已经连通。可以见一个数组来存储点，连通的点用一个数来记录，不联通的点分别用数字来记录，那么最初的情形就是所有的点都不联通，都是自成一个集合。该段代码的实现为：</p>
+
+<pre><code>int id[Size];
+    for(int i = 0;i &lt; Size;i++)
+        id[i] = i;
 </code></pre>
 
-<h3 id="toc_2">（2）二分查找</h3>
+<p>初始化结束之后，我们接下来要做的事情有以下几点</p>
 
-<p>在有序的序列中采用折半查找的方法。</p>
+<p>（1）查询结点属于的组：数组对应的位置就是结点对应的组号。</p>
 
-<pre><code>while(low &lt;= high)
+<p>（2）判断两个结点是否属于同一个位置：分别查询到两个节点的组号，判断其是否相等。</p>
+
+<p>（3）连接两个结点，使之在同一个组中：分别得到两个节点的组号，组号相同时结束操作，不同时将一个节点的组号更改为另一个节点的组号。</p>
+
+<p>（4）获取组的数目：计算在这样一个森林中，总共有多少棵树</p>
+
+<p>让我们依次来实现这些操作</p>
+
+<p>首先，我们先构建一个连通图，在构建连通图的同时，查询节点属于的组。</p>
+
+<p>举个栗子，比如输入的Pair是(5， 9)，那么首先通过find方法发现它们的组号并不相同，5属于1组，9属于8组，然后在union的时候通过一次遍历，将组号1都改成8。当然，由8改成1也是可以的，保证操作时都使用一种规则就行。</p>
+
+<p><img src="media/14838710892101/bingchaji2.png" alt="bingchaji2"/></p>
+
+<p>但是，在修改的过程中，我们不知道1组或8组的元素到底有哪些，所以需要从头遍历数组，这样一来，时间复杂度瞬间就成了线性关系，似乎没有什么优化额。。。。。。如何解决这个问题呢？从上图可以知道，最耗时的是union算法，想办法改进该算法。</p>
+
+<p>想想看，如果我们依然使用数组来存储元素所在的组，但是里面存储的数据不再是组号，而是上一个连接该点的地址，即他的父亲，那么，我们只要知道孩子，就可以不断地查询祖先，在同一个组内的元素自然一次就能够便利过来了，而且如果想将两个不同组的元素连接到同一个组，也不需要遍历数组修改其值了，只需要将一个元素存储的值变更为另一个元素的位置就可以了。</p>
+
+<p>上面步骤可以用代码表示为：</p>
+
+<pre><code>int find(int x)//查找树根
 {
-    mid = (low + high)/2;
-    if(c == a[mid])
+    if(id[x] != x)
     {
-        bj = 1;//表示找到元素
-        break;
+        x = id[x];
     }
-    else if( c &gt; a[mid])
-        low = mid +1;
-    else
-        high = mid - 1;
+    return x;
 }
-</code></pre>
-
-<p><em>注意：哈希和二分有时是配合使用，将一组数据哈希之后，可以通过排序（对输入顺序没有要求）后再二分查找该数据。</em></p>
-
-<h3 id="toc_3">（3）并查集</h3>
-
-<p>用来查找两个元素是不是属于同一集合</p>
-
-<pre><code>int fin(int x)//返回x的根
-{  
-    int r = x;  
-    while(bi[r] != r)  
-        r = bi[r];  
-    return r;  
-}  
-  
-void me(int x,int y)  
-{  
-    int fx = fin(x);  
-    int fy = fin(y);  
+void unio(int x,int y)//连接两棵树成为一棵树
+{
+    int fx = find(x);
+    int fy = find(y);
     if(fx != fy)
-        //如果x和y不是同一集合，将x的根连在y的根上
-        bi[fx] = fy;  
+    {
+        id[fx] = fy;
+    }
 }
 </code></pre>
 
-<p>如果给定的两个元素不属于同一个集合，问所有给的关系中有没有冲突，即（已经确定两个的关系，后来又推出来和确定的关系相矛盾）</p>
+<p>这样看来，问题似乎是解决了，但是还有一个潜在的问题，那就是容易出现极端状况。比如说很多节点属于同一个树（组），按上面的方法连接起来就会形成一条链，树的深度会很大，也会影响查找的效率，我们还需要优化一下。</p>
 
-<p>例如：</p>
+<p>明确我们优化的目的：让树由高瘦变得矮胖。</p>
 
-<p>给出n条虫子，m个配对（男&lt;-&gt;女）的情况，问数据有没有错误（出现同性配对）？<br/>
-也就是说每个给出的ab在不同的阵营，如果查询出现了在同一阵营就出现了错误。<br/>
-c数组记录属于某一个阵营，d数组记录它所属的阵营的敌对阵营。<br/>
-对每一组数据出现后，更新两个数组，注意：<br/>
-如果a属于x，b属于y，那么应该讲d[y]归并到x中，y归并到d[x]中</p>
+<p>为什么会高瘦呢？关键在于下面这行代码</p>
 
-<pre><code>int c[2100] , d[2100] ;
-int find1(int a)
-{
-    if( c[a] != a )
+<pre><code> id[fx] = fy;
+</code></pre>
+
+<p>也就是说，在合并子树的过程中，不管子树哪个高哪个低，都是执行操作id[fx] = fy；所以就导致了把高的树连接到低的树上，不断地增加树的高度。如果我们能够找到每棵树的高度，那么我们就可以很方便的知道数的高低，从而将低的树连接到高的树上了。我们需要再开一个数组记录高度</p>
+
+<pre><code>    int sz[Size];
+    for(int i = 0;i &lt; Size;i++)
     {
-        c[a] = find1(c[a]) ;
-        d[a] = d[ c[a] ] ;
+        sz[i] = 1;//初始高度都为本身1
     }
-    return c[a] ;
-}
-int main()
+</code></pre>
+
+<p>在合并的时候，通过这个数组选择合并的顺序</p>
+
+<pre><code>void unio(int x,int y)
 {
-    int t , tt , i , j , n , m , a , b , flag ;
-    scanf(&quot;%d&quot;, &amp;t);
-    for(tt = 1 ; tt &lt;= t ; tt++)
+    int fx = find(x);
+    int fy = find(y);
+    if(fx != fy)
     {
-        scanf(&quot;%d %d&quot;, &amp;n, &amp;m);
-        for(i = 1 ; i &lt;= n ; i++)
-            c[i] = i ;//每一个元素自成一个集合
-        memset(d,-1,sizeof(d));//每个元素都没有对立方
-        flag = 0 ;
-        while(m--)
+        if(sz[fx] &lt; sz[fy])
         {
-            scanf(&quot;%d %d&quot;, &amp;a, &amp;b);
-            if( flag ) continue ;//已经确定有问题，只是把剩下的数据输入完整
-            int x , y ;
-            x = find1(a) ;//查找x的根
-            y = find1(b) ;//查找y的根
-            if(x == y)
-                flag = 1 ;
-            else if( d[x] == -1 &amp;&amp; d[y] == -1 )
-            {//互成对立方
-                d[x] = y ;
-                d[y] = x ;
-            }
-            else if( d[x] != -1 )
+            id[fx] = fy;
+            sz[fy] += sz[fx];//高度发生变化
+        }
+        else
+        {
+            id[fy] = fx;
+            sz[fx] += sz[fy];
+        }
+    }
+}
+</code></pre>
+
+<p>所以，修改之前和修改之后的图就有了明显的区别</p>
+
+<p><img src="media/14838710892101/bingchaji3.png" alt="bingchaji3"/></p>
+
+<p>这样一来，树就会变得矮胖了许多，但是，如果每棵树的高度如果都是1该有多好呀，即每个节点都直接连祖宗节点，这样的话，查找时不就更方便了嘛。我们还是可以实现这种存储结构的，即在查找根节点（祖宗节点）的过程中，对路径进行压缩。</p>
+
+<pre><code>int find(int x)
+{
+    if(id[x] != x)
+    {
+        //不是根节点，则将该节点的爷爷节点，缩短路径
+        id[x] = id[id[x]];
+        x = id[x];
+    }
+    return x;
+}
+</code></pre>
+
+<p>写到这里，（1）（2）（3）不操作都已经涉及到，而且优化好了，剩下的就是判断这个森林中一共有多少棵树。</p>
+
+<p>从find函数中可以看出，我们判断是不是祖宗节点的标志是</p>
+
+<pre><code>if(id[x] != x)
+</code></pre>
+
+<p>如果条件成立，那么继续查找，也就是说，如果条件不成立，就找到了祖宗节点，所以，判断是不是一颗单独树的条件就可以利用这个了。</p>
+
+<pre><code>int num = 0;
+    for(int i = 0;i &lt; n;i++)
+    {
+        if(id[i] == i)
+        {
+            num++;
+        }
+    }
+    printf(&quot;%d\n&quot;,num);
+</code></pre>
+
+<p>当然，我们可以不必另开数组记录树的高度，我们完全可以用parent[]数组边记录路径，并在祖宗节点上记录整棵树的高度。</p>
+
+<p>现在整理并查集的三个函数</p>
+
+<pre><code>int parent[MAX];
+void init()// 初始化
+{
+    for(int i = 0;i &lt; MAX;i++)
+    {
+        parent[i] = -1;
+    }
+}
+int Find(int x)//查找根节点
+{
+    int s = x;
+    while(parent[s] &gt;= 0)
+        s = parent[s];
+        //并查集的路径压缩
+    while(s != x)
+    {
+        int tmp = parent[x];
+        parent[x] = s;
+        x = tmp;
+    }
+    return s;
+}
+void Union(int x,int y)//并查集
+{
+    int fx = Find(x);
+    int fy = Find(y);
+    if(fx != fy)
+    {
+        //并查集的加权法则，尽量使树高降低
+        int sum = parent[fx] + parent[fy];
+        if(parent[fx] &lt; parent[fy])
+        {
+            parent[fy] = fx;
+            parent[fx] = sum;
+        }
+        else
+        {
+            parent[fx] = fy;
+            parent[fy] = sum;
+        }
+    }
+}
+</code></pre>
+
+                        
+                      </div>
+                  </div>
+                </a>
+                <div class="read-more clearfix">
+                  <div class="more-left left">
+                  
+                    <span class="date">2015/1/27</span>
+                    <span>posted in&nbsp;</span> 
+          				  
+          					    <span class="posted-in"><a href='%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84&%E7%AE%97%E6%B3%95.html'>数据结构&算法</a></span>
+          				   
+                  </div>
+                  <div class="more-right right">
+                  <span class="comments">
+                      
+
+                       
+                  </span>
+                  </div>
+                </div>
+              </div><!-- article -->
+        
+			<div class="article">
+                <a class="clearlink" href="14838709255313.html">
+                
+                  <h1>图的遍历（DFS && BFS）</h1>
+                  <div class="a-content">
+                      
+                      <div class="a-content-text">
+                        
+                        	<p>DFS遍历（深度优先搜索）</p>
+
+<p>算法思想：对一个无向连通图，在访问图中某一起始顶点v之后，由v出发，访问它的某一邻接顶点w1，再从w1出发，访问w1的某一邻接但还没有访问过的顶点w2，然后从w2出发，依次类推地访问；。。。。。。；直到到达的顶点的所有邻接顶点都被访问过了，然后回退一步，看看上一个访问的顶点还有没有没有访问过的邻接点，如果有，则访问此顶点，如果没有，继续回退，直到退到起始点v为止。重复上述过程，直到所有顶点都被访问到了为止。</p>
+
+<p>用图片说话</p>
+
+<p><img src="media/14838709255313/DFS.jpg" alt="DFS"/></p>
+
+<p>图2.1描述的是对于图2.1.a从A点开始进行DFS搜索，实线表示递进，虚线表示回归 。2.1.c是递归遍历之后对应的二叉树。</p>
+
+<p>DFS</p>
+
+<p>DFS的伪代码表示</p>
+
+<p>该遍历需要一个标记数组visited[i]，记录哪些点已经被访问，哪些点没有被访问，n代表顶点数，m代表边数。</p>
+
+<p>如果用邻接表来存储图结构，DGS的实现伪代码为</p>
+
+<pre><code>void DFS(顶点i)
+{
+    visited[i] = 1;
+    p = 顶点i的边链表表头指针；
+    while(p != NULL)
+    {
+        //假设指针p所指向的边节点所表示的边中，另一个顶点为顶点j
+        if(visited[j] == 0)
+        {
+            //这里写递归搜索前的准备工作
+            DFS(顶点j);
+            //dfs的回退位置，要处理的在这里写
+        }
+        p = p-&gt;next;//移向下一个节点
+    }
+}
+</code></pre>
+
+<p>可以看出，在邻接表的存储下，DFS的时间复杂度为： O(n + 2 * m)。</p>
+
+<p>如果用邻接矩阵存储图结构，DFS的实现算法为</p>
+
+<pre><code>void DFS(顶点i)
+{
+    visited[i] = 1;
+    for(int j = 0;j &lt; n;j++)
+    {
+        if(mapp[i][j] == 1 &amp;&amp; visited[j] == 0)
+        {
+            //递归前的准备工作
+            DFS(j);
+            //回归后的各种操作
+        }
+    }
+}
+</code></pre>
+
+<p>可以看出，如果采用邻接矩阵存储图结构，时间复杂度为：O(n * n)。</p>
+
+<p>不过要注意，DFS是利用了栈的原理，如果递归的太多的话容易超时，所以在这种情况下，可以选择广度优先搜索BFS。</p>
+
+<p>BFS遍历（广度优先搜索）</p>
+
+<p>广度优先搜索是一个分层的搜索过程，没有回退过程，是非递归的。</p>
+
+<p>算法思想对一个无向连通图，在访问图中某一起始顶点v后，有v出发，依次访问v的所有未访问过的邻接顶点w1,w2,w3,w4......，然后再顺序访问w1,w2,w,3,w4....的所有还未访问过的邻接顶点，再从这些顶点出发，进行下一轮的访问进队列。。。。。。</p>
+
+<p>可以看出，BFS是一个循环的过程。</p>
+
+<p>图片说话：</p>
+
+<p><img src="media/14838709255313/BFS.jpg" alt="BFS"/></p>
+
+<p>BFS的伪代码表示</p>
+
+<p>如果图的存储为邻接链表的形式</p>
+
+<pre><code>void BFS(顶点i)//从顶点进行广度优先搜索
+{
+  visited[i] = 1;//将顶点i的访问标记为已访问
+  //将顶点i进队列
+  while(/*队列不为空*/)
+  {
+      //取出队列的顶点，设为k
+      //p = 顶点k的边表表头指针
+      while(/*p不为空*/)
+      {
+          //设指针p所指向的边结点所表示的边的另一个顶点为顶点i
+            if(/*顶点j未被访问过*/)
             {
-                c[y] = d[x] ;
-                if( d[y] != -1 )
-                {
-                    int xx = find1(d[y]);
-                    c[xx] = x ;
-                    d[xx] = y ;
-                }
-                d[y] = x ;
+                //将顶点j的访问标志置为1，并将顶点j入队列
             }
+            p = p-&gt;next;
+      }
+  }
+}
+</code></pre>
+
+<p>如果图的存储是邻接矩阵，那么BFS的伪代码表示为</p>
+
+<pre><code>void BFS(/*顶点i*/)
+{
+    visited[i] = 1;
+    //顶点进入队列
+    while(/*队列不为空*/)
+    {
+       //取出队列头的顶点，设为k
+       for(j = 0;j &lt; n;j++)
+        {
+            //j是k的邻接顶点，并且j没有被访问过
+            if(edge[k][j] == 1 &amp;&amp; !visited[k][j])
+            {
+                //将顶点j标记为已访问，并且将j入队列
+            }
+        }
+    }
+}
+</code></pre>
+
+                        
+                      </div>
+                  </div>
+                </a>
+                <div class="read-more clearfix">
+                  <div class="more-left left">
+                  
+                    <span class="date">2015/1/26</span>
+                    <span>posted in&nbsp;</span> 
+          				  
+          					    <span class="posted-in"><a href='%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84&%E7%AE%97%E6%B3%95.html'>数据结构&算法</a></span>
+          				   
+                  </div>
+                  <div class="more-right right">
+                  <span class="comments">
+                      
+
+                       
+                  </span>
+                  </div>
+                </div>
+              </div><!-- article -->
+        
+			<div class="article">
+                <a class="clearlink" href="14838706264843.html">
+                
+                  <h1>二叉树总结</h1>
+                  <div class="a-content">
+                      
+                      <div class="a-content-text">
+                        
+                        	<p>二叉树的定义</p>
+
+<p>二叉树要么为空，要么由根节点，左子树和右子树组成，左子树和又子树分别是一棵二叉树。</p>
+
+<p>二叉树的形态</p>
+
+<p>二叉树有五种基本形态，分别是空树，只有一个根节点的二叉树，只有左子树的二叉树，只有右子树的二叉树，左子树和又子树都健全的二叉树，如图所示</p>
+
+<p><img src="media/14838706264843/erchashu.jpg" alt="erchashu"/></p>
+
+<p><em>注意：二叉树不是树的特殊形式</em></p>
+
+<p>二叉树的性质</p>
+
+<p>(1) 在非空二叉树中，第i层的结点总数不超过，i&gt;=1.<br/>
+(2) 深度为h的二叉树最多有个结点(h&gt;=1)，最少有h个结点；<br/>
+(3) 对于任意一棵二叉树，如果其叶结点数为N0，而度数为2的结点总数为N2，则N0=N2+1；<br/>
+(4) 具有n个结点的完全二叉树的深度为<br/>
+(5)有N个结点的完全二叉树各结点如果用顺序方式存储，则结点之间有如下关系：<br/>
+若I为结点编号,则 如果I&gt;1，则其父结点的编号为I/2；<br/>
+如果2<em>I&lt;=N，则其左儿子（即左子树的根结点）的编号为2</em>I；若2<em>I&gt;N，则无左儿子；<br/>
+如果2</em>I+1&lt;=N，则其右儿子的结点编号为2<em>I+1；若2</em>I+1&gt;N，则无右儿子。<br/>
+(6)给定N个节点，能构成h(N)种不同的二叉树。<br/>
+h(N)为卡特兰数的第N项。h(n)=C(2*n，n)/(n+1)。<br/>
+（7）设有i个枝点，I为所有枝点的道路长度总和，J为叶的道路长度总和J=I+2i</p>
+
+<p>二叉树的存储结构</p>
+
+<p>链式存储方式：</p>
+
+<pre><code>typedef struct node
+{
+    char data;
+    node *lch, *rch;
+} BiTNode, *BiTree;
+</code></pre>
+
+<p>二叉树的遍历</p>
+
+<p>二叉树有四种遍历方法，以根节点来区分，先根遍历，中根遍历，后根遍历，每种遍历又有递归遍历和非递归遍历两种遍历形式，还有一种层次遍历。<br/>
+（1）先根遍历<br/>
+先遍历根节点，再遍历左子树，最后遍历右子树。<br/>
+递归遍历方法</p>
+
+<pre><code>void preOrder(BiTree T)
+{
+    if(T)
+    {
+        printf(&quot;%c  &quot;,T-&gt;data);
+        preOrder(T-&gt;lch);
+        preOrder(T-&gt;rch);
+    }
+}
+</code></pre>
+
+<p>非递归遍历方法</p>
+
+<pre><code>void notpreOrder(BiTree T)
+{
+    stack&lt;BiTNode&gt; stk;//这是一个栈结构，先进后出
+    if(T)
+    {
+        bool flag = true;
+        while(flag)
+        {
+            while(T)
+            {
+                printf(&quot;%c  &quot;,T-&gt;data);
+                stk.push(*(T));
+                T = T-&gt;lch;
+            }
+            if(stk.empty())
+                flag = false;
             else
             {
-                c[x] = d[y] ;
-                if( d[x] != -1 )
-                {
-                    int yy = find1(d[x]);
-                    c[yy] = y ;
-                    d[yy] = x ;
-                }
-                d[x] = y ;
+                BiTNode p = stk.top();
+                stk.pop();
+                T = p.rch;
             }
         }
     }
 }
 </code></pre>
 
-<h2 id="toc_4">（二）数学</h2>
+<p>（2）中序遍历</p>
 
-<h3 id="toc_5">1.GCD(最大公约数)</h3>
+<p>先遍历左子树，再遍历根节点，最后遍历右子树</p>
 
-<p>分析：</p>
+<p>递归算法实现</p>
 
-<p>对于x,y,如果y = k * y1,x = k * x1,则f(y,x) = K*f(x1,y1)；</p>
-
-<p>如果x = p * x1, 假设p是素数，且 y % p != 0 ,即y不能被p整除，则f(x,y) = f(x1,y).</p>
-
-<p>可以利用上面两点进行改进。因为2是素数，同时对于二进制表示的大整数而言可以很容易的将除以2和乘以2的算法转换为移位运算，从而避免大整数除法。</p>
-
-<p>可以充分利用2进行分析：<br/>
-若x,y都为偶数（2肯定是公约数），则f(x,y) = 2<em>f(x / 2,y / 2) = 2</em>f(x&gt;&gt;1,y&gt;&gt;1);<br/>
-若x为偶数，y为奇数(2肯定不是公约数),则f(x,y) = f(x / 2, y / 2) = f(x&gt;&gt;1, y)<br/>
-若x为奇数，y为偶数2肯定不是公约数)，则f(x,y)= f(x, y / 2) = f(x, y&gt;&gt;1)<br/>
-若x,y都为奇数（2肯定不是公约数），则f(x,y) = f(y, x-y)    (x-y肯定为偶数) = f（y, (x-y)/2）</p>
-
-<pre><code>#include&lt;stdio.h&gt;
-//判断奇偶性
-int IsEvenOdd(int n)
+<pre><code>void inOrder(BiTree T)
 {
-    if(n % 2 == 0)
-        return 1;
-    else
-        return 0;
-}
-
-int GCD(int a,int b)
-{
-    //如果a &lt; b
-    if(a &lt; b)
-        return GCD(b,a);
-    if(b == 0)
-        return a;
-    //若x,y都为偶数
-    if(IsEvenOdd(a) == 1 &amp;&amp; IsEvenOdd(b) == 1)
-        return 2 * GCD(a&gt;&gt;1,b&gt;&gt;1);
-    //若x,y都为奇数
-    else if(IsEvenOdd(a) == 0 &amp;&amp; IsEvenOdd(b) == 0)
-        return GCD(b,a-b);
-    //若x是偶数y是奇数
-    else if(IsEvenOdd(a) == 1 &amp;&amp; IsEvenOdd(b) == 0)
-        return GCD(a&gt;&gt;1,b);
-    //若x是奇数y是偶数
-    else
-        return GCD(a,b&gt;&gt;1);
-}
-int main()
-{
-    int a,b;
-    scanf(&quot;%d %d&quot;,&amp;a,&amp;b);
-    printf(&quot;%d\n&quot;,GCD(a,b));
+    if(T)
+    {
+        inOrder(T-&gt;lch);
+        printf(&quot;%c  &quot;,T-&gt;data);
+        inOrder(T-&gt;rch);
+    }
 }
 </code></pre>
 
-<h3 id="toc_6">2.素数筛</h3>
+<p>非递归算法实现</p>
 
-<p>（1）用数组下标代表数据，数组值代表是否是素数：</p>
-
-<p>//与前两种筛法不同，此种筛法中prime[i]=2*i+3<br/>
-//（即：我们只存储奇数，偶数肯定不是素数的）</p>
-
-<pre><code>#define Max 1000000
-bool prime[Max&gt;&gt;1];
-void IsPrime()
+<pre><code>void notinOrder(BiTree T)
 {
-    memset(prime,true,sizeof(prime));
-    int n=Max&gt;&gt;1,m=(int)(sqrt(Max*1.0)/2.0);
-    for(int i=0; i&lt;=m; i++)
-        if(prime[i])
-            for(int j=2*i*i+6*i+3; j&lt;=n; j+=2*i+3)
-                isprime[j]=false;
+    stack&lt;BiTNode&gt; stk;
+    if(T)
+    {
+        bool flag = true;
+        while(flag)
+        {
+            while(T)
+            {
+                stk.push(*T);
+                T = T-&gt;lch;
+            }
+            if(stk.empty())
+                flag = false;
+            else
+            {
+                BiTNode p = stk.top();
+                stk.pop();
+                printf(&quot;%c  &quot;,p.data);
+                T = p.rch;
+            }
+        }
+    }
 }
 </code></pre>
 
-<p>（2）用数组从前往后存储素数</p>
+<p>（3）后序遍历</p>
 
-<pre><code>int init()  
-{  
-    int i,j,k,m = 2,bj;  
-    k = 3;  
-    for(i = 7;i &lt;= 1000000;i = i + m)
-//6m,6m+1,6m+2,6m+3,6m+4,6m+5只需计算6m+1和6m+5是不是素数即可，  
-//其它的，都能够被某个数整除，所以无需判断，肯定不是素数。
-//接下来是6m+6,6m+7,6m+8,6m+9,6m+10,6m+11,如此，规律就显现出来了。  
-    {  
-        bj = 1;  
-        m = 6 - m;  
-        for(j = 0;su[j]*su[j] &lt;= i;j++)
- //su[j]里存放的是素数，su[j]*su[j]&lt;=i相当于su[j] &lt;= sqrt(i)，这样可以节约时间  
-        {  
-            if(i%su[j] == 0)//如果i能被某个素数整除，则i肯定不是素数  
-            {  
-                bj = 0;  
-                break;  
-            }  
-        }  
-        if(bj == 1)  
-            su[k++] = i;//如果都不能整除，将i这个素数加入数组  
-    }  
-    return k;  
-}  
+<p>先遍历左子树，再遍历右子树，最后遍历根节点</p>
+
+<p>递归算法实现</p>
+
+<pre><code>void postOrder(BiTree T)
+{
+    if(T)
+    {
+        postOrder(T-&gt;lch);
+        postOrder(T-&gt;rch);
+        printf(&quot;%c  &quot;,T-&gt;data);
+    }
+}
+</code></pre>
+
+<p>非递归算法实现</p>
+
+<pre><code>void notpostOrder(BiTree T)
+{
+    stack&lt;BiTNode&gt; stk1;
+    stack&lt;char&gt; stk2;
+    if(T)
+    {
+        stk1.push(*T);
+        while(!stk1.empty())
+        {
+            BiTNode p = stk1.top();
+            stk1.pop();
+            stk2.push(p.data);
+            if(p.lch) stk1.push(*(p.lch));
+            if(p.rch) stk1.push(*(p.rch));
+        }
+    }
+    while(!stk2.empty())
+    {
+        printf(&quot;%c  &quot;,stk2.top());
+        stk2.pop();
+    }
+}
+</code></pre>
+
+<p>（4）层次遍历</p>
+
+<pre><code>void leveloreder(BiTree T)
+{
+    queue&lt;BiTNode&gt; que;
+    que.push(*T);
+    while(!que.empty())
+    {
+        BiTNode p = que.top();
+        que.pop();
+        printf(&quot;%c  &quot;,p.data);
+        if(p.lch) que.push(*(p.lch));
+        if(p.rch) que.push(*(p.rch));
+    }
+}
+</code></pre>
+
+<p>二叉树的建立</p>
+
+<p>想要遍历，总得有树可以遍历吧，所以我们还要学一学建树。。。</p>
+
+<p>二叉树的建立可以根据前序和中序序列建立，也可以根据中序和后序序列遍历</p>
+
+<p>这里的建树是只知道树中结点的标记，不一定是满二叉树，且没有结点的地方并没有特殊标记。</p>
+
+<p>（1）已知先序序列和中序序列建树</p>
+
+<p>基本思想：先序序列的根节点总是在第一个位置，中序序列的根节点总是在相对中间的位置，找到中序序列的根节点，那么根结点的左面结点就是根节点的左子树上的结点，右面结点就是根节点的右子树上的节点。</p>
+
+<pre><code>int find(char ch,char *ins,int s,int e)
+{
+    for(int i = s;i &lt;= e;i++)
+    {
+        if(ch == ins[i])
+            return i;
+    }
+    return -1;
+}
+
+void createBiTree2(BiTree &amp;T,char *pre,char *ins,int ps,int is,int n)
+{
+    if(n &lt;= 0)
+        T = NULL;
+    else
+    {
+        int k = find(pre[ps],ins,is,is + n - 1);
+        if(k == -1) T = NULL;
+        else
+        {
+            T = new BiTree;
+            T-&gt;data = pre[ps];
+            if(k == is)
+                T-&gt;lch = NULL;
+            else
+            {
+                createBiTree2(BiTree T-&gt;lch,pre,ins,ps+1,is,k-is);
+            }
+            if(k == is + n - 1)
+                T-&gt;rch = NULL;
+            else
+            {
+                createBiTree2(BiTree T-&gt;rch,pre,ins,ps+(k-is)+1,k+1,n-(k-is)-1);
+            }
+        }
+    }
+}
+</code></pre>
+
+<p>已知先序序列和中序序列，还有一种更好理解的方法建树</p>
+
+<pre><code>void js(BiTree &amp;T,char *pre,char *ins,int len)//因为T指向的内容在函数内又重新开辟了内存，所以传递T的地址，这样保证指针///不会指错。。。。。。
+{
+    if(len == 0)
+    {
+        T = NULL;
+        return ;
+    }
+    T = new BiTNode;
+    T-&gt;data = *pre;
+    int i = 0;
+    for(i; i &lt; len; i++)
+    {
+        if(ins[i] == *pre)
+            break;
+    }
+//每一次的递归都是对一棵小的子树进行的操作
+    js(T-&gt;lch,pre+1,ins,i);
+    js(T-&gt;rch,pre + i + 1,ins + i + 1,len - i - 1);
+    printf(&quot;%c  &quot;,T-&gt;data);
+}
+</code></pre>
+
+<p>（2）已知中序序列和后序序列建树</p>
+
+<p>从后序序列开始着手，因为后序序列的最后一个字符总是根结点的字符，所以根据这个字符在中序序列中找到位置，然后分出左子树和右子树，递归查找建树</p>
+
+<pre><code>void js(BiTree &amp;T,char *ins,char *post,int len)
+{
+    if(len == 0)
+    {
+        T = NULL;
+        return ;
+    }
+    T = new BiTNode;
+    T-&gt;data = *(post + len - 1);
+    printf(&quot;%c  &quot;,T-&gt;data);
+    int i = 0;
+    for(i; i &lt; len; i++)
+    {
+        if(ins[i] == *(post + len - 1))
+            break;
+    }
+    js(T-&gt;lch,ins,post,i);
+    js(T-&gt;rch,ins+i+1,post + i,len - i - 1);
+}
+</code></pre>
+
+<p>（3） 给出一棵树的先序完全序列，即没有节点的地方用特殊标记进行建树。</p>
+
+<pre><code>void createBiTree1(BiTree &amp;T)
+{
+    char ch;
+    scanf(&quot;%c&quot;,&amp;ch);
+    if(ch == &#39;#&#39;)
+        T = NULL;
+    else
+    {
+        T = new BiTNode;
+        T-&gt;data = ch;
+        createBiTree1(T-&gt;lch);
+        createBiTree1(T-&gt;rch);
+    }
+    return ;
+}
+</code></pre>
+
+<p>计算二叉树的叶子节点</p>
+
+<p>没有返回参数的</p>
+
+<pre><code>void countleaf1(BiTree T,int &amp;cnt)
+{
+    if(T-&gt;lch == NULL &amp;&amp; T-&gt;rch == NUll)
+    {
+        cnt++;
+        return ;
+    }
+    if(T-&gt;lch) countleaf1(T-&gt;lch,cnt);
+    if(T-&gt;rch) countleaf1(T-&gt;rch,cnt);
+}
+</code></pre>
+
+<p>有返回参数的</p>
+
+<pre><code>int countleaf2(BiTree T)
+{
+    if(!T) return 0;
+    if(T-&gt;lch == NULL &amp;&amp; T-&gt;rch == NULL) return 1;
+    else
+    {
+        int nl = countleaf2(T-&gt;lch);
+        int nr = countleaf2(T-&gt;rch);
+        return nl + nr;
+    }
+}
+</code></pre>
+
+<p>计算二叉树的深度</p>
+
+<pre><code>int getDepth(BiTree T)
+{
+    int depth = 0;
+    if (!T) return depth;
+    int nL = getDepth(T-&gt;lch);
+    int nR = getDepth(T-&gt;rch);
+    depth = max(nL, nR) + 1;
+    return depth;
+}
 </code></pre>
 
                         
@@ -722,7 +1118,7 @@ void IsPrime()
                 <div class="read-more clearfix">
                   <div class="more-left left">
                   
-                    <span class="date">2014/12/1</span>
+                    <span class="date">2015/1/25</span>
                     <span>posted in&nbsp;</span> 
           				  
           					    <span class="posted-in"><a href='%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84&%E7%AE%97%E6%B3%95.html'>数据结构&算法</a></span>
@@ -739,22 +1135,162 @@ void IsPrime()
               </div><!-- article -->
         
 			<div class="article">
-                <a class="clearlink" href="14838679269640.html">
+                <a class="clearlink" href="14838700446484.html">
                 
-                  <h1>挑战自我</h1>
+                  <h1>图的基本概念及图的存储</h1>
                   <div class="a-content">
                       
                       <div class="a-content-text">
                         
-                        	<p>不知不觉已经是12月了，这个学期还有不到两个月的时间，回想起来，我除了上课似乎什么也没有做，但是每天都看起来是那么的忙。</p>
+                        	<p>各种基本概念</p>
 
-<p>本学期几乎没有逃过课，除了上课，就是写作业，然后就是看书，写笔记。。。。。。训练一点点的耽误下来，感觉就是这么瞎忙了3个月。本来自己能力就不行，如果再这样继续瞎捣鼓下去，后果真的不堪设想。马上就要进入12月了，在这一年快要结束之际，我总是要做点什么，证明这一年我没有白忙。波波在华中科技大学VJ上加了22场比赛，都是小白书里的配套训练，准备12月一个月做完。对我来说，这将是一次挑战，31天完成300多题目，一天10道，这看起来似乎是不可能的；但是，如果我能够按期完成，我在算法的学习上将会是一个质的跨跃。</p>
+<p>1.图：顶点集合和顶点间的二元关系集合组成的数据结构，用G（V,E）表示。其中顶点集合用V(G)表示，边的集合用E(G)表示。</p>
 
-<p>我不能再这么浑浑噩噩地，漫无目的地在实验室里混日子。从今天开始，我要经得起各种诱惑（睡觉，逛街，KTV，水群，手机游戏，空间。。。。。。），静下心来，好好奋斗一个月！！</p>
+<p>2.无向图：图中所有的边都没有方向性的图成为无向图。</p>
 
-<p>写完这篇文章就要进入刷题模式了，每一套题包含的知识点将会以总结的形式写出来。</p>
+<p>3.有向图：图中所有的边都有方向性的图成为有向图。</p>
 
-<p>笨鸟先飞，笨球先滚，现在开滚，为时不晚！！</p>
+<p>4.边和点：<u,v>表示一条从u到v的又向边，其中u是这条有向边的起点，v是这条有向边的终点。</p>
+
+<p>5.基图：忽略有向图的所有边的方向，得到的图称为该有向图的基图。</p>
+
+<p>6.完全图：如果无向图中任何一对顶点之间都有一条边，这种无向图称为完全图。</p>
+
+<p>7.有向完全图：如果有向图中任何一对顶点之间都有一条边，这种有向图称为有向完全图。</p>
+
+<p>8.稀疏图：边或弧的数目相对较少的图称为稀疏图。</p>
+
+<p>9.稠密图：边或弧的数目相对较多的图称为稀疏图。</p>
+
+<p>10.平凡图：只有一个顶点的图称为平凡图，平凡图的阶为1.</p>
+
+<p>11.零图：边的集合为空的图成为零图。</p>
+
+<p>12.度：一个顶点的度数是与它相关联的边的数目，记作deg(u)。在有向图中，顶点的度数等于该顶点的入度和出度的和。某一个顶点的出度是以该顶点为起点的有向边的数目，记作od(u)，某个顶点的入度是以该顶点为终点的有向边的数目，记作id(u)。</p>
+
+<p>拓展：在无向图和有向图中，所有顶点度数总和等于边数的两倍。</p>
+
+<p>13.奇点和偶点：度数为基数的顶点为奇点，度数为偶数的顶点为偶点。</p>
+
+<p>14.孤立顶点：度数为0的顶点称为孤立顶点。</p>
+
+<p>15.路径：从一个点出发，经过一系列的点到达另一个点的通路称为两点之间的路径（路径可以包含很多点）。</p>
+
+<p>16.生成树：一个无向联通图的生成树是它的包含所有顶点的极小连通子图，这里所谓的极小指边的数目极小。</p>
+
+<p>17.连通分量：如果一个无向图不是连通的，则其极大连通子图成为连通分量。这里所谓的极大指子图中包含的顶点个数极大。</p>
+
+<p>18.强连通图：对于图中每一对顶点<u,v>，既存在从u到v的路径，也存在从v到u的路径，则称此图为强连通图。</p>
+
+<p>19.强连通分量：对于非强连通图，其极大强连通子图称为其强连通分量。</p>
+
+<p>图的存储表示</p>
+
+<p>1.邻接矩阵</p>
+
+<p>设G(V,E)是一个具有n个顶点的图，矩阵是一个n*n的二维数组，用Edge[i][j]表示。</p>
+
+<p>i,j分别代表一条边的两个端点，如果两个端点之间有直接相连的边，则Edge[i][j]存储为1，否则存储为0.</p>
+
+<p>注意：邻接矩阵不能够表示以下形式：</p>
+
+<p>（1）图中存在自身环。</p>
+
+<p>（2）多条边的起点一样，终点也一样，称为重边。</p>
+
+<p>示例：每行输入两个数，代表两点之间有边存在，顶点编号最大为100.</p>
+
+<p>描述代码为：</p>
+
+<pre><code>int Edge[101][101];
+    int n,m,i,j,u,v;
+    
+    while(scanf(&quot;%d%d&quot;,&amp;n,&amp;m))//n个点，m条边
+    {
+        memset(Edge,0,sizeof(Edge));
+        if(n == 0 &amp;&amp; m == 0)
+            break;
+        for(i = 0;i &lt; m;i++)
+        {
+            scanf(&quot;%d%d&quot;,&amp;u,&amp;v);//读入边的起点和终点
+            Edge[u][v] = 1;//标记该边已存在
+        }
+        for(i = 1;i &lt;= n;i++)//计算每个顶点的出度
+        {
+            int od = 0;
+            for(j = 1;j &lt;= n;j++)
+            {
+                od += Edge[i][j];
+            }
+            printf(&quot;第%d个顶点的出度为%d\n&quot;,i,od);
+        }
+//用相似的方法计算每个顶点的入度，固定j,遍历i即可。
+    }
+</code></pre>
+
+<p>2.邻接表</p>
+
+<p><img src="media/14838700446484/linjiebiao.jpg" alt="linjiebiao"/></p>
+
+<p>如上图所示，最右边的矩阵是最左边的图对应的邻接矩阵</p>
+
+<p>中间是最左边的图对应的邻接表。可以看出，邻接表是一个个链表的形式，前面是一个头结点，代表没一个顶点，后面是一条条的链表，代表该顶点相关联的边的另一个顶点。</p>
+
+<p>邻接表的结构体声明：</p>
+
+<pre><code>#define MAXN 100
+struct ArcNode//边结点
+{
+    int adjvex;//有向边的另一个邻接点的序号
+    ArcNode *nextarc;//指向下一个边结点的指针
+};
+struct VNode//顶点
+{
+    int data;//顶点信息
+    ArcNode *head1;//出边表的表头指针
+    ArcNode *head2;//入边表的表头指针
+};
+struct LGraph//图的邻接表存储结构
+{
+    VNode vertexs[MAXN];//顶点数组
+    int vexnum , arcnum;//顶点数目和边的数目
+};
+LGraph lg;
+</code></pre>
+
+<p>建立邻接表的基本操作为：</p>
+
+<pre><code>void CreateLG()
+{
+    int i = 0;
+    ArcNode *pi;
+    int v1,v2;
+    lg.vexnum = lg.arcnum = 0;
+    scanf(&quot;%d%d&quot;,&amp;lg.vexnum,&amp;lg.arcnum);
+    for(i = 0;i &lt; lg.vexnum;i++)
+    {
+        lg.vertexs[i].head1 = lg.vertexs[i].head2 = NULL;
+    }
+    for(i = 0;i &lt; lg.arcnum;i++)
+    {
+        scanf(&quot;%d%d&quot;,&amp;v1,&amp;v2);
+        pi = new ArcNode;
+        pi-&gt;adjvex = v2;
+        pi-&gt;nextarc = lg.vertexs[v1].head1;
+        lg.vertexs[v1].head1 = pi;
+        pi = new ArcNode;
+        pi-&gt;adjvex = v1;
+        pi-&gt;nextarc = lg.vertexs[v2].head2;
+        lg.vertexs[v2].head2 = pi;
+    }
+}
+</code></pre>
+
+<p>存储分析</p>
+
+<p>1.邻接表的时间复杂度为O（m）或O(2m)（无向图），邻接矩阵的时间复杂度为O(n<sup>2)。</sup></p>
+
+<p>2.邻接表的空间复杂度为O(n+ m）或O(n + 2 * m)；邻接矩阵的空间复杂度为O(n * n);</p>
 
                         
                       </div>
@@ -763,10 +1299,10 @@ void IsPrime()
                 <div class="read-more clearfix">
                   <div class="more-left left">
                   
-                    <span class="date">2014/11/30</span>
+                    <span class="date">2015/1/21</span>
                     <span>posted in&nbsp;</span> 
           				  
-          					    <span class="posted-in"><a href='%E9%9A%8F%E6%83%B3.html'>随想</a></span>
+          					    <span class="posted-in"><a href='%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84&%E7%AE%97%E6%B3%95.html'>数据结构&算法</a></span>
           				   
                   </div>
                   <div class="more-right right">
@@ -802,7 +1338,7 @@ void IsPrime()
     <div id="sidebar" class="sidebar">
           <div id="site-info" class="site-info">
             
-                <h1>挂在树上的兔子</h1>
+                <h1>零度燕窝</h1>
                 <div class="site-des"></div>
                 <div class="social">
 
@@ -841,6 +1377,10 @@ void IsPrime()
         
             <a href="Fluent%20Python.html"><strong>Fluent Python</strong></a>
         
+            <a href="%E8%AF%BB%E4%B9%A6%E9%9A%8F%E7%AC%94.html"><strong>读书随笔</strong></a>
+        
+            <a href="%E6%9B%BE%E7%BB%8F%E6%9D%A5%E8%BF%87.html"><strong>曾经来过</strong></a>
+        
             <a href="PHP.html"><strong>PHP</strong></a>
         
             <a href="Ubuntu.html"><strong>Ubuntu</strong></a>
@@ -860,31 +1400,31 @@ void IsPrime()
 	      
 		      
 			      <li class="post">
-			        <a href="15033291458720.html">使用一等函数实现设计模式</a>
+			        <a href="15406290433586.html">扎心！有人偷走了我的磁盘空间？！</a>
 			      </li>
 		     
 		  
 		      
 			      <li class="post">
-			        <a href="15018651943030.html">一等函数</a>
+			        <a href="15377924479103.html">记一次攒机经历</a>
 			      </li>
 		     
 		  
 		      
 			      <li class="post">
-			        <a href="15018646605864.html">文本和字节序列</a>
+			        <a href="15376924661136.html">SQL查询语句之坑</a>
 			      </li>
 		     
 		  
 		      
 			      <li class="post">
-			        <a href="15013419653919.html">集合的使用</a>
+			        <a href="15056428224967.html">![](http://cdn.blog.yanzl.net/2017-10-27-carthusian-2822971.jpg)</a>
 			      </li>
 		     
 		  
 		      
 			      <li class="post">
-			        <a href="15010832436363.html">字典的使用</a>
+			        <a href="15048580065601.html">Python內建类型对象的那些事</a>
 			      </li>
 		     
 		  

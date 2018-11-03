@@ -5,12 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>
     
-  PHP - 挂在树上的兔子
+  PHP - 零度燕窝
   
   </title>
   
   
-  <link href="atom.xml" rel="alternate" title="挂在树上的兔子" type="application/atom+xml">
+  <link href="atom.xml" rel="alternate" title="零度燕窝" type="application/atom+xml">
     <link rel="stylesheet" href="asset/css/foundation.min.css" />
     <link rel="stylesheet" href="asset/css/docs.css" />
     <script src="asset/js/vendor/modernizr.js"></script>
@@ -62,7 +62,7 @@
 
         <nav class="tab-bar show-for-small">
   <a href="javascript:void(0)" class="left-off-canvas-toggle menu-icon">
-    <span> &nbsp; 挂在树上的兔子</span>
+    <span> &nbsp; 零度燕窝</span>
   </a>
 </nav>
 
@@ -85,6 +85,10 @@
             <li><a href="%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84&%E7%AE%97%E6%B3%95.html">数据结构&算法</a></li>
         
             <li><a href="Fluent%20Python.html">Fluent Python</a></li>
+        
+            <li><a href="%E8%AF%BB%E4%B9%A6%E9%9A%8F%E7%AC%94.html">读书随笔</a></li>
+        
+            <li><a href="%E6%9B%BE%E7%BB%8F%E6%9D%A5%E8%BF%87.html">曾经来过</a></li>
         
             <li><a href="PHP.html">PHP</a></li>
         
@@ -111,116 +115,86 @@
 		<div class="markdown-body home-categories">
 		
 			<div class="article">
-                <a class="clearlink" href="14857050897980.html">
+                <a class="clearlink" href="14857052652778.html">
                 
-                  <h1>PHP与MySQL（上篇）</h1>
+                  <h1>ThinkPHP 数据库增删改查</h1>
                   <div class="a-content">
                       
                       <div class="a-content-text">
                         
-                        	<p>MySQL一个库可以用来存放很多数据表。</p>
+                        	<p>thinkphp框架对于快速开发来说,是一个比较简单而且好用的框架,这里面集成了很多函数可以使用,这篇文章主要是整理一下thinkphp框架中操作MySQL的函数.</p>
 
-<p>创建一个库</p>
+<p>连接数据表并获取数据的总数</p>
 
-<p>打开浏览器，在地址栏中输入“localhost”——》点击进入“phpMyAdmin”——》就可以在左边看到很多文件夹，比如‘mysql’,&#39;cdcol&#39;，‘test’等，这些就是不同的库，现在，我们新建一个库——》点击菜单栏里面的数据库，填写数据库的名字和编码方式，一般会使用国际通用utf8——》点击创建，就可以成功地创建一个库了。</p>
+<p>$count = M(&#39;buys&#39;)-&gt;count();<br/>
+根据数据总数目进行分页处理</p>
 
-<p>在库中添加一个数据表</p>
+<p>\(page = new Page(\)count,10);//总数为$count,按照每页10条数据进行处理</p>
 
-<p>单击点开要添加数据表的数据库——》新建数据表——》填写数据表的名字和字段数（即在这个表中存放几种数据，比如要存放ID，姓名，密码，年龄就是用了4个字段）——》点击执行（go）就成功创建了一个表——》之后就是向数据表中添加要存放的数据名称（ID，姓名，密码，年龄）——》点击保存（save）就完成了。</p>
+<p>\(limit = \)page-&gt;firstRow.&#39;,&#39;.$page-&gt;listRows;//确定每一页首行和尾行<br/>
+按照某一个规则查询数据</p>
 
-<p>注意：（1）A_I指autoincreasment自行增加，可以用于ID等数据的输入。</p>
+<p>\(buy_book=M(&#39;buys&#39;)-&gt;order(&#39;user_id DESC&#39;)-&gt;limit(\)limit)-&gt;select();//首先按照user_id递减的顺序,然后按照每页显示的数目来查询数据.<br/>
+M(&#39;wish&#39;)-&gt;where(array(&#39;id&#39;=&gt;$id))-&gt;select();//按照id来进行选择数据<br/>
+删除数据</p>
 
-<p>（2）填写姓名可以写成是text类型，但是因为字符串很长（一般用于写博客的文本），所以可以选择是VARCHAR，自定义一个长度的字符.</p>
+<p>public function delete()<br/>
+    {<br/>
+        //接受要删除的数据的id<br/>
+        \(id = I(&#39;book_id&#39;);<br/>
+        //where寻找到该id的数据,如果找不到则报错;找到之后调用delete()方法执行删除操作,删除成功后会返回删除数据的id<br/>
+        if(M(&#39;books&#39;)-&gt;where(array(&#39;book_id&#39;=&gt;\)id))-&gt;delete())<br/>
+        {<br/>
+            \(this-&gt;success(&#39;删除成功&#39;,U(&#39;Admin/Book/index&#39;));<br/>
+        }<br/>
+        else{<br/>
+            \)this-&gt;error(&#39;删除失败&#39;);<br/>
+        }<br/>
+    }<br/>
+新增数据</p>
 
-<p>（3）年龄的选择因为比较小，所以可以不必选择INT类型，可以用TINYINT</p>
+<p>//将接收到的数据数组化处理<br/>
+\(buy[&#39;buy_id&#39;] = I(&#39;user_id&#39;);<br/>
+\)buy[&#39;book_name&#39;] = I(&#39;book_id&#39;);<br/>
+\(buy[&#39;book_price&#39;] = I(&#39;book_price&#39;);<br/>
+//连接数据库,将数据添加进去,添加成功之后,就会返回添加的编号<br/>
+\)panduan = M(&#39;buys&#39;)-&gt;add($buy)<br/>
+修改数据</p>
 
-<p>添加数据</p>
+<p>首先要获取需要修改的数据的id,然后将该参数传递到修改页面,重新添加修改之后的信息,将这些信息传递到后台,然后执行更新操作</p>
 
-<p>点击要添加数据的数据表，点击插入，在空值框中填写各种数据点击执行就可以成功添加数据了。</p>
-
-<p>也可以使用SQL语句进行添加数据：</p>
-
-<p>INSERT INTO <code>myapp</code>.<code>user</code> (<code>ID</code>, <code>name</code>, <code>password</code>, <code>age</code>) VALUES (NULL, &#39;李四&#39;, &#39;123567&#39;, &#39;31&#39;);<br/>
-用PHP操作MySQL数据库</p>
-
-<p>连接MySQL数据库</p>
-
-<p>$coun = mysql_connect(&#39;localhost&#39;,&#39;root&#39;,&#39;&#39;);//连接服务器,使用一个用户名来登录，后面是写密码，没有为空<br/>
-//如果mysql数据库的端口和服务器不是一个端口的话，要手动输入端口，比如端口是9000<br/>
-//mysql_connect(&#39;localhost:9000&#39;);<br/>
-连接成功后，对某一个数据库进行操作</p>
-
-<p>mysql_select_db(&#39;myapp&#39;,$coun);//指明是对myapp这个数据库进行操作的，并将连接成功的信息传递过去<br/>
-如果想呈现所有的数据，执行下面语句</p>
-
-<p>$result =  mysql_query(&quot;SELECT * FROM user&quot;);‘*’代表所有的数据<br/>
-如果想根据某一个属性（比如ID，姓名，年龄等）打印数据，可以执行以下语句：</p>
-
-<p>//查找keke这个姓名的人，如果有，则打印yes，没有，打印no<br/>
-\(result =  mysql_query(&quot;SELECT * FROM user WHERE name = keke&quot;);<br/>
-if(\)result)<br/>
-    echo &quot;yes&quot;;<br/>
-else<br/>
-    echo &quot;no&quot;;<br/>
-//查找编号为1的人<br/>
-\(result =  mysql_query(&quot;SELECT * FROM user WHERE id = 1&quot;);<br/>
-//查找编号大于等于1并且编号小于等于3的数据<br/>
-\)result =  mysql_query(&quot;SELECT * FROM user WHERE id &gt;= 1 &amp;&amp; id &lt;= 3&quot;);<br/>
-//打印每条数据行的某一部分数据，比如只打印名字和年龄而不打印密码<br/>
-//两种控制并不冲突哦<br/>
-$result =  mysql_query(&quot;SELECT name,age FROM user WHERE id = 1&quot;);<br/>
-以数组的形式打印数据</p>
-
-<p>//获取结果里面的数据,以数组的样式来呈现<br/>
-\(result_arr = mysql_fetch_array(\)result);<br/>
-print_r($result_arr);//打印出结果<br/>
-以键值对的形式打印数据</p>
-
-<p>//不通过数组的样式来呈现<br/>
-\(result_arr = mysql_fetch_assoc(\)result);<br/>
-print_r($result_arr);//打印出结果<br/>
-注意：</p>
-
-<p>通过mysql_fetch_array(\(result);和mysql_fetch_assoc(\)result);这两个函数，每次读取的都只是一行数据，即数据表中的一行。</p>
-
-<p>获取所有数据的条数并以循环的形式打印数据</p>
-
-<p>//使用循环打印出所有数据<br/>
-//获取到数据条数并付给一个变量<br/>
-\(data_num = mysql_num_rows(\)result);<br/>
-for(\(i = 0;\)i &lt; \(data_num;\)i++)<br/>
-{<br/>
-   print_r(mysql_fetch_assoc($result));<br/>
-}<br/>
-当然，使用上面一种方法获取数据的条数是非常慢的，可以写下面语句</p>
-
-<p>//快就快在当查询所有数据的时候就已经返回了数据的总条数，无需在调用函数进行查询<br/>
-    \(result = mysql_query(&quot;SELECT COUNT(*) FROM user&quot;);<br/>
-    \)result_arr = mysql_fetch_array($result);</p>
-
-<pre><code>$data_num = $result_arr[0];
-echo &quot;数据条数：&quot;.$data_num.;
+<pre><code>public function replace(){
+    //获取到需要修改的数据的id
+    $this-&gt;id = I(&#39;book_id&#39;);
+    //调用模板文件
+    $this-&gt;display(&#39;replace&#39;);
+}
+public function replace2(){
+    //将更新的信息实例化
+    $book_xx[&#39;book_id&#39;] = I(&#39;book_id&#39;);
+    $book_xx[&#39;book_name&#39;]=I(&#39;book_name&#39;);
+    $book_xx[&#39;book_auther&#39;]=I(&#39;book_auther&#39;);
+    $book_xx[&#39;book_pub&#39;]=I(&#39;book_pub&#39;);
+    $book_xx[&#39;book_termid&#39;]=I(&#39;book_termid&#39;);
+    $book_xx[&#39;book_price&#39;]=I(&#39;book_price&#39;);
+    $book_xx[&#39;book_info&#39;]=I(&#39;book_info&#39;);
+    $book_xx[&#39;book_grade&#39;]=I(&#39;book_grade&#39;);
+    //通过传递过来的参数id找到该数据,执行save()更新方法
+    if(M(&#39;books&#39;)-&gt;where(array(&#39;book_id&#39;=&gt;$book_xx[&#39;book_id&#39;]))-&gt;save($book_xx)){
+        $this-&gt;success(&#39;书籍信息更新成功&#39;,U(&#39;Admin/Book/index&#39;));
+    }
+    else
+    {
+        $this-&gt;error(&#39;书籍信息更新失败,没有找到要修改数据的id&#39;);
+    }
+}
 </code></pre>
 
-<p>用HTML中的表格的形式打印所有用户的信息</p>
+<p>新增和修改比较</p>
 
-<p>\(data_num = mysql_num_rows(\)result);<br/>
-    for(\(i = 0;\)i &lt; \(data_num;\)i++)<br/>
-    {<br/>
-        \(result_arr = mysql_fetch_assoc(\)result);<br/>
-        //将获取到的数据赋值给变量<br/>
-        \(id = \)result_arr[&#39;ID&#39;];<br/>
-        \(name = \)result_arr[&#39;name&#39;];<br/>
-        \(age = \)result_arr[&#39;age&#39;];<br/>
-        \(xuehao = \)result_arr[&#39;xuehao&#39;];<br/>
-        echo &quot;<tr><th>\(id&lt;/th&gt;//表格打印<br/>
-                &lt;th&gt;\)name</th><br/>
-                <th>\(age&lt;/th&gt;<br/>
-                &lt;th&gt;\)xuehao</th><br/>
-                <th><a href='changeuser.php?id=$id'>修改</a></th><br/>
-                <th><a href='DeletUser.php?id=$id'>删除</a></th><br/>
-            </tr>&quot;;<br/>
-    }</p>
+<p>新增是在没有的基础上增加新的数据,不需要在数据库中查找信息,调用的是add()方法</p>
+
+<p>修改是在原来已经有数据的基础上进行修改,所以传递的所有信息有包含了不变的id,即保证id不能够被修改。</p>
 
                         
                       </div>
@@ -229,7 +203,7 @@ echo &quot;数据条数：&quot;.$data_num.;
                 <div class="read-more clearfix">
                   <div class="more-left left">
                   
-                    <span class="date">2015/3/20</span>
+                    <span class="date">2015/7/15</span>
                     <span>posted in&nbsp;</span> 
           				  
           					    <span class="posted-in"><a href='PHP.html'>PHP</a></span>
@@ -246,151 +220,92 @@ echo &quot;数据条数：&quot;.$data_num.;
               </div><!-- article -->
         
 			<div class="article">
-                <a class="clearlink" href="14857048746834.html">
+                <a class="clearlink" href="14857052295461.html">
                 
-                  <h1>PHP语法基础总结</h1>
+                  <h1>php实现后台登陆功能</h1>
                   <div class="a-content">
                       
                       <div class="a-content-text">
                         
-                        	<p>PHP语法标记符</p>
+                        	<p>最近想借助thinkphp框架写一个关于图书管理的小项目，经过一天对整个项目进行整体的规划之后决定先写后台。</p>
 
-<p>PHP程序以“&lt;?PHP” 开头，以“&gt;”结尾。</p>
+<p>今天用php写了关于后台登陆功能，其中主要涉及到了从前端接收数据，在后台判断用户名和密码是否正确，刷新后台的时候自动判断用户是否已经登陆以及退出功能。</p>
 
-<p>变量和常量</p>
+<p>接受数据用的I方法</p>
 
-<p>变量是在运行过程中能够被修改，常量只能被赋值一次，在运行过程中不能够被修改。</p>
+<p>I方法值input（输入），用于更加方便和安全的获取系统输入的变量，用法格式为:</p>
 
-<p>&lt;?php<br/>
-//变量的使用<br/>
-\(a = 10;<br/>
-echo &quot;a = \)a<br />&quot;;<br/>
-\(b = 30;<br/>
-\)a = 20;<br/>
-\(c = \)a+\(b;<br/>
-echo &quot;a + b = \)c<br />&quot;;<br/>
-//常量的使用<br/>
-const x = 5;<br/>
-echo &quot;x = &quot;;<br/>
-echo x;<br/>
-//x = 10;这里不能够再重复对x进行赋值，因为已经声明它是常量<br/>
-//const x = 10;这句话在这里也是不可以的，因为重复定义了同一个常量<br/>
-//还有一种声明常量的方法<br/>
-define(&#39;y&#39;,100);<br/>
-echo y;<br/>
-?&gt;<br/>
-函数的使用</p>
+<p>I(&#39;变量类型.变量名&#39;,[&#39;默认值&#39;],[&#39;过滤方法&#39;])</p>
 
-<p>有时候，一些代码会反复被使用很多次，这时候把这些代码封装进函数里，使用的时候直接调用即可。</p>
+<p>变量类型指post，get等请求方式或者输入类型，变量类型不区分大小写</p>
 
-<p>&lt;?php<br/>
-function wucan()//没有参数的函数，直接输出要输出的内容<br/>
-{<br/>
-    echo &quot;hello world!!<br />&quot;;<br/>
-}<br/>
-function onecan(\(name)//带有一个参数的函数，接收一个参数，执行相应操作<br/>
-{<br/>
-    echo &#39;hello &#39;.\)name.&#39;<br />&#39;;<br/>
-}<br/>
-function twocan(\(a,\)b)//带有多个参数的函数<br/>
-{<br/>
-    \(b += \)a;<br/>
-    echo &#39;a + b = &#39;. \(b.&#39;&lt;br /&gt;&#39;;<br/>
-}<br/>
-function fanhui(\)a,\(b)//带有返回值的函数<br/>
-{<br/>
-    echo &quot;a = \)a,b = \(b,a - b = &quot;;<br/>
-    return \)a - $b;<br/>
-}<br/>
-//四种函数的调用<br/>
-wucan();<br/>
-onecan(&#39;zhangsan&#39;);<br/>
-twocan(2,6);<br/>
-echo fanhui(10,7).&#39;<br />&#39;;<br/>
-?&gt;<br/>
-选择语句</p>
+<p>默认值和过滤方法属于可选参数，如果写过滤方法，就一定要写默认值，可以为空。</p>
 
-<p>在PHP语言中有两种选择语句，switch语句和if...elseif...语句</p>
+<p>I方法支持获取整个变量类型，比如：I(&#39;get&#39;);//获取整个get数组内容。</p>
 
-<p>&lt;?php<br/>
- function if_chouse(\(source)<br/>
- {<br/>
-     if(\)source&gt;=90)<br/>
-         return &quot;优秀&quot;;<br/>
-     elseif(\(source &gt;= 70)<br/>
-         return &quot;良好&quot;;<br/>
-     elseif(\)source &gt;= 60)<br/>
-         return &quot;及格&quot;;<br/>
-     else<br/>
-         return &quot;不及格&quot;;<br/>
- }<br/>
-function switch_chouse(\(source)<br/>
-{<br/>
-    //这里如果不将小数转换成整数，在case中写起来就会很麻烦，转换成整数之后就相当于划定了一个区间。<br/>
-    switch(intval(\)source / 10))//intval()是一个将小数转换成整数的方法，直接接取整数部分，没有四舍五入的规则。<br/>
-    {<br/>
-        case 10:<br/>
-        case 9:<br/>
-            return &quot;优秀&quot;;<br/>
-        case 8:<br/>
-        case 7:<br/>
-            return &quot;良好&quot;;<br/>
-        case 6:<br/>
-            return &quot;及格&quot;;<br/>
-        default://指剩余的情况<br/>
-            return &quot;不及格&quot;;<br/>
+<p>I方法中param是特殊的，它可以自动判断当前请求类型的变量获取方式，比如：I(&#39;param.id&#39;);等同于：I(&#39;id&#39;);</p>
+
+<p>所以，可以使用I方法获取从前端传输进来的数据：</p>
+
+<p>\(username = I(&#39;username&#39;);<br/>
+ \)pas = I(&#39;password&#39;);<br/>
+用户信息验证</p>
+
+<p>提取到用户登录数据之后，在数据库中查找用户信息，看用户名和密码是否匹配。</p>
+
+<p>\(user = M(&#39;users&#39;)-&gt;where(array(&#39;user_name&#39;=&gt;\)username))-&gt;find();<br/>
+        if(!\(user || \)user[&#39;user_password&#39;]!=$pas)<br/>
+        {<br/>
+            echo &quot;用户名或密码错误&quot;;<br/>
+        }<br/>
+往session中写入数据</p>
+
+<p>在经过用户验证成功之后，就需要把用户信息写入session中，以减少客户端访问数据库的频率。</p>
+
+<p>Session 的工作机制是：为每个访客创建一个唯一的 id (UID)，并基于这个 UID 来存储变量。UID 存储在 cookie 中，或者通过 URL 进行传导。</p>
+
+<p>//往session中写入数据<br/>
+        session(&#39;uid&#39;,\(user[&#39;user_id&#39;]);<br/>
+        session(&#39;username&#39;,\)user[&#39;user_name&#39;]);<br/>
+        session(&#39;userpwd&#39;,$user[&#39;user_password&#39;]);<br/>
+从登录页面跳转到后台首页面</p>
+
+<p>$this-&gt;redirect(&#39;Admin/Index/index&#39;);<br/>
+判断用户是否登陆</p>
+
+<p>在刷新后台页面或者进入后台的一个页面的过程中，我们都要判断用户是否已经登陆，因为如果用户没有登陆，就只能访问前端而不能访问后台，所以判断用户是否登陆是所有后台都需要执行的功能，为了方便，我们可以在要进入该页面之前自动调用判断方法，那么就需要有一个公共的控制器，然后后台所有页面的控制器都继承这个公共的控制器。</p>
+
+<p>新建控制器名为：CommonAction.class.php，在该控制器中写一个可以自动调用的方法。如果用户没有登陆，那么自动跳转到后台登录页面。</p>
+
+<p>&lt;?php</p>
+
+<p>Class CommonAction extends Action{<br/>
+    public function <u>initialize(){<br/>
+        if(!isset($</u>SESSION[&#39;uid&#39;])||!isset(\(_SESSION[&#39;username&#39;])){<br/>
+            \)this-&gt;redirect(&#39;Admin/Login/index&#39;);<br/>
+        }<br/>
     }<br/>
 }<br/>
-echo if_chouse(50).&quot;<br />&quot;;<br/>
-echo switch_chouse(100);<br/>
 ?&gt;<br/>
-循环语句</p>
+退出登陆</p>
 
-<p>循环语句在PHP中有3种，while循环，for循环，do......while循环</p>
+<p>在检测是否已经登陆的时候，我们是检测session中有没有数据，如果要退出登陆的话，就直接清楚session中的所有数据就可以了。</p>
 
-<p>while循环是先判断条件，在执行循环体内的语句。</p>
+<p>为后台首页退出按钮添加链接，即触发此事件之后就交由控制器的相应方法进行处理。</p>
 
-<p>do......while循环是先执行一遍循环体内的语句然后再判断条件，看是否继续执行。</p>
+<p><a href="{:U('Admin/Login/logout')}" target="_self">退出</a><br/>
+清空session数据</p>
 
-<p>&lt;?php<br/>
-for(\(i = 0;\)i &lt; 10;\(i++)<br/>
-{<br/>
-    echo &quot;hello&quot;.\)i.&quot;<br />&quot;;<br/>
-    if(\(i == 5)<br/>
-        continue;//continue的作用是停止当前这一次的循环，继续下一次的循环<br/>
-    echo &quot;run one&quot;.\)i.&quot;<br />&quot;;<br/>
-}<br/>
-\(i = 0;<br/>
-while(\)i &lt; 20)<br/>
-{<br/>
-    echo &quot;while hello&quot;.\(i.&quot;&lt;br /&gt;&quot;;<br/>
-    if(\)i == 10)<br/>
-        break;//直接跳出循环语句<br/>
-    \(i++;<br/>
-}<br/>
-do//先执行一次<br/>
-{<br/>
-    echo &quot;do.while hello&quot;.\)i.&quot;<br />&quot;;<br/>
-}while(i &lt; 10);//再对条件进行判断<br/>
-?&gt;<br/>
-逻辑语句</p>
+<p>public function logout(){<br/>
+        session_unset();<br/>
+        session_destroy();<br/>
+        \(this-&gt;redirect(&#39;Admin/Login/index&#39;);<br/>
+    }<br/>
+//session_unset()释放当前在内存中已经创建的所有\)_SESSION变量，但不删除session文件以及不释放对应的session id</p>
 
-<p>PHP的逻辑语句有：与（&amp;&amp;），或（||），非（！）</p>
+<p>// session_destroy()删除当前用户对应的session文件以及释放session id，内存中的$_SESSION变量内容依然保留,因此，释放用户的session所有资源</p>
 
-<p>&lt;?php<br/>
-for(\(i = 0;\)i &lt; 50;\(i++) {<br/>
-if(\)i % 2 == 0 &amp;&amp; \(i % 3 == 0)//输出是2的倍数并且也是3的倍数的数字<br/>
-    echo \)i.&#39;<br />&#39;;<br/>
-}<br/>
-for(\(i = 0;\)i &lt; 50;\(i++) {<br/>
-    if(\)i % 2 == 0 || \(i % 3 == 0)//输出是2的倍数或者是3的倍数的数字<br/>
-        echo \)i.&#39;<br />&#39;;<br/>
-}<br/>
-for(\(i = 0;\)i &lt; 10;\(i++) {<br/>
-    if(\)i != 9)//输出不等于9的数字<br/>
-        echo $i.&#39;<br />&#39;;<br/>
-}<br/>
-?&gt;</p>
+<p>在所有数据都清空之后，自动转到后台登录页面。</p>
 
                         
                       </div>
@@ -399,7 +314,7 @@ for(\(i = 0;\)i &lt; 10;\(i++) {<br/>
                 <div class="read-more clearfix">
                   <div class="more-left left">
                   
-                    <span class="date">2015/3/20</span>
+                    <span class="date">2015/7/9</span>
                     <span>posted in&nbsp;</span> 
           				  
           					    <span class="posted-in"><a href='PHP.html'>PHP</a></span>
@@ -438,7 +353,7 @@ for(\(i = 0;\)i &lt; 10;\(i++) {<br/>
     <div id="sidebar" class="sidebar">
           <div id="site-info" class="site-info">
             
-                <h1>挂在树上的兔子</h1>
+                <h1>零度燕窝</h1>
                 <div class="site-des"></div>
                 <div class="social">
 
@@ -477,6 +392,10 @@ for(\(i = 0;\)i &lt; 10;\(i++) {<br/>
         
             <a href="Fluent%20Python.html"><strong>Fluent Python</strong></a>
         
+            <a href="%E8%AF%BB%E4%B9%A6%E9%9A%8F%E7%AC%94.html"><strong>读书随笔</strong></a>
+        
+            <a href="%E6%9B%BE%E7%BB%8F%E6%9D%A5%E8%BF%87.html"><strong>曾经来过</strong></a>
+        
             <a href="PHP.html"><strong>PHP</strong></a>
         
             <a href="Ubuntu.html"><strong>Ubuntu</strong></a>
@@ -496,31 +415,31 @@ for(\(i = 0;\)i &lt; 10;\(i++) {<br/>
 	      
 		      
 			      <li class="post">
-			        <a href="15033291458720.html">使用一等函数实现设计模式</a>
+			        <a href="15406290433586.html">扎心！有人偷走了我的磁盘空间？！</a>
 			      </li>
 		     
 		  
 		      
 			      <li class="post">
-			        <a href="15018651943030.html">一等函数</a>
+			        <a href="15377924479103.html">记一次攒机经历</a>
 			      </li>
 		     
 		  
 		      
 			      <li class="post">
-			        <a href="15018646605864.html">文本和字节序列</a>
+			        <a href="15376924661136.html">SQL查询语句之坑</a>
 			      </li>
 		     
 		  
 		      
 			      <li class="post">
-			        <a href="15013419653919.html">集合的使用</a>
+			        <a href="15056428224967.html">![](http://cdn.blog.yanzl.net/2017-10-27-carthusian-2822971.jpg)</a>
 			      </li>
 		     
 		  
 		      
 			      <li class="post">
-			        <a href="15010832436363.html">字典的使用</a>
+			        <a href="15048580065601.html">Python內建类型对象的那些事</a>
 			      </li>
 		     
 		  

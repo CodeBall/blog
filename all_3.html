@@ -5,12 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>
     
-  挂在树上的兔子
+  零度燕窝
   
   </title>
   
   
-  <link href="atom.xml" rel="alternate" title="挂在树上的兔子" type="application/atom+xml">
+  <link href="atom.xml" rel="alternate" title="零度燕窝" type="application/atom+xml">
     <link rel="stylesheet" href="asset/css/foundation.min.css" />
     <link rel="stylesheet" href="asset/css/docs.css" />
     <script src="asset/js/vendor/modernizr.js"></script>
@@ -62,7 +62,7 @@
 
         <nav class="tab-bar show-for-small">
   <a href="javascript:void(0)" class="left-off-canvas-toggle menu-icon">
-    <span> &nbsp; 挂在树上的兔子</span>
+    <span> &nbsp; 零度燕窝</span>
   </a>
 </nav>
 
@@ -85,6 +85,10 @@
             <li><a href="%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84&%E7%AE%97%E6%B3%95.html">数据结构&算法</a></li>
         
             <li><a href="Fluent%20Python.html">Fluent Python</a></li>
+        
+            <li><a href="%E8%AF%BB%E4%B9%A6%E9%9A%8F%E7%AC%94.html">读书随笔</a></li>
+        
+            <li><a href="%E6%9B%BE%E7%BB%8F%E6%9D%A5%E8%BF%87.html">曾经来过</a></li>
         
             <li><a href="PHP.html">PHP</a></li>
         
@@ -111,81 +115,87 @@
 		<div class="markdown-body home-categories">
 		
 			<div class="article">
-                <a class="clearlink" href="14701068705193.html">
+                <a class="clearlink" href="14857049281168.html">
                 
-                  <h1>Flask-RESTful 请求解析 ☞ reqparse</h1>
+                  <h1>PHP的常用功能</h1>
                   <div class="a-content">
                       
                       <div class="a-content-text">
                         
-                        	<h2 id="toc_0">使用背景</h2>
+                        	<p>数组</p>
 
-<p>对于一个请求中的参数，我们可以使用request.form,request.args,request.get_json()等方法将需要的数据提取出来，但是很多情况下这些数据都是不可信的，所以我们需要一一验证，在参数比较多的情况下，依次验证就显得麻烦很多，这个时候我们可以使用Flask-RESTful提供的请求解析模块——reqparse</p>
+<p>在PHP中，数组有单纯的数组（以数字作为下标进行索引），关联数组（以字符串作为下标进行索引）。</p>
 
-<h2 id="toc_1">定义对象</h2>
+<p>当然，也可以两者结合起来使用。</p>
 
-<pre><code class="language-python">from flask_restful import reqparse
+<p>数组的初始化有多种形式，可以一个一个地初始化，也可以调用函数。</p>
 
-parser = reqparse.RequestParser()
-</code></pre>
+<p>元素的输出可以调用函数进行输出，也可以输出某一个元素。</p>
 
-<h2 id="toc_2">添加解析器</h2>
+<p>&lt;?php<br/>
+//关联数组，即下标是字符串的形式<br/>
+\(arr = array(4 =&gt; &#39;php&#39;,&#39;a&#39; =&gt; &#39;application&#39;,&#39;s&#39; =&gt; &#39;student&#39;);<br/>
+//一个数组既可以以字符串作为下标，也可以以数字作为下标，很灵活吧<br/>
+\)arr[0] = 2.5;<br/>
+\(arr[1] = &#39;hello!!!!!&#39;;<br/>
+\)arr[2] = &#39;world     &#39;;<br/>
+\(arr[3] = 3;<br/>
+print_r(\)arr);<br/>
+echo &#39;<br />&#39;.\(arr[&#39;a&#39;].&#39;&lt;br /&gt;&#39;;<br/>
+//使用函数对数组进行初始化<br/>
+\)tie = array();<br/>
+for(\(i = 0;\)i &lt; 10;\(i++)<br/>
+{<br/>
+    array_push(\)tie,&#39;time&#39;.\(i.&#39;&lt;br /&gt;&#39;);<br/>
+}<br/>
+print_r(\)tie);<br/>
+?&gt;<br/>
+ 字符串</p>
 
-<pre><code class="language-python">parser.add_argument(&#39;name&#39;, type=str, default=1, required=True, ignore=True, 
-location=&#39;args&#39;, choices=(&#39;bob&#39;,&#39;since&#39;), case_sensitive=False, 
-store_missing=True)
-</code></pre>
+<p>字符串的操作包括了字符串的定义，获取某一个字符的位置，截取一个字符串，分个字符串以及连接字符串。</p>
 
-<p>对添加数据约束时的各个参数做一个简单的介绍：</p>
+<p>&lt;?php<br/>
+\(str = &quot;hello world!! I love you! !!&quot;;<br/>
+echo &quot;\)str <br />&quot;;<br/>
+//获取一个字符或者一个子串在字符串中的位置，子串是起始位置。<br/>
+echo strpos(\(str,&#39;h&#39;);<br/>
+echo &#39;&lt;br /&gt;&#39;;<br/>
+echo strpos(\)str,&#39;world&#39;);<br/>
+//截取一个字符串<br/>
+\(str1 = substr(\)str,1,6);<br/>
+//第一个参数是要截取的字符串，第二个参数是起始位置，第三个参数是终止位置，如果不写第三个，默认到结尾。<br/>
+echo &quot;<br />&quot;.\(str1.&quot;&lt;br /&gt;&quot;;<br/>
+//分隔一个字符串,默认情况下是单个单个地分割<br/>
+\)ans = str_split(\(str);<br/>
+print_r(\)ans);<br/>
+echo &#39;<br />&#39;;<br/>
+//以每两个字符为一个单元的分割<br/>
+\(ans = str_split(\)str,2);<br/>
+print_r(\(ans);//注意，这里不能够用echo输出，因为其不支持整个数组的输出<br/>
+echo &#39;&lt;br /&gt;&#39;;<br/>
+//以空格作为分割,即将字符串中的每个单词都拿出来<br/>
+\)ans = explode(&#39; &#39;,\(str);<br/>
+print_r(\)ans);<br/>
+//字符串的连接<br/>
+\(num = 100;<br/>
+\)str2 = &#39;<br />&#39;.\(str.&#39;active&#39;.\)num.&#39;<br />&#39;;<br/>
+echo \(str2;<br/>
+\)str2 = &quot;\(str active \)num <br />&quot;;<br/>
+echo $str2;<br/>
+?&gt;<br/>
+ include和require</p>
 
-<ul>
-<li>type:数据的类型，int，str，text，werkzeug.datastructures.FileStorage（files中读数据）等</li>
-<li>default:如果请求中不带有该参数，则取该默认值作为参数值</li>
-<li>required:值为True的情况下，规定必须包含该参数，否则报请求错误</li>
-<li>ignore：值为True的情况下，如果参数类型发生转变，则会忽略该参数，即参数值为None</li>
-<li>choices: 参数值在选择池中，如果不在选择池中，则报请求错误</li>
-<li>case_sensitive: 值为True的情况下，会区分大小写，值为False的情况下，大写转小写</li>
-<li>store_missing:个人测试好像和default配合使用才会起作用， 在没有默认值的情况下，无论该变量的值是True还是False，其数据的值都是None，在有默认值的情况下，store_missing为True时，如果请求中没有出现该参数，则存储默认值。</li>
-<li>location：指明参数的位置，比如：form, args, headers, cookies, files等，需要注意的是有的位置要指明参数的类型，如果一个参数可能存在多个位置，可以以列表的形式指明location，最后的结果会先在列表指定的位置查找，找不到的话或在其他地方查找</li>
-<li>trim:设置为True的情况下，会清除参数中的前置后置空格</li>
-<li>nullable：设置为True的情况下，会允许接受的值为None</li>
-<li>help：帮助文字，在参数出问题的情况下会显示该内容</li>
-<li>action：The basic type of action to be taken when this argument is encountered in the request. Valid options are “store” and “append”.</li>
-<li>dest：参数解析时返回的参数名</li>
-<li>name：参数名，有可选和必选之分。</li>
-</ul>
+<p>这经常用在多文件开发中，一个文件不可能写完全部的代码，这会没有条理，看起来很糟糕，所以我们经常采用多文件的形式，将不同的功能放进不同的文件中，当在一个文件中调用另一个文件中的方法时，就要用include或者require去包含所用到的文件，才可以正常的引用。</p>
 
-<h2 id="toc_3">解析器继承</h2>
+<p>两者的区别：</p>
 
-<p>有时候会有多个公共参数，这时候如果没每个请求都写一个解析器，则可能会有很多代码是重复的，所以可以指定一个父解析器，然后去继承这个解析器。</p>
+<p>使用include，如果要找的文件不存在的时候，提示警告，程序可以正常运行</p>
 
-<pre><code class="language-python">from flask_restful import reqparse
+<p>使用require，如果要找的文件不存在的时候，程序会提示一个错误，不能够继续运行下去。</p>
 
-parser = reqparse.RequestParser()
+<p>以上两个当两次以上引用同一个文件的时候，就会产生重新定义函数的错误（如果没有函数，则不会报错，因为我们都知道，同一个函数名不能够重复定义，而每执行一次require或者include的时候，就相当于定义了一次函数）。</p>
 
-parser.add_argument(&#39;name&#39;, type=str)
-parser.add_argument(&#39;weight&#39;, type=int, required=True)
-parser.add_argument(&#39;height&#39;, type=int)
-
-# 使用parser.copy()方法扩展parser解析器
-parser_copy = parser.copy()
-#添加新的参数
-parser_copy.add_argument(&#39;age&#39;, type=int)
-#replace_argument()方法重写某个参数的解析约束
-parser_copy.replace_argument(&#39;weight&#39;, type=int)
-#remove_argument()方法删除某个参数
-parser_copy.remove_argument(&#39;height&#39;)
-</code></pre>
-
-<h2 id="toc_4">执行参数解析与获取参数值</h2>
-
-<p>这里直接写参数解析，上文请参考定义对象和添加解析器</p>
-
-<pre><code class="language-python">args = parser.parse_args()
-name = args.get(&quot;name&quot;)
-</code></pre>
-
-<p><strong>注</strong> python中还有一个命令解析模块，请求解析是仿照命令解析编写的</p>
+<p>使用include_once和include_once就能够避免上述错误的产生。</p>
 
                         
                       </div>
@@ -194,10 +204,10 @@ name = args.get(&quot;name&quot;)
                 <div class="read-more clearfix">
                   <div class="more-left left">
                   
-                    <span class="date">2016/8/2</span>
+                    <span class="date">2017/7/21</span>
                     <span>posted in&nbsp;</span> 
           				  
-          					    <span class="posted-in"><a href='Python.html'>Python</a></span>
+          					    <span class="posted-in"><a href='PHP.html'>PHP</a></span>
           				   
                   </div>
                   <div class="more-right right">
@@ -211,546 +221,116 @@ name = args.get(&quot;name&quot;)
               </div><!-- article -->
         
 			<div class="article">
-                <a class="clearlink" href="14700447941589.html">
+                <a class="clearlink" href="14857050897980.html">
                 
-                  <h1>Python Datatime模块</h1>
+                  <h1>PHP与MySQL（上篇）</h1>
                   <div class="a-content">
                       
                       <div class="a-content-text">
                         
-                        	<h2 id="toc_0">datetime.timedelta</h2>
+                        	<p>MySQL一个库可以用来存放很多数据表。</p>
 
-<p>用于表示两个datetime.date, datetime.time或者datetime.datetime之间的时间差,类的原型为：</p>
+<p>创建一个库</p>
 
-<pre><code class="language-python">class datetime.timedelta(days=0, seconds=0, microseconds=0, milliseconds=0,
- minutes=0, hours=0, weeks=0)
+<p>打开浏览器，在地址栏中输入“localhost”——》点击进入“phpMyAdmin”——》就可以在左边看到很多文件夹，比如‘mysql’,&#39;cdcol&#39;，‘test’等，这些就是不同的库，现在，我们新建一个库——》点击菜单栏里面的数据库，填写数据库的名字和编码方式，一般会使用国际通用utf8——》点击创建，就可以成功地创建一个库了。</p>
+
+<p>在库中添加一个数据表</p>
+
+<p>单击点开要添加数据表的数据库——》新建数据表——》填写数据表的名字和字段数（即在这个表中存放几种数据，比如要存放ID，姓名，密码，年龄就是用了4个字段）——》点击执行（go）就成功创建了一个表——》之后就是向数据表中添加要存放的数据名称（ID，姓名，密码，年龄）——》点击保存（save）就完成了。</p>
+
+<p>注意：（1）A_I指autoincreasment自行增加，可以用于ID等数据的输入。</p>
+
+<p>（2）填写姓名可以写成是text类型，但是因为字符串很长（一般用于写博客的文本），所以可以选择是VARCHAR，自定义一个长度的字符.</p>
+
+<p>（3）年龄的选择因为比较小，所以可以不必选择INT类型，可以用TINYINT</p>
+
+<p>添加数据</p>
+
+<p>点击要添加数据的数据表，点击插入，在空值框中填写各种数据点击执行就可以成功添加数据了。</p>
+
+<p>也可以使用SQL语句进行添加数据：</p>
+
+<p>INSERT INTO <code>myapp</code>.<code>user</code> (<code>ID</code>, <code>name</code>, <code>password</code>, <code>age</code>) VALUES (NULL, &#39;李四&#39;, &#39;123567&#39;, &#39;31&#39;);<br/>
+用PHP操作MySQL数据库</p>
+
+<p>连接MySQL数据库</p>
+
+<p>$coun = mysql_connect(&#39;localhost&#39;,&#39;root&#39;,&#39;&#39;);//连接服务器,使用一个用户名来登录，后面是写密码，没有为空<br/>
+//如果mysql数据库的端口和服务器不是一个端口的话，要手动输入端口，比如端口是9000<br/>
+//mysql_connect(&#39;localhost:9000&#39;);<br/>
+连接成功后，对某一个数据库进行操作</p>
+
+<p>mysql_select_db(&#39;myapp&#39;,$coun);//指明是对myapp这个数据库进行操作的，并将连接成功的信息传递过去<br/>
+如果想呈现所有的数据，执行下面语句</p>
+
+<p>$result =  mysql_query(&quot;SELECT * FROM user&quot;);‘*’代表所有的数据<br/>
+如果想根据某一个属性（比如ID，姓名，年龄等）打印数据，可以执行以下语句：</p>
+
+<p>//查找keke这个姓名的人，如果有，则打印yes，没有，打印no<br/>
+\(result =  mysql_query(&quot;SELECT * FROM user WHERE name = keke&quot;);<br/>
+if(\)result)<br/>
+    echo &quot;yes&quot;;<br/>
+else<br/>
+    echo &quot;no&quot;;<br/>
+//查找编号为1的人<br/>
+\(result =  mysql_query(&quot;SELECT * FROM user WHERE id = 1&quot;);<br/>
+//查找编号大于等于1并且编号小于等于3的数据<br/>
+\)result =  mysql_query(&quot;SELECT * FROM user WHERE id &gt;= 1 &amp;&amp; id &lt;= 3&quot;);<br/>
+//打印每条数据行的某一部分数据，比如只打印名字和年龄而不打印密码<br/>
+//两种控制并不冲突哦<br/>
+$result =  mysql_query(&quot;SELECT name,age FROM user WHERE id = 1&quot;);<br/>
+以数组的形式打印数据</p>
+
+<p>//获取结果里面的数据,以数组的样式来呈现<br/>
+\(result_arr = mysql_fetch_array(\)result);<br/>
+print_r($result_arr);//打印出结果<br/>
+以键值对的形式打印数据</p>
+
+<p>//不通过数组的样式来呈现<br/>
+\(result_arr = mysql_fetch_assoc(\)result);<br/>
+print_r($result_arr);//打印出结果<br/>
+注意：</p>
+
+<p>通过mysql_fetch_array(\(result);和mysql_fetch_assoc(\)result);这两个函数，每次读取的都只是一行数据，即数据表中的一行。</p>
+
+<p>获取所有数据的条数并以循环的形式打印数据</p>
+
+<p>//使用循环打印出所有数据<br/>
+//获取到数据条数并付给一个变量<br/>
+\(data_num = mysql_num_rows(\)result);<br/>
+for(\(i = 0;\)i &lt; \(data_num;\)i++)<br/>
+{<br/>
+   print_r(mysql_fetch_assoc($result));<br/>
+}<br/>
+当然，使用上面一种方法获取数据的条数是非常慢的，可以写下面语句</p>
+
+<p>//快就快在当查询所有数据的时候就已经返回了数据的总条数，无需在调用函数进行查询<br/>
+    \(result = mysql_query(&quot;SELECT COUNT(*) FROM user&quot;);<br/>
+    \)result_arr = mysql_fetch_array($result);</p>
+
+<pre><code>$data_num = $result_arr[0];
+echo &quot;数据条数：&quot;.$data_num.;
 </code></pre>
 
-<p>timedelta可以指定一个时间段，规定该时间段有多少天、秒、毫秒、微秒、分钟、小时、周，从而对该时间段进行一些操作，整理了以下几点：</p>
-
-<ul>
-<li><strong>加减法：</strong>可以将两个时间段做加减法，得到一个新的时间段。另外，可以将datetime.datetime类型或者datetime.date类型的数据进行加减法</li>
-<li><strong>乘法：</strong>可以将一个时间段和一个常数进行乘法操作，像普通乘法一样</li>
-<li><strong>除法：</strong>可以将一个时间段与一个常数进行除法操作,返回是一个timedelta类型的数据</li>
-<li><strong>取正数结果：</strong>abs()函数可以在运行结果为负数时返回正数结果,注意这里不是绝对值，而是会将两个操作数交换顺序进行运算。（比如a-b&lt;0,则返回的结果为b-a的结果）</li>
-<li><strong>返回字符串类型数据：</strong>以上的操作返回的数据类型都是timedelta类型的，如果希望返回字符串类型，可以使用str()函数</li>
-<li><strong>返回所有秒数：</strong>可以设定一个时间段，返回该时间段的所有秒数</li>
-<li><strong>获取可取时间段的最大值：</strong>可以使用timedelta.max方法进行获取</li>
-<li><p><strong>获取可取时间段的最小值：</strong>可以使用timedelta.min方法进行获取</p>
-
-<p><strong>注 除法不能执行数字除以timedelta类型的操作， 乘法和除法操作都不能是两个timedelta类型的数据</strong></p></li>
-</ul>
-
-<h3 id="toc_1">示例代码</h3>
-
-<pre><code class="language-python">from datetime import timedelta
-
-timedelta1 = timedelta(days=1, hours=2, minutes=10)
-timedelta2 = timedelta(days=2, hours=4, minutes=20, seconds=10)
-
-print(timedelta1 + timedelta2)
-print (timedelta2 - timedelta1)
-print (timedelta2 * 2)
-print (2 * timedelta2)
-print (timedelta2 / 2)
-print (abs(timedelta1 - timedelta2))
-print (str(timedelta1 - timedelta2))
-print (type(timedelta2 / 2))
-print (type(str(timedelta2 / 2)))
-print (type(repr(timedelta2 / 2)))
-print (timedelta2.total_seconds())
-print timedelta.max
-print timedelta.min
-</code></pre>
-
-<h3 id="toc_2">示例运行结果</h3>
-
-<pre><code>3 days, 6:30:10
-1 day, 2:10:10
-1 day, 2:10:10
--2 days, 21:49:50
-4 days, 8:40:20
-4 days, 8:40:20
-1 day, 2:10:05
-&lt;type &#39;datetime.timedelta&#39;&gt;
-&lt;type &#39;str&#39;&gt;
-&lt;type &#39;str&#39;&gt;
-188410.0
-999999999 days, 23:59:59.999999
--999999999 days, 0:00:00
-</code></pre>
-
-<h2 id="toc_3">datetime.time</h2>
-
-<p>表示时间信息，类的原型为：</p>
-
-<pre><code class="language-python">class datetime.time(hour=0, minute=0, second=0, microsecond=0, tzinfo=None)
-</code></pre>
-
-<h3 id="toc_4">类的属性</h3>
-
-<ul>
-<li>time.min</li>
-<li>time.max</li>
-<li>time.resolution</li>
-<li>time.hour</li>
-<li>time.minute</li>
-<li>time.second</li>
-<li>time.microsecond</li>
-<li>time.tzinfo</li>
-</ul>
-
-<h3 id="toc_5">运算操作</h3>
-
-<ol>
-<li>进行两个time类型数据的比较</li>
-</ol>
-
-<h3 id="toc_6">对象操作</h3>
-
-<ul>
-<li><strong>修改time类型数据：</strong> time_data.replace(hour=13, minute=25)</li>
-<li><strong>转换成ISO格式数据:</strong> time_data.isoformat()</li>
-<li><strong>格式化time类型数据：</strong> time_data.strftime(&#39;%Y/%m/%d %H:%M:%S&#39;),注意，因为time类型数据没有年月日，所以在数据类型转换时如果出现年月日，默认为1900/01/01</li>
-</ul>
-
-<h3 id="toc_7">对象操作示例</h3>
-
-<pre><code class="language-python">time_data = time(12, 13, 14, 15)
-print time_data
-time_data_replace = time_data.replace(hour=13, minute=25)
-print time_data_replace
-time_data_isoformat = time_data.isoformat()
-print time_data_isoformat
-time_data_strftime = time_data.strftime(&#39;%Y/%m/%d %H:%M:%S&#39;)
-print time_data_strftime
-</code></pre>
-
-<h3 id="toc_8">示例参考结果</h3>
-
-<pre><code>12:13:14.000015
-13:25:14.000015
-12:13:14.000015
-1900/01/01 12:13:14
-</code></pre>
-
-<h2 id="toc_9">datatime.date</h2>
-
-<p>用于返回日期的时间（年，月，日），类的原型为：</p>
-
-<pre><code class="language-python">class datetime.date(year, month, day)
-</code></pre>
-
-<h3 id="toc_10">类的属性</h3>
-
-<ul>
-<li>date.min</li>
-<li>date.max</li>
-<li>date.resolution 计算date类型的精度</li>
-<li>date.year</li>
-<li>date.month</li>
-<li>date.day</li>
-</ul>
-
-<h3 id="toc_11">运算操作</h3>
-
-<ol>
-<li>date类型数据与timedelta类型数据进行加减运算,得到的数据类型为date</li>
-<li>两个date类型数据相减，得到的数据类型为timedelta</li>
-<li>比较大小，返回布尔值</li>
-</ol>
-
-<h3 id="toc_12">常见类操作</h3>
-
-<ul>
-<li><strong>计算当天日期：</strong> date.today()</li>
-<li><strong>根据时间戳获取某一时间：</strong> date.fromtimestamp(timestamp)</li>
-<li><strong>根据天数返回对应的日期：</strong>date.fromordinal(),与对象方法toordinal()相对应</li>
-</ul>
-
-<h3 id="toc_13">类操作示例</h3>
-
-<pre><code class="language-python">today = date.today()
-today_from_timestamp = date.fromtimestamp(time.time())
-date_from_ordinal = date.fromordinal(736191)
-print date.today()
-print today_from_timestamp
-print date.fromordinal(736191)
-</code></pre>
-
-<h3 id="toc_14">示例参考结果</h3>
-
-<pre><code>2016-08-15
-2016-08-15
-2016-08-15
-</code></pre>
-
-<h3 id="toc_15">常见对象方法</h3>
-
-<ul>
-<li><strong>修改某个日期：</strong> 可以通过date.replace()方法重写year,month,day参数改变日期</li>
-<li><strong>转换成time.struct_time类型数据：</strong>date.timetuple()方法可以实现该转换，等同于time.localtime()</li>
-<li><strong>计算当天是一周的第几天：</strong>date.weekday(),返回0~6; date.isoweekday()，返回1~7</li>
-<li><strong>计算当天是哪一年第几周的周几：</strong> date.isocalendar(),返回一个元组。</li>
-<li><strong>将日期转换成iso格式：</strong>date.isoformat(),格式为：2016-08-14</li>
-<li><strong>格式化日期：</strong> date.strftime()</li>
-<li><strong>返回某日期距离1年1月1日的天数：</strong>date.toordinal()</li>
-</ul>
-
-<p><strong>这里有一个疑问：isocalendar方法中一年的第一周到底是如何计算的~~</strong></p>
-
-<h3 id="toc_16">示例代码</h3>
-
-<pre><code class="language-python">today = date.today()
-today_replace = today.replace(month=12, day=14)
-print today
-print today_replace
-today_timetuple = today.timetuple()
-time_localtime = time.localtime()
-print today_timetuple
-print time_localtime
-print type(today_timetuple), type(time_localtime)
-today_weekday = today.weekday()
-today_iso_weekday = today.isoweekday()
-print today_weekday
-print today_iso_weekday
-today_iso_format = today.isoformat()
-print today_iso_format
-today_strftime = today.strftime(&#39;%Y-%m-%d %H:%M:%S&#39;)
-print today_strftime
-today_toordinal = today.toordinal()
-print today_toordinal
-today_iso_calendar = today.isocalendar()
-print today_iso_calendar
-print date(2014, 1, 1).isocalendar()
-print date(2016, 1, 1).isocalendar()
-</code></pre>
-
-<h3 id="toc_17">示例参考结果</h3>
-
-<pre><code>2016-08-15
-2016-12-14
-time.struct_time(tm_year=2016, tm_mon=8, tm_mday=15, tm_hour=0, tm_min=0,
- tm_sec=0, tm_wday=0, tm_yday=228, tm_isdst=-1)
-time.struct_time(tm_year=2016, tm_mon=8, tm_mday=15, tm_hour=13, tm_min=48,
- tm_sec=35, tm_wday=0, tm_yday=228, tm_isdst=0)
-&lt;type &#39;time.struct_time&#39;&gt; &lt;type &#39;time.struct_time&#39;&gt;
-0
-1
-2016-08-15
-2016-08-15 00:00:00
-736191
-(2016, 33, 1)
-(2014, 1, 3)
-(2015, 53, 5)
-</code></pre>
-
-<h2 id="toc_18">datetime.datetime</h2>
-
-<p>用于返回日期和时间，相当于date和time的合体，类的原型为：</p>
-
-<pre><code class="language-python">class datetime.datetime(year, month, day, hour=0, minute=0, second=0,
- microsecond=0, tzinfo=None)
-</code></pre>
-
-<h3 id="toc_19">类的属性包括：</h3>
-
-<ul>
-<li>datetime.min</li>
-<li>datetime.max</li>
-<li>datetime.year</li>
-<li>datetime.month</li>
-<li>datetime.day</li>
-<li>datetime.hour</li>
-<li>datetime.minute</li>
-<li>datetime.second</li>
-<li>datetime.microsecond</li>
-<li>datetime.tzinfo</li>
-<li>datetime.resolution: 计算类的精确度</li>
-</ul>
-
-<h3 id="toc_20">类的运算</h3>
-
-<ol>
-<li>datetime类型与timedelta类型做加减运算</li>
-<li>两个datetime类型数据做减法运算，得到timedelta类型的结果</li>
-<li><p>比较两个datetime类型数据的大小</p>
-
-<h3 id="toc_21">常见类操作如下：</h3></li>
-</ol>
-
-<ul>
-<li><strong>计算当天日期时间：</strong> datetime.today(),该方法不包含时区信息</li>
-<li><strong>计算当前日期时间：</strong> datetime.now([tz]),该方法中有一个参数用来接收时区，如果没有，则结果和today()相同，如果有时区信息，则该时区必须是tzinfo的一个具体实例</li>
-<li><strong>计算当时UTC时间：</strong> datetime.utcnow(),UTC时间是世界标准时间，比北京时间慢8小时，因为北京处于东八区</li>
-<li><strong>将时间戳转换成datetime格式：</strong> datetime.fromtimestamp(timestamp),这里第二个参数可以设置转换时区，默认会是本地日期和时间</li>
-<li><strong>将时间戳转化为UTC时间：</strong> datetime.utcfromtimestamp(timestamp)，返回的是世界标准时间</li>
-<li><strong>根据天数获取对应的日期：</strong> datetime.fromordinal(days)</li>
-<li><strong>合并日期和时间为日期时间：</strong> datetime.combine(date, time)</li>
-<li><strong>将字符串类型转换成datetime类型：</strong> datetime.strptime(today_strftime, &#39;%Y-%m-%d %H:%M:%S&#39;)，注意这里的第二个参数，与第一个参数的格式必须一致才能够成功转换</li>
-</ul>
-
-<h3 id="toc_22">类操作示例</h3>
-
-<pre><code class="language-python">today = datetime.today()
-now = datetime.now(tz=None)
-utcnow = datetime.utcnow()
-print today
-print now
-print utcnow
-today_from_timestamp = datetime.fromtimestamp(1471230039.49)
-print today_from_timestamp
-today_from_utctimestamp = datetime.utcfromtimestamp(1471230039.49)
-print today_from_utctimestamp
-days = datetime.fromordinal(736199)
-print days
-type_date = date.today()
-type_time = date_time(11,30,59)
-combine_date_time = datetime.combine(type_date, type_time)
-print combine_date_time
-today_strftime = today.strftime(&#39;%Y/%m/%d %H:%M:%S&#39;)
-today_strptime = datetime.strptime(today_strftime, &#39;%Y/%m/%d %H:%M:%S&#39;)
-print today_strftime
-print today_strptime
-print type(today_strftime)
-print type(today_strptime)
-</code></pre>
-
-<h3 id="toc_23">类操作示例参考结果</h3>
-
-<pre><code>2016-08-15 11:28:41.109749
-2016-08-15 11:28:41.109829
-2016-08-15 03:28:41.109832
-2016-08-15 11:00:39.490000
-2016-08-15 03:00:39.490000
-2016-08-23 00:00:00
-2016-08-15 11:30:59
-2016/08/15 11:28:41
-2016-08-15 11:28:41
-&lt;type &#39;str&#39;&gt;
-&lt;type &#39;datetime.datetime&#39;&gt;
-</code></pre>
-
-<h3 id="toc_24">常见对象操作方法如下：</h3>
-
-<p>先来创建一个对象：<code>today = datetime.today()</code></p>
-
-<ul>
-<li><strong>返回datetime的日期值：</strong>today.date()可以返回日期值,返回值为date类型</li>
-<li><strong>返回detetime的时间值：</strong>today.time()可以相同的时间返回时间值; today.timetz()，使用相同的时间和时区返回时间值，时区为None时不返回时区。两种方法返回值类型都为time类型。</li>
-<li><strong>修改日期时间：</strong> today.replace()方法可以实现对日期时间进行修改，没有修改的属性还是维持原来的值</li>
-<li><strong>将datetime类型数据解析成struc_time结构体返回：</strong> today.timetuple()返回当前时间的解析结构体；today.utctimetuple()返回utc时间的解析结构体</li>
-<li><strong>获取当前日期距离1年1月1日的天数：</strong> today.toordinal(),与类方法datetime.fromordinal(days)相对应</li>
-<li><strong>返回当前日期的星期：</strong> today.weekday(),返回值0~6；today_isoweekday（），返回值1~7</li>
-<li><strong>返回当前年份，周数，星期：</strong>today.isocalendar(),返回一个三元组，包括年，第几周，周几</li>
-<li><strong>返回ISO格式日期时间：</strong>datetime.isoformat(today)，个人认为这更像一个类方法。</li>
-<li><strong>转换成time.ctime的数据格式:</strong> today.ctime()</li>
-<li><strong>根据格式转换成字符串类型：</strong> today.strftime(&#39;%Y-%m-%d %H:%M:%S&#39;),默认格式为ISO-8601,与类方法datetime.strptime()相对应</li>
-</ul>
-
-<h3 id="toc_25">对象方法示例</h3>
-
-<pre><code class="language-python">today = datetime.today()
-today_date = today.date()
-today_time = today.time()
-today_timetz = today.timetz()
-print today_date
-print today_time
-print today_timetz
-today_replace = today.replace(year=2016, day=23, minute=34, second=34)
-print today_replace
-today_struct_time = today.timetuple()
-today_utc_struct_time = today.utctimetuple()
-print today_struct_time
-print today_utc_struct_time
-today_days = today.toordinal()
-print today_days
-today_weekday = today.weekday()
-today_isoweekday = today.isoweekday()
-print today_weekday
-print today_isoweekday
-today_isoclaendar = today.isocalendar()
-print today_isoclaendar
-today_isoformat = datetime.isoformat(today)
-print today_isoformat
-today_ctime = today.ctime()
-print today_ctime
-today_strftime = today.strftime(&#39;%Y/%m/%d %H:%M:%S&#39;)
-print today_strftime
-</code></pre>
-
-<h3 id="toc_26">对象操作方法示例参考结果</h3>
-
-<pre><code>2016-08-15
-13:15:15.692802
-13:15:15.692802
-2016-08-23 13:34:34.692802
-time.struct_time(tm_year=2016, tm_mon=8, tm_mday=15, tm_hour=13, tm_min=15,
- tm_sec=15, tm_wday=0, tm_yday=228, tm_isdst=-1)
-time.struct_time(tm_year=2016, tm_mon=8, tm_mday=15, tm_hour=13, tm_min=15,
- tm_sec=15, tm_wday=0, tm_yday=228, tm_isdst=0)
-736191
-0
-1
-(2016, 33, 1)
-2016-08-15T13:15:15.692802
-Mon Aug 15 13:15:15 2016
-2016/08/15 13:15:15
-</code></pre>
-
-<h3 id="toc_27">格式转换</h3>
-
-<h3 id="toc_28">符号说明表</h3>
-
-<table>
-<thead>
-<tr>
-<th>符号</th>
-<th>说明</th>
-</tr>
-</thead>
-
-<tbody>
-<tr>
-<td>%y</td>
-<td>两位数的年份表示（0~99）</td>
-</tr>
-<tr>
-<td>%Y</td>
-<td>四位数的年份表示（000~9999）</td>
-</tr>
-<tr>
-<td>%m</td>
-<td>月份</td>
-</tr>
-<tr>
-<td>%d</td>
-<td>月中的一天</td>
-</tr>
-<tr>
-<td>%I</td>
-<td>十二小时制的小时（1~12）</td>
-</tr>
-<tr>
-<td>%H</td>
-<td>二十四小时制的小时（0~23）</td>
-</tr>
-<tr>
-<td>%M</td>
-<td>每小时内的分钟（0~59）</td>
-</tr>
-<tr>
-<td>%S</td>
-<td>每分钟的秒（0~59）</td>
-</tr>
-<tr>
-<td>%b</td>
-<td>当地月份简写</td>
-</tr>
-<tr>
-<td>%B</td>
-<td>当地月份全称</td>
-</tr>
-<tr>
-<td>%c</td>
-<td>本地相应的日期表示和时间表示</td>
-</tr>
-<tr>
-<td>%x</td>
-<td>本地相应的日期表示</td>
-</tr>
-<tr>
-<td>%X</td>
-<td>本地相应的时间表示</td>
-</tr>
-<tr>
-<td>%a</td>
-<td>本地星期简写</td>
-</tr>
-<tr>
-<td>%A</td>
-<td>本地星期全称</td>
-</tr>
-<tr>
-<td>%U</td>
-<td>一年中的星期数（00-53）星期天为星期的开始</td>
-</tr>
-<tr>
-<td>%W</td>
-<td>一年中的星期数（00-53）星期一为星期的开始</td>
-</tr>
-<tr>
-<td>%w</td>
-<td>星期（0-6），星期天为星期的开始</td>
-</tr>
-<tr>
-<td>%j</td>
-<td>当天是全年的第几天</td>
-</tr>
-<tr>
-<td>%z</td>
-<td>该时间使用的时区，如果没有指定，则为None</td>
-</tr>
-<tr>
-<td>%%</td>
-<td>%本身</td>
-</tr>
-</tbody>
-</table>
-
-<h3 id="toc_29">转换符示例</h3>
-
-<pre><code class="language-python">today = datetime.today()
-print today.strftime(&#39;%y-%m-%d %p.%I:%M:%S&#39;)
-date_strftime = today.replace(hour=0, minute=12, second=0).strftime(&#39;%Y-%m-%d %I:%M:%S&#39;)
-print date_strftime
-print today.strftime(&#39;%Y/%m%d %H:%M:%S&#39;)
-print today.strftime(&#39;%b / %B&#39;)
-print today.strftime(&#39;%c&#39;)
-print today.strftime(&#39;%x&#39;)
-print today.strftime(&#39;%X&#39;)
-print today.strftime(&#39;%a / %A&#39;)
-print today.strftime(&#39;%Y %U %w&#39;)
-print today.strftime(&#39;%Y %W %w&#39;)
-print today.strftime(&#39;%j&#39;)
-print today.strftime(&#39;%Z&#39;)
-print today.strftime(&quot;%%&quot;)
-</code></pre>
-
-<h3 id="toc_30">示例参考结果</h3>
-
-<pre><code>16-08-15 PM.02:51:32
-2016-08-15 12:12:00
-2016/0815 14:51:32
-Aug / August
-Mon Aug 15 14:51:32 2016
-08/15/16
-14:51:32
-Mon / Monday
-2016 33 1
-2016 33 1
-228
-
-%
-</code></pre>
-
-<h2 id="toc_31">个人感悟</h2>
-
-<p>datetime模块包含timedelta，date，datetime，time， tzinfo， 五个类构成,timedelta提供日期时间计算的中间量；date用于对日期进行操作；time用于对时间进行操作（但是没有获取当前时间的操作），datetime是日期和时间的合体，既有日期也有时间，并且可以单独获取某个日期时间的日期和时间，是继承自date类的类；tzinfo类用于对时区进行操作，但这个类是一个基类，如果要使用，必须创建实体类.<br/>
-无论是date类，datetime类，还是time类，都有一些实现相同功能的方法，不过不同的类具体的参数不同：<br/>
-obj.replace():用来修改日期时间<br/>
-obj.rsoformat():用来显示ISO-8601格式的时间<br/>
-obj.strftime():将相应对象转换成所接受的格式的字符串</p>
-
-<p>datetime类继承自date类，有些方法名称和效果是一样的：<br/>
-cls.today()，获取当前时间<br/>
-cls.fromtimestamp(),根据时间戳获取时间<br/>
-cls.fromordinal(),根据天数获取相应时间<br/>
-obj.toordinal(),获取当前日期距离1年1月1日的总天数<br/>
-obj.timetuple(),获取当前日期的time.struct_time格式数据<br/>
-obj.weekday(),获取当前日期的星期，0~6<br/>
-obj.isoweekday(),获取当前日期的星期，1~7<br/>
-obj.isocalendar(),以三元组的形式获取日期年份，在这一年的星期数，当前星期的星期几</p>
+<p>用HTML中的表格的形式打印所有用户的信息</p>
+
+<p>\(data_num = mysql_num_rows(\)result);<br/>
+    for(\(i = 0;\)i &lt; \(data_num;\)i++)<br/>
+    {<br/>
+        \(result_arr = mysql_fetch_assoc(\)result);<br/>
+        //将获取到的数据赋值给变量<br/>
+        \(id = \)result_arr[&#39;ID&#39;];<br/>
+        \(name = \)result_arr[&#39;name&#39;];<br/>
+        \(age = \)result_arr[&#39;age&#39;];<br/>
+        \(xuehao = \)result_arr[&#39;xuehao&#39;];<br/>
+        echo &quot;<tr><th>\(id&lt;/th&gt;//表格打印<br/>
+                &lt;th&gt;\)name</th><br/>
+                <th>\(age&lt;/th&gt;<br/>
+                &lt;th&gt;\)xuehao</th><br/>
+                <th><a href='changeuser.php?id=$id'>修改</a></th><br/>
+                <th><a href='DeletUser.php?id=$id'>删除</a></th><br/>
+            </tr>&quot;;<br/>
+    }</p>
 
                         
                       </div>
@@ -759,10 +339,10 @@ obj.isocalendar(),以三元组的形式获取日期年份，在这一年的星�
                 <div class="read-more clearfix">
                   <div class="more-left left">
                   
-                    <span class="date">2016/8/1</span>
+                    <span class="date">2017/7/20</span>
                     <span>posted in&nbsp;</span> 
           				  
-          					    <span class="posted-in"><a href='Python.html'>Python</a></span>
+          					    <span class="posted-in"><a href='PHP.html'>PHP</a></span>
           				   
                   </div>
                   <div class="more-right right">
@@ -776,243 +356,151 @@ obj.isocalendar(),以三元组的形式获取日期年份，在这一年的星�
               </div><!-- article -->
         
 			<div class="article">
-                <a class="clearlink" href="14696161345629.html">
+                <a class="clearlink" href="14857048746834.html">
                 
-                  <h1>Python命令行参数解析☞argparse、请求解析☞reqparse</h1>
+                  <h1>PHP语法基础总结</h1>
                   <div class="a-content">
                       
                       <div class="a-content-text">
                         
-                        	<p>这篇文章是对命令行参数解析和请求解析的总结，因为都是对传递的参数进行的解析，所以写在了一起，可以对比一下。但是两种解析的来源是不一样的，argparse来自python的自带模块，reqparse来自于Flask-RESTful扩展</p>
+                        	<p>PHP语法标记符</p>
 
-<h1 id="toc_0">Python命令行参数解析☞argparse</h1>
+<p>PHP程序以“&lt;?PHP” 开头，以“&gt;”结尾。</p>
 
-<h2 id="toc_1">简介</h2>
+<p>变量和常量</p>
 
-<p>对于命令行参数解析，最原始的方法是手动解析，解析过程如下所示：</p>
+<p>变量是在运行过程中能够被修改，常量只能被赋值一次，在运行过程中不能够被修改。</p>
 
-<pre><code class="language-python">import sys
-def TestSys():
-  for arg in sys.argv[1:]:
-    print (arg)
-</code></pre>
+<p>&lt;?php<br/>
+//变量的使用<br/>
+\(a = 10;<br/>
+echo &quot;a = \)a<br />&quot;;<br/>
+\(b = 30;<br/>
+\)a = 20;<br/>
+\(c = \)a+\(b;<br/>
+echo &quot;a + b = \)c<br />&quot;;<br/>
+//常量的使用<br/>
+const x = 5;<br/>
+echo &quot;x = &quot;;<br/>
+echo x;<br/>
+//x = 10;这里不能够再重复对x进行赋值，因为已经声明它是常量<br/>
+//const x = 10;这句话在这里也是不可以的，因为重复定义了同一个常量<br/>
+//还有一种声明常量的方法<br/>
+define(&#39;y&#39;,100);<br/>
+echo y;<br/>
+?&gt;<br/>
+函数的使用</p>
 
-<p>argparse是python自带的模块，利用argparse，可以完成对命令行的参数定义、解析以及后续的处理。</p>
+<p>有时候，一些代码会反复被使用很多次，这时候把这些代码封装进函数里，使用的时候直接调用即可。</p>
 
-<h2 id="toc_2">创建一个解析器</h2>
+<p>&lt;?php<br/>
+function wucan()//没有参数的函数，直接输出要输出的内容<br/>
+{<br/>
+    echo &quot;hello world!!<br />&quot;;<br/>
+}<br/>
+function onecan(\(name)//带有一个参数的函数，接收一个参数，执行相应操作<br/>
+{<br/>
+    echo &#39;hello &#39;.\)name.&#39;<br />&#39;;<br/>
+}<br/>
+function twocan(\(a,\)b)//带有多个参数的函数<br/>
+{<br/>
+    \(b += \)a;<br/>
+    echo &#39;a + b = &#39;. \(b.&#39;&lt;br /&gt;&#39;;<br/>
+}<br/>
+function fanhui(\)a,\(b)//带有返回值的函数<br/>
+{<br/>
+    echo &quot;a = \)a,b = \(b,a - b = &quot;;<br/>
+    return \)a - $b;<br/>
+}<br/>
+//四种函数的调用<br/>
+wucan();<br/>
+onecan(&#39;zhangsan&#39;);<br/>
+twocan(2,6);<br/>
+echo fanhui(10,7).&#39;<br />&#39;;<br/>
+?&gt;<br/>
+选择语句</p>
 
-<pre><code class="language-python">import argparse
-parser = argparse.ArgumentParser(description=&#39;Process some integers.&#39;)
-</code></pre>
+<p>在PHP语言中有两种选择语句，switch语句和if...elseif...语句</p>
 
-<h2 id="toc_3">添加解析参数前置知识☞属性</h2>
+<p>&lt;?php<br/>
+ function if_chouse(\(source)<br/>
+ {<br/>
+     if(\)source&gt;=90)<br/>
+         return &quot;优秀&quot;;<br/>
+     elseif(\(source &gt;= 70)<br/>
+         return &quot;良好&quot;;<br/>
+     elseif(\)source &gt;= 60)<br/>
+         return &quot;及格&quot;;<br/>
+     else<br/>
+         return &quot;不及格&quot;;<br/>
+ }<br/>
+function switch_chouse(\(source)<br/>
+{<br/>
+    //这里如果不将小数转换成整数，在case中写起来就会很麻烦，转换成整数之后就相当于划定了一个区间。<br/>
+    switch(intval(\)source / 10))//intval()是一个将小数转换成整数的方法，直接接取整数部分，没有四舍五入的规则。<br/>
+    {<br/>
+        case 10:<br/>
+        case 9:<br/>
+            return &quot;优秀&quot;;<br/>
+        case 8:<br/>
+        case 7:<br/>
+            return &quot;良好&quot;;<br/>
+        case 6:<br/>
+            return &quot;及格&quot;;<br/>
+        default://指剩余的情况<br/>
+            return &quot;不及格&quot;;<br/>
+    }<br/>
+}<br/>
+echo if_chouse(50).&quot;<br />&quot;;<br/>
+echo switch_chouse(100);<br/>
+?&gt;<br/>
+循环语句</p>
 
-<ul>
-<li>help：帮助信息</li>
-<li>type：数据类型，str,int等</li>
-<li>choices：参数值可选范围</li>
-<li>action：参数动作，在解析到一个参数时进行触发的动作
+<p>循环语句在PHP中有3种，while循环，for循环，do......while循环</p>
 
-<ul>
-<li>store 保存参数值，可能会先将参数值转换成另一个数据类型。若没有显式指定动作，则默认为该动作。</li>
-<li>store_const 保存一个被定义为参数规格一部分的值，而不是一个来自参数解析而来的值。这通常用于实现非布尔值的命令行标记。</li>
-<li>store_ture/store_false 保存相应的布尔值。这两个动作被用于实现布尔开关。</li>
-<li>append 将值保存到一个列表中。若参数重复出现，则保存多个值。</li>
-<li>append_const 将一个定义在参数规格中的值保存到一个列表中。</li>
-<li>version 打印关于程序的版本信息，然后退出</li>
-<li>count 记录参数出现的次数,不指定即为None</li>
-</ul></li>
-<li>default：参数没有赋值时，会采用默认值，必选参数除外</li>
-</ul>
+<p>while循环是先判断条件，在执行循环体内的语句。</p>
 
-<h2 id="toc_4">添加解析参数</h2>
+<p>do......while循环是先执行一遍循环体内的语句然后再判断条件，看是否继续执行。</p>
 
-<h3 id="toc_5">添加必选参数</h3>
+<p>&lt;?php<br/>
+for(\(i = 0;\)i &lt; 10;\(i++)<br/>
+{<br/>
+    echo &quot;hello&quot;.\)i.&quot;<br />&quot;;<br/>
+    if(\(i == 5)<br/>
+        continue;//continue的作用是停止当前这一次的循环，继续下一次的循环<br/>
+    echo &quot;run one&quot;.\)i.&quot;<br />&quot;;<br/>
+}<br/>
+\(i = 0;<br/>
+while(\)i &lt; 20)<br/>
+{<br/>
+    echo &quot;while hello&quot;.\(i.&quot;&lt;br /&gt;&quot;;<br/>
+    if(\)i == 10)<br/>
+        break;//直接跳出循环语句<br/>
+    \(i++;<br/>
+}<br/>
+do//先执行一次<br/>
+{<br/>
+    echo &quot;do.while hello&quot;.\)i.&quot;<br />&quot;;<br/>
+}while(i &lt; 10);//再对条件进行判断<br/>
+?&gt;<br/>
+逻辑语句</p>
 
-<p>必选参数的特点</p>
+<p>PHP的逻辑语句有：与（&amp;&amp;），或（||），非（！）</p>
 
-<ul>
-<li>添加参数时参数名直接命名，不需要特殊符号</li>
-<li>在启动文件的时候必须按照顺序赋值参数，不需要指定参数名，参数之间以空格分隔。</li>
-</ul>
-
-<p>示例代码：</p>
-
-<pre><code class="language-python">parser.add_argument(&quot;name&quot;, help=&quot;user name&quot;)
-parser.add_argument(&quot;age&quot;, type=int, choices=[1, 2, 6, 18, 24], help=&quot;user age&quot;)
-print(parser.parse_args())
-</code></pre>
-
-<p>示例结果：</p>
-
-<pre><code class="language-python">python3 argparse_test.py xiaoming 24
-Namespace(age=24, name=&#39;xiaoming&#39;)
-# 如果age没有不在choices中，会报以下错误：
-python3 argparse_test.py xiaoming 23
-usage: argparse_test.py [-h] name {1,2,6,18,24}
-argparse_test.py: error: argument age: invalid choice: 23 (choose from 1, 2, 6, 18, 24)
-</code></pre>
-
-<h3 id="toc_6">添加可选参数</h3>
-
-<p>可选参数的特点</p>
-
-<ul>
-<li>添加参数时参数名前面有两个“--”（注意不是下划线，是短线）</li>
-<li>可选参数在启动文件时可以不赋值，如果参数有默认值，会选择默认值进行赋值，如果没有，则为None</li>
-<li>在启动文件时不需要按照顺序执行，只需要指定参数名和参数值，以空格分隔。</li>
-</ul>
-
-<p>示例代码：</p>
-
-<pre><code class="language-python">parser.add_argument(&quot;--name&quot;, action=&quot;store_true&quot;)
-parser.add_argument(&quot;--age&quot;, action=&quot;store_const&quot;, const=&#39;this is age&#39;)
-parser.add_argument(&quot;--weight1&quot;, action=&quot;count&quot;, default=0)
-parser.add_argument(&quot;--weight2&quot;, action=&quot;append&quot;, type=int)
-parser.add_argument(&quot;--height1&quot;, action=&quot;append_const&quot;, const=42, dest=&quot;w_h&quot;)
-parser.add_argument(&quot;--height2&quot;, action=&quot;append_const&quot;, const=1, dest=&quot;w_h&quot;)
-parser.add_argument(&quot;--version&quot;, action=&quot;version&quot;, version=&#39;%(prog)s 0.1&#39;)
-args = parser.parse_args()
-print(args)
-print(args.weight1 &gt;= 0)
-print(type(args.w_h))
-</code></pre>
-
-<p>示例结果</p>
-
-<pre><code class="language-python"># name的动作决定启动时如果有--name,值为真，没有为假
-python3 argparse_test.py --name
-Namespace(age=None, name=True, w_h=None, weight1=0, weight2=None)
-</code></pre>
-
-<p><strong>注：可选参数可以有简写，会以&quot;-&quot;开头，后面紧接简写，如下所示</strong></p>
-
-<pre><code class="language-python">parser.add_argument(&quot;-w&quot;, &quot;--weight&quot;, action=&quot;append&quot;, type=int)
-</code></pre>
-
-<h3 id="toc_7">混合使用必选参数和可选参数</h3>
-
-<p>有时候在启动脚本时会有一些必选参数，也会有一些可选参数。混合使用的时候，各自特点仍然不变，顺序是可以改变的，不过必选参数因为不指定参数名，所以必选参数之间的顺序是不能调换的。</p>
-
-<p>示例代码：</p>
-
-<pre><code class="language-python">parser.add_argument(&quot;name&quot;, help=&quot;user name&quot;)
-parser.add_argument(&quot;-a&quot;, &quot;--age&quot;, type=int, help=&quot;increase output verbosity&quot;)
-parser.add_argument(&quot;-w&quot;, &quot;--weight&quot;, type=int)
-parser.add_argument(&quot;tall&quot;, type=int)
-parser.add_argument(&quot;hobby&quot;, type=str)
-args = parser.parse_args()
-print(args)
-print(args.weight)
-</code></pre>
-
-<p>示例结果：</p>
-
-<pre><code class="language-python"># 正常使用的情况：
-python3 argparse_test.py xiaoming -w 287 167 hobby -a 25
-Namespace(age=25, hobby=&#39;hobby&#39;, name=&#39;xiaoming&#39;, tall=167, weight=287)
-287
-# 如果必选参数位置改变的情况，可以看到赋值是不一样的：
-python3 argparse_test.py hobby -w 287 2167  xiaoming -a 25
-Namespace(age=25, hobby=&#39;xiaoming&#39;, name=&#39;hobby&#39;, tall=2167, weight=287)
-287
-# 如果顺序的调换导致参数类型不能对应，则会报错：
-python3 argparse_test.py hobby -w 287  xiaoming -a 25 167
-usage: argparse_test.py [-h] [-a AGE] [-w WEIGHT] name tall hobby
-argparse_test.py: error: argument tall: invalid int value: &#39;xiaoming&#39;
-</code></pre>
-
-<h3 id="toc_8">添加参数冲突</h3>
-
-<p>有时候会根据不同的使用场景，设置几个不同的参数，而这几个参数之间是互斥的，即有他没我，有我没他的关系，所以就用到了参数冲突。几个冲突的参数放在一个集合中，就能够保证只能出现其中的一个，如代码示例所示：</p>
-
-<p>代码示例：</p>
-
-<pre><code class="language-python">group = parser.add_mutually_exclusive_group()
-group.add_argument(&quot;-fn&quot;, &quot;--full_name&quot;)
-group.add_argument(&quot;-sn&quot;, &quot;--short_name&quot;)
-parser.add_argument(&quot;-a&quot;, &quot;--age&quot;, type=int)
-parser.add_argument(&quot;-w&quot;, &quot;--weight&quot;, type=int)
-args = parser.parse_args()
-print(args)
-</code></pre>
-
-<p>示例结果：</p>
-
-<pre><code class="language-python"># 如果命令行参数中出现冲突，程序将会报错：
-python3 argparse_test.py -fn full_name -sn short_name -a 25
-usage: argparse_test.py [-h] [-fn FULL_NAME | -sn SHORT_NAME] [-a AGE]
-                        [-w WEIGHT]
-argparse_test.py: error: argument -sn/--short_name: not allowed with argument -fn/--full_name
-# 只有当冲突参数只出现一个的时候，才能够正常执行：
-python3 argparse_test.py -fn full_name -a 25
-Namespace(age=25, full_name=&#39;full_name&#39;, short_name=None, weight=None)
-</code></pre>
-
-<h1 id="toc_9">请求解析☞reqparse</h1>
-
-<h2 id="toc_10">使用背景</h2>
-
-<p>对于一个请求中的参数，我们可以使用request.form,request.args,request.get_json()等方法将需要的数据提取出来，但是很多情况下这些数据都是不可信的，所以我们需要一一验证，在参数比较多的情况下，依次验证就显得麻烦很多，这个时候我们可以使用Flask-RESTful提供的请求解析模块——reqparse</p>
-
-<h2 id="toc_11">定义对象</h2>
-
-<pre><code class="language-python">from flask_restful import reqparse
-
-parser = reqparse.RequestParser()
-</code></pre>
-
-<h2 id="toc_12">添加解析器</h2>
-
-<pre><code class="language-python">parser.add_argument(&#39;name&#39;, type=str, default=1, required=True, ignore=True, 
-location=&#39;args&#39;, choices=(&#39;bob&#39;,&#39;since&#39;), case_sensitive=False, 
-store_missing=True)
-</code></pre>
-
-<p>对添加数据约束时的各个参数做一个简单的介绍：</p>
-
-<ul>
-<li>type:数据的类型，int，str，text，werkzeug.datastructures.FileStorage（files中读数据）等</li>
-<li>default:如果请求中不带有该参数，则取该默认值作为参数值</li>
-<li>required:值为True的情况下，规定必须包含该参数，否则报请求错误</li>
-<li>ignore：值为True的情况下，如果参数类型发生转变，则会忽略该参数，即参数值为None</li>
-<li>choices: 参数值在选择池中，如果不在选择池中，则报请求错误</li>
-<li>case_sensitive: 值为True的情况下，会区分大小写，值为False的情况下，大写转小写</li>
-<li>store_missing:个人测试好像和default配合使用才会起作用， 在没有默认值的情况下，无论该变量的值是True还是False，其数据的值都是None，在有默认值的情况下，store_missing为True时，如果请求中没有出现该参数，则存储默认值。</li>
-<li>location：指明参数的位置，比如：form, args, headers, cookies, files等，需要注意的是有的位置要指明参数的类型，如果一个参数可能存在多个位置，可以以列表的形式指明location，最后的结果会先在列表指定的位置查找，找不到的话或在其他地方查找</li>
-</ul>
-
-<h2 id="toc_13">解析器继承</h2>
-
-<p>有时候会有多个公共参数，这时候如果每个请求都写一个解析器，则可能会有很多代码是重复的，所以可以指定一个父解析器，然后去继承这个解析器。</p>
-
-<pre><code class="language-python">from flask_restful import reqparse
-
-parser = reqparse.RequestParser()
-
-parser.add_argument(&#39;name&#39;, type=str)
-parser.add_argument(&#39;weight&#39;, type=int, required=True)
-parser.add_argument(&#39;height&#39;, type=int)
-
-# 使用parser.copy()方法扩展parser解析器
-parser_copy = parser.copy()
-#添加新的参数
-parser_copy.add_argument(&#39;age&#39;, type=int)
-#replace_argument()方法重写某个参数的解析约束
-parser_copy.replace_argument(&#39;weight&#39;, type=int)
-#remove_argument()方法删除某个参数
-parser_copy.remove_argument(&#39;height&#39;)
-</code></pre>
-
-<h2 id="toc_14">执行参数解析与获取参数值</h2>
-
-<p>这里直接写参数解析，上文请参考定义对象和添加解析器</p>
-
-<pre><code class="language-python">args = parser.parse_args()
-name = args.get(&quot;name&quot;)
-</code></pre>
-
-<p><strong>注：请求解析是仿照命令行解析编写的</strong></p>
+<p>&lt;?php<br/>
+for(\(i = 0;\)i &lt; 50;\(i++) {<br/>
+if(\)i % 2 == 0 &amp;&amp; \(i % 3 == 0)//输出是2的倍数并且也是3的倍数的数字<br/>
+    echo \)i.&#39;<br />&#39;;<br/>
+}<br/>
+for(\(i = 0;\)i &lt; 50;\(i++) {<br/>
+    if(\)i % 2 == 0 || \(i % 3 == 0)//输出是2的倍数或者是3的倍数的数字<br/>
+        echo \)i.&#39;<br />&#39;;<br/>
+}<br/>
+for(\(i = 0;\)i &lt; 10;\(i++) {<br/>
+    if(\)i != 9)//输出不等于9的数字<br/>
+        echo $i.&#39;<br />&#39;;<br/>
+}<br/>
+?&gt;</p>
 
                         
                       </div>
@@ -1021,10 +509,10 @@ name = args.get(&quot;name&quot;)
                 <div class="read-more clearfix">
                   <div class="more-left left">
                   
-                    <span class="date">2016/7/27</span>
+                    <span class="date">2017/7/20</span>
                     <span>posted in&nbsp;</span> 
           				  
-          					    <span class="posted-in"><a href='Python.html'>Python</a></span>
+          					    <span class="posted-in"><a href='PHP.html'>PHP</a></span>
           				   
                   </div>
                   <div class="more-right right">
@@ -1038,118 +526,197 @@ name = args.get(&quot;name&quot;)
               </div><!-- article -->
         
 			<div class="article">
-                <a class="clearlink" href="14696115775601.html">
+                <a class="clearlink" href="14857051137850.html">
                 
-                  <h1>Python发送邮件☞smtplib</h1>
+                  <h1>PHP与MySQL（下篇）</h1>
                   <div class="a-content">
                       
                       <div class="a-content-text">
                         
-                        	<h2 id="toc_0">简介</h2>
+                        	<p>连接数据库</p>
 
-<p>python的smtplib模块通过对smtp协议进行封装，实现了发送电子邮件的方式</p>
+<p>对于用户的各种操作，都离不开数据库，所以在操作之前就要连接好数据库</p>
 
-<h2 id="toc_1">创建SMTP对象</h2>
+<p>//定义几个常量<br/>
+define(&#39;MYSQL_HOST&#39;,&#39;localhost&#39;);<br/>
+define(&#39;MYSQL_USER&#39;,&#39;root&#39;);<br/>
+define(&#39;MYSQL_PW&#39;,&#39;&#39;);<br/>
+function connectDb()<br/>
+{<br/>
+    \(conn = mysql_connect(MYSQL_HOST,MYSQL_USER,MYSQL_PW);<br/>
+    mysql_select_db(&#39;myapp&#39;);<br/>
+    return \)conn;<br/>
+}</p>
 
-<pre><code class="language-python">import smtplib
+<p>新增用户</p>
 
-#参数依次为SMTP服务器主机，端口，主机名，都是可选参数
-smtpObj = smtplib.SMTP(host, port, local_hostname)
+<p>在网页中，一般都是通过用户注册来实现用户的增加的，而注册的信息一般是通过表单进行提交，提交过之后交给PHP程序处理。</p>
+
+<p>注册页面</p>
+
+<div style="background-color: #00fafa;width: 400px;height: 400px;margin-top: 10px;margin-left: 500px">
+    <form action="adduser.php" method="post">
+        <br />
+        <div style="margin-left: 50px">
+            <h2>&nbsp;&nbsp;&nbsp;&nbsp;用户注册</h2>
+            用户名称：<input type="text" name = 'name'>
+        </div>
+
+<pre><code>    &lt;br /&gt;&lt;br /&gt;
+    &lt;div style=&quot;margin-left: 50px&quot;&gt;
+        设置密码：&lt;input type=&quot;password&quot; name=&quot;pas&quot;&gt;
+    &lt;/div&gt;
+    &lt;br /&gt;&lt;br /&gt;
+    &lt;div style=&quot;margin-left: 50px&quot;&gt;
+        确认密码：&lt;input type=&quot;password&quot; name = &quot;pass&quot;&gt;
+    &lt;/div&gt;
+    &lt;br /&gt;&lt;br /&gt;
+    &lt;div style=&quot;margin-left: 50px&quot;&gt;
+        用户年龄：&lt;input type=&quot;number&quot; name=&quot;age&quot;&gt;
+    &lt;/div&gt;
+    &lt;br /&gt;&lt;br /&gt;
+    &lt;div style=&quot;margin-left: 50px&quot;&gt;
+        用户学号：&lt;input type=&quot;text&quot; name=&quot;xuehao&quot;&gt;
+    &lt;/div&gt;
+    &lt;br /&gt;
+    &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;
+    &lt;input type=&quot;submit&quot; value=&quot;提交&quot;&gt;&amp;nbsp;
+    &amp;nbsp;&amp;nbsp;&amp;nbsp;
+    &lt;input type=&quot;reset&quot; value=&quot;重置&quot;&gt;
+&lt;/form&gt;
 </code></pre>
 
-<h2 id="toc_2">发送邮件</h2>
+<p></div><br/>
+在本示例中，通过post的方式进行提交数据到adduser.php文件，接下来就是该文件的处理</p>
 
-<pre><code class="language-python">#可以看出，msg是发送的邮件，包含了标题，收件人，发件人，邮件内容，有时还会有附件，msg的格式必须是smtp协议中定义的格式
-smtpObj.sendmail(from_addr, to_addr, msg)
-</code></pre>
+<p>if(\(_POST[&#39;pas&#39;] != \)_POST[&#39;pass&#39;])<br/>
+    echo&#39;密码不统一，<a href="adduser.html">点击这里重新填写</a>&#39;;<br/>
+else<br/>
+{<br/>
+    //将获得的数据分离出来进行赋值操作<br/>
+    \(name = \)_POST[&#39;name&#39;];<br/>
+    \(pas = \)_POST[&#39;pas&#39;];<br/>
+    \(pass = \)_POST[&#39;pass&#39;];<br/>
+    \(age = \)_POST[&#39;age&#39;];<br/>
+    \(xuehao = \)_POST[&#39;xuehao&#39;];<br/>
+    if(empty(\(name) || empty(\)pas) || empty(\(pass) || empty(\)age) || empty(\(xuehao))<br/>
+        echo&#39;信息不完整，&lt;a href=&quot;adduser.html&quot;&gt;点击这里重新填写&lt;/a&gt;&#39;;<br/>
+    else<br/>
+    {<br/>
+        require_once &#39;functions.php&#39;;<br/>
+        \)conn = connectDb();<br/>
+        //echo &quot;\(name &lt;br /&gt;&quot;;<br/>
+        if(\)conn)<br/>
+        {<br/>
+            \(age = intval(\)age);<br/>
+            //注意：name是一个字符串，应该将其引起来再传参数<br/>
+            mysql_query(&quot;INSERT INTO user(name,password,age,xuehao) VALUES (&#39;\(name&#39;,&#39;\)pas&#39;,\(age,&#39;\)xuehao&#39;)&quot;);<br/>
+            //如果需要插入多条数据，则写成以下形式，即value中再写一个小括号<br/>
+            // mysql_query(&quot;INSERT INTO user(name,password,age,xuehao) VALUES (\(name,\)pas,\(age,\)xuehao),($name1...)&quot;);<br/>
+            if(mysql_errno())//判断写入的时候有没有错误<br/>
+            {<br/>
+                echo mysql_error();//如果有错误就输出错误<br/>
+            }<br/>
+                else<br/>
+            header(&quot;Location:index.php&quot;);<br/>
+        }<br/>
+        else<br/>
+            die(&#39;can not connect db&#39;);<br/>
+    }<br/>
+}<br/>
+添加用户对数据库的操作语句为：</p>
 
-<h2 id="toc_3">发送文本消息的邮件</h2>
+<p>mysql_query(&quot;INSERT INTO user(name,password,age,xuehao) VALUES (&#39;\(name&#39;,&#39;\)pas&#39;,\(age,&#39;\)xuehao&#39;)&quot;);<br/>
+修改用户数据</p>
 
-<p>这里接着上面的代码继续写，对没有的部分进行补充。</p>
+<p>要修改用户信息，一般是要获取用户原来的信息，然后将修改后的信息传到数据库</p>
 
-<pre><code class="language-python">from email.mime.text import MIMEText
-from email.header import Header
+<p>获取原来信息并修改</p>
 
-#如果使用的是本地邮件服务，这里可以不用登录
-smtpObj.login(‘服务器用户名’, ‘用户名密码’)
-#添加邮件消息,三个参数，文本内容，文本格式（如果是html类型，这里要写html），设置编码
-msg = MIMEText(‘this is test email’, ‘plain’, ‘utf-8’)
-#添加发件人，收件人，主题
-msg[&quot;Form&quot;] = &quot;发件人邮箱&lt;test@test.com&gt;&quot;
-msg[&quot;To&quot;] = &quot;收件人邮箱&lt;receiver@receiver.com&gt;&quot;
-msg[&quot;Subject&quot;] = Header(&quot;这里是标题&quot;， &quot;utf-8&quot;).encode()
+<p>if(!empty(\(_GET[&#39;id&#39;]))<br/>
+{<br/>
+    \)conn = connectDb();//连接数据库<br/>
+    \(id = \)_GET[&#39;id&#39;];//获取要修改数据的id<br/>
+    //选择该id的数据<br/>
+    \(result = mysql_query(&quot;SELECT * FROM user WHERE ID = &#39;\)id&#39;&quot;);<br/>
+    if(mysql_errno())<br/>
+        echo mysql_error();<br/>
+    //将数据赋值给数组\(arr<br/>
+    \)arr = mysql_fetch_assoc(\(result);<br/>
+}<br/>
+else<br/>
+    die(&#39;id not define&#39;);<br/>
+?&gt;<br/>
+//用表单的形式显示数据并修改<br/>
+&lt;form action=&quot;adduser_change.php&quot; method=&quot;post&quot;&gt;<br/>
+    &lt;div&gt;<br/>
+       用户ＩＤ：&lt;input type=&quot;text&quot; name=&quot;id&quot; value=&quot;&lt;?php echo\)arr[&#39;ID&#39;];?&gt;&quot;&gt;<br/>
+    </div><br/>
+    <br /><br/>
+    <div><br/>
+        用户名称：<input type="text" name="name" value="<?php echo$arr['name'];?>&quot;&gt;<br/>
+    </div><br/>
+    <br /><br/>
+    <div><br/>
+        用户密码：<input type="password" name="pass" value="<?php echo$arr['password'];?>&quot;&gt;<br/>
+    </div><br/>
+    <br /><br/>
+    <div><br/>
+        用户年龄：<input type="number" name="age" value="<?php echo$arr['age'];?>&quot;&gt;<br/>
+    </div><br/>
+    <br /><br/>
+    <div><br/>
+        用户学号：<input type="text" name="xuehao" value="<?php echo$arr['xuehao'];?>&quot;&gt;<br/>
+    </div><br/>
+    <br /><br/>
+    <input type="submit" value="提交"><br/>
+</form><br/>
+将修改后得到的数据进行上传</p>
 
-#发送
-smtpObj.sendmail(&quot;发送者邮箱&quot;, [接受者邮箱，是列表类型，可以有多个接受者], msg.as_string())
-</code></pre>
+<p>require_once&#39;functions.php&#39;;<br/>
+//调用函数，连接数据库<br/>
+\(conn = connectDb();<br/>
+//对于传过来的参数进行判断，如果没有填写完整，给出提示，退出程序的执行<br/>
+if(empty(\)_POST[&#39;id&#39;]) || empty(\(_POST[&#39;name&#39;]) || empty(\)_POST[&#39;pass&#39;]) || empty(\(_POST[&#39;age&#39;]) || empty(\)_POST[&#39;xuehao&#39;]))<br/>
+{<br/>
+    die (&quot;数据不完整!!&quot;);<br/>
+}<br/>
+else<br/>
+{<br/>
+    \(id = intval(\)_POST[&#39;id&#39;]);<br/>
+    \(name = \)_POST[&#39;name&#39;];<br/>
+    \(pass = \)_POST[&#39;pass&#39;];<br/>
+    \(age = intval(\)_POST[&#39;age&#39;]);<br/>
+    \(xuehao = \)_POST[&#39;xuehao&#39;];<br/>
+   if(\(conn)<br/>
+   {<br/>
+       mysql_query(&quot;UPDATE user SET name=&#39;\)name&#39;,password=&#39;\(pass&#39;,age=\)age,xuehao=&#39;\(xuehao&#39; WHERE id = \)id&quot;);<br/>
+       header(&quot;Location:index.php&quot;);//跳转至指定页面<br/>
+   }<br/>
+    else<br/>
+        echo &quot;can not connect db&quot;;<br/>
+}<br/>
+修改数据和数据库相关的语句</p>
 
-<h2 id="toc_4">发送带附件的邮件</h2>
+<p>mysql_query(&quot;UPDATE user SET name=&#39;\(name&#39;,password=&#39;\)pass&#39;,age=\(age,xuehao=&#39;\)xuehao&#39; WHERE id = $id&quot;);<br/>
+删除数据</p>
 
-<p>这里直接写与发送文本消息不同的部分，和发送文本消息不同的部分是消息对象的创建不是MIMEText，而是MIMEMultipart，添加邮件消息采用attach()方法</p>
+<p>删除数据比较简单，只需要根据要删除的数据的id进行删除操作即可</p>
 
-<pre><code class="language-python">from email.mime.multipart import MIMEMultipart
-#创建消息对象
-msg = MIMEMultipart()
+<p>require_once &#39;functions.php&#39;;<br/>
+            if(!empty(\(_GET[&#39;id&#39;]))<br/>
+            {<br/>
+                \)conn = connectDb();<br/>
+                \(id = \)_GET[&#39;id&#39;];<br/>
+                mysql_query(&quot;DELETE FROM user WHERE id=$id&quot;);<br/>
+                if(mysql_errno())<br/>
+                    die(&#39;用户删除失败!!&#39;);<br/>
+                else<br/>
+                    header(&quot;Location:index.php&quot;);<br/>
+            }<br/>
+删除数据的数据库相应语句</p>
 
-#添加邮件消息
-msg.attach(MIMEText(&quot;this is test email&quot;, &quot;plain&quot;, &quot;utf-8&quot;))
-
-#构造附件
-att1 = MIMEText(open(&#39;test.txt&#39;, &#39;rb&#39;).read(), &#39;base64&#39;, &#39;utf-8&#39;)
-att1[&quot;Content-Type&quot;] = &#39;application/octet-stream&#39;
-# 这里的filename可以任意写，写什么名字，邮件中显示什么名字
-att1[&quot;Content-Disposition&quot;] = &#39;attachment; filename=&quot;test.txt&quot;&#39;
-msg.attach(att1)
-#可以使用此方法添加多个附件
-
-#发送,和发送文本邮件相同
-smtpObj.sendmail(&quot;发送者邮箱&quot;, [接受者邮箱，是列表类型，可以有多个接受者], msg.as_string())
-</code></pre>
-
-<h2 id="toc_5">扩展☞HTML类型的邮件内容中显示图片</h2>
-
-<p>这里直接上一个完整的例子</p>
-
-<pre><code class="language-python">import smtplib
-from email.mime.image import MIMEImage
-from email.mime.multipart import MIMEMultipart
-from email.mime.text import MIMEText
-from email.header import Header
-
-sender = &quot;发送者邮箱&quot;
-receivers = &quot;接收者列表&quot; # 接收邮件，可设置为你的QQ邮箱或者其他邮箱
-
-msg = MIMEMultipart(&#39;related&#39;)
-msg[&#39;From&#39;] = Header(&quot;发送者信息&quot;, &#39;utf-8&#39;)
-msg[&#39;To&#39;] =  Header(&quot;接收者信息&quot;, &#39;utf-8&#39;)
-msg[&#39;Subject&#39;] = Header(&quot;Python SMTP 邮件测试&quot;, &#39;utf-8&#39;)
-
-msgAlternative = MIMEMultipart(&#39;alternative&#39;)
-msg.attach(msgAlternative)
-
-
-mail_msg = &quot;&quot;&quot;
-&lt;p&gt;Python 邮件发送测试...&lt;/p&gt;
-&lt;p&gt;&lt;a href=&quot;则是超链接地址&quot;&gt;这是一个超链接&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;图片演示：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;cid:image1&quot;&gt;&lt;/p&gt;
-&quot;&quot;&quot;
-msgAlternative.attach(MIMEText(mail_msg, &#39;html&#39;, &#39;utf-8&#39;))
-
-# 指定图片为当前目录
-fp = open(&#39;test.png&#39;, &#39;rb&#39;)
-msgImage = MIMEImage(fp.read())
-fp.close()
-
-# 定义图片 ID，在 HTML 文本中引用
-msgImage.add_header(&#39;Content-ID&#39;, &#39;&lt;image1&gt;&#39;)
-msg.attach(msgImage)
-
-#在本机有邮件服务的情况下进行发送
-smtpObj = smtplib.SMTP(&#39;localhost&#39;)
-smtpObj.sendmail(sender, receivers, msg.as_string())
-
-</code></pre>
+<p>mysql_query(&quot;DELETE FROM user WHERE id=$id&quot;);</p>
 
                         
                       </div>
@@ -1158,10 +725,10 @@ smtpObj.sendmail(sender, receivers, msg.as_string())
                 <div class="read-more clearfix">
                   <div class="more-left left">
                   
-                    <span class="date">2016/7/27</span>
+                    <span class="date">2017/6/30</span>
                     <span>posted in&nbsp;</span> 
           				  
-          					    <span class="posted-in"><a href='Python.html'>Python</a></span>
+          					    <span class="posted-in"><a href='PHP.html'>PHP</a></span>
           				   
                   </div>
                   <div class="more-right right">
@@ -1175,88 +742,22 @@ smtpObj.sendmail(sender, receivers, msg.as_string())
               </div><!-- article -->
         
 			<div class="article">
-                <a class="clearlink" href="14690965374529.html">
+                <a class="clearlink" href="14974041579745.html">
                 
-                  <h1>python发送邮件☞flask-mail扩展</h1>
+                  <h1>《新参者》</h1>
                   <div class="a-content">
                       
                       <div class="a-content-text">
                         
-                        	<h2 id="toc_0">简介</h2>
+                        	<p>当时买这本书时，推荐是这么写的：“这是一个靠逻辑破不了的案子，情才可以；一本让人读后热泪盈眶的推理小说；在这本推理小说里，推理不是重点，而是要找出人们各种行为的原因，找到凶手也不是最终目的，而是要彻查案件的原因，否则就不能真正救赎”。我想感受一下热泪盈眶的感觉，于是就买了下来。清晨起来无事，便拿起枕边的这本书开始读起来，渐渐地，我被里面的故事所吸引。</p>
 
-<p>Python的扩展库，采用SMTP协议完成邮件的发送，需要自己安装。</p>
+<p>整个故事的主线是在东京日本桥，一个单身女人在公寓内被杀，警方发现她刚刚搬到这里不久（“新参者”在日语中的意思就是刚加入的人），负责这个案件的刑警加贺依次走访了这附件的一家家店铺，于是，一个个的故事浮现出来，每一个故事都很温暖。</p>
 
-<h2 id="toc_1">安装方法</h2>
+<p>加贺走访的第一家是仙贝店，嫌疑人田仓来这家店中取聪子（仙贝店女孩的奶奶，前几天刚刚出院，女孩从小跟奶奶长大）的住院申请补贴，然后回公司办理补贴手续，但是时间和警方在公司其它同事那里了解到的并不一致，准确的说是田仓办理补贴的时间要早于来仙贝店拿申请书的时间，而当天田仓也出现在被害人的家里，所以警方怀疑田仓有作案的时间。经过各种跟踪调查之后，警方发现这中间隐藏了一个可以证明田仓清白的秘密：女孩的奶奶患的是不治之症，但是这病情不能让女孩和奶奶知道，奶奶却要亲自把住院证明材料交给田仓，所以父亲委托医院写了一份假的住院证明交给奶奶，而真正的住院证明就由父亲交给田仓，然后田仓再来到仙贝店拿这份假的材料。为了不让奶奶和女孩知道病情的真相，田仓选择将这个能证明自己清白的证据隐藏起来。也是因为他的这份善举，让这段小故事有了一个完美的结局。</p>
 
-<p>一种方法是通过pip进行安装</p>
+<p>加贺走访的第二家店是高级料亭。伙计替老板秘密地买了人形烧，但是这人形烧却出现在了被害者的房间里，于是买人形烧的伙计成了嫌疑人。伙计被警察询问，但因为涉及到了老板的秘密，他没有说人形烧给了老板，只能说自己吃掉了。但他的措辞和行动简直是漏洞百出，伙计很担心老板就是那个杀人凶手，老板听说后，为了打消伙计的顾虑，带他见了自己的小情人。与此同时，故事有了新的发展，加贺和老板娘进行谈话，原来，老板娘知道丈夫在外面有小情人，而小情人为了讨老板开心，说自己喜欢吃人形烧，实际上却很讨厌，才把老板送的人形烧送给了被害人。伙计也因为自己的守信得到了老板和老板娘的认可。虽然故事很温馨，却又感觉怪怪的，自己的丈夫出轨，却不生气，真是不懂大人们的世界啊。</p>
 
-<pre><code class="language-python">pip install Flask-Mail
-</code></pre>
-
-<p>另一种方法是下载源码，通过python解释安装</p>
-
-<pre><code class="language-python">python setup.py install
-</code></pre>
-
-<h2 id="toc_2">选项配置</h2>
-
-<p>通过配置，可以指定邮件发送的参数选项</p>
-
-<pre><code>MAIL_SERVER: SMTP服务器主机，可以指定主机IP地址，也可以是域名
-MAIL_PORT: SMTP服务使用的端口号，一般会是25
-MAIL_USERNAME:登录服务器的账号名
-MAIL_PASSWORD:登录服务器的密码
-MAIL_DEFAULT_SENDER:默认发送方
-MAIL_MAX_EMAILS:支持一次连接时最大发送邮件数目，默认会是None，即无限制
-</code></pre>
-
-<h2 id="toc_3">创建邮件发送实例</h2>
-
-<pre><code class="language-python">from flask import Flask
-from flask_mail import Mail
-
-app = Flask(__name__)
-mail = Mail()
-mail.init_app(app)#使用Flask的current_app中的配置项进行发送
-</code></pre>
-
-<h2 id="toc_4">创建文本文件内容</h2>
-
-<pre><code class="language-python">from flask.ext.mail import Message
-#创建消息对象，参数依次为标题，发送方（如果配置中有默认发送方，这里可以不写.另外，sender可以是一个二元组，代表姓名和邮件地址），接收方（列表类型，可以有多个接收者）
-msg = Message(&#39;title&#39;, sender=([sender_name], sender_email), recipients=receivers)
-#可以通过add_recipient()方法添加接收者
-msg.add_recipient(&quot;new_email@email.com&quot;)
-msg.body = &quot;这里是邮件体，即要发送的邮件的内容&quot;
-msg.html = &quot;如果是html格式，使用html属性进行添加邮件体&quot;
-</code></pre>
-
-<h2 id="toc_5">创建带有附件的邮件内容</h2>
-
-<pre><code class="language-python">from ××× import app
-with app.open_resource(&quot;附件路径&quot;) as fp:
-    msg.attach(&quot;附件名，可更换&quot;, &quot;附件类型&quot;, fp.read())
-#附件类型这里可以说一下，博主一共用到了两种类型，一种是图片：image/png;另一种是文件：application/octet-stream；如有问题，欢迎更正，如要添加，更是欢迎！！
-</code></pre>
-
-<h2 id="toc_6">直接发送邮件</h2>
-
-<pre><code class="language-python">mail.send(msg)
-</code></pre>
-
-<h2 id="toc_7">扩展☞发送大量邮件</h2>
-
-<p>有时候会向多人发送邮件，并且邮件的内容会稍有不同，比如称呼什么的，这时候可以采用以下方式进行发送</p>
-
-<pre><code class="language-python">with mail.connect() as conn:
-    for user in users:
-        message = &quot;.....一堆邮件body&quot;
-        subject = &quot;hello, {}&quot;.format(user.name)
-        msg = Message(recipients=user.email,body=message, subject=subject)
-        conn.send(msg)
-</code></pre>
-
-<p>参考文档：<a href="https://pythonhosted.org/Flask-Mail/">Flask-Mail</a></p>
+<p>加贺走访的第三家是。</p>
 
                         
                       </div>
@@ -1265,10 +766,10 @@ with app.open_resource(&quot;附件路径&quot;) as fp:
                 <div class="read-more clearfix">
                   <div class="more-left left">
                   
-                    <span class="date">2016/7/21</span>
+                    <span class="date">2017/6/14</span>
                     <span>posted in&nbsp;</span> 
           				  
-          					    <span class="posted-in"><a href='Python.html'>Python</a></span>
+          					    <span class="posted-in"><a href='%E8%AF%BB%E4%B9%A6%E9%9A%8F%E7%AC%94.html'>读书随笔</a></span>
           				   
                   </div>
                   <div class="more-right right">
@@ -1304,7 +805,7 @@ with app.open_resource(&quot;附件路径&quot;) as fp:
     <div id="sidebar" class="sidebar">
           <div id="site-info" class="site-info">
             
-                <h1>挂在树上的兔子</h1>
+                <h1>零度燕窝</h1>
                 <div class="site-des"></div>
                 <div class="social">
 
@@ -1343,6 +844,10 @@ with app.open_resource(&quot;附件路径&quot;) as fp:
         
             <a href="Fluent%20Python.html"><strong>Fluent Python</strong></a>
         
+            <a href="%E8%AF%BB%E4%B9%A6%E9%9A%8F%E7%AC%94.html"><strong>读书随笔</strong></a>
+        
+            <a href="%E6%9B%BE%E7%BB%8F%E6%9D%A5%E8%BF%87.html"><strong>曾经来过</strong></a>
+        
             <a href="PHP.html"><strong>PHP</strong></a>
         
             <a href="Ubuntu.html"><strong>Ubuntu</strong></a>
@@ -1362,31 +867,31 @@ with app.open_resource(&quot;附件路径&quot;) as fp:
 	      
 		      
 			      <li class="post">
-			        <a href="15033291458720.html">使用一等函数实现设计模式</a>
+			        <a href="15406290433586.html">扎心！有人偷走了我的磁盘空间？！</a>
 			      </li>
 		     
 		  
 		      
 			      <li class="post">
-			        <a href="15018651943030.html">一等函数</a>
+			        <a href="15377924479103.html">记一次攒机经历</a>
 			      </li>
 		     
 		  
 		      
 			      <li class="post">
-			        <a href="15018646605864.html">文本和字节序列</a>
+			        <a href="15376924661136.html">SQL查询语句之坑</a>
 			      </li>
 		     
 		  
 		      
 			      <li class="post">
-			        <a href="15013419653919.html">集合的使用</a>
+			        <a href="15056428224967.html">![](http://cdn.blog.yanzl.net/2017-10-27-carthusian-2822971.jpg)</a>
 			      </li>
 		     
 		  
 		      
 			      <li class="post">
-			        <a href="15010832436363.html">字典的使用</a>
+			        <a href="15048580065601.html">Python內建类型对象的那些事</a>
 			      </li>
 		     
 		  

@@ -5,12 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>
     
-  使用一等函数实现设计模式 - 挂在树上的兔子
+  使用一等函数实现设计模式 - 零度燕窝
   
   </title>
   
   
-  <link href="atom.xml" rel="alternate" title="挂在树上的兔子" type="application/atom+xml">
+  <link href="atom.xml" rel="alternate" title="零度燕窝" type="application/atom+xml">
     <link rel="stylesheet" href="asset/css/foundation.min.css" />
     <link rel="stylesheet" href="asset/css/docs.css" />
     <script src="asset/js/vendor/modernizr.js"></script>
@@ -62,7 +62,7 @@
 
         <nav class="tab-bar show-for-small">
   <a href="javascript:void(0)" class="left-off-canvas-toggle menu-icon">
-    <span> &nbsp; 挂在树上的兔子</span>
+    <span> &nbsp; 零度燕窝</span>
   </a>
 </nav>
 
@@ -85,6 +85,10 @@
             <li><a href="%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84&%E7%AE%97%E6%B3%95.html">数据结构&算法</a></li>
         
             <li><a href="Fluent%20Python.html">Fluent Python</a></li>
+        
+            <li><a href="%E8%AF%BB%E4%B9%A6%E9%9A%8F%E7%AC%94.html">读书随笔</a></li>
+        
+            <li><a href="%E6%9B%BE%E7%BB%8F%E6%9D%A5%E8%BF%87.html">曾经来过</a></li>
         
             <li><a href="PHP.html">PHP</a></li>
         
@@ -131,7 +135,127 @@
       </div><!-- article -->
 
       <div class="article-content">
-      
+      <h2 id="toc_0">使用函数实现“策略”模式</h2>
+
+<p>这里借助电商中的一个案例来实现“策略”模式，这个案例就是根据客户的订单和属性进行折扣的计算。<br/>
+该示例对具体的策略使用函数进行封装，然后将折扣策略应用到Order实例上，因此只需要将促销函数作为参数传入即可。</p>
+
+<pre><code class="language-python">from collections import namedtuple
+
+Customer = namedtuple(&#39;Customer&#39;, &#39;name fidelity&#39;)
+
+
+class LineItem:
+    def __init__(self, product, quantity, price):
+        self.product = product
+        self.quantity = quantity
+        self.price = price
+
+    def total(self):
+        return self.price * self.quantity
+
+
+class Order:
+
+    def __init__(self, customer, cart, promotion = None):
+        self.customer = customer
+        self.cart = list(cart)
+        self.promotion = promotion
+
+    def total(self):
+        if not hasattr(self, &#39;__total&#39;):
+            self.__total = sum(item.total() for item in self.cart)
+
+        return self.__total
+
+    def due(self):
+        if self.promotion is None:
+            discount = 0
+        else:
+            discount = self.promotion(self)
+
+        return self.total() - discount
+
+    def __repr__(self):
+        fmt = &#39;&lt;Order total: {:.2f} due: {:.2f}&gt;&#39;
+        return fmt.format(self.total(), self.due())
+
+
+def fidelity_promo(order):
+    &quot;&quot;&quot;为积分达到1000以上的客户提供5%折优惠&quot;&quot;&quot;
+    return order.total() * 0.05 if order.customer.fidelity &gt;= 1000 else 0
+
+
+def bulk_item_promo(order):
+    &quot;&quot;&quot;为单个商品达到20个的客户提供10%折优惠&quot;&quot;&quot;
+    discount = 0
+    for item in order.cart:
+        if item.quantity &gt;= 20:
+            discount += item.total() * .1
+
+    return discount
+
+
+def large_order_promo(order):
+    &quot;&quot;&quot;订单中的不同商品达到10个的客户提供7%折优惠&quot;&quot;&quot;
+    distinct_items = {item.product for item in order.cart}
+    if len(distinct_items) &gt;= 10:
+        return order.total() * .07
+
+    return 0
+
+
+joe = Customer(&#39;joe&#39;, 0)
+ann = Customer(&#39;ann&#39;, 1100)
+cart = [LineItem(&#39;banana&#39;, 4, .5),
+        LineItem(&#39;apple&#39;, 10, 1.5),
+        LineItem(&#39;mellon&#39;, 5, 5.0)
+        ]
+
+print(Order(joe, cart, fidelity_promo))
+print(Order(ann, cart, fidelity_promo))
+
+banana_cart = [LineItem(&#39;banana&#39;, 30, .5),
+               LineItem(&#39;apple&#39;, 10, 1.5)
+               ]
+
+print(Order(joe, banana_cart, bulk_item_promo))
+
+long_order = [LineItem(str(item_code), 1, 1.0) for item_code in range(10)]
+
+print(Order(joe, long_order, large_order_promo))
+print(Order(joe, cart, large_order_promo))
+
+</code></pre>
+
+<h2 id="toc_1">选择最佳策略</h2>
+
+<p>在上述实例中，我们手动给每个订单分配了相应的折扣。对客户来讲，他们会希望每次的折扣最大，因此我们需要在诸多的折扣策略中选择一个最优的。最佳策略的查询也可以通过一个简单的方法来实现，如下所示：</p>
+
+<pre><code class="language-python">promos = [fidelity_promo, bulk_item_promo, large_order_promo]
+
+
+def best_promo(order):
+    &quot;&quot;&quot;从所有折扣策略中选择最佳的&quot;&quot;&quot;
+    
+    return max(promo(order) for promo in promos)
+</code></pre>
+
+<h2 id="toc_2">找出全部策略</h2>
+
+<p>在选择最佳策略的时候，我们需要把所有的策略都集中在一个列表中，因此每增加一个策略，就要修改一次列表，这是非常麻烦的。<br/>
+python提供了一个内置函数：<code>globals</code>，这个函数会返回一个字典，表示当前的全局符号表，这个符号表始终针对当前模块，对函数或方法来说，当前模块就是定义他们的模块。<br/>
+该函数的使用方法如下所示：</p>
+
+<pre><code class="language-python">promos = [globals()[name] for name in globals() if name.endswith(&#39;_promo&#39;) and name != &#39;best_promo&#39;]
+</code></pre>
+
+<p>另一个解决方法是：将所有的策略方法放在同一个模块中，且该模块的方法只能是策略函数，我们假设这个模块是<code>promotions</code>，然后将该模块进入，借助<code>inspect</code>模块的<code>isfunction</code>方法获取所有的策略方法名。如下所示：</p>
+
+<pre><code class="language-python">import inspect
+promos = [func for name, func in inspect.getmembers(promotions, inspect.isfunction)]
+</code></pre>
+
 
     
 
@@ -140,6 +264,9 @@
       <div class="row">
         <div class="large-6 columns">
         <p class="text-left" style="padding:15px 0px;">
+      
+          <a href="15048580065601.html" 
+          title="Previous Post: Python內建类型对象的那些事">&laquo; Python內建类型对象的那些事</a>
       
         </p>
         </div>
@@ -172,7 +299,7 @@
     <div id="sidebar" class="sidebar">
           <div id="site-info" class="site-info">
             
-                <h1>挂在树上的兔子</h1>
+                <h1>零度燕窝</h1>
                 <div class="site-des"></div>
                 <div class="social">
 
@@ -211,6 +338,10 @@
         
             <a href="Fluent%20Python.html"><strong>Fluent Python</strong></a>
         
+            <a href="%E8%AF%BB%E4%B9%A6%E9%9A%8F%E7%AC%94.html"><strong>读书随笔</strong></a>
+        
+            <a href="%E6%9B%BE%E7%BB%8F%E6%9D%A5%E8%BF%87.html"><strong>曾经来过</strong></a>
+        
             <a href="PHP.html"><strong>PHP</strong></a>
         
             <a href="Ubuntu.html"><strong>Ubuntu</strong></a>
@@ -230,31 +361,31 @@
 	      
 		      
 			      <li class="post">
-			        <a href="15033291458720.html">使用一等函数实现设计模式</a>
+			        <a href="15406290433586.html">扎心！有人偷走了我的磁盘空间？！</a>
 			      </li>
 		     
 		  
 		      
 			      <li class="post">
-			        <a href="15018651943030.html">一等函数</a>
+			        <a href="15377924479103.html">记一次攒机经历</a>
 			      </li>
 		     
 		  
 		      
 			      <li class="post">
-			        <a href="15018646605864.html">文本和字节序列</a>
+			        <a href="15376924661136.html">SQL查询语句之坑</a>
 			      </li>
 		     
 		  
 		      
 			      <li class="post">
-			        <a href="15013419653919.html">集合的使用</a>
+			        <a href="15056428224967.html">![](http://cdn.blog.yanzl.net/2017-10-27-carthusian-2822971.jpg)</a>
 			      </li>
 		     
 		  
 		      
 			      <li class="post">
-			        <a href="15010832436363.html">字典的使用</a>
+			        <a href="15048580065601.html">Python內建类型对象的那些事</a>
 			      </li>
 		     
 		  

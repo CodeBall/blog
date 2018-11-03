@@ -5,12 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>
     
-  jQuery中的ajax实现异步请求 - 挂在树上的兔子
+  扎心！有人偷走了我的磁盘空间？！ - 零度燕窝
   
   </title>
   
   
-  <link href="atom.xml" rel="alternate" title="挂在树上的兔子" type="application/atom+xml">
+  <link href="atom.xml" rel="alternate" title="零度燕窝" type="application/atom+xml">
     <link rel="stylesheet" href="asset/css/foundation.min.css" />
     <link rel="stylesheet" href="asset/css/docs.css" />
     <script src="asset/js/vendor/modernizr.js"></script>
@@ -62,7 +62,7 @@
 
         <nav class="tab-bar show-for-small">
   <a href="javascript:void(0)" class="left-off-canvas-toggle menu-icon">
-    <span> &nbsp; 挂在树上的兔子</span>
+    <span> &nbsp; 零度燕窝</span>
   </a>
 </nav>
 
@@ -85,6 +85,10 @@
             <li><a href="%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84&%E7%AE%97%E6%B3%95.html">数据结构&算法</a></li>
         
             <li><a href="Fluent%20Python.html">Fluent Python</a></li>
+        
+            <li><a href="%E8%AF%BB%E4%B9%A6%E9%9A%8F%E7%AC%94.html">读书随笔</a></li>
+        
+            <li><a href="%E6%9B%BE%E7%BB%8F%E6%9D%A5%E8%BF%87.html">曾经来过</a></li>
         
             <li><a href="PHP.html">PHP</a></li>
         
@@ -111,14 +115,14 @@
       <div class="markdown-body article-wrap">
        <div class="article">
           
-          <h1>jQuery中的ajax实现异步请求</h1>
+          <h1>扎心！有人偷走了我的磁盘空间？！</h1>
      
         <div class="read-more clearfix">
-          <span class="date">2016/8/4</span>
+          <span class="date">2018/10/27</span>
 
           <span>posted in&nbsp;</span> 
           
-              <span class="posted-in"><a href='Python.html'>Python</a></span>
+              <span class="posted-in"><a href='%E6%95%B0%E6%8D%AE%E5%BA%93.html'>数据库</a></span>
            
          
           <span class="comments">
@@ -131,50 +135,118 @@
       </div><!-- article -->
 
       <div class="article-content">
-      <h2 id="toc_0">使用背景</h2>
+      <p>2天前，接到系统报警，用来存储数据库数据的磁盘空间剩余不足10%，于是经过一番删表操作，成功释放了 40G 的空间，关上电脑，安心睡觉。难得今天周六可以在家好好休息，买了老母鸡准备煲个鸡汤犒劳一下自己，此时收到 leader 发来的微信：不是说磁盘空间空出了 40G 吗？现在磁盘都快爆了！！<br/>
+最怕灯火阑珊时，手机响，心里慌。罢了，鸡汤之后再煲吧~打开电脑，连接线上环境，又是一通删表操作（此处还有其他操作，请不要盲目删表），执行 <code>df -h</code> 命令，奇怪的事情发生了，刚刚明明删除了大概 10G 左右的数据文件，为啥磁盘占用量只减少了 2G 左右，玩呢吧。。。。。。</p>
 
-<p>在页面显示中，我们希望点击一个按钮获取到相应数据后，在当前页面显示数据而不是跳转到新的页面去显示数据。或者在做一个操作后（比如删除，修改等操作），当前页面不会重新加载，但是会将操作传递到后台进行操作，这个时候我们就会用到异步请求。使用jQuery集成的ajax进行异步操作还是蛮方便的。</p>
+<h2 id="toc_0">那么问题来了</h2>
 
-<h2 id="toc_1">常用参数</h2>
+<p>文件已经删除了，到底哪里出了问题，竟然把我的磁盘空间都吃满了呢？<br/>
+使用 <code>df -h</code> 命令查看对应路径下的空间占用情况，得到如图1-1所示的结果：<br/>
+<center><br/>
+<img src="media/15406290433586/15406328121647.jpg" alt=""/><br/>
+图1-1<br/>
+</center></p>
 
-<p><strong>注 ajax的请求参数都是以键值对的方式存在的</strong></p>
+<p>这个结果看起来，磁盘分分钟就要爆了呀！！既然如此，那再看看到底是那个文件夹中的文件最占空间吧。执行 <code>du --max-depth=1 -h</code>命令，得到如图1-2所示的结果：<br/>
+<center><br/>
+<img src="media/15406290433586/15406330683651.jpg" alt=""/><br/>
+图1-2<br/>
+</center><br/>
+那么问题来了，这个结果看起来，该路径下的磁盘占用量只有 109G，相比于上面查询的 152G，那 43G 去哪里了呢？为什么 <code>df -h</code> 命令查出来的结果和 <code>du -h</code>命令查出来的结果不一样呢？</p>
+
+<h2 id="toc_1">du命令和df命令区别</h2>
+
+<h3 id="toc_2">du命令工作原理</h3>
+
+<p>du，disk usage,是通过搜索文件来计算每个文件的大小然后累加，du能看到的文件只是一些当前存在的，没有被删除的。他计算的大小就是当前他认为存在的所有文件大小的累加和。它的数据是基于文件获取的，所以有很大的灵活性，不一定非要针对一个分区，可以跨越多个分区操作。如果针对的目录中文件很多，du速度就会很慢。</p>
+
+<h3 id="toc_3">df命令工作原理</h3>
+
+<p>df，disk free，通过文件系统来快速获取空间大小的信息，它的数据是基于分区元数据的，所以只能针对整个分区。由于df直接读取超级块，所以运行速度不受文件多少影响。<br/>
+当我们删除一个文件的时候，这个文件不是马上就在文件系统当中消失了，而是暂时消失了，当所有程序都不用时，才会根据OS的规则释放掉已经删除的文件， df记录的是通过文件系统获取到的文件的大小，他比du强的地方就是能够看到已经删除的文件，而且计算大小的时候，把这一部分的空间也加上了，更精确了。</p>
+
+<h2 id="toc_4">怎么办？</h2>
+
+<p>了解了<code>du</code>和<code>df</code>命令的工作原理，再结合之前释放空间时的操作，原因就找到了：执行表删除操作的时候，仍然有进程在使用对应的文件。</p>
+
+<h3 id="toc_5">找到仍在使用已删除文件的进程</h3>
+
+<p>执行<code>lsof | grep deleted</code>命令，查找相应的进程，结果如图1-3所示（这里只截取一部分）：<br/>
+<center><br/>
+<img src="media/15406290433586/15406338009854.jpg" alt=""/><br/>
+图1-3<br/>
+</center></p>
+
+<p>在对应列表中，找到被自己删除的文件，kill 掉相应进程就可以了。</p>
+
+<h3 id="toc_6">结果验证</h3>
+
+<p>再次执行 <code>df -h</code> 命令，可以看到如图 1-4所示的结果：<br/>
+<center><br/>
+<img src="media/15406290433586/15406339199045.jpg" alt=""/><br/>
+图1-4<br/>
+</center></p>
+
+<p>至此，被偷走的磁盘空间就回来了。撒花~~</p>
+
+<h2 id="toc_7">知识点扩展</h2>
+
+<h3 id="toc_8">尽量避免df和dh出现差距</h3>
+
+<p>工作中，可以通过以下方法避免因为文件删除导致磁盘空间不能正常释放的问题：</p>
 
 <ul>
-<li>url：发送请求的路径</li>
-<li>type：请求的类型，get，post（jQuery有对这两种请求类型的封装：\(.get()，\).post()），delete，put，head，trach，请求类型是可以自定义的，但有的浏览器是不支持的</li>
-<li>dataType：告诉服务器要返回的数据类型，一般类型为：xml, html, json(必须是正确的格式，否则会抛出解析错误异常), script(响应结果当做javascript执行，在跨域请求时，请求方式强制为GET)，text，jsonp</li>
-<li>async：默认会为True，即发送异步请求，如果发送同步请求，将此项改为False（不过此方法在jQuery1.8之后好像过时了）</li>
-<li>cache：默认会为True，即浏览器缓存此页面，如果是False（dataType为script和jsonp会默认False）</li>
-<li>contentType：发送信息至服务器时内容编码类型，默认值是“application/x-www-form-urlencoded; charset=UTF-8”，有时要在服务器端进行适当的解码</li>
-<li>crossDomain：同域请求为False，跨域请求为True，默认为False</li>
-<li>data：发送到服务器的数据，会自动转化为请求字符串格式，键值对形式存在</li>
-<li>beforeSend：请求发送前的回调函数，一般会用来设置自定义和http请求头信息，在该函数中返回false会取消这个请求</li>
-<li>success：请求成功后会回调该函数</li>
-<li>error：请求失败后会回调该函数</li>
-<li>headers：设置请求头的信息，如果在beforeSend中也设置了相应头信息，则headers中会被覆盖</li>
-<li>password：用于响应http访问认证请求的密码</li>
-<li>username：用于响应http访问认证请求的用户名。</li>
+<li>以清空文件的方式代替删除文件</li>
+<li>对于经常发生删除问题的文件，以改名、清空、删除的顺序操作</li>
+<li>有些命令也会间接执行删除文件操作，在执行此类命令的时候，为了避免删除问题，建议先确认有没有进程打开相应文件</li>
 </ul>
 
-<h2 id="toc_2">使用示例</h2>
+<h3 id="toc_9">不是所有时候都可以直接 kill</h3>
 
-<pre><code class="language-javascript">&lt;script language=&quot;javascript&quot; type=&quot;text/javascript&quot;&gt;
-        function get_comment(button) {
-            var id = button.getAttribute(&quot;id&quot;);
-            $.ajax({
-                type: &quot;GET&quot;,
-                url: &quot;/api/user/detail&quot;,
-                data: {
-                    &#39;id&#39;: id
-                },
-                dataType: &#39;json&#39;,
-                success: function (result) {
-                    console.log(&quot;请求成功，获取数据&quot;)
-                }
-            });
-        }
-    &lt;/script&gt;
-</code></pre>
+<p>kill进程虽然简单，但也是特别粗暴的方式，执行该操作前，应该确认确定不会对运行中的进程造成影响时使用。有些应用程序对这种方式支持的并不好，当一个正在使用的文件被截断可能会引发不可预知的问题。<br/>
+如果觉得直接 kill 进程比较麻烦或者不可操作，可以尝试以下操作：</p>
+
+<ul>
+<li>停掉使用这个文件的应用，让 os 自动回收磁盘空间</li>
+<li>unmount一下文件系统</li>
+<li>重启系统</li>
+</ul>
+
+<h3 id="toc_10">lsof 命令</h3>
+
+<p>lsof 全名 list opened files，即列举系统中已经被打开的文件。</p>
+
+<p>lsof 命令通常的输出格式为：</p>
+
+<table>
+<thead>
+<tr>
+<th>COMMAND</th>
+<th>PID</th>
+<th>USER</th>
+<th>FD</th>
+<th>TYPE</th>
+<th>DEVICE</th>
+<th>SIZE</th>
+<th>NODE</th>
+<th>NAME</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>默认以9个字符长度显示的命令名称。可使用+c参数指定显示的宽度，若+c后跟的参数为零，则显示命令的全名</td>
+<td>进程ID号</td>
+<td>命令的执行UID或系统中登陆的用户名称。默认显示为用户名，当使用-l参数时，可显示UID。</td>
+<td>文件的File Descriptor number</td>
+<td>文件类型</td>
+<td>使用character special、block special表示的设备号</td>
+<td>文件的大小</td>
+<td>本地文件的node码</td>
+<td>挂载点和文件的全路径（链接会被解析为实际路径），或者连接双方的地址和端口、状态等</td>
+</tr>
+</tbody>
+</table>
 
 
     
@@ -185,16 +257,13 @@
         <div class="large-6 columns">
         <p class="text-left" style="padding:15px 0px;">
       
-          <a href="14857054898000.html" 
-          title="Previous Post: python3  获取中文的首字母">&laquo; python3  获取中文的首字母</a>
-      
         </p>
         </div>
         <div class="large-6 columns">
       <p class="text-right" style="padding:15px 0px;">
       
-          <a  href="14701068705193.html" 
-          title="Next Post: Flask-RESTful 请求解析 ☞ reqparse">Flask-RESTful 请求解析 ☞ reqparse &raquo;</a>
+          <a  href="15377924479103.html" 
+          title="Next Post: 记一次攒机经历">记一次攒机经历 &raquo;</a>
       
       </p>
         </div>
@@ -219,7 +288,7 @@
     <div id="sidebar" class="sidebar">
           <div id="site-info" class="site-info">
             
-                <h1>挂在树上的兔子</h1>
+                <h1>零度燕窝</h1>
                 <div class="site-des"></div>
                 <div class="social">
 
@@ -258,6 +327,10 @@
         
             <a href="Fluent%20Python.html"><strong>Fluent Python</strong></a>
         
+            <a href="%E8%AF%BB%E4%B9%A6%E9%9A%8F%E7%AC%94.html"><strong>读书随笔</strong></a>
+        
+            <a href="%E6%9B%BE%E7%BB%8F%E6%9D%A5%E8%BF%87.html"><strong>曾经来过</strong></a>
+        
             <a href="PHP.html"><strong>PHP</strong></a>
         
             <a href="Ubuntu.html"><strong>Ubuntu</strong></a>
@@ -277,31 +350,31 @@
 	      
 		      
 			      <li class="post">
-			        <a href="15033291458720.html">使用一等函数实现设计模式</a>
+			        <a href="15406290433586.html">扎心！有人偷走了我的磁盘空间？！</a>
 			      </li>
 		     
 		  
 		      
 			      <li class="post">
-			        <a href="15018651943030.html">一等函数</a>
+			        <a href="15377924479103.html">记一次攒机经历</a>
 			      </li>
 		     
 		  
 		      
 			      <li class="post">
-			        <a href="15018646605864.html">文本和字节序列</a>
+			        <a href="15376924661136.html">SQL查询语句之坑</a>
 			      </li>
 		     
 		  
 		      
 			      <li class="post">
-			        <a href="15013419653919.html">集合的使用</a>
+			        <a href="15056428224967.html">![](http://cdn.blog.yanzl.net/2017-10-27-carthusian-2822971.jpg)</a>
 			      </li>
 		     
 		  
 		      
 			      <li class="post">
-			        <a href="15010832436363.html">字典的使用</a>
+			        <a href="15048580065601.html">Python內建类型对象的那些事</a>
 			      </li>
 		     
 		  

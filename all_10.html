@@ -5,12 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>
     
-  挂在树上的兔子
+  零度燕窝
   
   </title>
   
   
-  <link href="atom.xml" rel="alternate" title="挂在树上的兔子" type="application/atom+xml">
+  <link href="atom.xml" rel="alternate" title="零度燕窝" type="application/atom+xml">
     <link rel="stylesheet" href="asset/css/foundation.min.css" />
     <link rel="stylesheet" href="asset/css/docs.css" />
     <script src="asset/js/vendor/modernizr.js"></script>
@@ -62,7 +62,7 @@
 
         <nav class="tab-bar show-for-small">
   <a href="javascript:void(0)" class="left-off-canvas-toggle menu-icon">
-    <span> &nbsp; 挂在树上的兔子</span>
+    <span> &nbsp; 零度燕窝</span>
   </a>
 </nav>
 
@@ -85,6 +85,10 @@
             <li><a href="%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84&%E7%AE%97%E6%B3%95.html">数据结构&算法</a></li>
         
             <li><a href="Fluent%20Python.html">Fluent Python</a></li>
+        
+            <li><a href="%E8%AF%BB%E4%B9%A6%E9%9A%8F%E7%AC%94.html">读书随笔</a></li>
+        
+            <li><a href="%E6%9B%BE%E7%BB%8F%E6%9D%A5%E8%BF%87.html">曾经来过</a></li>
         
             <li><a href="PHP.html">PHP</a></li>
         
@@ -111,20 +115,89 @@
 		<div class="markdown-body home-categories">
 		
 			<div class="article">
-                <a class="clearlink" href="14857051817013.html">
+                <a class="clearlink" href="14857038289810.html">
                 
-                  <h1>近日小感</h1>
+                  <h1>MySQL学习笔记（2）——数据类型及数据表操作</h1>
                   <div class="a-content">
                       
                       <div class="a-content-text">
                         
-                        	<p>好久没有来网站发表文章了，这一段时间，接了一个做学生会网站的项目，现在正在恶补知识的阶段，我很清楚，以我现在的能力写出一个网站真的是很难的事情，我想抓住这次的机会，从学习网站开发到现在，我还没有写过一个项目，我学完了PHP，HTML，CSS，JavaScript，数据库操作，但是我清楚，基础知识归基础知识，没有实践学得再多也没有用，我一定要学会运用。最近一段时间，我在学习thinkphp框架，准备用这个框架写后台。</p>
+                        	<p>数据类型</p>
 
-<p>其实，我很迷茫，学习这些，是出于兴趣，还是为了以后更好的生活，我甚至自己也分不清楚，我努力的想要学得更好，在别人眼里我是一名好学生，可是如果只为了好地生活而强迫自己学习又是多么的可悲；值得庆幸的是，我并不是完全没有兴趣，我喜欢敲代码，喜欢自己设计一些东西，但是，我深知，在我的身上，缺乏的就是创造力，思维能力。最近在读古典的《拆掉思维里的墙》，这给我很大的感触，我的这些致命的缺点，我所谓的那些“应该是”，把我紧紧的包围，让我无法冲破。我锻炼自己以发散的观念思考问题，可是这对于我一个小女生来说，似乎真的很难。这样说，大概也只是为了发发牢骚，我不是那种知难而退的人，我有着很强的上进心，总是迷茫，不知所措，我依然会坚持，也许冲出这片云雾，我就能够见到彩虹。</p>
+<p>1.整数类型：tinyint(8位)；smallint(16位)；mediumint(24位)；int(32位)；bigint(64位)。</p>
 
-<p>对于这一行业，我有一定的兴趣，有时候，单单只有兴趣是不够的，我还需要能力，需要发现新事物的能力，需要独立思考的能力，在众多事情面前，我更需要比别人看得更长远的能力，在IT界，永远要走在别人的前面，它要引领大众，做别人的指明灯。</p>
+<p>2.浮点类型：float(m,d)；double(m,d)。m代表总共的位数,d代表小数的位数</p>
 
-<p>告诉自己，如果兔子离开了地面，挂在了树上，它会看到很多之前看不到了事物，从迷茫，到熟练，这是一个过程，只有坚持，才能圆梦！！</p>
+<p>3.字符类型：char(m),0-255,定长类型，不够的空格补齐；varchar(m),0-65535,不定长类型；tinytext(8)；text(16)；mediumtext(24)；longtext(32)；enum(&#39;value1&#39;,&#39;value2&#39;,&#39;value3&#39;,...),枚举类型，取决于枚举的个数，最多65535个；set(&#39;value1&#39;,&#39;value2&#39;,...),最多64个。</p>
+
+<p>4.日期类型：year(默认为4为，从1970年到2069年)；time(-8385959-8385959)；date(1000.1.1-9999.12.31)；datetime(1000.1.1 0:0:0-9999.12.31 12:59:59),timestamp(时间戳，从1970.1.1 0:0:0-2037)</p>
+
+<p>注意：所谓的数据优化，就是在建表的时候，选择最合适的数据类型而不是选择最大的数据类型。</p>
+
+<p>数据表操作</p>
+
+<p>1.创建数据表：create table [if not exists] 数据表名(字段1和字段1定义,字段2和字段2定义,..)</p>
+
+<p>这种方法只是创建了一个空表，如果在建表的时候，想根据其他表的内容对新表添加数据，则可以采用create select语法结构，</p>
+
+<p>create table [if not exists] table_name(字段和数据类型) select<br/>
+例如：在建立产品品牌表（goods_brands）的时候，根据产品表(goods)中的产品品牌对新表进行数据填充：</p>
+
+<p>create table goods_brands(<br/>
+brand_id smallint unsigned primary key auto_increment,<br/>
+brand_name varchar(40) not null)ENGINE=InnoDB DEFAULT CHARSET=utf8<br/>
+selest brand_name from goods group by brand_name;<br/>
+2.查看数据表：show tables [from 数据库名];选择数据库名即可查看当前数据库之外的其他数据库的数据表信息，否则只能查看本数据库的表信息。</p>
+
+<p>3.查看数据表结构：(1).desc 表名 (2).show columns from 表名 (3).describe 表名 (4).show create table 表名</p>
+
+<p>4.查看数据表的创建命令</p>
+
+<p>show create table 表名;</p>
+
+<p>定义字段</p>
+
+<p>定义字段除了之明字段名称，字段类型之外，还包括以下几点</p>
+
+<p>1.记录的唯一性：为字段添加auto_increment属性，指明该字段自动增长，默认情况下从1开始，增量为1，可以自行设置。该属性必须与接下来涉及到的主键配合使用。</p>
+
+<p>2.无符号属性：unsigned指明该字段的数据类型是无符号的。</p>
+
+<p>3.约束：约束是为了保证数据完整性和一致性而设定的，根据数据列的数目可以将约束分为表级约束和列级约束，表级约束即为一个约束包含了多个字段，列级约束为一个约束包含了一个字段；根据功能，约束有以下5种</p>
+
+<p>a.主键约束：primary key 声明该字段为主键，每张表有且只有一个主键，而这个主键可以包含多个字段，自动为not null，声明了主键的字段值是不会重复的。</p>
+
+<p>b.唯一约束：unique key声明该字段有唯一约束，字段值是不能够重复的，但是可以出现一次null，每张表可以有多个唯一约束。</p>
+
+<p>c.默认约束：default指明字段的默认值，如：set varchar(6) enum(&#39;男&#39;,&#39;女&#39;,&#39;保密&#39;) default &#39;保密&#39;</p>
+
+<p>d.非空约束：null为允许该字段出现空值，not null为不允许字段出现空值</p>
+
+<p>e.外键约束：foreign key实现数据表一对一和一对多的关系，使用外键约束，外键字段和参照字段必须创建索引，如果参照字段没有索引，系统会自动创建。除此之外，外键字段和参照字段必须有相似的字段定义。而且，有外键的表称为子表，子表参照的表为父表。外键的定义格式为：foreign key (字段名) reference 父表名（参照字段）。</p>
+
+<p>拓展外键约束的参照操作</p>
+
+<p>更新表之后，子表是否进行相应的操作，在物理结构上可以通过外键约束的参照操作实现。</p>
+
+<p>（1）cascade:从父表删除或更新记录时同步到子表相应数据中，</p>
+
+<p>如：foreign key(字段名) reference 父表名（参照字段） on delete cascade on update cascade</p>
+
+<p>（2）set null:从父表删除或更新数据之后，子表中的相应数据置为null，如果使用该项，必须保证子表中该字段可以置为空值。</p>
+
+<p>（3）restrict:拒绝对父表的删除和更新操作</p>
+
+<p>（4）no action:与rectrict相同</p>
+
+<p>注意：</p>
+
+<p>外键约束只有innodb这种存储引擎才能支持，其他的存储引擎是不支持这种物理的外键约束的，所以在开发过程中，一般都使用逻辑的外键约束。</p>
+
+<p>修改数据表默认的存储引擎：找到MySQL配置文件my.ini，修改default-storage-engin = 存储引擎，外键约束必须依赖INNODB存储引擎，修改完成之后重启MySQL服务。</p>
+
+<p>查看表中索引</p>
+
+<p>show index from 表名</p>
 
                         
                       </div>
@@ -133,7 +206,116 @@
                 <div class="read-more clearfix">
                   <div class="more-left left">
                   
-                    <span class="date">2015/4/23</span>
+                    <span class="date">2016/1/20</span>
+                    <span>posted in&nbsp;</span> 
+          				  
+          					    <span class="posted-in"><a href='%E6%95%B0%E6%8D%AE%E5%BA%93.html'>数据库</a></span>
+          				   
+                  </div>
+                  <div class="more-right right">
+                  <span class="comments">
+                      
+
+                       
+                  </span>
+                  </div>
+                </div>
+              </div><!-- article -->
+        
+			<div class="article">
+                <a class="clearlink" href="14857038052908.html">
+                
+                  <h1>MySQL学习笔记（1）——概述</h1>
+                  <div class="a-content">
+                      
+                      <div class="a-content-text">
+                        
+                        	<p>MySQL默认端口号：3306</p>
+
+<p>MySQL语句规范</p>
+
+<p>（1）登录：mysql -u用户名 -p(回车写密码（密文）|直接写密码再回车（明文）)</p>
+
+<p>（2）登出：quit，\q，Ctrl+C都可以</p>
+
+<p>（3）修改MySQL提示符（默认情况下时mysql）：如果在登录时修改，则：mysql -u名称 -p密码 --prompt 提示符</p>
+
+<p>如果在登陆之后修改，则：prompt  新提示符</p>
+
+<p>提示符可以用参数表示，比如\D代表完整的日期，\d代表当前数据库，\h代表服务器名称，\u代表当前用户，例如：prompt &#39;\u@\h \d&gt;&#39;</p>
+
+<p>（4）显示当前服务器版本：select version()</p>
+
+<p>显示当前日期：select now()</p>
+
+<p>显示当前用户：select user()</p>
+
+<p>显示警告：show warning</p>
+
+<p>显示编码方式：show create database 数据库名称</p>
+
+<p>显示当前打开的数据库：select database()</p>
+
+<p>查看当前服务器下的数据库列表：show {databases|scheam}</p>
+
+<p>（5）MySQL语句规范</p>
+
+<p>a.关键字与函数名称全部大写;b.数据库名称，表名称，字段名称全部小写;c.sql语句必须以分号结尾。</p>
+
+<p>数据库基本操作</p>
+
+<p>（1）创建数据库：create {database|scheam} [if not exists] 数据库名称 [default] character set [=] 编码方式</p>
+
+<p>CREATE DATABASE db_name DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;<br/>
+（2）修改数据库：alter {databases|scheam} 数据库名称 [default] character set [=] 编码方式</p>
+
+<p>（3）删除数据库：drop {database|scheam} [if exists] 数据库名称</p>
+
+                        
+                      </div>
+                  </div>
+                </a>
+                <div class="read-more clearfix">
+                  <div class="more-left left">
+                  
+                    <span class="date">2016/1/19</span>
+                    <span>posted in&nbsp;</span> 
+          				  
+          					    <span class="posted-in"><a href='%E6%95%B0%E6%8D%AE%E5%BA%93.html'>数据库</a></span>
+          				   
+                  </div>
+                  <div class="more-right right">
+                  <span class="comments">
+                      
+
+                       
+                  </span>
+                  </div>
+                </div>
+              </div><!-- article -->
+        
+			<div class="article">
+                <a class="clearlink" href="14857039606285.html">
+                
+                  <h1>一直迷茫中</h1>
+                  <div class="a-content">
+                      
+                      <div class="a-content-text">
+                        
+                        	<p>已经很久很久没有打开我的博客了，久到我自己差点忘记了密码是什么。自从开通了博客，写的文章都是自己学习的过程中一些知识点的总结，然而我认为我的总结并没有多大的特色，我学习到的东西都很基础，甚至挖掘不到更好的信息。有时候去逛v2ex，看到别人提出来的很新奇的点子，总是感叹别人是怎么想到的，或许是我敏锐性不够高，或许是学到的东西不够深入，亦或许是我一直不善于收集资料。。。。。。</p>
+
+<p>记得刚刚开始学习的时候，我连百度都不怎么会用，遇到什么问题只是会向别人请教，后来，慢慢的学会了自己解决问题。不知道为什么，每次和别人交流，总是特别不自信，不敢把自己的想法说出来，因为总是觉得很幼稚，也许事实就是如此吧。大学三年马上就要过去了，回想这三年的时光，除了学习专业课程之外，剩下的都是一些很零碎的东西，根本就不成体系，我不知道，现在的这种状态，我还要如何走出学校，甚至连投简历的勇气都没有。我讨厌自己的不知所措，讨厌自己的迷茫，讨厌自己的不自信，这样的生活让我觉得糟糕透了。</p>
+
+<p>哎，我也不知道自己应该说些什么，不知道下一步具体应该做些什么，这种迷茫的状态什么时候才能打破。一个没有自我见解，无法把握全局的人，注定不会成功，然而，我不想就此堕落。那就努力地寻找新的目标，去实现吧！</p>
+
+                        
+                      </div>
+                  </div>
+                </a>
+                <div class="read-more clearfix">
+                  <div class="more-left left">
+                  
+                    <span class="date">2016/1/15</span>
                     <span>posted in&nbsp;</span> 
           				  
           					    <span class="posted-in"><a href='%E9%9A%8F%E6%83%B3.html'>随想</a></span>
@@ -150,197 +332,35 @@
               </div><!-- article -->
         
 			<div class="article">
-                <a class="clearlink" href="14857051137850.html">
+                <a class="clearlink" href="14857039929117.html">
                 
-                  <h1>PHP与MySQL（下篇）</h1>
+                  <h1>资源网站收藏</h1>
                   <div class="a-content">
                       
                       <div class="a-content-text">
                         
-                        	<p>连接数据库</p>
+                        	<p>今天逛v2ex，看到有关优秀网站的资源共享，自己曾经也做过相应的网站收藏，不过后来都弄丢了，然后反反复复，于是决定慢慢的将这些资源都积累下来。今天就先写一点在v2ex上看到的好的网站。</p>
 
-<p>对于用户的各种操作，都离不开数据库，所以在操作之前就要连接好数据库</p>
+<p>关于Python</p>
 
-<p>//定义几个常量<br/>
-define(&#39;MYSQL_HOST&#39;,&#39;localhost&#39;);<br/>
-define(&#39;MYSQL_USER&#39;,&#39;root&#39;);<br/>
-define(&#39;MYSQL_PW&#39;,&#39;&#39;);<br/>
-function connectDb()<br/>
-{<br/>
-    \(conn = mysql_connect(MYSQL_HOST,MYSQL_USER,MYSQL_PW);<br/>
-    mysql_select_db(&#39;myapp&#39;);<br/>
-    return \)conn;<br/>
-}</p>
+<p><a href="http://foofish.net/blog/">http://foofish.net/blog/</a></p>
 
-<p>新增用户</p>
+<p><a href="http://www.linuxzen.com/">http://www.linuxzen.com/</a></p>
 
-<p>在网页中，一般都是通过用户注册来实现用户的增加的，而注册的信息一般是通过表单进行提交，提交过之后交给PHP程序处理。</p>
+<p>程序员思维</p>
 
-<p>注册页面</p>
+<p><a href="http://timyang.net/">http://timyang.net/</a><br/>
+<a href="http://coolshell.cn/">http://coolshell.cn/</a></p>
 
-<div style="background-color: #00fafa;width: 400px;height: 400px;margin-top: 10px;margin-left: 500px">
-    <form action="adduser.php" method="post">
-        <br />
-        <div style="margin-left: 50px">
-            <h2>&nbsp;&nbsp;&nbsp;&nbsp;用户注册</h2>
-            用户名称：<input type="text" name = 'name'>
-        </div>
+<p>IT书籍网站</p>
 
-<pre><code>    &lt;br /&gt;&lt;br /&gt;
-    &lt;div style=&quot;margin-left: 50px&quot;&gt;
-        设置密码：&lt;input type=&quot;password&quot; name=&quot;pas&quot;&gt;
-    &lt;/div&gt;
-    &lt;br /&gt;&lt;br /&gt;
-    &lt;div style=&quot;margin-left: 50px&quot;&gt;
-        确认密码：&lt;input type=&quot;password&quot; name = &quot;pass&quot;&gt;
-    &lt;/div&gt;
-    &lt;br /&gt;&lt;br /&gt;
-    &lt;div style=&quot;margin-left: 50px&quot;&gt;
-        用户年龄：&lt;input type=&quot;number&quot; name=&quot;age&quot;&gt;
-    &lt;/div&gt;
-    &lt;br /&gt;&lt;br /&gt;
-    &lt;div style=&quot;margin-left: 50px&quot;&gt;
-        用户学号：&lt;input type=&quot;text&quot; name=&quot;xuehao&quot;&gt;
-    &lt;/div&gt;
-    &lt;br /&gt;
-    &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;
-    &lt;input type=&quot;submit&quot; value=&quot;提交&quot;&gt;&amp;nbsp;
-    &amp;nbsp;&amp;nbsp;&amp;nbsp;
-    &lt;input type=&quot;reset&quot; value=&quot;重置&quot;&gt;
-&lt;/form&gt;
-</code></pre>
+<p><a href="http://www.it-ebooks.info/">http://www.it-ebooks.info/</a></p>
 
-<p></div><br/>
-在本示例中，通过post的方式进行提交数据到adduser.php文件，接下来就是该文件的处理</p>
+<p>个人博客</p>
 
-<p>if(\(_POST[&#39;pas&#39;] != \)_POST[&#39;pass&#39;])<br/>
-    echo&#39;密码不统一，<a href="adduser.html">点击这里重新填写</a>&#39;;<br/>
-else<br/>
-{<br/>
-    //将获得的数据分离出来进行赋值操作<br/>
-    \(name = \)_POST[&#39;name&#39;];<br/>
-    \(pas = \)_POST[&#39;pas&#39;];<br/>
-    \(pass = \)_POST[&#39;pass&#39;];<br/>
-    \(age = \)_POST[&#39;age&#39;];<br/>
-    \(xuehao = \)_POST[&#39;xuehao&#39;];<br/>
-    if(empty(\(name) || empty(\)pas) || empty(\(pass) || empty(\)age) || empty(\(xuehao))<br/>
-        echo&#39;信息不完整，&lt;a href=&quot;adduser.html&quot;&gt;点击这里重新填写&lt;/a&gt;&#39;;<br/>
-    else<br/>
-    {<br/>
-        require_once &#39;functions.php&#39;;<br/>
-        \)conn = connectDb();<br/>
-        //echo &quot;\(name &lt;br /&gt;&quot;;<br/>
-        if(\)conn)<br/>
-        {<br/>
-            \(age = intval(\)age);<br/>
-            //注意：name是一个字符串，应该将其引起来再传参数<br/>
-            mysql_query(&quot;INSERT INTO user(name,password,age,xuehao) VALUES (&#39;\(name&#39;,&#39;\)pas&#39;,\(age,&#39;\)xuehao&#39;)&quot;);<br/>
-            //如果需要插入多条数据，则写成以下形式，即value中再写一个小括号<br/>
-            // mysql_query(&quot;INSERT INTO user(name,password,age,xuehao) VALUES (\(name,\)pas,\(age,\)xuehao),($name1...)&quot;);<br/>
-            if(mysql_errno())//判断写入的时候有没有错误<br/>
-            {<br/>
-                echo mysql_error();//如果有错误就输出错误<br/>
-            }<br/>
-                else<br/>
-            header(&quot;Location:index.php&quot;);<br/>
-        }<br/>
-        else<br/>
-            die(&#39;can not connect db&#39;);<br/>
-    }<br/>
-}<br/>
-添加用户对数据库的操作语句为：</p>
+<p><a href="http://justjavac.com/">http://justjavac.com/</a></p>
 
-<p>mysql_query(&quot;INSERT INTO user(name,password,age,xuehao) VALUES (&#39;\(name&#39;,&#39;\)pas&#39;,\(age,&#39;\)xuehao&#39;)&quot;);<br/>
-修改用户数据</p>
-
-<p>要修改用户信息，一般是要获取用户原来的信息，然后将修改后的信息传到数据库</p>
-
-<p>获取原来信息并修改</p>
-
-<p>if(!empty(\(_GET[&#39;id&#39;]))<br/>
-{<br/>
-    \)conn = connectDb();//连接数据库<br/>
-    \(id = \)_GET[&#39;id&#39;];//获取要修改数据的id<br/>
-    //选择该id的数据<br/>
-    \(result = mysql_query(&quot;SELECT * FROM user WHERE ID = &#39;\)id&#39;&quot;);<br/>
-    if(mysql_errno())<br/>
-        echo mysql_error();<br/>
-    //将数据赋值给数组\(arr<br/>
-    \)arr = mysql_fetch_assoc(\(result);<br/>
-}<br/>
-else<br/>
-    die(&#39;id not define&#39;);<br/>
-?&gt;<br/>
-//用表单的形式显示数据并修改<br/>
-&lt;form action=&quot;adduser_change.php&quot; method=&quot;post&quot;&gt;<br/>
-    &lt;div&gt;<br/>
-       用户ＩＤ：&lt;input type=&quot;text&quot; name=&quot;id&quot; value=&quot;&lt;?php echo\)arr[&#39;ID&#39;];?&gt;&quot;&gt;<br/>
-    </div><br/>
-    <br /><br/>
-    <div><br/>
-        用户名称：<input type="text" name="name" value="<?php echo$arr['name'];?>&quot;&gt;<br/>
-    </div><br/>
-    <br /><br/>
-    <div><br/>
-        用户密码：<input type="password" name="pass" value="<?php echo$arr['password'];?>&quot;&gt;<br/>
-    </div><br/>
-    <br /><br/>
-    <div><br/>
-        用户年龄：<input type="number" name="age" value="<?php echo$arr['age'];?>&quot;&gt;<br/>
-    </div><br/>
-    <br /><br/>
-    <div><br/>
-        用户学号：<input type="text" name="xuehao" value="<?php echo$arr['xuehao'];?>&quot;&gt;<br/>
-    </div><br/>
-    <br /><br/>
-    <input type="submit" value="提交"><br/>
-</form><br/>
-将修改后得到的数据进行上传</p>
-
-<p>require_once&#39;functions.php&#39;;<br/>
-//调用函数，连接数据库<br/>
-\(conn = connectDb();<br/>
-//对于传过来的参数进行判断，如果没有填写完整，给出提示，退出程序的执行<br/>
-if(empty(\)_POST[&#39;id&#39;]) || empty(\(_POST[&#39;name&#39;]) || empty(\)_POST[&#39;pass&#39;]) || empty(\(_POST[&#39;age&#39;]) || empty(\)_POST[&#39;xuehao&#39;]))<br/>
-{<br/>
-    die (&quot;数据不完整!!&quot;);<br/>
-}<br/>
-else<br/>
-{<br/>
-    \(id = intval(\)_POST[&#39;id&#39;]);<br/>
-    \(name = \)_POST[&#39;name&#39;];<br/>
-    \(pass = \)_POST[&#39;pass&#39;];<br/>
-    \(age = intval(\)_POST[&#39;age&#39;]);<br/>
-    \(xuehao = \)_POST[&#39;xuehao&#39;];<br/>
-   if(\(conn)<br/>
-   {<br/>
-       mysql_query(&quot;UPDATE user SET name=&#39;\)name&#39;,password=&#39;\(pass&#39;,age=\)age,xuehao=&#39;\(xuehao&#39; WHERE id = \)id&quot;);<br/>
-       header(&quot;Location:index.php&quot;);//跳转至指定页面<br/>
-   }<br/>
-    else<br/>
-        echo &quot;can not connect db&quot;;<br/>
-}<br/>
-修改数据和数据库相关的语句</p>
-
-<p>mysql_query(&quot;UPDATE user SET name=&#39;\(name&#39;,password=&#39;\)pass&#39;,age=\(age,xuehao=&#39;\)xuehao&#39; WHERE id = $id&quot;);<br/>
-删除数据</p>
-
-<p>删除数据比较简单，只需要根据要删除的数据的id进行删除操作即可</p>
-
-<p>require_once &#39;functions.php&#39;;<br/>
-            if(!empty(\(_GET[&#39;id&#39;]))<br/>
-            {<br/>
-                \)conn = connectDb();<br/>
-                \(id = \)_GET[&#39;id&#39;];<br/>
-                mysql_query(&quot;DELETE FROM user WHERE id=$id&quot;);<br/>
-                if(mysql_errno())<br/>
-                    die(&#39;用户删除失败!!&#39;);<br/>
-                else<br/>
-                    header(&quot;Location:index.php&quot;);<br/>
-            }<br/>
-删除数据的数据库相应语句</p>
-
-<p>mysql_query(&quot;DELETE FROM user WHERE id=$id&quot;);</p>
+<p><a href="http://www.ruanyifeng.com/home.html">http://www.ruanyifeng.com/home.html</a></p>
 
                         
                       </div>
@@ -349,10 +369,10 @@ else<br/>
                 <div class="read-more clearfix">
                   <div class="more-left left">
                   
-                    <span class="date">2015/3/30</span>
+                    <span class="date">2015/12/27</span>
                     <span>posted in&nbsp;</span> 
           				  
-          					    <span class="posted-in"><a href='PHP.html'>PHP</a></span>
+          					    <span class="posted-in"><a href='%E9%9A%8F%E6%83%B3.html'>随想</a></span>
           				   
                   </div>
                   <div class="more-right right">
@@ -366,72 +386,104 @@ else<br/>
               </div><!-- article -->
         
 			<div class="article">
-                <a class="clearlink" href="14857050642793.html">
+                <a class="clearlink" href="14857029436102.html">
                 
-                  <h1>PHP会话管理</h1>
+                  <h1>Ubuntu字符界面操作--shell</h1>
                   <div class="a-content">
                       
                       <div class="a-content-text">
                         
-                        	<p>概述</p>
+                        	<p>使用Ubuntu已经有一段时间了,今天逛论坛发现了有关Ubuntu的各种操作指令的集合,其中有一些已经熟练应用,但还有一些没有用过,于是保存下来,方便以后查阅.</p>
 
-<p>有时会在多个页面之间来共享数据，这样的话就用到了PHP的会话管理，在这里，有两种解决方案Cookie和Session。</p>
+<p>打开终端</p>
 
-<p>Cookie的数据存放在浏览器端，不同的浏览器有不同的存放方式，浏览器端的程序就可以访问Cookie数据，如果在服务器端获取客户端的信息，就可以直接访问Cookie中的数据。但因为很多浏览器都会禁用Cookie，这时候就可以使用URL参数，即POST和GET方式。</p>
+<p>Ctrl+Alt+T</p>
 
-<p>Session的数据会存在服务器端，当访问服务器的时候，就会打开一个页面，服务器端会为我们创建一个ID，这个ID用来标识每一个用户，而用户的信息是在服务器端以键值对的形式存放。该方式高效，安全，不依赖浏览器环境（不会被禁用）。</p>
+<p>帮助命令</p>
 
-<p>Cookie</p>
+<p>（1）man工具                  man为每个命令都提供了详细的信息。<br/>
+man [选项参数] 命令名称     例如，man ls可显示ls命令的信息，可按下空格键显示下一屏文本信息，按“q”键退出返回到shell提示符。<br/>
+man --help或者 man --usage可得到更多关于man的信息。</p>
 
-<p>个人认为，Cookie把数据存入浏览器，在另一个文件中使用的时候直接读取就可以了。</p>
+<p>（2）help命令选项<br/>
+help [shell内部命令]             如果help命令后面不加选项参数，则列出全部的shell内部命令。<br/>
+（3）info显示命令信息              info工具显示比man工具更完整的最新GNU工具信息。<br/>
+info [选项参数] 命令<br/>
+info --help可查看info命令的参数</p>
 
-<p>正常状态下，是可以进行数据传送的，比如：</p>
+<p>Shell基本命令</p>
 
-<p>一个文件下写：</p>
+<p>（1）查看当前路径命令pwd<br/>
+pwd(Print Working Directory)，打印当前工作目录的命令。 （2）改变目录命令 cd cd [指定的目录]<br/>
+上述如果cd后面没有写指定的目录，则返回到当前用户的主工作目录。进入指定目录，用户必须拥有对其执行和读权限。<br/>
+（3）列举目录内容命令ls、报告当前进程快照命令ps</p>
 
-<p>setcookie(&#39;name&#39;,&#39;zhangsan&#39;);//以键值对的形式存放<br/>
-header(&#39;Location:b.php&#39;);//使用此函数自动跳转<br/>
-在另一个文件b.php下写：</p>
+<p>Shell应用技巧</p>
 
-<p>echo $_COOKIE[&#39;name&#39;];<br/>
-这样，在a.php中填写的信息就可以在b.php页面显示。</p>
+<p>1）Tab自动补全命令<br/>
+例如 cd /u<Tab>/lo<Tab>/b<Tab>，其中<Tab>是按下Tab键的意思，可以将命令自动补全，上述命令将跳转到/usr/local/bin/目录。</p>
 
-<p>还可以在html文档里用一个用一个对话框呈现一个数据</p>
+<p>（2）命令记忆功能</p>
 
-<p><head lang = "en"><br/>
-    <meta charset = "UTF-8"><br/>
-    <script><br/>
-        alert(document.cookie);<br/>
-    </script><br/>
-</head><br/>
-但是，有时候浏览器就会屏蔽Cookie数据，所以可以使用URL参数来传递数据</p>
+<p>a.上下方向键 ,向上方向键向后遍历最近在该控制台下输入的命令，向下方向键向前遍历命令。<br/>
+b.历史记录命令history     history命令是用于读取、显示或清除命令历史记录的shell命令。<br/>
+history    列出命令历史缓冲区或文件记录中记录的所有命令。</p>
 
-<p>在a.php文件中写下面一行语句：</p>
+<p>history n    可查看最近执行的n条命令。</p>
 
-<p>header(&quot;Location:b.php?name=zhangsan&quot;);//直接跳转至b.php<br/>
-这行语句实际上就相当于用get方式传递参数，所以在b.php中将传的参数打印出来</p>
+<p>histrory -c    可清除历史缓冲区中的命令。</p>
 
-<p>echo $_GET[&#39;name&#39;];<br/>
- Session</p>
+<p>c.重复执行先前命令“！”<br/>
+!                 引用历史缓冲区或文件中的命令</p>
 
-<p>Session处理方法是将数据存放至服务器，可以在多个页面之间共享数据。在使用之前一定要启动session。</p>
+<p>!!                重复执行前面刚执行的命令<br/>
+!n               重复执行命令历史缓冲区或文件中的序号为n的命令</p>
 
-<p>可以在a.php文件中填入数据</p>
+<p>!-n              重复执行从当前命令位置开始倒数的第n个命令</p>
 
-<p>session_start();//启用session<br/>
-//echo session_id();//获取客户端的id<br/>
-$_SESSION[&#39;name&#39;] = &quot;zhangsan&quot;;//存入数据<br/>
-header(&#39;Location:b.php&#39;);//执行页面跳转<br/>
-然后在b.php文件中访问数据</p>
+<p>!string         重复执行以给定的部分字符 &quot;string&quot;为起始字符的最近一次执行的命令</p>
 
-<p>session_start();<br/>
-echo $_SESSION[&#39;name&#39;];<br/>
-这一数据处理的方法常用来记录用户的登录状态，如果用户退出登录（即清除掉session的所有存储数据），那么可以执行下述语句</p>
+<p>!?string[?]   重复执行包含给定的字符串&quot;string&quot;的最近一次执行的命令<br/>
+!!string        引用前一条刚执行完的命令，将给定的字符串&quot;string&quot;放在该命令后，重新执行<br/>
+!#                引用迄今为止已经输入的所有字符</p>
 
-<p>if(isset($_SESSION[&#39;name&#39;]))<br/>
-{<br/>
-    session_destroy();//销毁掉当前的session。<br/>
-}</p>
+<p>!$                引用前一个命令的最后一个参数</p>
+
+<p>d.编辑命令行快捷键<br/>
+可通过光标和Home、End等功能键对命令行进行操作，还可通过键盘快捷方式对命令行进行编辑。<br/>
+Ctrl+a           光标移至行首</p>
+
+<p>Ctrl+e           光标移至行尾<br/>
+Ctrl+k           删除从光标到行尾的部分</p>
+
+<p>Ctrl+u           删除从光标到行首的部分<br/>
+Ctrl+w           删除从光标到当前单词开头的部分</p>
+
+<p>Ctrl+y           插入最近删除的单词</p>
+
+<p>Alt+a            将光标移到当前单词头部</p>
+
+<p>Alt+e            将光标移到当前单词尾部<br/>
+Alt+d            删除从光标到当前单词结尾的部分</p>
+
+<p>（3）多条命令的执行</p>
+
+<p>a.&quot;;&quot;的使用<br/>
+命令1；命令2           先执行命令1，不管是否出错，接下来执行命令2。例如，pwd;ls<br/>
+b.&quot;&amp;&amp;&quot;的使用<br/>
+命令1&amp;&amp;命令2&amp;&amp;……</p>
+
+<p>（4）命令别名<br/>
+alias [别名]=[需要定义别名的命令]       注意，如果命令中有空格的话，需要有引号。例如，将cd /usr/local/bin命令另起别名为“bin”，用alias bin=&#39;cd /usr/local/bin&#39;即可。</p>
+
+<p>（5）管道    管道是 Linux系统中信息通信的重要方式，是先进先出的单项数据通路。利用管道线“|”可把一个命令的标准输出连接到管道。           命令1 | 命令2</p>
+
+<p>（6）通配符<br/>
+*                 用于匹配任意字符。例如，ls *.sh 查找当前目录所有以.sh结尾的文件。</p>
+
+<p>？               用于匹配一个字符。例如，ls *.s? 查找当前目录所有以.s?结尾的文件，其中“?”是任意一个字符的意思。<br/>
+[x-y]            用于匹配字符范围。例如，ls <em>[0-9]</em> 查找一个目录中名字里包含数字的所有文件夹。<br/>
+[!x-y]           用于匹配不在字符范围。例如[!a-z]，表示除了“a-z”之间的字符</p>
 
                         
                       </div>
@@ -440,289 +492,10 @@ echo $_SESSION[&#39;name&#39;];<br/>
                 <div class="read-more clearfix">
                   <div class="more-left left">
                   
-                    <span class="date">2015/3/27</span>
+                    <span class="date">2015/11/27</span>
                     <span>posted in&nbsp;</span> 
           				  
-          					    <span class="posted-in"><a href='PHP.html'>PHP</a></span>
-          				   
-                  </div>
-                  <div class="more-right right">
-                  <span class="comments">
-                      
-
-                       
-                  </span>
-                  </div>
-                </div>
-              </div><!-- article -->
-        
-			<div class="article">
-                <a class="clearlink" href="14857049852974.html">
-                
-                  <h1>PHP常用库函数</h1>
-                  <div class="a-content">
-                      
-                      <div class="a-content-text">
-                        
-                        	<p>使用php的时间和日期</p>
-
-<p>&lt;?php<br/>
-echo time().&#39;<br />&#39;;//打印时间戳<br/>
-echo date_default_timezone_get();//查看默认时区<br/>
-date_default_timezone_set(&#39;Asia/Shanghai&#39;);//修改时区<br/>
-echo date(&#39;Y-m-d H:i:s D&#39;).&#39;<br />&#39;;//打印日期时间<br/>
-//把一个时间戳转换成日期<br/>
-echo date(&#39;Y-m-d H:i:s&#39;, &#39;2000&#39;);<br/>
-?&gt;<br/>
-1.获取时间戳：调用time()函数，从1970年1月1日开始计算并以秒为单位。</p>
-
-<p>2.输出时间戳：echo time();可以把时间戳转成日期。</p>
-
-<p>3.在现实生活中，时间是分时区的，在打印日期的时候，首先看默认时区，然后修改时区。</p>
-
-<p>4.在打印日期的时候，注意日期格式的选择：</p>
-
-<p>年的表示：‘Y’代表完整的表示，比如1994-2014；‘y’代表不完整的表示，比如94-14。</p>
-
-<p>月的表示：‘F’代表英文的表示，比如January；‘m’代表完整的阿拉伯数字表示，一共两位，不够的0来补，比如：01-12；‘M’表示英文的简写表示，比如Jan；‘n’代表省略的阿拉伯数字表示，比如：1-12;&#39;t&#39;表示这一个月份的天数，有28,29,30,31。</p>
-
-<p>日的表示：‘d’表示完整的阿拉伯数字，比如：01-31；‘D’表示英文简写表示星期几，比如：Mon，Sun；‘j’表示不完整的阿拉伯数字表示，比如：1-31；‘l’小写L，表示完整的英文表示星期几，比如：Sunday，Saturday。</p>
-
-<p>小时的表示：‘h’表示12小时的表示，比如：01-12；‘g’表示没有前补0的12小时的表示，比如：1-12；‘H’表示24小时的表示，比如00-23；‘G’表示24小时的没有前补0的表示，比如：0-23</p>
-
-<p>分钟的表示：‘i’表示分钟，从0-60。</p>
-
-<p>秒的表示：‘s’表示秒，从0-60。</p>
-
-<p>这些日期的表示，当把鼠标指针放在函数名中间时，按下F2键就可以显示出来。</p>
-
-<p>5.最后一个知识就是把时间戳转化成日期，只需要在转化函数中加入时间戳这一个变量即可。</p>
-
-<p>JSON格式数据的操作</p>
-
-<p>1.定义：首先说明数组和对象的区别，数组里面的值全部都是单个的值，而对象里面的值适合名字相对应的，我们称为键值对。对象里面是可以存放数组的，数组里面也可以存放对象。</p>
-
-<p>[1,2,3,4,&quot;hello&quot;,[5,6,7]];//这一行是数组，数组中可以包含数组<br/>
-{&quot;h&quot; : &quot;hello&quot;,&quot;w&quot; : &quot;world&quot;}//这一行是对象<br/>
-//数组中可以包含对象，而且对象中也可以包含数组，这就组成了JSON格式的数据，比如：<br/>
-[1,2,3,4,&quot;hello&quot;,[5,6,7]，{&quot;h&quot; : &quot;hello&quot;,&quot;w&quot; : &quot;world&quot;,[8,9,10]}]<br/>
-2.生成ISON格式的数据</p>
-
-<p>&lt;?php<br/>
-//把php的数组或者是对象转化成json格式的数据<br/>
-\(arr = array(1,2,5,8,&quot;hello&quot;,&quot;php&quot;,array(&quot;h&quot;=&gt;&quot;hello&quot;,&quot;n&quot;=&gt;&quot;name&quot;));<br/>
-echo json_encode(\)arr).&#39;<br />&#39;;//把一个对象转成一个JSON格式的数据<br/>
-\(obj = array(&quot;h&quot;=&gt;&quot;hello&quot;,&quot;w&quot;=&gt;&quot;world&quot;,array(1,2,3,4));<br/>
-echo json_encode(\)obj).&#39;<br />&#39;;<br/>
-//把json格式的数据转化成Php的对象<br/>
-\(jsonstr = &#39;{&quot;h&quot;:&quot;hello&quot;,&quot;w&quot;:&quot;world&quot;,&quot;0&quot;:[1,2,3,4]}&#39;;<br/>
-\)obj1 = json_decode(\(jsonstr);<br/>
-//print_r(\)obj1).&#39;<br />&#39;;<br/>
-//访问PHP对象中的元素：<br/>
-echo $obj1-&gt;h;<br/>
-?&gt;<br/>
-PHP的文件操作</p>
-
-<p>1.文件操作包含了打开文件，关闭文件，往文件里写数据，从文件里读取数据等操作。</p>
-
-<p>2.在执行打开文件的操作的时候，第一个参数是打开文件的名称，第二个参数是对文件执行什么样的操作，其中包含了‘w写文件，’r读文件。。。。。。可以按下f2进行查询。</p>
-
-<p>3.在读取文件的时候，fgets()函数只能读取文件的一行，如果想要全部读取出来，一种方法是使用循环去控制，另一种方法是调用file_get_contents()函数，该函数在读取的过程中自动忽略了回车换行。</p>
-
-<p>&lt;?php<br/>
-\(f = fopen(&#39;data&#39;,&#39;w&#39;);<br/>
-if(\)f)<br/>
-{<br/>
-    fwrite(\(f,&quot;hello php!!&quot;);<br/>
-    fclose(\)f);<br/>
-    echo &#39;OK!&#39;.&#39;<br />&#39;;<br/>
-}<br/>
-else<br/>
-    echo &quot;创建文件失败&quot;;<br/>
-\(f = fopen(&#39;data&#39;,&#39;r&#39;);<br/>
-if(\)f)<br/>
-{<br/>
-    while(!feof(\(f))<br/>
-    echo fgets(\)f).&#39;<br />&#39;;<br/>
-    fclose($f);<br/>
-}<br/>
-else<br/>
-    echo &quot;打开文件失败！1&quot;;<br/>
-//将文件中的所有内容全部读取出来。<br/>
-echo file_get_contents(&#39;data&#39;);<br/>
-?&gt;<br/>
-生成图像</p>
-
-<p>1.首先要知道图像处理库中的相关函数：<a href="http://php.net/manual/zh/ref.image.php">http://php.net/manual/zh/ref.image.php</a></p>
-
-<p>&lt;?php<br/>
-$img = imagecreate(400,300);</p>
-
-<p>//使用imagecreate()函数创建一个400px*300px的图片</p>
-
-<p>imagecolorallocate($img,255,181,200);</p>
-
-<p>//imagecolorallocate()函数指定该图片的颜色，当第一次使用时生成背景色，以后再使用就不会起作用了，<br/>
-//因为第一次已经起作用了。</p>
-
-<p>header(&#39;Content-type:image/png&#39;);</p>
-
-<p>//header()函数说明该图片是图片的形式，而不是文本的形式。<br/>
-//如果没有上属语句，在输出图片的时候，就会以文本的形式输出图片的各种信息</p>
-
-<p>//imagepng($img);</p>
-
-<p>//现在在图片上绘制一个圆形</p>
-
-<p>imageellipse(\(img,200,150,100,100,imagecolorallocate(\)img,255,0,0));</p>
-
-<p>//这里第二次用到了imagecolorallocate()函数，改变的就不会是背景色，而是前景色</p>
-
-<p>imagepng($img);<br/>
-?&gt;<br/>
-给图片打水印</p>
-
-<p>&lt;?php<br/>
-\(img = imagecreatefromjpeg(&#39;tt.jpeg&#39;);<br/>
-header(&#39;Content-type:image/jpeg&#39;);<br/>
-imagestring(\)img,2,5,5,&#39;大耳朵图图&#39;,imagecolorallocate(\(img,0,255,0));<br/>
-imagepng(\)img);<br/>
-?&gt;<br/>
-代码第四行实现了给图片$img打水印，水印为‘大耳朵图图’，样式还是需要按下f2来查询。</p>
-
-                        
-                      </div>
-                  </div>
-                </a>
-                <div class="read-more clearfix">
-                  <div class="more-left left">
-                  
-                    <span class="date">2015/3/23</span>
-                    <span>posted in&nbsp;</span> 
-          				  
-          					    <span class="posted-in"><a href='PHP.html'>PHP</a></span>
-          				   
-                  </div>
-                  <div class="more-right right">
-                  <span class="comments">
-                      
-
-                       
-                  </span>
-                  </div>
-                </div>
-              </div><!-- article -->
-        
-			<div class="article">
-                <a class="clearlink" href="14857049546518.html">
-                
-                  <h1>PHP面向对象</h1>
-                  <div class="a-content">
-                      
-                      <div class="a-content-text">
-                        
-                        	<p>命名空间</p>
-
-<p>再做一个大型项目的时候，常常需要多人分工合作，这样的话，每个人对于变量以及函数的命名就可能出现重复的现象，当项目整合运行的时候就会产生歧义导致程序出错，命名空间是将不同的功能模块的名称框进一个空间里，这样，即使是相同的名称，因为所在的空间不同，所以不会产生影响。</p>
-
-<p>类的声明和定义</p>
-
-<p>类是方法和变量的集合，是面向对象的，只对对象提供接口，而具体的操作则是在类内完成。</p>
-
-<p>&lt;?php<br/>
-class Person<br/>
-{<br/>
-    //对变量的顺序，类型进行提示。<br/>
-    /**<br/>
-     * @param string \(name<br/>
-     * @param int \)age<br/>
-     */<br/>
-    public function __construct(\(name,\)age)//类的构造函数<br/>
-    {<br/>
-        \(this-&gt;name1 = \)name;<br/>
-        \(this-&gt;age1 = \)age;<br/>
-        if(Person::\(Num &gt; Person::MAX_NUM)//如果创建的人数超过了指定人数，则会抛出一个异常<br/>
-            throw new Exception(&quot;不能创建更多的人！！&quot;);<br/>
-        Person::\)Num++;<br/>
-    }<br/>
-    public function getage()<br/>
-{<br/>
-    return \(this-&gt;age1;<br/>
-}<br/>
-    public function getname()<br/>
-    {<br/>
-        return \)this-&gt;name1;<br/>
-    }<br/>
-    public static  function  sayhello()//类方法（静态方法）<br/>
-    {<br/>
-        echo &quot;hello the person!!<br />&quot;;<br/>
-    }<br/>
-    private \(age1,\)name1;<br/>
-    private static \(Num = 0;<br/>
-    const MAX_NUM = 3;//指明一个常量<br/>
-}<br/>
-\)h = new Person(&#39;zhangsan&#39;,23);<br/>
-for(\(i = 0;\)i &lt; 400;\(i++)//循环创建示例，因为大于指定人数，所以程序异常<br/>
-{<br/>
-\)h = new Person(&quot;zhangli&quot;,23);<br/>
-}<br/>
-//根据上述错误，我们对for循环进行修改<br/>
-for(\(i = 1;\)i &lt; Person::MAX_NUM;\(i++)//循环创建示例，因为大于指定人数，所以程序异常<br/>
-{<br/>
-    \)h = new Person(&quot;zhangli&quot;,23);<br/>
-}<br/>
-echo \(h-&gt;getage().&#39;&lt;br /&gt;&#39;;<br/>
-echo \)h-&gt;getname().&#39;<br />&#39;;<br/>
-Person::sayhello();//调用类方法<br/>
-?&gt;</p>
-
-<p>在上述实例中，getage(),getname（），的方法就叫做成员方法，这种方法需要通过一个实例（对象）进行访问。</p>
-
-<p>sayhello()方法是类方法，静态方法，用来描述属性，调用的时候直接写类名，然后是两个冒号，类方法即可。</p>
-
-<p>静态常量，静态变量，静态方法都是描述类的属性，不需要示例去使用。</p>
-
-<p>类的继承</p>
-
-<p>用extends关键字进行类的继承，继承就是在一个类的基础上，新增自身的新的变量和方法。</p>
-
-<p>这里举一个示例，以上一个示例中Person类为基类，建一个Man类，即男性的类。</p>
-
-<p>class Man extends Person//定义一个子类，继承person类<br/>
-{<br/>
-    public function  <strong>construct(\(name,\)age,$sex)//定义构造方法<br/>
-    {<br/>
-        parent::</strong>construct(\(name,\)age);//调用父类中的构造方法<br/>
-        \(sex1 = \)sex;<br/>
-    }<br/>
-    public function  looksex()//定义打印性别的方法<br/>
-    {<br/>
-        echo &quot;the person sex is a MAN <br />&quot;;<br/>
-    }<br/>
-    public function getname()//对于父类中的姓名打印函数进行重写<br/>
-    {<br/>
-       // parent::getname();//延续父类的方法<br/>
-        //如果不想用父类中的方法，可以在子类中重新定义该方法，这就是方法的重写。<br/>
-        echo &quot;Man类中的打印名字方法！！&quot;;<br/>
-    }<br/>
-}<br/>
- 方法重写</p>
-
-<p>对于父类中的方法，如果子类中没有，在调用的时候就会自动调用父类中的方法，如果子类和父类中都存在该方法，那么将会自动调用子类中的方法。如果在这种情况下想要调用父类中的方法，就要声明语句</p>
-
-<p>// parent::getname();//延续父类的方法</p>
-
-                        
-                      </div>
-                  </div>
-                </a>
-                <div class="read-more clearfix">
-                  <div class="more-left left">
-                  
-                    <span class="date">2015/3/22</span>
-                    <span>posted in&nbsp;</span> 
-          				  
-          					    <span class="posted-in"><a href='PHP.html'>PHP</a></span>
+          					    <span class="posted-in"><a href='Ubuntu.html'>Ubuntu</a></span>
           				   
                   </div>
                   <div class="more-right right">
@@ -758,7 +531,7 @@ Person::sayhello();//调用类方法<br/>
     <div id="sidebar" class="sidebar">
           <div id="site-info" class="site-info">
             
-                <h1>挂在树上的兔子</h1>
+                <h1>零度燕窝</h1>
                 <div class="site-des"></div>
                 <div class="social">
 
@@ -797,6 +570,10 @@ Person::sayhello();//调用类方法<br/>
         
             <a href="Fluent%20Python.html"><strong>Fluent Python</strong></a>
         
+            <a href="%E8%AF%BB%E4%B9%A6%E9%9A%8F%E7%AC%94.html"><strong>读书随笔</strong></a>
+        
+            <a href="%E6%9B%BE%E7%BB%8F%E6%9D%A5%E8%BF%87.html"><strong>曾经来过</strong></a>
+        
             <a href="PHP.html"><strong>PHP</strong></a>
         
             <a href="Ubuntu.html"><strong>Ubuntu</strong></a>
@@ -816,31 +593,31 @@ Person::sayhello();//调用类方法<br/>
 	      
 		      
 			      <li class="post">
-			        <a href="15033291458720.html">使用一等函数实现设计模式</a>
+			        <a href="15406290433586.html">扎心！有人偷走了我的磁盘空间？！</a>
 			      </li>
 		     
 		  
 		      
 			      <li class="post">
-			        <a href="15018651943030.html">一等函数</a>
+			        <a href="15377924479103.html">记一次攒机经历</a>
 			      </li>
 		     
 		  
 		      
 			      <li class="post">
-			        <a href="15018646605864.html">文本和字节序列</a>
+			        <a href="15376924661136.html">SQL查询语句之坑</a>
 			      </li>
 		     
 		  
 		      
 			      <li class="post">
-			        <a href="15013419653919.html">集合的使用</a>
+			        <a href="15056428224967.html">![](http://cdn.blog.yanzl.net/2017-10-27-carthusian-2822971.jpg)</a>
 			      </li>
 		     
 		  
 		      
 			      <li class="post">
-			        <a href="15010832436363.html">字典的使用</a>
+			        <a href="15048580065601.html">Python內建类型对象的那些事</a>
 			      </li>
 		     
 		  

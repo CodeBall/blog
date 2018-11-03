@@ -5,12 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>
     
-  挂在树上的兔子
+  零度燕窝
   
   </title>
   
   
-  <link href="atom.xml" rel="alternate" title="挂在树上的兔子" type="application/atom+xml">
+  <link href="atom.xml" rel="alternate" title="零度燕窝" type="application/atom+xml">
     <link rel="stylesheet" href="asset/css/foundation.min.css" />
     <link rel="stylesheet" href="asset/css/docs.css" />
     <script src="asset/js/vendor/modernizr.js"></script>
@@ -62,7 +62,7 @@
 
         <nav class="tab-bar show-for-small">
   <a href="javascript:void(0)" class="left-off-canvas-toggle menu-icon">
-    <span> &nbsp; 挂在树上的兔子</span>
+    <span> &nbsp; 零度燕窝</span>
   </a>
 </nav>
 
@@ -85,6 +85,10 @@
             <li><a href="%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84&%E7%AE%97%E6%B3%95.html">数据结构&算法</a></li>
         
             <li><a href="Fluent%20Python.html">Fluent Python</a></li>
+        
+            <li><a href="%E8%AF%BB%E4%B9%A6%E9%9A%8F%E7%AC%94.html">读书随笔</a></li>
+        
+            <li><a href="%E6%9B%BE%E7%BB%8F%E6%9D%A5%E8%BF%87.html">曾经来过</a></li>
         
             <li><a href="PHP.html">PHP</a></li>
         
@@ -111,122 +115,49 @@
 		<div class="markdown-body home-categories">
 		
 			<div class="article">
-                <a class="clearlink" href="14857025786294.html">
+                <a class="clearlink" href="14857040510109.html">
                 
-                  <h1>Ubuntu 安装之后要做的事情</h1>
+                  <h1>MySQL学习笔记（7）——存储引擎</h1>
                   <div class="a-content">
                       
                       <div class="a-content-text">
                         
-                        	<p>一、更新</p>
+                        	<p>存储引擎在之前学习过程中接触过一点，现在再写一些涉及到的更多的知识</p>
 
-<p>在终端输入</p>
+<p>并发控制</p>
 
-<p>sudo apt-get update<br/>
-sudo apt-get upgrade<br/>
-二、安装压缩解压工具</p>
+<p>当多个连接对记录进行修改时保证数据的一致性和完整性，锁系统能够实现并发控制。</p>
 
-<p>压缩功能</p>
+<p>锁系统</p>
 
-<pre><code>安装 sudo apt-get install rar
-卸载 sudo apt-get remove rar
-</code></pre>
+<p>锁系统是用来进行并发控制的，有两种锁，一种是共享锁（读锁）：在同一个时间内，多个用户可以读取同一个资源，因为不会对数据进行修改，所以是可以共同使用资源的，另一种是排它锁（写锁）：在任何时候只能有一个用户写入资源，当进行写锁时会阻塞其他的读锁或者写锁操作</p>
 
-<p>解压功能</p>
+<p>锁也有作用范围的大小，称为锁颗粒。比如表锁：是一种开销最小的锁，行锁：是一种开销最大的锁，支持的并发处理也是最大的。这里的开销，其实是锁的个数，表锁只对这张表加一个锁就可以了，所以开销最小，行锁要对相应的行加锁，所以开销最大。</p>
 
-<p>安装 sudo apt-get install unrar<br/>
-卸载 sudo apt-get remove unrar<br/>
-三、vim的安装和配置</p>
+<p>事务处理</p>
 
-<p>输入以下命令</p>
+<p>事务的主要作用为保证数据的完整性，事务有四大特性：原子性，一致性，隔离性，持久性；这四大特性简写为：ACID</p>
 
-<p>sudo apt-get install vim-gtk<br/>
- 安装完成之后就根据个人喜好配置文件，配置文件的命令为</p>
+<p>存储引擎的定义</p>
 
-<p>sudo vim /etc/vim/vimrc<br/>
- 四、Git的安装和配置</p>
+<p>MySQL将数据以不同的技术存储在文件（内存）中，这种技术称为存储引擎。每一种存储引擎都是用不同的存储机制，索引技巧，锁定水平，最终提供广泛且不同的功能。</p>
 
-<p>从软件中心直接安装，输入以下命令</p>
+<p>MySQL支持的存储引擎</p>
 
-<p>sudo apt-get install git<br/>
- 开始配置git</p>
+<p>MyISAM</p>
 
-<p>git config --global user.name &quot;用户名或者用户ID&quot;<br/>
-git config --global user.email &#39;邮箱&#39;<br/>
- 生成SSH key</p>
+<p>InnoDB</p>
 
-<p>ssh-keygen -C &#39;you email <a href="mailto:address@gmail.com">address@gmail.com</a>&#39; -t rsa<br/>
- 上传SSH key</p>
+<p>Memory</p>
 
-<p>在<a href="https://github.com/%E6%B3%A8%E5%86%8C%E5%8F%B7%E8%B4%A6%E5%8F%B7%EF%BC%8C%E7%84%B6%E5%90%8E%E6%89%BE%E5%88%B0Settings%E7%82%B9%E5%87%BB%E4%B9%8B%E5%90%8E%E6%89%BE%E5%88%B0SSH">https://github.com/注册号账号，然后找到Settings点击之后找到SSH</a> keys，点击Add SSH key。</p>
+<p>CSV：以逗号分隔</p>
 
-<p>在上一步生成SSH key的时候，会在~/.ssh/目录产生两个文件，一个是id_rsa，一个是id_rsa.pub，这里我们用到的时候id_rsa.pub文件，使用cat id_rsa.pub 命令讲文件内容显示出来，然后复制粘贴到网站上。</p>
+<p>Archive</p>
 
-<p>测试</p>
+<p>BlackHole:黑洞引擎，写入的数据都会消失，一般用作数据复制的中继</p>
 
-<p>完成后，可以再使用 ssh -v  <a href="mailto:git@github.com">git@github.com</a> 进行测试。看到下面的信息表示验证成功。</p>
-
-<p>Hi frank4qiu! You&#39;ve successfullyauthenticated, but GitHub does not provide shell access.</p>
-
-<p>五、安装搜狗输入法</p>
-
-<p>先添加以下源</p>
-
-<p>sudo add-apt-repository ppa:fcitx-team/nightly<br/>
- 添加之后更新以下系统</p>
-
-<p>sudo apt-get update<br/>
-安装fcitx</p>
-
-<p>sudo apt-get install fcitx<br/>
- 安装fcitx的配置工具</p>
-
-<p>sudo apt-get install fcitx-config-gtk<br/>
- 然后安装fcitx的table-all软件包</p>
-
-<p>sudo apt-get install fcitx-table-all<br/>
- 最后安装im-switch切换工具</p>
-
-<p>sudo apt-get install im-switch<br/>
-在<a href="http://pinyin.sogou.com/linux/?r=pinyin">http://pinyin.sogou.com/linux/?r=pinyin</a> 下载搜狗输入法的资源包，然后执行以下命令</p>
-
-<p>sudo dpkg -i 资源包名称<br/>
-期间，会有依赖关系，运行以下命令就可以了</p>
-
-<p>sudo apt-get install -f<br/>
-重启电脑就可以了。</p>
-
-<p>六、配置LAMP（Linux+Apache+MySql+PHP）环境</p>
-
-<p>安装Apache</p>
-
-<p>sudo apt-get install apache2<br/>
-在浏览器中打开http://localhost/或者<a href="http://127.0.0.1%EF%BC%8C%E5%A6%82%E6%9E%9C%E6%9C%89%E9%A1%B5%E9%9D%A2%E5%87%BA%E7%8E%B0%EF%BC%8C%E5%B0%B1%E8%AF%B4%E6%98%8E%E5%AE%89%E8%A3%85%E6%88%90%E5%8A%9F%E3%80%82%E7%84%B6%E5%90%8E%E5%8F%AF%E4%BB%A5%E9%87%8D%E5%90%AFapache%EF%BC%9A">http://127.0.0.1，如果有页面出现，就说明安装成功。然后可以重启apache：</a></p>
-
-<p>sudo /etc/init.d/apache2 restart</p>
-
-<p>安装PHP5</p>
-
-<p>sudo apt-get install php5<br/>
-配置Apache+PHP</p>
-
-<p>sudo apt-get install libapache2-mod-php5</p>
-
-<p>重启Apache</p>
-
-<p>sudo /etc/init.d/apache2 restart<br/>
-测试一下，可以在/var/www/下写一个php文件测试，然后在浏览器中输入<a href="http://127.0.0.1/filename.php%E6%88%96%E8%80%85http://localhost/filename.php%EF%BC%8C%E5%A6%82%E6%9E%9C%E8%BF%90%E8%A1%8C%E6%AD%A3%E5%B8%B8%EF%BC%8C%E5%B0%B1%E5%8F%AF%E4%BB%A5%E7%BB%A7%E7%BB%AD%E4%B8%8B%E4%B8%80%E6%AD%A5%E4%BA%86%E3%80%82">http://127.0.0.1/filename.php或者http://localhost/filename.php，如果运行正常，就可以继续下一步了。</a></p>
-
-<p>安装MySql</p>
-
-<p>sudo apt-get install mysql-server<br/>
-在安装的过程中，注意会提示输入进入数据库的密码</p>
-
-<p>让Apache，PHP支持MySql</p>
-
-<p>sudo apt-get install libapache2-mod-auth-mysql<br/>
-sudo apt-get install php5-mysql<br/>
-sudo /etc/init.d/apache2 restart</p>
+<p>这些存储引擎的特点如下图所示：<br/>
+<img src="media/14857040510109/mysql-suo.png" alt="mysql-suo"/></p>
 
                         
                       </div>
@@ -235,10 +166,10 @@ sudo /etc/init.d/apache2 restart</p>
                 <div class="read-more clearfix">
                   <div class="more-left left">
                   
-                    <span class="date">2015/10/14</span>
+                    <span class="date">2016/1/25</span>
                     <span>posted in&nbsp;</span> 
           				  
-          					    <span class="posted-in"><a href='Ubuntu.html'>Ubuntu</a></span>
+          					    <span class="posted-in"><a href='%E6%95%B0%E6%8D%AE%E5%BA%93.html'>数据库</a></span>
           				   
                   </div>
                   <div class="more-right right">
@@ -252,103 +183,99 @@ sudo /etc/init.d/apache2 restart</p>
               </div><!-- article -->
         
 			<div class="article">
-                <a class="clearlink" href="14857054118186.html">
+                <a class="clearlink" href="14857040317702.html">
                 
-                  <h1>Python学习笔记（一）</h1>
+                  <h1>MySQL学习笔记（6）——存储过程</h1>
                   <div class="a-content">
                       
                       <div class="a-content-text">
                         
-                        	<p>1.注释（octothorpe）：</p>
+                        	<p>MySQL命令的执行流程</p>
 
-<p>python代码中使用“#”进行注释。</p>
+<p>对于我们输入的sql命令，MySQL引擎会先进行语法分析，确定语法正确之后对sql命令进行编译，编译成可识别的命令，然后才执行语句，并将执行的结果返回给客户端。</p>
 
-<h1 id="toc_0">(octothorpe)有很多的英文名字，比如&quot;pound&quot;英镑,&quot;hash&quot;电话的#键,&quot;mesh&quot;网等。</h1>
+<p>存储过程的定义</p>
 
-<p>An &quot;octothorpe&quot; is also called a &quot;pound&quot;, &quot;hash&quot;, &quot;mesh&quot;, or any number of names. Pick the one that makes you chill out.</p>
+<p>存储过程是sql语句和控制语句的预编译集合，以一个名称存储并作为一个存储单元处理，存储过程存储在数据库内，可以由应用程序调用执行，允许用户声明变量以及进行流程控制。</p>
 
-<p>2.在python程序中输入中文：在文件开头加入一行语句：</p>
+<p>存储过程可以接收输入类型的参数，也可以接收输出类型的参数，并且可以存在多个返回值。</p>
 
-<h1 id="toc_1">-<em>- coding:utf-8 -</em>-</h1>
+<p>存储过程是预编译的，当第一次调用的时候，MySQL引擎会对其进行语法分析，编译等操作，并把结果存储在内存中。之后再调用，就直接从内存中执行。</p>
 
-<p>注意：这里的“#”号并不是当做注释使用，python其实没有把这行当做代码处。</p>
+<p>存储过程的优点</p>
 
-<p>3.数字和运算</p>
+<p>增强sql语句的功能和灵活性：因为可以写控制语句，所以存储过程可以完成复杂的判断以及较复杂的运算</p>
 
-<p>Python中动态分配数据类型。</p>
+<p>实现了较快的执行速度</p>
 
-<p>print 3+2+1-5+4%2-1.0/4+6<br/>
-print 3+2.0+1-5+4%2-1/4+6<br/>
-print 3+2+1-5+4%2-1/4+6<br/>
-print &quot;5大于-2吗?&quot;,5&gt;-2<br/>
-print &quot;3加2等于&quot;,3+2<br/>
-在上述例子中，第一行输出6.75，第二行输出7.0，第三行输出7，因为第一行中1.0/4指定运算结果为小数，所以不会将小数部分舍掉，而第二行和第三行就将小数部分省略掉了。虽然第二行运行结果也是小数，但该小数是因为2.0起作用的，在结果相加之前，1/4已经等于0。</p>
+<p>减少网络流量：由原来的传递一整条语句到之后的传递参数，传递的字符量变小了。</p>
 
-<p>4.变量和命名</p>
+<p>存储过程语法结构</p>
 
-<p>cars = 100<br/>
-space_in_a_car = 4.0<br/>
-drivers = 30<br/>
-passengers = 90<br/>
-cars_not_driven = cars - drivers<br/>
-carpool_capacity = drivers * space_in_a_car<br/>
-average_passengers_per_car = passengers / drivers</p>
+<p>create <br/>
+[definer = {当前用户|创建该存储过程的用户}]//如果不写则默认为当前用户<br/>
+procedure 存储过程名称(参数，可以有0个到多个)<br/>
+过程体<br/>
+存储过程参数有3个写法，in代表这个参数的值必须是在调用存储过程时指定，存储过程中，该值不能被返回。out代表该参数的值可以被存储过程中的代码改变，可以返回。Inout表示在调用存储过程时指定，可以被改变和返回.</p>
 
-<p>print &quot;There are&quot;,cars,&quot;cars available.&quot;<br/>
-print &quot;There will be&quot;,cars_not_driven,&quot;empty cars today.&quot;<br/>
-print &quot;We can transport&quot;,carpool_capacity,&quot;people today.&quot;<br/>
-print &quot;We need to put about&quot;,average_passengers_per_car,&quot;in each car.&quot;<br/>
-再上面的示例中，体现了变量的命名、赋值、运算等操作，之后将这些变量打印出来。</p>
+<p>调用存储过程</p>
 
-<p>需要注意的是：给定变量space_in_a_car赋值为4.0，而不是4，因为再之后的运算过程中，有用到除法，如果两个变量都是整形，那么得出的结果也会时整形，如果有小数，则会造成精度损失。</p>
+<p>Call 存储过程名</p>
 
-<p>5.格式化字符</p>
+<p>Call 存储过程名(参数)</p>
 
-<p>name = &#39;zhang san.Jone&#39;<br/>
-age = 35<br/>
-height = 74<br/>
-weight = 180</p>
+<p>修改存储过程</p>
 
-<p>print &quot;Let&#39;s talk about %s .He is %d years old .He&#39;s %d inches tall.&quot; %(name, age,height)<br/>
-print &quot;He&#39;s %d pounds heavy.&quot; % weight<br/>
-在这个示例中，可以在同一行中打印多个变量，并使用格式化字符。</p>
+<p>修改存储过程只能修改注释，内容的类型，不能够修改过程体，如果想修改过程体，则只能删除重建存储过程。</p>
 
-<p>Python打印出来的字符串并不限制于格式，只是把内容打印出来而已。</p>
+<p>删除存储过程</p>
 
-<p>Python的格式化字符有：</p>
+<p>delete procedure 存储过程名<br/>
+创建不带参数的存储过程</p>
 
-<p>符号                作用</p>
+<p>创建存储过程，获取当前MySQL版本</p>
 
-<p>%%                 百分号标记 #就是输出一个%<br/>
-%c                  字符及其ASCII码<br/>
-%s                  字符串<br/>
-%d                  有符号整数(十进制)<br/>
-%02d              数字转成2位整形，缺位填充0<br/>
-%06.2f            保留宽度为6的2位小数浮点型<br/>
-%u                  无符号整数(十进制)<br/>
-%o                  无符号整数(八进制)<br/>
-%x                  无符号整数(十六进制)<br/>
-%X                 无符号整数(十六进制大写字符)<br/>
-%e                  浮点数字(科学计数法)<br/>
-%E                 浮点数字(科学计数法，用E代替e)<br/>
-%f                  浮点数字(用小数点符号)<br/>
-%g                 浮点数字(根据值的大小采用%e或%f)<br/>
-%G                浮点数字(类似于%g)<br/>
-%p                 指针(用十六进制打印值的内存地址)<br/>
-%n                 存储输出字符的数量放进参数列表的下一个变量中<br/>
-格式化操作符辅助指令：<br/>
-符号                        作用<br/>
-*                         定义宽度或者小数点精度<br/>
--                         用做左对齐<br/>
-+                        在正数前面显示加号( + )<br/>
-<sp>                  在正数前面显示空格</p>
+<p>create procedure sp1()select version();<br/>
+创建带有in类型参数的存储过程</p>
 
-<h1 id="toc_2">在八进制数前面显示零(&#39;0&#39;),在十六进制前面显示&#39;0x&#39;或者&#39;0X&#39;(取决于用的是&#39;x&#39;还是&#39;X&#39;)</h1>
+<p>创建存储过程，用于删除特定的记录</p>
 
-<p>0                        显示的数字前面填充‘0’而不是默认的空格<br/>
-%                       &#39;%%&#39;输出一个单一的&#39;%&#39;<br/>
-(var)                  映射变量(字典参数)<br/>
-m.n                    m 是显示的最小总宽度,n 是小数点后的位数(如果可用的话)</p>
+<p>如果存储体中有多条语句，则记得修改终止符：delimiter //，写完之后再修改回来</p>
+
+<p>特别注意：参数名称和字段名称不要相同，否则会引起歧义而错删数据。</p>
+
+<p>create procedure removeUserById(in id int unsigned)<br/>
+begin<br/>
+delete from tdb_goods where goods_id = id;<br/>
+end//<br/>
+创建带有in类型和out类型的存储过程</p>
+
+<p>删除固定的记录，返回剩余的记录</p>
+
+<p>create procedure removeUserAndRetuen(in p_id int unsigned,out username int unsigned)<br/>
+begin<br/>
+delete from tdb_goods where goods_id = pid;<br/>
+select count(goods_id) from tdb_goods into username;<br/>
+end//<br/>
+在调用该存储方法的时候，因为有一个返回值，所以要使用变量存储，MySQL中声明变量的方法为@符号加变量名，该变量是用户变量，跟MySQL客户端绑定，只对当前用户所使用的客户端。如下所示：</p>
+
+<p>call removeUserAndRetuen(2,@nums);<br/>
+select @nums;<br/>
+创建带有多个out类型参数的存储过程</p>
+
+<p>根据价格进行删除，然后返回删除的数据个数和剩余的数据个数</p>
+
+<p>delimiter //<br/>
+create procedure deleteUserByMoney(in money int,out deleteNum int,out nums int)<br/>
+begin<br/>
+delete from tdb_goods where goods_price = money;<br/>
+select row_count() into deleteNum;<br/>
+select count(goods_id) from tdb_goods into nums;<br/>
+end//<br/>
+delimiter ;<br/>
+row_count()函数</p>
+
+<p>该函数是用来返回受影响的记录总数</p>
 
                         
                       </div>
@@ -357,10 +284,10 @@ m.n                    m 是显示的最小总宽度,n 是小数点后的位数(
                 <div class="read-more clearfix">
                   <div class="more-left left">
                   
-                    <span class="date">2015/9/18</span>
+                    <span class="date">2016/1/25</span>
                     <span>posted in&nbsp;</span> 
           				  
-          					    <span class="posted-in"><a href='Python.html'>Python</a></span>
+          					    <span class="posted-in"><a href='%E6%95%B0%E6%8D%AE%E5%BA%93.html'>数据库</a></span>
           				   
                   </div>
                   <div class="more-right right">
@@ -374,107 +301,168 @@ m.n                    m 是显示的最小总宽度,n 是小数点后的位数(
               </div><!-- article -->
         
 			<div class="article">
-                <a class="clearlink" href="14857054477051.html">
+                <a class="clearlink" href="14857039168906.html">
                 
-                  <h1>ubuntu文件基本操作命令（增删改查）</h1>
+                  <h1>MySQL学习笔记（5）——函数</h1>
                   <div class="a-content">
                       
                       <div class="a-content-text">
                         
-                        	<p>创建删除文件及文件夹</p>
+                        	<p>MySQL有很多函数哦，而且函数是可以套用的~~</p>
 
-<p>mkdir 目录名创建一个目录：格式：  mkdir  [选项]  DirName；</p>
+<p>字符函数</p>
 
-<p>命令中的［选项］一般有以下两种：</p>
+<p>字符连接：concat();例如：把名和姓进行连接输出：</p>
 
-<p>-m    用于对新建目录设置存取权限，也可以用 chmod 命令进行设置。<br/>
--p     需要时创建上层文件夹(或目录)，如果文件夹(或目录)已经存在，则不视为错误。<br/>
-示例：在/home/cc/下面创建以“it.dengchao.org”命名的文件夹，使用以下命令即可。</p>
+<p>select concat(first_name,last_name) as name from user;<br/>
+使用指定的分隔符进行字符连接：concat_ws();</p>
 
-<p>mkdir /home/cc/it.dengchao.org</p>
+<p>该函数第一个参数是使用的连接符，剩下的参数是需要连接的字符串，个数不限，如：</p>
 
-<p>rmdir 空目录名        删除一个空目录</p>
+<p>select concat(&#39;_&#39;,first_name,last_name) as name from user;<br/>
+数字格式化：format();</p>
 
-<p>rm 文件名文件名      删除一个文件或多个文件。rm命令的一般形式为：</p>
+<p>把数字划分成千分位格式，3位为一段，第一个参数是操作的数字，第二个参数小数位数，参数不可以省略。例如：</p>
 
-<p>　rm [选项] 文件…</p>
+<p>select format(22343.5464,3);<br/>
+转换成小写字母：lower();转换成大写字母：upper();只有一个参数，就是要操作的字符串。</p>
 
-<p>如果没有使用- r选项，则rm不会删除目录。</p>
+<p>获取左侧字符left();获取右侧字符right();有两个参数，第一个参数是操作的字符串，第二个参数是获取的长度。</p>
 
-<p>该命令的各选项含义如下：</p>
+<p>获取字符串长度：length();参数就是操作的字符串</p>
 
-<ul>
-<li><p>f 忽略不存在的文件，从不给出提示。</p></li>
-<li><p>r 指示rm将参数中列出的全部目录和子目录均递归地删除。</p></li>
-<li><p>i 进行交互式删除。</p></li>
-</ul>
+<p>select lower(&#39;JHDSyuJH&#39;);<br/>
+select upper(&#39;sdferfreHjs&#39;);<br/>
+select left(&#39;ewferfr&#39;,3);<br/>
+select right(&#39;ewferggrt&#39;,6);<br/>
+select length(&#39;dscfd测试汉字dkj&#39;);<br/>
+删除前导空格：ltrim();删除后续空格：rtrim();删除前导和后续空格：trim();</p>
 
-<p>rm –rf 非空目录名     删除一个非空目录下的一切</p>
+<p>select ltrim(&#39;   删除前导空格   &#39;);<br/>
+select rtrim(&#39;  删除后续空格    &#39;);<br/>
+select trim(&#39;   删除前导和后续空格   &#39;);<br/>
+trim()函数还可以删除前导和后续的其他字符</p>
 
-<p>touch 文件名               创建一个空文件</p>
+<p>select trim(leading &#39;?&#39; from &#39;???这里删除前导的问号&#39;);<br/>
+select trim(trailing &#39;?&#39; from &#39;??这里删除后续的问号???&#39;);<br/>
+select trim(both &#39;?&#39; from &#39;???这里删除前导和后续的问号???&#39;);<br/>
+字符串截取：substring();该函数有三个参数，第一个是操作的字符串，第二个是从哪个字符开始截取，第三个是截取的长度，如果没有第三个参数，则默认截取到结尾。</p>
 
-<p>重命名文件夹</p>
+<p>这里需要注意的是：如果该函数配合length()函数一起使用，则对于汉字形式数据会有偏差，length()函数计算出来的长度每个汉字占两个字节，substring()函数截取的时候一个汉字占1个字节。</p>
 
-<p>执行格式： mv source destination</p>
+<p>select substring(&#39;jjdei截取的数据ijduhu&#39;,2,8);<br/>
+select substring(&#39;jjdei截取的数据ijduhu&#39;,2,5);<br/>
+模式匹配：[not] like;其中%代表任意字符串（长度不限），_代表任意一个字符</p>
 
-<p>Example: mv file1 file2 将文件 file1，更改文件名为 file2。 mv file1 dir1 将文件 file1，移到目录 dir1下，文件名仍为 file1。 mv dir1 dir2 若目录 dir2 存在，则将目录 dir1，及其所有文件和子目录，移到目录 dir2 下，新目录名称为 dir1。若目录 dir2 不存在，则将dir1，及其所有文件和子目录，更改为目录 dir2。</p>
+<p>字符串替换：replace();将某一个字符穿替换成另一个字符串，有三个参数，第一个是操作的字符串，第二个是替换掉的字符串，第三个是替换成的字符串</p>
 
-<p>复制命令（cp）</p>
+<p>select * from user where user_name like &#39;%亮&#39;;<br/>
+select replace(&#39;??将问号??替换成/??null????&#39;,&#39;?&#39;,&#39;&#39;);<br/>
+数值运算符和函数</p>
 
-<p>该命令的功能是将给出的文件或目录拷贝到另一文件或目录中，就如同DOS下的copy命令一样，功能非常强大。 </p>
+<p>数值运算符中，+,-,*,/自然是不用说的，下面说说其他的数值运算符</p>
 
-<p>语法： cp [选项] 源文件或目录 目标文件或目录</p>
+<p>进一取整：ceil();无论小数部分有多小，都进1</p>
 
-<p>说明：该命令把指定的源文件复制到目标文件或把多个源文件复制到目标目录中。</p>
+<p>舍一取整：floor();无论小数部分有多达，都舍掉</p>
 
-<p>该命令的各选项含义如下：</p>
+<p>整数除法：div();不要余数，只要整除的部分</p>
 
-<ul>
-<li><p>a 该选项通常在拷贝目录时使用。它保留链接、文件属性，并递归地拷贝目录，其作用等于dpR选项的组合。</p></li>
-<li><p>d 拷贝时保留链接。</p></li>
-<li><p>f 删除已经存在的目标文件而不提示。</p></li>
-<li><p>i 和f选项相反，在覆盖目标文件之前将给出提示要求用户确认。回答y时目标文件将被覆盖，是交互式拷贝。</p></li>
-<li><p>p 此时cp除复制源文件的内容外，还将把其修改时间和访问权限也复制到新文件中。</p></li>
-<li><p>r 若给出的源文件是一目录文件，此时cp将递归复制该目录下所有的子目录和文件。此时目标文件必须为一个目录名。</p></li>
-<li><p>l 不作拷贝，只是链接文件。</p></li>
-</ul>
+<p>取余数：mod()或者%;获取除法运算之后余数部分，而不是小数部分哦。既可以对整数取余也可以对小数取余。</p>
 
-<p>示例：</p>
+<p>幂运算：power();</p>
 
-<p>$ cp - i exam1.c /usr/wang/shiyan1.c </p>
+<p>四舍五入：pound();有两个参数，第一个是操作的数字，第二个是保留的小数的位数</p>
 
-<p>该命令将文件exam1.c拷贝到/usr/wang 这个目录下，并改名为 shiyan1.c。若不希望重新命名，可以使用下面的命令：</p>
+<p>数字截取：truncate();有两个参数，第一个是操作的数字，第二个是保留的小数的位数，但是注意，该方法不进行四舍五入，而是直接截取</p>
 
-<p>$ cp exam1.c /usr/ wang/</p>
+<p>比较运算符和函数</p>
 
-<p>$ cp - r /usr/xu/ /usr/liu/ 将/usr/xu目录中的所有文件及其子目录拷贝到目录/usr/liu中。</p>
+<p>[not] between ... And...指的是在或者不在某个区间内，这个区间是闭合的，包括边界</p>
 
-<p>重命名/移动命令（mv）</p>
+<p>[not] in(),指的是在不在括号内的集合里，给出的是有限的内容点，而不是区间</p>
 
-<p>用户可以使用mv命令来为文件或目录改名或将文件由一个目录移入另一个目录中。该命令如同DOS下的ren和move的组合。 </p>
+<p>Is [not] null,查看是否为空。注意：null 是空，空的字符串不是空，0也不是空</p>
 
-<p>语法：mv [选项] 源文件或目录 目标文件或目录</p>
+<p>日期时间函数</p>
 
-<p>说明：视mv命令中第二个参数类型的不同（是目标文件还是目标目录），mv命令将文件重 命名或将其移至一个新的目录中。当第二个参数类型是文件时，mv命令完成文件重命名，此时，源文件只能有一个（也可以是源目录名），它将所给的源文件或目 录重命名为给定的目标文件名。当第二个参数是已存在的目录名称时，源文件或目录参数可以有多个，mv命令将各参数指定的源文件均移至目标目录中。在跨文件 系统移动文件时，mv先拷贝，再将原有文件删除，而链至该文件的链接也将丢失。</p>
+<p>当前日期和时间：now();</p>
 
-<p>命令中各选项的含义为：</p>
+<p>当前日期：curdate();</p>
 
-<ul>
-<li><p>I 交互方式操作。如果mv操作将导致对已存在的目标文件的覆盖，此时系统询问是否重写，要求用户回答y或n，这样可以避免误覆盖文件。</p></li>
-<li><p>f 禁止交互操作。在mv操作要覆盖某已有的目标文件时不给任何指示，指定此选项后，i选项将不再起作用。</p></li>
-</ul>
+<p>当前时间：curtime();</p>
 
-<p>如果所给目标文件（不是目录）已存在，此时该文件的内容将被新文件覆盖。为防止用户在不经意的情况下用mv命令破坏另一个文件，建议用户在使用mv命令移动文件时，最好使用i选项。</p>
+<p>日期变化：date_add();可以增加日期，也可以减少日期，有两个参数，第一个参数是变化的基数，第二个参数是变化量，可以是year,month,day,week,hour,minute,second等时间单位。</p>
 
-<p>需要注意的是，mv与cp的结果不同。mv好象文件“搬家”，文件个数并末增加，而cp对文件进行复制，文件个数增加了。</p>
+<p>日期差值：datediff();计算两个日期的差值，当然有两个参数了，在计算的时候，用第一个参数减去第二个参数。</p>
 
-<p>例1：将/usr/xu中的所有文件移到当前目录（用“.”表示）中：</p>
+<p>日期格式化：date_format();也有两个参数，第一个是操作的日期，第二个是转换的格式。</p>
 
-<p>$ mv /usr/xu/ * .</p>
+<p>select date_add(now(),interval 1 year);//将当前时间加上一年显示出来，如果是减去一年，则1变为-1 <br/>
+select datediff(now(),curdate());//这个结果是0，不信可以试试哦~~ <br/>
+select date_format(now(),&#39;%m/%d/%y %h:%m:%s&#39;);//注意日期格式中，字母的大小写含义是不一样的<br/>
+信息函数</p>
 
-<p>例2：将文件wch.txt重命名为wjz.doc</p>
+<p>连接ID：connection_id();</p>
 
-<p>$ mv wch.txt wjz.doc</p>
+<p>当前数据库：database();</p>
+
+<p>最后插入记录的id号：last_insert_id();数据表中必须存在一个自动编号的字段</p>
+
+<p>当前用户：user();</p>
+
+<p>版本信息：version();</p>
+
+<p>聚合函数</p>
+
+<p>聚合函数只有一个返回值，这在之前就已经说过了，这里只提一下常用的聚合函数</p>
+
+<p>平均值：avg();</p>
+
+<p>计数：count();</p>
+
+<p>最大值：max();</p>
+
+<p>最小值：min();</p>
+
+<p>求和：sum();</p>
+
+<p>加密函数</p>
+
+<p>信息摘要算法：md5();</p>
+
+<p>密码算法：password();</p>
+
+<p>自定义函数</p>
+
+<p>语法结构：</p>
+
+<p>create function 函数名(参数)//没有参数括号内可以没有内容<br/>
+returns 返回类型<br/>
+return 函数体<br/>
+函数体可以是任意合法的SQL语句，简单的select或者insert语句，如果函数体是复合结构，则使用begin...end语句，复合结构可以包含声明，循环，控制结构。</p>
+
+<p>创建不带参数的自定义函数:写一个日期类型转换的函数：</p>
+
+<p>create function f1()<br/>
+returns varchar(30)<br/>
+return date_format(now(),&#39;%Y年%m月%d日&#39;);<br/>
+创建带有参数的自定义函数：写一个计算平均值的函数</p>
+
+<p>create function f2(num1 int ,num2 int)<br/>
+returns float(10,2)<br/>
+return (num1 + num2)/2;<br/>
+创建具有复合结构函数体的自定义函数</p>
+
+<p>create function adduser(username varchar(20))<br/>
+returns int<br/>
+begin<br/>
+insert tdb_goods(goods_name) values(username);<br/>
+return last_insert_id();<br/>
+end//<br/>
+注意：</p>
+
+<p>创建复合结构函数体时，因为内部语句用到了“;”，但是分号是语句的结束，所以会引起歧义，最好使用delimiter关键字修改mysql的结束符，如：delimiter //,即以“//”为结束符，这样就不会引起冲突了。</p>
 
                         
                       </div>
@@ -483,10 +471,10 @@ m.n                    m 是显示的最小总宽度,n 是小数点后的位数(
                 <div class="read-more clearfix">
                   <div class="more-left left">
                   
-                    <span class="date">2015/8/2</span>
+                    <span class="date">2016/1/24</span>
                     <span>posted in&nbsp;</span> 
           				  
-          					    <span class="posted-in"><a href='Ubuntu.html'>Ubuntu</a></span>
+          					    <span class="posted-in"><a href='%E6%95%B0%E6%8D%AE%E5%BA%93.html'>数据库</a></span>
           				   
                   </div>
                   <div class="more-right right">
@@ -500,86 +488,255 @@ m.n                    m 是显示的最小总宽度,n 是小数点后的位数(
               </div><!-- article -->
         
 			<div class="article">
-                <a class="clearlink" href="14857052652778.html">
+                <a class="clearlink" href="14857038899615.html">
                 
-                  <h1>ThinkPHP 数据库增删改查</h1>
+                  <h1>MySQL学习笔记（4）——查询</h1>
                   <div class="a-content">
                       
                       <div class="a-content-text">
                         
-                        	<p>thinkphp框架对于快速开发来说,是一个比较简单而且好用的框架,这里面集成了很多函数可以使用,这篇文章主要是整理一下thinkphp框架中操作MySQL的函数.</p>
+                        	<p>为什么要存储数据呢？当然是为了查询啦~~~嘿嘿，小小无聊一下。。。接下来进入正题——查询的各种方法</p>
 
-<p>连接数据表并获取数据的总数</p>
+<p>where条件查询</p>
 
-<p>$count = M(&#39;buys&#39;)-&gt;count();<br/>
-根据数据总数目进行分页处理</p>
+<p>条件查询的适用范围比较广，更新，删除都用到了where条件查询，只需要在where之后添加要查询的条件即可。</p>
 
-<p>\(page = new Page(\)count,10);//总数为$count,按照每页10条数据进行处理</p>
+<p>group by语句对查询结果进行分组</p>
 
-<p>\(limit = \)page-&gt;firstRow.&#39;,&#39;.$page-&gt;listRows;//确定每一页首行和尾行<br/>
-按照某一个规则查询数据</p>
+<p>group by {字段名|字段位置}[asc|desc]<br/>
+该语句是对查询结果进行分组，分组完成之后也可以进行排序，asc是升序（默认），desc是降序，可以按照多个字段作为分组条件，字段之间以逗号分隔。</p>
 
-<p>\(buy_book=M(&#39;buys&#39;)-&gt;order(&#39;user_id DESC&#39;)-&gt;limit(\)limit)-&gt;select();//首先按照user_id递减的顺序,然后按照每页显示的数目来查询数据.<br/>
-M(&#39;wish&#39;)-&gt;where(array(&#39;id&#39;=&gt;$id))-&gt;select();//按照id来进行选择数据<br/>
-删除数据</p>
+<p>字段位置是select 语句中查询字段所在的位置（从1开始），并不是表中字段所在的位置，不建议这么做。</p>
 
-<p>public function delete()<br/>
-    {<br/>
-        //接受要删除的数据的id<br/>
-        \(id = I(&#39;book_id&#39;);<br/>
-        //where寻找到该id的数据,如果找不到则报错;找到之后调用delete()方法执行删除操作,删除成功后会返回删除数据的id<br/>
-        if(M(&#39;books&#39;)-&gt;where(array(&#39;book_id&#39;=&gt;\)id))-&gt;delete())<br/>
-        {<br/>
-            \(this-&gt;success(&#39;删除成功&#39;,U(&#39;Admin/Book/index&#39;));<br/>
-        }<br/>
-        else{<br/>
-            \)this-&gt;error(&#39;删除失败&#39;);<br/>
-        }<br/>
-    }<br/>
-新增数据</p>
+<p>group by语句有时也需要对分组进行条件确定，这时候配合使用having语句，在having之后设置分组条件，从而确定要进行分组的都有那些数据。</p>
 
-<p>//将接收到的数据数组化处理<br/>
-\(buy[&#39;buy_id&#39;] = I(&#39;user_id&#39;);<br/>
-\)buy[&#39;book_name&#39;] = I(&#39;book_id&#39;);<br/>
-\(buy[&#39;book_price&#39;] = I(&#39;book_price&#39;);<br/>
-//连接数据库,将数据添加进去,添加成功之后,就会返回添加的编号<br/>
-\)panduan = M(&#39;buys&#39;)-&gt;add($buy)<br/>
+<p>group by {字段名|字段位置} [asc|desc] having 分组条件<br/>
+having语句进行条件选择的时候，只有两种情况，一种是条件涉及到的字段出现在select语句中（即是查询的字段之一），另一种是聚合函数（比如sum(),count()等等，这些函数之所以称为聚合函数，是因为它们永远只有一个返回值）。如果不是这两种情况，查询条件就要使用where条件查询。</p>
+
+<p>order by 语句</p>
+
+<p>order by {字段名|字段位置} [asc|desc]<br/>
+asc是默认的升序，desc是降序。也可以根据多个字段进行排序，进行排序时，先看前面的字段，前面相同再继续往下判断。</p>
+
+<p>limit限制</p>
+
+<p>limit限制查询结果返回的数量，一般语法结构为：</p>
+
+<p>select * from 表名 limit n<br/>
+select * from 表名 limit m,n<br/>
+Limit后面如果只有一个数字，即默认返回前n条数据，如果有两个数字(m,n)（数字之间以逗号分隔），则表示从第m条数据开始（从0开始计数，该计数是物理计数，和任何编号数据没有关系）,显示n条数据（包括第m条）。</p>
+
+<p>查询示例</p>
+
+<p>结合上述所学知识点进行小小的查询测试</p>
+
+<p>select username,age,sex<br/>
+from users<br/>
+group by age having sex is ‘男’<br/>
+order by age desc<br/>
+limit 5 ;<br/>
+子查询</p>
+
+<p>子查询是指嵌套在查询内部，以小括号括起来的完整的查询，子查询的外层查询可以是select,insert,update,delete,set或do都是可以的。</p>
+
+<p>子查询返回可以是一个标量，可以是一行，一列或者是一个子查询。</p>
+
+<p>由比较运算符引发的子查询</p>
+
+<p>比较运算符有：=,&gt;,&lt;,&gt;=,&lt;=,&lt;&gt;,!=,&lt;=&gt;...</p>
+
+<p>例如：查询价格在所有产品平均价格之上的产品名称和价格：</p>
+
+<p>select goods_name as 产品名称,goods_price as 产品价格<br/>
+from goods<br/>
+where goods_price &gt;=(<br/>
+select avg(goods_price) from goods);<br/>
+带有any,some,all修饰的比较运算符引发的子查询</p>
+
+<p>在子查询的返回结果中，有可能会有多个结果，而比较运算符只有确定和哪一个结果进行比较才可以正常运算，这时候就要用到any任何一个，some也是任何一个，all符合全部来进行修饰比较运算符。</p>
+
+<p>例如：查询产品价格比任何一个超极本电脑价格都贵的产品名称和价格:</p>
+
+<p>select goods_name as 产品名称,goods_price as 价格<br/>
+from goods<br/>
+where goods_price &gt; any(<br/>
+select goods_price from goods where goods_cate = &#39;超级本&#39;);<br/>
+由[not] in/exists引发的子查询</p>
+
+<p>In 和 not in代表是否在子查询的结果里面，exists 和 not exists代表查询数据是否存在，如果存在，则返回true，不存在返回false</p>
+
+<p>表的连接</p>
+
+<p>一张表不可能存储所有的数据，在读取表内容的时候，我们需要根据一张表读取另一张表的内容，就用到了表的连接</p>
+
+<p>使用on关键字来设定连接条件，where关键字进行结果集记录的过滤</p>
+
+<p>内连接：inner join，仅显示符合连接条件的记录</p>
+
+<p>左外连接：left join，显示左表中的全部和右表中的符合条件的数据，如果左表中数据在右表中没有符合条件的字段，则显示为null</p>
+
+<p>右外链接：right join，和左外连接相反</p>
+
+<p>无限级分类的表设计</p>
+
+<p>其实也是很简单的，表结构中除了原有的id,name等字段之外，再添加一个字段，那就是该分类的父类id。例如：</p>
+
+<p>CREATE TABLE tdb_goods_types(<br/>
+     type_id   SMALLINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,<br/>
+     type_name VARCHAR(20) NOT NULL,<br/>
+     parent_id SMALLINT UNSIGNED NOT NULL DEFAULT 0<br/>
+  );<br/>
+自身连接进行无限级分类的查找，找出每一个分类的自身id，自身名称，父类名称，这里将一张表想象成两张表进行左外连接（为什么选用左外连接呢？因为顶级分类是没有父级分类的，但是我们不能够不查询出来，所以采用左外连接，将子表设为左表）</p>
+
+<p>Select s.type_id as 自身id,s.type_name as 自身名称,p.type_name as 父类名称<br/>
+From tdb_goods_types as s left join tdb_goods_types as p on s.parent_id = p.type_id;</p>
+
+                        
+                      </div>
+                  </div>
+                </a>
+                <div class="read-more clearfix">
+                  <div class="more-left left">
+                  
+                    <span class="date">2016/1/23</span>
+                    <span>posted in&nbsp;</span> 
+          				  
+          					    <span class="posted-in"><a href='%E6%95%B0%E6%8D%AE%E5%BA%93.html'>数据库</a></span>
+          				   
+                  </div>
+                  <div class="more-right right">
+                  <span class="comments">
+                      
+
+                       
+                  </span>
+                  </div>
+                </div>
+              </div><!-- article -->
+        
+			<div class="article">
+                <a class="clearlink" href="14857038593747.html">
+                
+                  <h1>MySQL学习笔记（3）——修改数据表及写数据</h1>
+                  <div class="a-content">
+                      
+                      <div class="a-content-text">
+                        
+                        	<p>操作字段</p>
+
+<p>添加单个字段：</p>
+
+<p>alter table  表名 add [column]  字段名称 字段定义 [first|after 字段名称]<br/>
+first指明将该字段添加到表定义的最前端，after指明将该字段添加到某个字段的后面，默认情况下是添加到最后。</p>
+
+<p>添加多个字段：</p>
+
+<p>alter table 表名 add <a href="%E5%88%97%E5%90%8D%E7%A7%B01%20%E5%88%97%E5%AE%9A%E4%B9%891,%E5%88%97%E5%90%8D%E7%A7%B02%20%E5%88%97%E5%AE%9A%E4%B9%892,...">column</a><br/>
+添加多个字段是不能够指定位置的，很显然，没法指定。。。</p>
+
+<p>删除一个字段：</p>
+
+<p>alter table 表名 drop 字段名称<br/>
+删除多个字段：</p>
+
+<p>alter table 表名 drop 字段名称,drop 字段名称<br/>
+删除字段的同时添加字段：</p>
+
+<p>alter table 表名 drop 字段名称,drop 字段名称,add 字段名称 字段定义<br/>
+操作约束</p>
+
+<p>添加主键约束：</p>
+
+<p>alter table 表名 [constraint [约束名称]] primary key <a href="%E5%AD%97%E6%AE%B5%E5%90%8D">约束类型</a><br/>
+添加唯一约束：</p>
+
+<p>alter table 表名 [constraint [约束名称]] unique key <a href="%E5%AD%97%E6%AE%B5%E5%90%8D">约束类型</a><br/>
+添加外键约束：</p>
+
+<p>alter table 表名 [constraint [约束名称]] foreign key (外键字段名) references 从表名（字段）<br/>
+添加|删除默认约束：</p>
+
+<p>alter table 表名 later [column] 字段名 {set default 默认值|drop default}<br/>
+删除主键约束：</p>
+
+<p>alter table 表名 drop primary key<br/>
+删除唯一约束：</p>
+
+<p>alter table 表名 drop {index|key} 约束名<br/>
+删除外键约束：</p>
+
+<p>alter table 表名 drop foreign key 约束名<br/>
+操作数据表</p>
+
+<p>修改字段定义：</p>
+
+<p>alter table 表名 modify [column] 字段名 字段定义 [first|after 字段名]<br/>
+修改字段名称：</p>
+
+<p>alter table 表名 change [column] 旧字段名称 新字段名称 字段定义 [first|after 字段名]<br/>
+修改数据表名称：</p>
+
+<p>alter table 表名 rename [to|as] 新名称<br/>
+rename table 表名 to 新名 [,表名1 to 新名1]...<br/>
+插入数据</p>
+
+<p>方法一</p>
+
+<p>插入多条数据</p>
+
+<p>insert [into] 表名 [(字段名称)] values(字段值)<br/>
+字段名称可写可不写，如果不写，则字段值必须包含所有字段的值，如果字段是自动编号，则可以写为null或者default；如果写字段名，则按照给定的字段顺序依次填入相应的字段值，字段值可以是表达式，如果该字段有默认值，也可以是默认值（default）</p>
+
+<p>插入多条数据</p>
+
+<p>insert [into] 表名 [(字段名称)] values(字段值1),(字段值2),...<br/>
+如果插入多条数据，则必须有相同个字段，即不能第一条数据有3个值，第二条数据有5个值。</p>
+
+<p>方法二</p>
+
+<p>insert 表名 set 字段名1 = &#39;字段值1&#39;,字段名2 = &#39;字段值2&#39;,...<br/>
+这种方法只能插入一条语句，可以进行子查询，具体来说是比较运算符=引发的子查询</p>
+
+<p>方法三</p>
+
+<p>insert [into] 表名 [(字段名称)] select 选择语句<br/>
+这种方法借助查询语句来从另外一张表中查找到相应数据插入到该表中</p>
+
+<p>比如在产品表中查询产品的分类，将查询的结果写入到分类表中</p>
+
+<p>insert goods_cates (cate_name) select<br/>
+goods_cate from goods group by goods_cate;<br/>
 修改数据</p>
 
-<p>首先要获取需要修改的数据的id,然后将该参数传递到修改页面,重新添加修改之后的信息,将这些信息传递到后台,然后执行更新操作</p>
+<p>单表修改</p>
 
-<pre><code>public function replace(){
-    //获取到需要修改的数据的id
-    $this-&gt;id = I(&#39;book_id&#39;);
-    //调用模板文件
-    $this-&gt;display(&#39;replace&#39;);
-}
-public function replace2(){
-    //将更新的信息实例化
-    $book_xx[&#39;book_id&#39;] = I(&#39;book_id&#39;);
-    $book_xx[&#39;book_name&#39;]=I(&#39;book_name&#39;);
-    $book_xx[&#39;book_auther&#39;]=I(&#39;book_auther&#39;);
-    $book_xx[&#39;book_pub&#39;]=I(&#39;book_pub&#39;);
-    $book_xx[&#39;book_termid&#39;]=I(&#39;book_termid&#39;);
-    $book_xx[&#39;book_price&#39;]=I(&#39;book_price&#39;);
-    $book_xx[&#39;book_info&#39;]=I(&#39;book_info&#39;);
-    $book_xx[&#39;book_grade&#39;]=I(&#39;book_grade&#39;);
-    //通过传递过来的参数id找到该数据,执行save()更新方法
-    if(M(&#39;books&#39;)-&gt;where(array(&#39;book_id&#39;=&gt;$book_xx[&#39;book_id&#39;]))-&gt;save($book_xx)){
-        $this-&gt;success(&#39;书籍信息更新成功&#39;,U(&#39;Admin/Book/index&#39;));
-    }
-    else
-    {
-        $this-&gt;error(&#39;书籍信息更新失败,没有找到要修改数据的id&#39;);
-    }
-}
-</code></pre>
+<p>update 表名 set 字段名=’更新的该字段的值’[,字段名1=’更新的该字段的值1’,...] [where 更新条件]<br/>
+如果不写更新条件，则所有的数据都将更新</p>
 
-<p>新增和修改比较</p>
+<p>多表修改</p>
 
-<p>新增是在没有的基础上增加新的数据,不需要在数据库中查找信息,调用的是add()方法</p>
+<p>多表更新涉及到表与表之间的连接，根据一张表的内容更新另一张表的内容</p>
 
-<p>修改是在原来已经有数据的基础上进行修改,所以传递的所有信息有包含了不变的id,即保证id不能够被修改。</p>
+<p>例如：根据产品类型表(goods_cate)更新产品表(goods)中的产品类型</p>
+
+<p>Update goods inner join goods_cate on goods_cate = cate_name set goods_cate = cate_id;<br/>
+删除数据</p>
+
+<p>单表删除</p>
+
+<p>Delete from 表名 [where 删除条件]<br/>
+如果不写删除条件，则该表中所有的数据都会被删除。</p>
+
+<p>多表删除</p>
+
+<p>所谓的多表删除，就是通过多张表的连接来确定删除的内容。</p>
+
+<p>例如：在一张表(goods)中，有很多重复的记录，如果想删除重复的记录，不可能找到它们的id一个一个的删除，这就用到了多表删除。把这张表和由重复数据组成的虚拟的表进行连接，进而进行删除操作。</p>
+
+<p>Delete t1 from goods as t1 left join(<br/>
+select goods_id,goods_name from goods group by goods_name having count(goods_name)&gt;=2) as t2 <br/>
+on t1.goods_name = t2.goods_name <br/>
+where t1.goods_id &gt; t2.goods_id;</p>
 
                         
                       </div>
@@ -588,121 +745,10 @@ public function replace2(){
                 <div class="read-more clearfix">
                   <div class="more-left left">
                   
-                    <span class="date">2015/7/15</span>
+                    <span class="date">2016/1/21</span>
                     <span>posted in&nbsp;</span> 
           				  
-          					    <span class="posted-in"><a href='PHP.html'>PHP</a></span>
-          				   
-                  </div>
-                  <div class="more-right right">
-                  <span class="comments">
-                      
-
-                       
-                  </span>
-                  </div>
-                </div>
-              </div><!-- article -->
-        
-			<div class="article">
-                <a class="clearlink" href="14857052295461.html">
-                
-                  <h1>php实现后台登陆功能</h1>
-                  <div class="a-content">
-                      
-                      <div class="a-content-text">
-                        
-                        	<p>最近想借助thinkphp框架写一个关于图书管理的小项目，经过一天对整个项目进行整体的规划之后决定先写后台。</p>
-
-<p>今天用php写了关于后台登陆功能，其中主要涉及到了从前端接收数据，在后台判断用户名和密码是否正确，刷新后台的时候自动判断用户是否已经登陆以及退出功能。</p>
-
-<p>接受数据用的I方法</p>
-
-<p>I方法值input（输入），用于更加方便和安全的获取系统输入的变量，用法格式为:</p>
-
-<p>I(&#39;变量类型.变量名&#39;,[&#39;默认值&#39;],[&#39;过滤方法&#39;])</p>
-
-<p>变量类型指post，get等请求方式或者输入类型，变量类型不区分大小写</p>
-
-<p>默认值和过滤方法属于可选参数，如果写过滤方法，就一定要写默认值，可以为空。</p>
-
-<p>I方法支持获取整个变量类型，比如：I(&#39;get&#39;);//获取整个get数组内容。</p>
-
-<p>I方法中param是特殊的，它可以自动判断当前请求类型的变量获取方式，比如：I(&#39;param.id&#39;);等同于：I(&#39;id&#39;);</p>
-
-<p>所以，可以使用I方法获取从前端传输进来的数据：</p>
-
-<p>\(username = I(&#39;username&#39;);<br/>
- \)pas = I(&#39;password&#39;);<br/>
-用户信息验证</p>
-
-<p>提取到用户登录数据之后，在数据库中查找用户信息，看用户名和密码是否匹配。</p>
-
-<p>\(user = M(&#39;users&#39;)-&gt;where(array(&#39;user_name&#39;=&gt;\)username))-&gt;find();<br/>
-        if(!\(user || \)user[&#39;user_password&#39;]!=$pas)<br/>
-        {<br/>
-            echo &quot;用户名或密码错误&quot;;<br/>
-        }<br/>
-往session中写入数据</p>
-
-<p>在经过用户验证成功之后，就需要把用户信息写入session中，以减少客户端访问数据库的频率。</p>
-
-<p>Session 的工作机制是：为每个访客创建一个唯一的 id (UID)，并基于这个 UID 来存储变量。UID 存储在 cookie 中，或者通过 URL 进行传导。</p>
-
-<p>//往session中写入数据<br/>
-        session(&#39;uid&#39;,\(user[&#39;user_id&#39;]);<br/>
-        session(&#39;username&#39;,\)user[&#39;user_name&#39;]);<br/>
-        session(&#39;userpwd&#39;,$user[&#39;user_password&#39;]);<br/>
-从登录页面跳转到后台首页面</p>
-
-<p>$this-&gt;redirect(&#39;Admin/Index/index&#39;);<br/>
-判断用户是否登陆</p>
-
-<p>在刷新后台页面或者进入后台的一个页面的过程中，我们都要判断用户是否已经登陆，因为如果用户没有登陆，就只能访问前端而不能访问后台，所以判断用户是否登陆是所有后台都需要执行的功能，为了方便，我们可以在要进入该页面之前自动调用判断方法，那么就需要有一个公共的控制器，然后后台所有页面的控制器都继承这个公共的控制器。</p>
-
-<p>新建控制器名为：CommonAction.class.php，在该控制器中写一个可以自动调用的方法。如果用户没有登陆，那么自动跳转到后台登录页面。</p>
-
-<p>&lt;?php</p>
-
-<p>Class CommonAction extends Action{<br/>
-    public function <u>initialize(){<br/>
-        if(!isset($</u>SESSION[&#39;uid&#39;])||!isset(\(_SESSION[&#39;username&#39;])){<br/>
-            \)this-&gt;redirect(&#39;Admin/Login/index&#39;);<br/>
-        }<br/>
-    }<br/>
-}<br/>
-?&gt;<br/>
-退出登陆</p>
-
-<p>在检测是否已经登陆的时候，我们是检测session中有没有数据，如果要退出登陆的话，就直接清楚session中的所有数据就可以了。</p>
-
-<p>为后台首页退出按钮添加链接，即触发此事件之后就交由控制器的相应方法进行处理。</p>
-
-<p><a href="{:U('Admin/Login/logout')}" target="_self">退出</a><br/>
-清空session数据</p>
-
-<p>public function logout(){<br/>
-        session_unset();<br/>
-        session_destroy();<br/>
-        \(this-&gt;redirect(&#39;Admin/Login/index&#39;);<br/>
-    }<br/>
-//session_unset()释放当前在内存中已经创建的所有\)_SESSION变量，但不删除session文件以及不释放对应的session id</p>
-
-<p>// session_destroy()删除当前用户对应的session文件以及释放session id，内存中的$_SESSION变量内容依然保留,因此，释放用户的session所有资源</p>
-
-<p>在所有数据都清空之后，自动转到后台登录页面。</p>
-
-                        
-                      </div>
-                  </div>
-                </a>
-                <div class="read-more clearfix">
-                  <div class="more-left left">
-                  
-                    <span class="date">2015/7/9</span>
-                    <span>posted in&nbsp;</span> 
-          				  
-          					    <span class="posted-in"><a href='PHP.html'>PHP</a></span>
+          					    <span class="posted-in"><a href='%E6%95%B0%E6%8D%AE%E5%BA%93.html'>数据库</a></span>
           				   
                   </div>
                   <div class="more-right right">
@@ -738,7 +784,7 @@ public function replace2(){
     <div id="sidebar" class="sidebar">
           <div id="site-info" class="site-info">
             
-                <h1>挂在树上的兔子</h1>
+                <h1>零度燕窝</h1>
                 <div class="site-des"></div>
                 <div class="social">
 
@@ -777,6 +823,10 @@ public function replace2(){
         
             <a href="Fluent%20Python.html"><strong>Fluent Python</strong></a>
         
+            <a href="%E8%AF%BB%E4%B9%A6%E9%9A%8F%E7%AC%94.html"><strong>读书随笔</strong></a>
+        
+            <a href="%E6%9B%BE%E7%BB%8F%E6%9D%A5%E8%BF%87.html"><strong>曾经来过</strong></a>
+        
             <a href="PHP.html"><strong>PHP</strong></a>
         
             <a href="Ubuntu.html"><strong>Ubuntu</strong></a>
@@ -796,31 +846,31 @@ public function replace2(){
 	      
 		      
 			      <li class="post">
-			        <a href="15033291458720.html">使用一等函数实现设计模式</a>
+			        <a href="15406290433586.html">扎心！有人偷走了我的磁盘空间？！</a>
 			      </li>
 		     
 		  
 		      
 			      <li class="post">
-			        <a href="15018651943030.html">一等函数</a>
+			        <a href="15377924479103.html">记一次攒机经历</a>
 			      </li>
 		     
 		  
 		      
 			      <li class="post">
-			        <a href="15018646605864.html">文本和字节序列</a>
+			        <a href="15376924661136.html">SQL查询语句之坑</a>
 			      </li>
 		     
 		  
 		      
 			      <li class="post">
-			        <a href="15013419653919.html">集合的使用</a>
+			        <a href="15056428224967.html">![](http://cdn.blog.yanzl.net/2017-10-27-carthusian-2822971.jpg)</a>
 			      </li>
 		     
 		  
 		      
 			      <li class="post">
-			        <a href="15010832436363.html">字典的使用</a>
+			        <a href="15048580065601.html">Python內建类型对象的那些事</a>
 			      </li>
 		     
 		  

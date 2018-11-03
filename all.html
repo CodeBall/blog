@@ -5,12 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>
     
-  挂在树上的兔子
+  零度燕窝
   
   </title>
   
   
-  <link href="atom.xml" rel="alternate" title="挂在树上的兔子" type="application/atom+xml">
+  <link href="atom.xml" rel="alternate" title="零度燕窝" type="application/atom+xml">
     <link rel="stylesheet" href="asset/css/foundation.min.css" />
     <link rel="stylesheet" href="asset/css/docs.css" />
     <script src="asset/js/vendor/modernizr.js"></script>
@@ -62,7 +62,7 @@
 
         <nav class="tab-bar show-for-small">
   <a href="javascript:void(0)" class="left-off-canvas-toggle menu-icon">
-    <span> &nbsp; 挂在树上的兔子</span>
+    <span> &nbsp; 零度燕窝</span>
   </a>
 </nav>
 
@@ -85,6 +85,10 @@
             <li><a href="%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84&%E7%AE%97%E6%B3%95.html">数据结构&算法</a></li>
         
             <li><a href="Fluent%20Python.html">Fluent Python</a></li>
+        
+            <li><a href="%E8%AF%BB%E4%B9%A6%E9%9A%8F%E7%AC%94.html">读书随笔</a></li>
+        
+            <li><a href="%E6%9B%BE%E7%BB%8F%E6%9D%A5%E8%BF%87.html">曾经来过</a></li>
         
             <li><a href="PHP.html">PHP</a></li>
         
@@ -111,14 +115,126 @@
 		<div class="markdown-body home-categories">
 		
 			<div class="article">
-                <a class="clearlink" href="15033291458720.html">
+                <a class="clearlink" href="15406290433586.html">
                 
-                  <h1>使用一等函数实现设计模式</h1>
+                  <h1>扎心！有人偷走了我的磁盘空间？！</h1>
                   <div class="a-content">
                       
                       <div class="a-content-text">
                         
-                        	
+                        	<p>2天前，接到系统报警，用来存储数据库数据的磁盘空间剩余不足10%，于是经过一番删表操作，成功释放了 40G 的空间，关上电脑，安心睡觉。难得今天周六可以在家好好休息，买了老母鸡准备煲个鸡汤犒劳一下自己，此时收到 leader 发来的微信：不是说磁盘空间空出了 40G 吗？现在磁盘都快爆了！！<br/>
+最怕灯火阑珊时，手机响，心里慌。罢了，鸡汤之后再煲吧~打开电脑，连接线上环境，又是一通删表操作（此处还有其他操作，请不要盲目删表），执行 <code>df -h</code> 命令，奇怪的事情发生了，刚刚明明删除了大概 10G 左右的数据文件，为啥磁盘占用量只减少了 2G 左右，玩呢吧。。。。。。</p>
+
+<h2 id="toc_0">那么问题来了</h2>
+
+<p>文件已经删除了，到底哪里出了问题，竟然把我的磁盘空间都吃满了呢？<br/>
+使用 <code>df -h</code> 命令查看对应路径下的空间占用情况，得到如图1-1所示的结果：<br/>
+<center><br/>
+<img src="media/15406290433586/15406328121647.jpg" alt=""/><br/>
+图1-1<br/>
+</center></p>
+
+<p>这个结果看起来，磁盘分分钟就要爆了呀！！既然如此，那再看看到底是那个文件夹中的文件最占空间吧。执行 <code>du --max-depth=1 -h</code>命令，得到如图1-2所示的结果：<br/>
+<center><br/>
+<img src="media/15406290433586/15406330683651.jpg" alt=""/><br/>
+图1-2<br/>
+</center><br/>
+那么问题来了，这个结果看起来，该路径下的磁盘占用量只有 109G，相比于上面查询的 152G，那 43G 去哪里了呢？为什么 <code>df -h</code> 命令查出来的结果和 <code>du -h</code>命令查出来的结果不一样呢？</p>
+
+<h2 id="toc_1">du命令和df命令区别</h2>
+
+<h3 id="toc_2">du命令工作原理</h3>
+
+<p>du，disk usage,是通过搜索文件来计算每个文件的大小然后累加，du能看到的文件只是一些当前存在的，没有被删除的。他计算的大小就是当前他认为存在的所有文件大小的累加和。它的数据是基于文件获取的，所以有很大的灵活性，不一定非要针对一个分区，可以跨越多个分区操作。如果针对的目录中文件很多，du速度就会很慢。</p>
+
+<h3 id="toc_3">df命令工作原理</h3>
+
+<p>df，disk free，通过文件系统来快速获取空间大小的信息，它的数据是基于分区元数据的，所以只能针对整个分区。由于df直接读取超级块，所以运行速度不受文件多少影响。<br/>
+当我们删除一个文件的时候，这个文件不是马上就在文件系统当中消失了，而是暂时消失了，当所有程序都不用时，才会根据OS的规则释放掉已经删除的文件， df记录的是通过文件系统获取到的文件的大小，他比du强的地方就是能够看到已经删除的文件，而且计算大小的时候，把这一部分的空间也加上了，更精确了。</p>
+
+<h2 id="toc_4">怎么办？</h2>
+
+<p>了解了<code>du</code>和<code>df</code>命令的工作原理，再结合之前释放空间时的操作，原因就找到了：执行表删除操作的时候，仍然有进程在使用对应的文件。</p>
+
+<h3 id="toc_5">找到仍在使用已删除文件的进程</h3>
+
+<p>执行<code>lsof | grep deleted</code>命令，查找相应的进程，结果如图1-3所示（这里只截取一部分）：<br/>
+<center><br/>
+<img src="media/15406290433586/15406338009854.jpg" alt=""/><br/>
+图1-3<br/>
+</center></p>
+
+<p>在对应列表中，找到被自己删除的文件，kill 掉相应进程就可以了。</p>
+
+<h3 id="toc_6">结果验证</h3>
+
+<p>再次执行 <code>df -h</code> 命令，可以看到如图 1-4所示的结果：<br/>
+<center><br/>
+<img src="media/15406290433586/15406339199045.jpg" alt=""/><br/>
+图1-4<br/>
+</center></p>
+
+<p>至此，被偷走的磁盘空间就回来了。撒花~~</p>
+
+<h2 id="toc_7">知识点扩展</h2>
+
+<h3 id="toc_8">尽量避免df和dh出现差距</h3>
+
+<p>工作中，可以通过以下方法避免因为文件删除导致磁盘空间不能正常释放的问题：</p>
+
+<ul>
+<li>以清空文件的方式代替删除文件</li>
+<li>对于经常发生删除问题的文件，以改名、清空、删除的顺序操作</li>
+<li>有些命令也会间接执行删除文件操作，在执行此类命令的时候，为了避免删除问题，建议先确认有没有进程打开相应文件</li>
+</ul>
+
+<h3 id="toc_9">不是所有时候都可以直接 kill</h3>
+
+<p>kill进程虽然简单，但也是特别粗暴的方式，执行该操作前，应该确认确定不会对运行中的进程造成影响时使用。有些应用程序对这种方式支持的并不好，当一个正在使用的文件被截断可能会引发不可预知的问题。<br/>
+如果觉得直接 kill 进程比较麻烦或者不可操作，可以尝试以下操作：</p>
+
+<ul>
+<li>停掉使用这个文件的应用，让 os 自动回收磁盘空间</li>
+<li>unmount一下文件系统</li>
+<li>重启系统</li>
+</ul>
+
+<h3 id="toc_10">lsof 命令</h3>
+
+<p>lsof 全名 list opened files，即列举系统中已经被打开的文件。</p>
+
+<p>lsof 命令通常的输出格式为：</p>
+
+<table>
+<thead>
+<tr>
+<th>COMMAND</th>
+<th>PID</th>
+<th>USER</th>
+<th>FD</th>
+<th>TYPE</th>
+<th>DEVICE</th>
+<th>SIZE</th>
+<th>NODE</th>
+<th>NAME</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>默认以9个字符长度显示的命令名称。可使用+c参数指定显示的宽度，若+c后跟的参数为零，则显示命令的全名</td>
+<td>进程ID号</td>
+<td>命令的执行UID或系统中登陆的用户名称。默认显示为用户名，当使用-l参数时，可显示UID。</td>
+<td>文件的File Descriptor number</td>
+<td>文件类型</td>
+<td>使用character special、block special表示的设备号</td>
+<td>文件的大小</td>
+<td>本地文件的node码</td>
+<td>挂载点和文件的全路径（链接会被解析为实际路径），或者连接双方的地址和端口、状态等</td>
+</tr>
+</tbody>
+</table>
+
                         
                       </div>
                   </div>
@@ -126,10 +242,10 @@
                 <div class="read-more clearfix">
                   <div class="more-left left">
                   
-                    <span class="date">2017/8/21</span>
+                    <span class="date">2018/10/27</span>
                     <span>posted in&nbsp;</span> 
           				  
-          					    <span class="posted-in"><a href='Fluent%20Python.html'>Fluent Python</a></span>
+          					    <span class="posted-in"><a href='%E6%95%B0%E6%8D%AE%E5%BA%93.html'>数据库</a></span>
           				   
                   </div>
                   <div class="more-right right">
@@ -143,293 +259,457 @@
               </div><!-- article -->
         
 			<div class="article">
-                <a class="clearlink" href="15018651943030.html">
+                <a class="clearlink" href="15377924479103.html">
                 
-                  <h1>一等函数</h1>
+                  <h1>记一次攒机经历</h1>
                   <div class="a-content">
                       
                       <div class="a-content-text">
                         
-                        	<h2 id="toc_0">一等对象的定义</h2>
+                        	<p>攒机这一念头还是在我的小黑（ThinkPad E430）挂掉之后产生的，毕竟小黑也是陪了我 5 年之久，也是时候换掉了。至于为什么是攒机，一来整机买很难兼顾到各个硬件的性能；二来身为软件专业毕业生，如果没有攒过机，总觉得对不起自己的专业；三是个人认为很多事情总是需要一个人去面对的，鼓起勇气去做，即使失败了，毕竟努力过。于是，长达半年之久的攒机长跑在今年6月16号开始。</p>
 
-<p>把一等对象定义为满足下述条件的程序实体：</p>
+<h2 id="toc_0">攒机方案的确定</h2>
 
-<ul>
-<li>在运行时创建</li>
-<li>能赋值给变量或者数据结构中的元素</li>
-<li>能作为参数传给函数</li>
-<li>能作为函数的返回结果</li>
-</ul>
+<p>讲真，制定第一版攒机方案的时候，甚至不知道应该买哪些硬件，担心买回家硬件之间不能兼容，后来还是在网上找了模拟攒机，凭着自己对主板、CPU、显卡等硬件微不足道的了解，外加各种百度谷歌，以预算8000为标准，确定了第一版攒机方案。找大佬咨询建议，感觉整个方案都要被推翻，主要是对品牌不了解，可能选择了名号响亮但性价比并不高的零件，或者预算太低，选择的性能很是一般般。最纠结的还是显卡和内存，当时显卡选择的是1060，很多人看到方案后都会问“为什么不直接上1080”，主要没钱啊！！内存条最初选择单条8G，其实更倾向于单条16G，仍然是没钱啊（哭晕在厕所）TAT ~~</p>
 
-<p>在python中，函数也是一等对象，可看如下示例：</p>
+<p>在犹豫要不要提升预算，升级配置的时候，完美地错过了618大促，随后各个零件价格回升，更是不想买了。于是攒机的事情一再拖延，直到7月份搬家，预交了3个月的房租，手头更是紧张，缓和了两个月后，攒机事项再次提上议程，8月下旬开始频繁关注各个零件的价格，有时间也会和周围的大佬交流心得，最终在9月中旬确定攒机方案！！既然都已经决定自己攒机了，就做得更好一点，尽量把配置一步做到位，也免了随后升级的麻烦。于是显卡确定下来1070，内存条使用单条16G，主板使用技嘉Z370，其他的差不多就可以了。</p>
 
-<pre><code class="language-Python">def factorial(n):
-    &quot;&quot;&quot;
-    计算阶乘
-    :param n:
-    :return:
-    &quot;&quot;&quot;
-    return 1 if n &lt; 2 else n * factorial(n-1)
+<h2 id="toc_1">零件购买</h2>
 
-print(factorial(3))
-print(factorial.__doc__)
-x = factorial
-print(x(3))
+<p>购买零件也是非常糟心的过程。因为想要提前开始组装，于是周三就在京东下单。本来以后即便周四到货，也可以直接放进丰巢，谁知第二天接到快递员电话，说放进丰巢需要我提供收货码，这么贵重的东西我怎么能随便确认收货呢，于是一个生气便拒收了。。。。更可气的是找京东客服问什么情况，假如确认收货了，快递员没有把东西放进丰巢怎么办？谁知京东客服竟然回答概不负责，客户自己和快递小哥商议，简直要吐出一口老血。。。。<br/>
+于是接受教训，第二次买直接使用京准达，指定下午6点到8点之间送货。结果快递小哥6点多一点就送到家了，我还在回家的路上，emmmm，也是无语。。。。</p>
+
+<h2 id="toc_2">硬件安装</h2>
+
+<p>一番折腾后，终于把该买的零件都买全了，准备开始硬件安装。拆掉主板包装，看到板子上密密麻麻各种接口，满脑子都是“什么鬼？”、“什么东西？”、“这东西怎么玩?”之类的想法，看到跟教科书一样厚的使用说明书时更是各种崩溃。。。一瞬间，有种硬件在手却不知所措的感觉，甚至有点后悔选择自己攒机。</p>
+
+<p>好在我不是一个轻易被打败的人，～(￣▽￣～)(～￣▽￣)～，买机箱时看到一个公众号提供了攒机视频，于是视频看了好几遍，确定好攒机顺序，然后找各个硬件的客服要教程各种钻研，在脑海中反复确认每一步要做什么（毕竟每个零件都价值不菲，装错了哪一个我都烧不起呀，TAT），最后主板说明书阅读了几遍，每个接口是干什么的，应该怎么安装都搞清楚，心里大概有7、8分谱的时候，开始动手安装硬件。</p>
+
+<p>之前的确认用了大量的时间，真正的硬件安装反而没有用太长时间。很快就来到了布线的环节，主要是把电源上的各种线连接到各个零件上，给各零件供电使用。看着电源上那么多的线，简直就是一脸懵逼，之前教程也没看到过呀，这电源线上也没写哪根线应该连接哪个零件啊，各种不明白，各种无从下手，最终乖乖去研究主板使用说明书了。</p>
+
+<p>说明书的认真阅读，外加我聪明大胆的推测，最终把各种线都连接好。其实电源上的接口都是有一定的规格，只要把对应规格的线连接在相应的零件上就可以了。比如整个主板电源插座，可能主板是24 PIN 供电插座，电源线就需要 20 PIN + 4 PIN 两条线拼接（这种由不通电源来决定），而方向也可以根据无作用针脚位置来确定，这些在主板使用说明书中都可以找到，某些不确定方向的，其实可以看针脚的形状，一般相邻针脚形状是不一样的，由此可以判断插座插入方向。再比如主板跳线插座，主板给提供的插座都是很齐全的，什么重启、电源指示、开关、喇叭阵脚、硬盘动作指示灯等插座都会有，但是否有相应的连接条线也是根据机箱不同而设定的，另外开关和重启键并不需要区分正负极，有的机箱设计就很奇葩（比如开关线两条子线是区分颜色的，重启线两条子线不区分颜色，这就很坑了）。总之，主板、CPU、独立显卡、硬盘、SSD都要供电，只要插入相应插座就可以了。</p>
+
+<h2 id="toc_3">开机测试与系统安装</h2>
+
+<p>接下来要做开机测试，目标是能够成功看到开机 logo 画面，只可惜按下开机键后显示屏一点没有反应，屏幕提示计算机未输出任何信号，在排除了线的故障以及插头松动的可能性后，看到主板除错灯提示AE，查说明书：boot to legacy os。这看起来像是正常的，不就是搜索系统引导嘛，可为什么显示器没有反应啊。。。然后就各种谷歌百度，把主板上所有插座线都依次重插一下，仍然没有解决问题。</p>
+
+<p>最后无奈，微信找了大佬请教，一番描述后，发现竟是我连接线的插座插错了！！主板上是有集显插座的，如果使用了独立显卡，就需要把显示器连接线插进独立显卡的对应插座上，然而我插在了主板上，也是为自己的智商捉急啊。</p>
+
+<p>系统是找公司 IT 帮忙做的（个人比较懒，也不想污染 Mac 去做系统~~），系统安装就比较容易了，选择好系统安装的磁盘位置（高端、大气、上档次的SSD）之后，没一会儿就安装完成了。</p>
+
+<p>重启开机进入系统，将显卡和主板附带的驱动都安装好基本就差不多了。因为还有一块全新的硬盘没有初始化，因此系统还是别不到该磁盘，只能显示系统所在的SSD，管理员身份选择磁盘管理，对新的硬盘做初始化，然后分区。</p>
+
+<h2 id="toc_4">总结</h2>
+
+<p>酱紫，个人的第一次攒机经历到这里就结束了，回顾下来，当时觉得很难，无从下手。真正一点点做下去，直到完成的时候，觉得也还好，也没有遇到一直解决不了的情况。本次攒机，让我对各种硬件知识有了一定的了解，接下来就是开心地玩耍时间啦。完结撒花！！</p>
+
+                        
+                      </div>
+                  </div>
+                </a>
+                <div class="read-more clearfix">
+                  <div class="more-left left">
+                  
+                    <span class="date">2018/9/24</span>
+                    <span>posted in&nbsp;</span> 
+          				  
+          					    <span class="posted-in"><a href='%E9%9A%8F%E6%83%B3.html'>随想</a></span>
+          				   
+                  </div>
+                  <div class="more-right right">
+                  <span class="comments">
+                      
+
+                       
+                  </span>
+                  </div>
+                </div>
+              </div><!-- article -->
+        
+			<div class="article">
+                <a class="clearlink" href="15376924661136.html">
+                
+                  <h1>SQL查询语句之坑</h1>
+                  <div class="a-content">
+                      
+                      <div class="a-content-text">
+                        
+                        	<h2 id="toc_0">sqlalchemy 相关</h2>
+
+<h3 id="toc_1">查询具体条数count(*)</h3>
+
+<h4 id="toc_2">造成慢查询的语句</h4>
+
+<pre><code class="language-python">count = accountModel.query.filter(accountModel.age&gt;10).count()
 </code></pre>
 
-<h2 id="toc_1">高阶函数的定义</h2>
+<p>sqlalchemy 会将上述代码拼接成如下所示 SQL 语句</p>
 
-<p>接收函数为参数，或者吧函数作为返回值的函数就是高阶函数。<br/>
-最为人熟知的高阶函数有：<code>map</code>, <code>filter</code>, <code>reduce</code>.</p>
-
-<p><code>reduce</code>在python2中时内置函数，在python3中，放在了functools模块中，这个函数最常用的场景是用来求和，如下示例：</p>
-
-<pre><code class="language-Python">from functools import reduce
-from operator import add
-
-print(reduce(add, range(100)))
-# 在计算求和方面,sum函数完全可以代替reduce进行计算
-print(sum(range(100)))
+<pre><code class="language-SQL">select count(*) from(select * from account where age&gt;10)
 </code></pre>
 
-<h2 id="toc_2">可调用对象列举</h2>
+<h4 id="toc_3">正确的写法</h4>
+
+<pre><code class="language-python">from sqlalchemy import func
+count = db.session.query(db.func.count(accountModel.Id)).filter(accountModel.age&gt;10).first()[0]
+</code></pre>
+
+<p>sqlalchemy 会将上述代码拼接成如下所示 SQL 语句</p>
+
+<pre><code class="language-SQL">select count(*) from account where age &gt; 10
+</code></pre>
+
+                        
+                      </div>
+                  </div>
+                </a>
+                <div class="read-more clearfix">
+                  <div class="more-left left">
+                  
+                    <span class="date">2018/9/23</span>
+                    <span>posted in&nbsp;</span> 
+          				  
+          					    <span class="posted-in"><a href='%E6%95%B0%E6%8D%AE%E5%BA%93.html'>数据库</a></span>
+          				   
+                  </div>
+                  <div class="more-right right">
+                  <span class="comments">
+                      
+
+                       
+                  </span>
+                  </div>
+                </div>
+              </div><!-- article -->
+        
+			<div class="article">
+                <a class="clearlink" href="15056428224967.html">
+                
+                  <h1>![](http://cdn.blog.yanzl.net/2017-10-27-carthusian-2822971.jpg)</h1>
+                  <div class="a-content">
+                      
+                      <div class="a-content-text">
+                        
+                        	<h1 id="toc_0">摘要</h1>
+
+<p>运算符的重载可以让用户自定义的对象使用运算符完成特定的操作。如果不能够正确的重载运算符，有可能会导致一些缺陷甚至意料之外的性能瓶颈。本文将借助两个示例，从一元运算符和中缀运算符着手，开启重载运算符的大门。</p>
+
+<h2 id="toc_1">python中对运算符重载的限制</h2>
+
+<p>为了更好的平衡灵活性、可用性和安全性，python对运算符的重载施加了一些限制：</p>
 
 <ul>
-<li>用户定义的函数：使用def语句或者lambda表达式创建的函数。</li>
-<li>内置函数：使用C语言实现的内置函数，如<code>len</code>,<code>time.strftime</code>。</li>
-<li>内置方法：使用C语言实现的方法，如<code>dict.get</code>。</li>
-<li>方法：在类的定义中定义的函数。</li>
-<li>类：调用类时会运行类的<code>__new__</code>方法来创建一个实例，然后运行<code>__init__</code>方法，初始化实例，最后把实例返回给调用方。因为Python没有new运算符，所以调用类相当于调用函数。</li>
-<li>类的实例：如果定义了<code>__call__</code>方法，那么它的实例可以作为函数调用。</li>
-<li>生成器函数：使用<code>yield</code>关键字的函数或方法。调用生成器函数，返回的是生成器对象。</li>
+<li>不能重载内置类型的运算符</li>
+<li>只能重载现有运算符，不能新建运算符</li>
+<li>某些运算符不能重载——（ <code>is, and, or, not</code> ）</li>
 </ul>
 
-<h2 id="toc_3">自定义可调用类型</h2>
+<h2 id="toc_2">重载向量加法运算符</h2>
 
-<p>任何Python对象都可以表现的像函数，只需要实现实例方法<code>__call__</code>，如下示例所示：</p>
+<p>下面，我们先来看一个基础的示例，在此示例的基础上，我们将实现向量加法运算符的重载。</p>
 
-<pre><code class="language-Python">import random
+<pre><code class="language-python">class Vector:
+    typecode = &#39;d&#39;
 
+    def __init__(self, components):
+       self._components = array(self.typecode, components)
+
+    def __iter__(self):
+        return iter(self._components)
+
+    def __repr__(self):
+        components = reprlib.repr(self._components)
+        components = components[components.find(&#39;[&#39;):-1]
+        return &#39;Vector({})&#39;.format(components)
+    
+    def __len__(self):
+        return len(self._components)
+
+    def __eq__(self, other):
+        return (len(self) == len(other) and 
+                all(a == b for a, b in zip(self, other))) 
+</code></pre>
+
+<p>通过上面这个示例，我们可以创建多维向量的实例，可以查看向量的值，但是如果想计算向量的加法，上面的示例是无法满足的，所以需要按照向量的加法运算法则，重载加法运算符<code>+</code>。<br/>
+根据向量的加法运算法则，我们只需要将向量的每个维度分别相加，返回一个新的向量就可以了；但是有一点要考虑到，进行加法运算的两个向量维度不一定相同，可以根据实际情况采取不同的措施，在本示例中，采取了用零填充较短向量的方法（当然，也可以直接报错）。具体的实现如下所示：</p>
+
+<pre><code class="language-Python">def __add__(self, other):
+    # pairs是一个生成器，它会生成 （a, b）形式的元组
+    pairs = itertools.zip_longest(self, other, fillvalue=0.0)
+    # 重载一元运算符和中缀运算符一定不能修改操作数，因为使用这些运算符的表达式会期待结果是一个新对象
+    return Vector(a + b for a, b in pairs)
+</code></pre>
+
+<p>由此，我们不仅实现了两个不同维度的向量加法运算，而且还可以计算一个向量和一个可迭代对象的加法运算。测试示例及结果如下所示：</p>
+
+<pre><code class="language-Python"># 测试示例
+t1 = (1, 2, 3)
+v1 = Vector([3, 4, 5])
+v2 = Vector([6, 7, 8])
+v3 = Vector([1, 2, 3, 4, 5])
+print(v1 + v2)
+print(v1 + v3)
+print(v1 + t1)
+print(t1 + v1)
+
+# 运算结果
+Vector([9.0, 11.0, 13.0])
+Vector([4.0, 6.0, 8.0, 4.0, 5.0])
+Vector([4.0, 6.0, 8.0])
+Traceback (most recent call last):
+  File &quot;8_overload_operator.py&quot;, line 42, in &lt;module&gt;
+    print(t1 + v1)
+TypeError: can only concatenate tuple (not &quot;Vector&quot;) to tuple
+</code></pre>
+
+<p>在此测试示例中，我们看到 <code>v1 + t1</code> 可以正确执行，而 <code>t1 + v1</code> 却会报错， 这是因为在执行加法运算的时候，前面的操作数会作为 <code>self</code> ，后面的操作数作为 <code>other</code> 传入 <code>__add__</code> 方法中。<br/>
+再讲解决方法之前，我们需要了解为了支持涉及不同类型的运算，python为中缀运算符特殊方法提供的特殊的分派机制，对表达式 <code>a + b</code> 来说，python解释器执行操作的流程图如下所示：</p>
+
+<p><img src="http://cdn.blog.yanzl.net/2017-09-17-a-b%E8%BF%90%E7%AE%97%E6%B5%81%E7%A8%8B%E5%9B%BE.png" alt=""/></p>
+
+<p>由运算流程可知，如果想解决上面的问题，我们可以实现 <code>__radd__</code> 方法，这是 <code>__add__</code> 方法的反向特殊方法，在我们这个类中承担的作用就是交换操作数的顺序，调用适当的运算符进行运算。如下所示：</p>
+
+<pre><code class="language-python">def __radd__(self, other):
+    return self + other
+        
+# 再运行一遍上面的测试示例，可以看到程序会输出我们想要的结果
+Vector([9.0, 11.0, 13.0])
+Vector([4.0, 6.0, 8.0, 4.0, 5.0])
+Vector([4.0, 6.0, 8.0])
+Vector([4.0, 6.0, 8.0])
+</code></pre>
+
+<p>上面曾经提到，在实现了 <code>__add__</code> 方法之后，可以计算一个向量和一个可迭代对象的和，也就是说如果提供的对象不可迭代，<code>__add__</code> 方法就无法处理；另外，如果这个可迭代对象中的元素本身就不能和浮点数做加法运算，<code>__add__</code> 方法同样无法处理。如下所示：</p>
+
+<pre><code class="language-python"># 测试向量和不可迭代对象相加
+print(v1 + 1)
+
+Traceback (most recent call last):
+  File &quot;8_overload_operator.py&quot;, line 48, in &lt;module&gt;
+    print(v1 + 1)
+  File &quot;8_overload_operator.py&quot;, line 32, in __add__
+    pairs = itertools.zip_longest(self, other, fillvalue=0.0)
+TypeError: zip_longest argument #2 must support iteration
+
+# 测试向量和元素无法进行加法运算的可迭代对象相加
+print(v1 + &#39;ABC&#39;)
+
+Traceback (most recent call last):
+  File &quot;8_overload_operator.py&quot;, line 50, in &lt;module&gt;
+    print(v1 + &#39;ABC&#39;)
+  File &quot;8_overload_operator.py&quot;, line 33, in __add__
+    return Vector(a + b for a, b in pairs)
+  File &quot;8_overload_operator.py&quot;, line 12, in __init__
+    self._components = array(self.typecode, components)
+  File &quot;8_overload_operator.py&quot;, line 33, in &lt;genexpr&gt;
+    return Vector(a + b for a, b in pairs)
+TypeError: unsupported operand type(s) for +: &#39;float&#39; and &#39;str&#39;
+</code></pre>
+
+<p>上面两个示例其实是因为类型不兼容导致运算符特殊方法无法返回有效的结果，因此程序抛出了异常，同时也终止了运算符分派机制。为了能够继续运行运算符分派机制，让解释器能够尝试调用反向运算符方法，多给该运算操作一次机会，我们可以捕获这个异常，返回 <code>NotImplement</code> 。如下所示：</p>
+
+<pre><code class="language-python">def __add__(self, other):
+    try:
+        pairs = itertools.zip_longest(self, other, fillvalue=0.0)
+        return Vector(a + b for a, b in pairs)
+    except TypeError:
+        return NotImplemented
+</code></pre>
+
+<p>重载加法运算符可以作为重载中缀运算符的一个模板，其他的中缀运算符，像 <code>-, *, /, //, %</code> 等，都可以通过实现正向特殊方法和反向特殊方法来实现运算符的重载。</p>
+
+<h2 id="toc_3">重载比较运算符</h2>
+
+<p>python解释器对众多比较运算符（ <code>==, !=, &gt;, &lt;, &gt;=, &lt;=</code> ）的处理与前面讲到的中缀运算符相似，但是在下面两个方面有很大的区别：</p>
+
+<ul>
+<li>对 <code>==</code> 和 <code>!=</code> 来说，通常反向调用失败，python会比较对象的ID，而不抛出 <code>TypeError</code></li>
+<li>正向和反向调用使用的是同一系列方法，如下表所示：</li>
+</ul>
+
+<table>
+<thead>
+<tr>
+<th>中缀运算符</th>
+<th>正向方法调用</th>
+<th>反向方法调用</th>
+<th>后备机制</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><code>a == b</code></td>
+<td><code>a.__eq__(b)</code></td>
+<td><code>b.__eq__(a)</code></td>
+<td>返回<code>id(a) == id (b)</code></td>
+</tr>
+<tr>
+<td><code>a != b</code></td>
+<td><code>a.__ne__(b)</code></td>
+<td><code>b.__ne__(a)</code></td>
+<td>返回<code>not (a == b)</code></td>
+</tr>
+<tr>
+<td><code>a &gt; b</code></td>
+<td><code>a.__gt__(b)</code></td>
+<td><code>b.__lt__(a)</code></td>
+<td>抛出<code>TypeError</code></td>
+</tr>
+<tr>
+<td><code>a &lt; b</code></td>
+<td><code>a.__lt__(b)</code></td>
+<td><code>b.__gt__(a)</code></td>
+<td>抛出<code>TypeError</code></td>
+</tr>
+<tr>
+<td><code>a &gt;= b</code></td>
+<td><code>a.__ge__(b)</code></td>
+<td><code>b.__le__(a)</code></td>
+<td>抛出<code>TypeError</code></td>
+</tr>
+<tr>
+<td><code>a &lt;= b</code></td>
+<td><code>a.__le__(b)</code></td>
+<td><code>b.__ge__(a)</code></td>
+<td>抛出<code>TypeError</code></td>
+</tr>
+</tbody>
+</table>
+
+<p>在Vector类中，我们定义了 <code>__eq__</code> 方法，由此可以判断两个向量是否相等，下面是测试示例及结果：</p>
+
+<pre><code class="language-python"># 测试示例
+v4 = Vector(range(3, 6))
+t2 = (3, 4, 5)
+
+print(v1 == v4)
+print(v1 == t2)
+
+# 结果
+True
+True
+</code></pre>
+
+<h2 id="toc_4">重载增量赋值运算符</h2>
+
+<p>如果一个类没有实现增量赋值运算符，则增量赋值运算符就只是语法糖，即 <code>a += b</code> 和 <code>a = a + b</code> 作用是完全一样的，对不可变类型来说，这也是正常的行为。但是对于可变类型来说，我们希望增量赋值运算符的行为是直接修改左操作符，而不是创建一个新对象作为结果。<br/>
+下面，对比不可变类型和可变类型的增量赋值运算符的操作结果。</p>
+
+<h3 id="toc_5">不可变类型</h3>
+
+<p>我们可以直接使用之前定义的Vector类进行增量加法运算，如下所示：</p>
+
+<pre><code class="language-python"># 测试示例
+v5 = Vector([1, 2, 3])
+print(v5, id(v5))
+v5 += Vector([2, 3, 4])
+print(v5, id(v5))
+
+# 结果
+Vector([1.0, 2.0, 3.0]) 4322352880
+Vector([3.0, 5.0, 7.0]) 4322353104
+</code></pre>
+
+<p>由此示例可知：<code>+=</code> 运算符调用了 <code>__add__</code> 方法，并生成了一个新的对象作为结果返回。</p>
+
+<h3 id="toc_6">可变类型</h3>
+
+<p>先来创建一个类：</p>
+
+<pre><code class="language-python">import random
 
 class BingoCage:
+
     def __init__(self, items):
-        self.items = list(items)
-        random.shuffle(self.items)
+        self._randomizer = random.SystemRandom()
+        self._items = []
+        self.load(items)
+
+    def load(self, items):
+        self._items.extend(items)
+        self._randomizer.shuffle(self._items)
 
     def pick(self):
         try:
-            return self.items.pop()
+            return self._items.pop()
         except IndexError:
             raise LookupError(&#39;pick from empty BingoCage&#39;)
 
-    def __call__(self):
-        return self.pick()
+    def inspect(self):
+        &quot;&quot;&quot;Return a sorted tuple with the items currently inside.&quot;&quot;&quot;
+        items = []
+        while True:
+            try:
+                items.append(self.pick())
+            except LookupError:
+                break
+        self.load(items)
+        return tuple(sorted(items))
 
-bingo = BingoCage(range(3))
-print(bingo.pick())
-print(bingo())
-print(callable(bingo))
+    def __add__(self, other):
+        if isinstance(other, BingoCage):
+            return BingoCage(self.inspect() + other.inspect())
+        else:
+            return NotImplemented
+
+    def __iadd__(self, other):
+        if isinstance(other, BingoCage):
+            other_iterable = other.inspect()
+        else:
+            try:
+                other_iterable = iter(other)
+            except TypeError:
+                self_cls = type(self).__name__
+                msg = &quot;right operand in += must be {!r} or an iterable&quot;
+                raise TypeError(msg.format(self_cls))
+        self.load(other_iterable)
+        return self
 </code></pre>
 
-<h2 id="toc_4">定位参数和仅限关键字参数</h2>
+<p>该类的实例类型是一个可变类型，下面来执行 <code>+</code> 和 <code>+=</code> 运算</p>
 
-<p>如下示例所示：</p>
+<pre><code class="language-python"># 测试示例
+globe = BingoCage(&quot;ABCDE&quot;)
+print(id(globe), globe.inspect())
+globe2 = BingoCage(&quot;XYZ&quot;)
+globe3 = globe
+globe = globe + globe2
+print(id(globe), id(globe2), globe.inspect())
+
+print(id(globe3), globe3.inspect())
+globe3 += globe2
+print(id(globe3), globe3.inspect())
+
+# 结果
+4320285360 (&#39;A&#39;, &#39;B&#39;, &#39;C&#39;, &#39;D&#39;, &#39;E&#39;)
+4320285584 4320285416 (&#39;A&#39;, &#39;B&#39;, &#39;C&#39;, &#39;D&#39;, &#39;E&#39;, &#39;X&#39;, &#39;Y&#39;, &#39;Z&#39;)
+4320285360 (&#39;A&#39;, &#39;B&#39;, &#39;C&#39;, &#39;D&#39;, &#39;E&#39;)
+4320285360 (&#39;A&#39;, &#39;B&#39;, &#39;C&#39;, &#39;D&#39;, &#39;E&#39;, &#39;X&#39;, &#39;Y&#39;, &#39;Z&#39;)
+</code></pre>
+
+<p>由上述示例的运行结果可知：如果一个类中实现了增量赋值运算符，则会直接修改左操作数，而不会生成新对象。</p>
+
+<p>由此，在我们自定义一个类时，如果数据类型是不可变的，则不需要定义增量赋值运算符，直接复用对应的中缀运算符的方法即可。如果数据类型是可变的，则根据应用场景决定是否定义增量赋值运算符就好。</p>
+
+<h2 id="toc_7">总结</h2>
+
+<p>通过重载 <code>+</code> 运算符，我们可以总结出：</p>
 
 <ul>
-<li>name是必选参数</li>
-<li>cls是可选参数，且只能通过关键字参数传入</li>
-<li>name后面的任意个参数，都会被content捕获，存入一个元组中，直到遇到cls参数，或者关键字参数。</li>
-<li>关键字参数必须放在参数列表的最后面，当形参中没有对应的关键字时，会被attr参数捕获，存进一个字典中。关键字参数可以传入一个字典，<code>**dic</code>的形式，当形参中含有键名时，会直接赋值，没有对应键名时，会被attr捕获。</li>
+<li>不同的中缀运算符都有对应的特殊方法提供支持，如果想支持某一运算，只需要实现对应的特殊方法即可</li>
+<li>一元运算符和中缀运算符的结果应该是新对象，并且绝对不能修改操作数</li>
+<li>为了支持其他类型的运算，可以返回特殊的 <code>NotImplemented</code> 值，并实现反向特殊方法，以供解释器尝试对调操作数</li>
 </ul>
 
-<pre><code class="language-python">def tag(name, *content, cls=None, **attr):
-    print(&quot;this tag name is : {}&quot;.format(name))
+<p>对于各种比较运算符，需要注意的是python会特别处理 <code>==</code> 和 <code>!=</code> 的后备机制，即会比较对象的ID，而不是抛出错误</p>
 
-    if cls:
-        print(&quot;the class name is : {}&quot;.format(cls))
-
-    if content:
-        st = &quot;the content is : &quot;
-        for c in content:
-            st += &quot;{}, &quot;.format(c)
-        print(st)
-
-    if attr:
-        st = &quot;the style is : &quot;
-        for key, value in attr.items():
-            st += &quot;{} = {}, &quot;.format(key, value)
-        print(st)
-
-
-tag(&quot;p&quot;, &quot;hello&quot;, &quot;zerol&quot;, cls=&quot;class_p&quot;, id=&quot;p_class&quot;, color=&quot;red&quot;)
-tag(&quot;p&quot;, cls=&quot;class_p&quot;, id=&quot;p_class&quot;, color=&quot;red&quot;)
-dic = {&quot;cls&quot;: &quot;class_p&quot;, &quot;id&quot;: &quot;p_class&quot;, &quot;color&quot;: &quot;red&quot;}
-tag(&quot;p&quot;, **dic)
-
-</code></pre>
-
-<p>仅限关键字参数是Python3新加的特性，上述示例中的cls就是一个仅限关键字参数，实现仅限关键字参数的方法就是把该参数放在前面有*的参数后面，如果函数中不想支持数量不定的定位参数，但想支持仅限关键字参数，则可以直接写个<code>*</code>，如下所示：</p>
-
-<pre><code class="language-python">def f(a, *, b):
-    return a, b
-
-print(f(12, b=23))
-</code></pre>
-
-<h2 id="toc_5">获取参数信息(inspect.signature的使用)</h2>
-
-<p>函数对象有个<code>__defaults__</code>属性，其值是一个元组，里面保存着定位参数和关键字参数的默认值。仅限关键字参数的默认值在<code>__kwdefaults__</code>属性中。但是这里面仅包含了值，不包含参数名称，具体请看下述示例：</p>
-
-<pre><code class="language-python">def args_info(text, max_len=10, *, kw=17, kw1=23, kw2):
-
-    end = 100
-    
-    if len(text) &gt; max_len:
-        end = len(text)
-    else:
-        end = max_len
-
-    return end
-
-print(args_info.__defaults__)
-print(args_info.__kwdefaults__)
-print(args_info.__code__)
-print(args_info.__code__.co_varnames)
-print(args_info.__code__.co_argcount)
-
-# 代码运行的结果如下：
-(10,)
-{&#39;kw&#39;: 17, &#39;kw1&#39;: 23}
-&lt;code object args_info at 0x1010f4f60, file &quot;6_first_class_function.py&quot;, line 77&gt;
-(&#39;text&#39;, &#39;max_len&#39;, &#39;kw&#39;, &#39;kw1&#39;, &#39;kw2&#39;, &#39;end&#39;)
-2
-</code></pre>
-
-<p>从上述示例可以得出以下结论：</p>
+<p>对于重载增量赋值运算符，可以做以下总结：</p>
 
 <ul>
-<li><code>__defaults__</code>中存放了定位参数和关键字参数的默认值</li>
-<li><code>__kwdefaults__</code>中存放了仅限关键字参数的默认值，这是一个字典</li>
-<li><code>__code__.co_varnames</code>中不仅存放了定位参数和关键字参数的名字，还存放了仅限关键字参数的名字，以及方法中局部变量的名字。</li>
-<li><code>__code__.co_argcount</code>中存放了定位参数和关键字参数的个数。</li>
+<li>对可变对象来说，可以通过实现就地特殊方法，修改左操作数的值</li>
+<li>python处理增量赋值运算符的方式是把它们当做常规的运算符加上赋值操作，因此 <code>a += b</code> 会当成 <code>a = a + b</code> 处理，而这样的结果是始终创建新的对象，对可变类型和不可变类型都适用</li>
 </ul>
-
-<p>上面的示例中，我们如果想得到参数默认值，必须同时知道参数的个数、名字和值，并且是从后向前对应的。这使用起来会很麻烦，所以用到了<code>inspect</code>模块中的<code>signature</code>方法。</p>
-
-<pre><code class="language-python">from inspect import signature
-
-
-def args_info_by_signature():
-    sig = signature(args_info)
-    print(sig)
-    str(sig)
-
-    for name, param in sig.parameters.items():
-        print(param.kind, &#39;:&#39;, name, &#39;=&#39;, param.default)
-
-args_info_by_signature()
-
-# 代码运行的结果如下：
-(text, max_len=10, *, kw=17, kw1=23, kw2)
-POSITIONAL_OR_KEYWORD : text = &lt;class &#39;inspect._empty&#39;&gt;
-POSITIONAL_OR_KEYWORD : max_len = 10
-KEYWORD_ONLY : kw = 17
-KEYWORD_ONLY : kw1 = 23
-KEYWORD_ONLY : kw2 = &lt;class &#39;inspect._empty&#39;&gt;
-</code></pre>
-
-<p>kind属性的值是_ParameterKind类中的5个值之一，这5个值分别是：</p>
-
-<ul>
-<li>POSITIONAL_OR_KEYWORD:可以通过定位参数和关键字参数传入的形参</li>
-<li>VAR_POSITIONAL:定位形参元组</li>
-<li>VAR_KEYWORD:关键字参数字典</li>
-<li>KEYWORD_ONLY:仅限关键字参数</li>
-<li>POSITIONAL_ONLY:仅限定位参数</li>
-</ul>
-
-<p><code>inspect.Signature</code>对象有个<code>bind</code>方法，可以把任意个参数绑定到签名中的形参上，于是可以使用这个方法在真正调用函数前验证参数。</p>
-
-<pre><code class="language-python">def use_bind():
-    sig = signature(args_info)
-    args = {&#39;text&#39;: &quot;hello,world&quot;, &#39;max_len&#39;: 30, &#39;kw2&#39;: 190}
-    bound_args = sig.bind(**args)
-
-    print(bound_args)
-    for name, value in bound_args.arguments.items():
-        print(name, &#39;=&#39;, value)
-
-    del args[&#39;text&#39;]
-    bound_args = sig.bind(**args)
-
-use_bind()
-
-#代码运行的结果如下：
-&lt;BoundArguments (text=&#39;hello,world&#39;, max_len=30, kw2=190)&gt;
-text = hello,world
-max_len = 30
-kw2 = 190
-Traceback (most recent call last):
-  File &quot;6_first_class_function.py&quot;, line 119, in &lt;module&gt;
-    use_bind()
-  File &quot;6_first_class_function.py&quot;, line 117, in use_bind
-    bound_args = sig.bind(**args)
-  File &quot;/Library/Frameworks/Python.framework/Versions/3.5/lib/python3.5/inspect.py&quot;, line 2921, in bind
-    return args[0]._bind(args[1:], kwargs)
-  File &quot;/Library/Frameworks/Python.framework/Versions/3.5/lib/python3.5/inspect.py&quot;, line 2836, in _bind
-    raise TypeError(msg) from None
-TypeError: missing a required argument: &#39;text&#39;
-</code></pre>
-
-<p>可以看到最后程序抛出了参数缺失的错误。这就达到了我们进行参数验证的目的。</p>
-
-<h2 id="toc_6">函数注解</h2>
-
-<pre><code class="language-python">def fun_annotation(test:str, max_len:&#39;int &gt; 0&#39;=80) -&gt; str:
-    return &quot;just text&quot;
-</code></pre>
-
-<p>上述示例的函数定义中，就用到了函数注解，有注解的函数声明有以下特点：</p>
-
-<ul>
-<li>函数声明中的各个参数可以在<code>:</code>之后添加注解表达式</li>
-<li>如果参数有默认值，注解的放在参数名和<code>=</code>之间</li>
-<li>如果想注解返回值，在<code>)</code>和函数声明末尾的<code>:</code>之间添加<code>-&gt;</code>和一个表达式，该表达式可以是任何类型。</li>
-<li>注解中最常用的类型是类（如：str，int）和字符串（如 &#39;int &gt; 0&#39;）</li>
-</ul>
-
-<p><strong>注：注解不会做任何处理，python对注解所做的唯一事情是，把他们存储在函数的<code>__annotations__</code>属性里。</strong></p>
-
-<p><code>inspect.signature（）</code>函数可以提取注解，如下所示：</p>
-
-<pre><code class="language-python">def read_annotation():
-    sig = signature(fun_annotation)
-    print(sig.return_annotation)
-
-    for param in sig.parameters.values():
-        note = repr(param.annotation).ljust(13)
-        print(note, &#39;:&#39;, param.name, &#39;=&#39;, param.default)
-
-read_annotation()
-
-# 代码运行的结果如下：
-&lt;class &#39;str&#39;&gt;
-&lt;class &#39;str&#39;&gt; : test = &lt;class &#39;inspect._empty&#39;&gt;
-&#39;int &gt; 0&#39;     : max_len = 80
-</code></pre>
-
-<h2 id="toc_7">支持函数式编程的包</h2>
-
-<h3 id="toc_8">functools.partial</h3>
-
-<pre><code class="language-python">from operator import mul
-from functools import partial
-
-triple = partial(mul, 3)
-print(triple(7))
-</code></pre>
-
-<p>partial的第一个参数是一个可调用对象，后面跟着任意个要绑定的定位参数或者关键字参数。</p>
 
                         
                       </div>
@@ -438,7 +718,7 @@ print(triple(7))
                 <div class="read-more clearfix">
                   <div class="more-left left">
                   
-                    <span class="date">2017/8/5</span>
+                    <span class="date">2017/9/17</span>
                     <span>posted in&nbsp;</span> 
           				  
           					    <span class="posted-in"><a href='Fluent%20Python.html'>Fluent Python</a></span>
@@ -455,81 +735,16 @@ print(triple(7))
               </div><!-- article -->
         
 			<div class="article">
-                <a class="clearlink" href="15018646605864.html">
+                <a class="clearlink" href="15048580065601.html">
                 
-                  <h1>文本和字节序列</h1>
+                  <h1>Python內建类型对象的那些事</h1>
                   <div class="a-content">
                       
                       <div class="a-content-text">
                         
-                        	<p>写在前面：这篇笔记只是简单地记录一下，因为对编码问题了解的比较少，所以在看的过程中并不算太懂，这里只把能够理解的以及应该记忆的列举出来。</p>
+                        	<h2 id="toc_0">Python所有对象的基础</h2>
 
-<h2 id="toc_0">字符</h2>
-
-<p>字符的标识，即码位，是0~1114111的数字。<br/>
-字符的具体表述取决于编码，编码是在码位和字节序列之间转换时的算法。<br/>
-把码位转换成字节序列的过程是编码，把字节序列转换成码位的过程是解码。简单粗暴的来说，编码就是把人类可读的文本字符串转换成传输需要的字节序列，解码就是把字节序列转换成人类可读的本文字符串。</p>
-
-<h2 id="toc_1">字节</h2>
-
-<p>二进制序列各个字节的值可能会使用下列三种不同的方式展示：</p>
-
-<ul>
-<li>可打印的ASCII范围内的字节，使用ASCII字符本身。</li>
-<li>制表符、换行符、回车符和\对应的字节，使用转义序列\t、\n、\r和\</li>
-<li>其它字节的值使用十六进制转义序列（例如 \x00是空字节）</li>
-</ul>
-
-<h3 id="toc_2">构建bytes 和 bytearray实例</h3>
-
-<p>构建bytes 和 bytearray实例可以调用各自的构造方法，传入一下参数</p>
-
-<ul>
-<li>一个str对象和一个encoding关键字参数</li>
-<li>一个可迭代对象，提供0~255之间的数值</li>
-<li>一个实现了缓冲协议的对象（如：bytes, bytearray, memoryview, array.array()）;此时，把源对象中的字节序列复制到新建的二进制序列中</li>
-</ul>
-
-<h2 id="toc_3">处理UnicodeEncodeError</h2>
-
-<p>多数非UTF编解码器只能处理Unicode字符的一小部分，当我们把文本转换成字节序列时，如果目标编码中没有定义某个字符，就会抛出UnicodeEncodingError异常，除非把errors参数传给编码方法或函数。就像示例一样。</p>
-
-<pre><code class="language-python">city = &#39;São Paulo&#39;
-print(city.encode(&#39;utf_8&#39;))
-
-print(city.encode(&#39;utf_16&#39;))
-
-print(city.encode(&#39;iso8859_1&#39;))
-
-print(city.encode(&#39;cp437&#39;))
-</code></pre>
-
-<p>上述示例在运行到最后一个<code>print</code>语句的时候，程序会抛出UnicodeEncodeError，然后终止运行。如果希望程序能够自己解决这种编码问题。可以传递errors参数,告诉程序遇到无法编码的字符时的处理方法，如下面示例：</p>
-
-<pre><code class="language-python">city = &#39;São Paulo&#39;
-
-print(city.encode(&#39;cp437&#39;, errors=&#39;ignore&#39;))
-
-print(city.encode(&#39;cp437&#39;, errors=&#39;replace&#39;))
-
-print(city.encode(&#39;cp437&#39;, errors=&#39;xmlcharrefreplace&#39;))
-</code></pre>
-
-<p>上面示例的errors参数中的值都是已经注册好的，该参数的默认值是“strict”，该默认值的意思是直接抛出异常。另外，当遇到编码错误时，还可以使用自己注册的额外的字符串，方法是把一个名称和一个错误处理函数传给<code>codecs.register_error</code>函数。</p>
-
-<h2 id="toc_4">处理UnicodeDecodeError</h2>
-
-<p>不是每个字节都包含有效的ASCII字符，也不是每一个字符序列都是有效的UTF_8或UTF_16,当把二进制序列转换成文本时，如果是这两个编码中的一个，遇到无法转换的字节序列时，程序会抛出UnicodeDecodeError错误。</p>
-
-<pre><code class="language-python">octet = b&#39;Montr\xe9al&#39;
-print(octet.decode(&#39;cp1252&#39;))
-
-print(octet.decode(&#39;iso8859_7&#39;))
-
-print(octet.decode(&#39;koi8_r&#39;))
-
-print(octet.decode(&#39;utf_8&#39;))
-</code></pre>
+<p>在Python中，一切皆对象，这些对象都有一个共同的基础，即<code>PyObject</code>，我们来看一下</p>
 
                         
                       </div>
@@ -538,776 +753,10 @@ print(octet.decode(&#39;utf_8&#39;))
                 <div class="read-more clearfix">
                   <div class="more-left left">
                   
-                    <span class="date">2017/8/5</span>
+                    <span class="date">2017/9/8</span>
                     <span>posted in&nbsp;</span> 
           				  
-          					    <span class="posted-in"><a href='Fluent%20Python.html'>Fluent Python</a></span>
-          				   
-                  </div>
-                  <div class="more-right right">
-                  <span class="comments">
-                      
-
-                       
-                  </span>
-                  </div>
-                </div>
-              </div><!-- article -->
-        
-			<div class="article">
-                <a class="clearlink" href="15013419653919.html">
-                
-                  <h1>集合的使用</h1>
-                  <div class="a-content">
-                      
-                      <div class="a-content-text">
-                        
-                        	<h2 id="toc_0">集合和运算</h2>
-
-<ul>
-<li>集合的本质是许多唯一对象的聚集，因此，集合可以用来去重。</li>
-</ul>
-
-<pre><code class="language-python">l = [&#39;ABC&#39;, &#39;abc&#39;, &#39;ABC&#39;, &#39;def&#39;]
-print(set(l))
-</code></pre>
-
-<ul>
-<li>集合中的元素必须是散列的</li>
-<li>集合实现了很多中缀运算符，比如<code>a | b</code>代表求a和b的合集，<code>a &amp; b</code>代表求a和b的交集，<code>a - b</code>代表a和b的差集（属于a但是不属于b的元素组成的集合叫做a和b的差集）。</li>
-</ul>
-
-<pre><code class="language-python">l1 = {&#39;ABC&#39;, &#39;AYU&#39;}
-l2 = {&#39;ABC&#39;, &#39;DEF&#39;, &#39;abc&#39;, &#39;XYZ&#39;}
-print(l1 &amp; l2)
-# l1 和 l2的差集
-print(l1 - l2)
-# l2 和 l1 的差集
-print(l2 - l1)
-</code></pre>
-
-<h2 id="toc_1">集合字面量</h2>
-
-<p>集合的空集表示成：<code>set()</code><br/>
-集合其他形式的字面量展现为： <code>{1}, {1, 2}</code></p>
-
-<h2 id="toc_2">集合推导</h2>
-
-<p>和列表推导、字典推导一样，集合也可以通过集合推导的方式构建一个新的集合<br/>
-每一个字符都有自己的名字，下面的示例就是将名字中含有”SIGN“的字符构建一个集合，然后将这些字符的名字构成一个集合。</p>
-
-<pre><code class="language-python">from unicodedata import name
-l3 = {chr(i) for i in range(32, 256) if &#39;SIGN&#39; in name(chr(i), &#39;&#39;)}
-l4 = {name(chr(i)) for i in range(32, 256) if &#39;SIGN&#39; in name(chr(i), &#39;&#39;)}
-print(l3)
-print(l4)
-</code></pre>
-
-<h2 id="toc_3">集合的操作</h2>
-
-<h3 id="toc_4">集合的数学运算</h3>
-
-<table>
-<thead>
-<tr>
-<th>数学符号</th>
-<th>Python运算符</th>
-<th>方法</th>
-<th>描述</th>
-</tr>
-</thead>
-
-<tbody>
-<tr>
-<td>S ∩ Z</td>
-<td>s &amp; z</td>
-<td><code>s.__and__(z)</code></td>
-<td>s 和 z 的交集</td>
-</tr>
-<tr>
-<td>S ∩ Z</td>
-<td>z &amp; s</td>
-<td><code>s.__rand__(z)</code></td>
-<td>反向 &amp; 操作</td>
-</tr>
-<tr>
-<td>S ∩ Z</td>
-<td></td>
-<td><code>s.intersection(it, ...)</code></td>
-<td>把可迭代的it和其他所有参数转化为集合，然后求他们与s的交集</td>
-</tr>
-<tr>
-<td>S ∩ Z</td>
-<td>s &amp;= z</td>
-<td><code>s.__iand__(z)</code></td>
-<td>把s更新为s和z的交集</td>
-</tr>
-<tr>
-<td>S ∩ Z</td>
-<td></td>
-<td><code>s.intersection_update(it, ...)</code></td>
-<td>把可迭代的it和其他所有参数转化为集合，然后求他们与s的交集，然后把s更新为这个交集</td>
-</tr>
-<tr>
-<td>S ∪ Z</td>
-<td>s <code>|</code> z</td>
-<td><code>s.__or__(z)</code></td>
-<td>s和z的并集</td>
-</tr>
-<tr>
-<td>S ∪ Z</td>
-<td>z <code>|</code> s</td>
-<td><code>s.__ror__(z)</code></td>
-<td>并集的反向操作</td>
-</tr>
-<tr>
-<td>S ∪ Z</td>
-<td></td>
-<td><code>s.union(it, ...)</code></td>
-<td>把可迭代的it和其他所有参数转化为集合，然后求他们与s的并集</td>
-</tr>
-<tr>
-<td>S ∪ Z</td>
-<td>s <code>|=</code> z</td>
-<td><code>s.__ior__(z)</code></td>
-<td>把s更新为s和z的并集</td>
-</tr>
-<tr>
-<td>S ∪ Z</td>
-<td></td>
-<td><code>s.update(it, ...)</code></td>
-<td>把可迭代的it和其他所有参数转化为集合，然后求他们与s的并集，并把s更新为这个并集</td>
-</tr>
-<tr>
-<td>S \ Z</td>
-<td>s - z</td>
-<td><code>s.__sub__(z)</code></td>
-<td>s 和 z的差集，或者叫做相对补集</td>
-</tr>
-<tr>
-<td>S \ Z</td>
-<td>z - s</td>
-<td><code>s.__rsub__(z)</code></td>
-<td>差集的反向操作</td>
-</tr>
-<tr>
-<td>S \ Z</td>
-<td></td>
-<td><code>s.difference(it, ...)</code></td>
-<td>把可迭代的it和其他所有参数转化为集合，然后求他们与s的差集</td>
-</tr>
-<tr>
-<td>S \ Z</td>
-<td>s -= z</td>
-<td><code>s.__isub__(z)</code></td>
-<td>把s更新为它与z的差集</td>
-</tr>
-<tr>
-<td>S \ Z</td>
-<td></td>
-<td><code>s.difference_update(it, ...)</code></td>
-<td>把可迭代的it和其他所有参数转化为集合，然后求他们与s的差集，并把s更新成这个差集</td>
-</tr>
-<tr>
-<td>S △ Z</td>
-<td></td>
-<td><code>s.symmetric_difference(it)</code></td>
-<td>求s和set（it）的对称差集</td>
-</tr>
-<tr>
-<td>S △ Z</td>
-<td>s ^ z</td>
-<td><code>s.__xor__(z)</code></td>
-<td>求s和z的对称差集</td>
-</tr>
-<tr>
-<td>S △ Z</td>
-<td>z ^ s</td>
-<td><code>s.__rxor__(z)</code></td>
-<td>对称差集的反向操作</td>
-</tr>
-<tr>
-<td>S △ Z</td>
-<td></td>
-<td><code>s.symmetric_difference_update(it, ...)</code></td>
-<td>把可迭代的it和其他所有参数转化为集合，然后求他们与s的对称差集，然后把s更新成这个对称差集</td>
-</tr>
-<tr>
-<td>S △ Z</td>
-<td>s <sup>=</sup> z</td>
-<td><code>s.__ixor__(z)</code></td>
-<td>把s更新成它与z的对称差集</td>
-</tr>
-</tbody>
-</table>
-
-<h3 id="toc_5">集合的比较运算符，返回值是布尔类型</h3>
-
-<table>
-<thead>
-<tr>
-<th>数学符号</th>
-<th>Python运算符</th>
-<th>方法</th>
-<th>描述</th>
-</tr>
-</thead>
-
-<tbody>
-<tr>
-<td></td>
-<td></td>
-<td><code>s.isdisjoint(z)</code></td>
-<td>查看s和z是否不相交（没有共同元素）</td>
-</tr>
-<tr>
-<td>e ∈ s</td>
-<td>e in s</td>
-<td><code>s.__contains__(e)</code></td>
-<td>元素e是否属于s</td>
-</tr>
-<tr>
-<td>S ⊆ Z</td>
-<td>s &lt;= z</td>
-<td><code>s.__le__(z)</code></td>
-<td>s 是否为 z 的子集</td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td><code>s.issubset(it)</code></td>
-<td>把可迭代的it转换为集合，然后查看s是否是它的子集</td>
-</tr>
-<tr>
-<td>S ⊂ Z</td>
-<td>s &lt; z</td>
-<td><code>s.__lt__(z)</code></td>
-<td>s 是否为 z 的真子集</td>
-</tr>
-<tr>
-<td>S ⊇ Z</td>
-<td>s &gt;= z</td>
-<td><code>s.__ge__(z)</code></td>
-<td>s 是否为 z 的父集</td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td><code>s.issuperset(it)</code></td>
-<td>把可迭代的it转换为集合，然后查看s是否是它的父集</td>
-</tr>
-<tr>
-<td>S ⊃ Z</td>
-<td>s &gt; z</td>
-<td><code>s.__gt__(z)</code></td>
-<td>s 是否为 z 的真父集</td>
-</tr>
-</tbody>
-</table>
-
-<h3 id="toc_6">集合类型的其他方法</h3>
-
-<table>
-<thead>
-<tr>
-<th>方法</th>
-<th>set</th>
-<th>frozenset</th>
-<th>描述</th>
-</tr>
-</thead>
-
-<tbody>
-<tr>
-<td><code>s.add(e)</code></td>
-<td>✅</td>
-<td></td>
-<td>把元素e添加到集合s中</td>
-</tr>
-<tr>
-<td><code>s.clear()</code></td>
-<td>✅</td>
-<td></td>
-<td>清空s集合</td>
-</tr>
-<tr>
-<td><code>s.copy()</code></td>
-<td>✅</td>
-<td>✅</td>
-<td>对s进行浅复制</td>
-</tr>
-<tr>
-<td><code>s.discard(e)</code></td>
-<td>✅</td>
-<td></td>
-<td>如果s中有e这个元素，则将其移除</td>
-</tr>
-<tr>
-<td><code>s.__iter__()</code></td>
-<td>✅</td>
-<td>✅</td>
-<td>返回s的迭代器</td>
-</tr>
-<tr>
-<td><code>s.__len__()</code></td>
-<td>✅</td>
-<td>✅</td>
-<td><code>len(s)</code></td>
-</tr>
-<tr>
-<td><code>s.pop()</code></td>
-<td>✅</td>
-<td></td>
-<td>从s中移除一个元素，并返回它的值，若s为空，则抛出KeyError异常</td>
-</tr>
-<tr>
-<td><code>s.remove(e)</code></td>
-<td>✅</td>
-<td></td>
-<td>从s中移除e元素，若e元素不存在，则抛出KeyError异常</td>
-</tr>
-</tbody>
-</table>
-
-<h2 id="toc_7">字典中的散列表</h2>
-
-<p>散列表其实是一个稀疏数组，散列表的单元通常叫做表元。Python会设法保证大概有三分之一的表元是空的，所以在快要达到这个阙值的时候，会将所有的散列表复制到一个更大的空间。<br/>
-在dict的散列表中，一个表元包含两部分，一个是键的引用，一个是值的引用，因为都是引用，所以表元的大小都是一致的，从而实现了通过偏移量读取表元。</p>
-
-<h3 id="toc_8">散列值和相等性</h3>
-
-<p>如果要将一个元素放进散列表中，则必须计算这个元素的散列值，内置的<code>hash()</code>可以用于所有的内置类型对象，也可以自己实现<code>__hash__()</code>方法，要保证的是如果两个对象在比较的时候是相等的，则其散列值必须相同。</p>
-
-<h3 id="toc_9">散列表算法</h3>
-
-<p>从字典中取值的算法流程图如下所示：</p>
-
-<p><img src="http://cdn.blog.yanzl.net/2017-07-30-hash_search.png" alt=""/></p>
-
-<ul>
-<li>首先，python会调用<code>hash(search_key)</code>来计算search_key的散列值，然后把这个值最低的几位数字当做偏移量。</li>
-<li>根据计算出来的偏移量查找对应的表元</li>
-<li>如果表元不存在则抛出KeyError异常</li>
-<li>如果表元存在，则表元中会存在found_key:found_value,python会验证表元中的found_key是否和search_key相等，如果想等则返回found_value。</li>
-<li>如果<code>found_kay != search_key</code>，则发生了散列冲突，利用解决冲突的方法计算出下一个表元的位置，再次判断表元首否为空，直到抛出KeyError异常或者找到这个元素所在的表元为止。</li>
-</ul>
-
-<h4 id="toc_10">关于散列冲突</h4>
-
-<p>散列表所做的其实是把随机的元素映射到只有几位的数字上，而散列表本身的索引依赖于这个数字的一部分，为了解决散列冲突，算法会在散列值中另外再取几位，然后用特殊的方法处理一下，把新得到的数字在当做索引来寻找表元。</p>
-
-<h3 id="toc_11">dict的实现及其导致的结果</h3>
-
-<h4 id="toc_12">键必须是可散列的</h4>
-
-<p>一个可散列的对象必须满足以下要求：</p>
-
-<ul>
-<li>支持<code>hash()</code>函数，并且通过<code>__hash__()</code>所得到的散列值是不变的</li>
-<li>支持通过<code>__eq__()</code>方法来检测性等性</li>
-<li>若<code>a == b</code>为真，则<code>hash(a) == hash(b)</code>也为真</li>
-</ul>
-
-<h4 id="toc_13">字典在内存上的开销巨大</h4>
-
-<p>具体原因上面已经提到过，散列表是稀疏数组，空间的利用率比较低。因此，如果要存放数量巨大的对象，使用元组或者命名元组是比较好的选择，这样做一方面能够避免散列表所消耗的空间，另一方面也无需记录中字段的名字在每个元素里都存一遍。</p>
-
-<h4 id="toc_14">键查询很快</h4>
-
-<p>字典的实现就是用空间换时间，虽然字典在内存上的开销很大，但查询速度也是非常快的。</p>
-
-<h4 id="toc_15">键的次序取决于添加顺序</h4>
-
-<p>当往字典中添加新建而又发生散列冲突的时候，新建可能会被安排到另一个新的位置，这会造成以不同元素顺序存入的两个字典，在存储过程中如果发生了散列冲突，则字典是相等的，但是键在字典中出现的顺序是不一样的。</p>
-
-<h4 id="toc_16">往字典中添加新键可能会改变已有键的顺序</h4>
-
-<p>在往字典中添加新的元素时，字典会启动是否需要扩容的判断，在扩容执行的时候，可能会发生新的散列冲突，导致原有的键的顺序发生了变化。</p>
-
-<h3 id="toc_17">set的实现及其导致的结果</h3>
-
-<p>set 和 frozenaet的实现也依赖于散列表，只是表元中存储的只有元素的引用，其特点和上面提到的字典的特点是一样的，总结如下：</p>
-
-<ul>
-<li>集合中的元素必须是可散列的</li>
-<li>集合很消耗内存</li>
-<li>集合可以很高效地判断元素是否存在于某个集合中</li>
-<li>元素的次序取决于被添加到集合中的次序</li>
-<li>忘记何种添加元素，可能会改变集合中已有的元素的次序</li>
-</ul>
-
-                        
-                      </div>
-                  </div>
-                </a>
-                <div class="read-more clearfix">
-                  <div class="more-left left">
-                  
-                    <span class="date">2017/7/29</span>
-                    <span>posted in&nbsp;</span> 
-          				  
-          					    <span class="posted-in"><a href='Fluent%20Python.html'>Fluent Python</a></span>
-          				   
-                  </div>
-                  <div class="more-right right">
-                  <span class="comments">
-                      
-
-                       
-                  </span>
-                  </div>
-                </div>
-              </div><!-- article -->
-        
-			<div class="article">
-                <a class="clearlink" href="15010832436363.html">
-                
-                  <h1>字典的使用</h1>
-                  <div class="a-content">
-                      
-                      <div class="a-content-text">
-                        
-                        	<h2 id="toc_0">可散列的数据类型</h2>
-
-<h3 id="toc_1">定义</h3>
-
-<p>如果一个对象是可散列的，那么在这个对象的生命周期中，它的散列值是不变的，而且这个对象需要实现<code>__hash()__</code>方法。<br/>
-另外，可散列对象还要有<code>__qe()__</code>方法，这样才能跟其他键作比较。<br/>
-如果两个可散列对象是相等的，那么它们的散列值一定是一样的。</p>
-
-<h3 id="toc_2">可散列数据举例</h3>
-
-<ul>
-<li>str,bytes和数值类型等原子不可变数据类型都是可散列的类型。</li>
-<li>对于元组来说，只有当一个元组包含的所有元素都是可散列类型的情况下，该元组才是可散列类型。</li>
-<li>自定义对象都是可散列的，散列值就是该对象的id()函数返回的值</li>
-</ul>
-
-<h2 id="toc_3">字典的构造方法</h2>
-
-<p>构造字典的方式有很多种，如下所示：</p>
-
-<pre><code class="language-python"># 字典的构造方法
-dict1 = {&quot;name&quot;: &quot;Alice&quot;, &quot;age&quot;: 23, &quot;email&quot;: &quot;test@126.com&quot;}
-dict2 = dict(name=&quot;Alice&quot;, age=23, email=&quot;test@126.com&quot;)
-dict3 = dict([(&quot;name&quot;, &quot;Alice&quot;), (&quot;age&quot;, 23), (&quot;email&quot;, &quot;test@126.com&quot;)])
-dict4 = dict(zip([&quot;name&quot;, &quot;age&quot;, &quot;email&quot;], [&quot;Alice&quot;, 23, &quot;test@126.com&quot;]))
-dict5 = dict({&quot;email&quot;: &quot;test@126.com&quot;, &quot;age&quot;: 23, &quot;name&quot;: &quot;Alice&quot;})
-
-print(dict1 == dict2 == dict3 == dict4 == dict5)
-</code></pre>
-
-<p>这个示例的输出结果会是<code>True</code>，由此可以看出,无论我们用什么方法、以什么顺序创造字典,在基本的字典类型中,只要字典中元素的键和值都是相等的,创造出来的字典都是相同的。</p>
-
-<h3 id="toc_4">字典推导(ﾉ*･ω･)ﾉ</h3>
-
-<p>和列表一样,字典也可以使用字典推导的方法来构建新的字典,来看下面两个例子：</p>
-
-<pre><code class="language-Python"># 示例一
-dial_codes = [(86, &#39;China&#39;), (91, &#39;India&#39;), (1, &#39;Unit States&#39;), (62, &#39;Indonesia&#39;), (55, &#39;Brazil&#39;), (92, &#39;Pakistan&#39;),
-              (880, &#39;Bangladesh&#39;), (234, &#39;Nigeria&#39;), (7, &#39;Russia&#39;), (81, &#39;Japan&#39;)]
-country_code1 = {country: code for code, country in dial_codes}
-print(country_code1)
-</code></pre>
-
-<pre><code class="language-python"># 示例二
-codes = [86, 91, 1, 62, 55, 92, 880, 234, 7, 81]
-countries = [&quot;China&quot;, &quot;India&quot;, &quot;Unit States&quot;, &quot;Indonesia&quot;, &quot;Brazil&quot;, &quot;Pakistan&quot;, &quot;Bangladesh&quot;, &quot;Nigeria&quot;, &quot;Russia&quot;,
-             &quot;Japan&quot;]
-country_code2 = {country: code for country in countries for code in codes}
-country_code3 = [{country: code} for country in countries for code in codes]
-print(country_code2)
-print(country_code3)
-</code></pre>
-
-<p>在示例二中,给出了两种推导的方法,一种是字典推导,会得到一个字典,另一种是列表推导,该示例和1_magic_method.py中生成纸牌的示例很相似,这里计算的是codes和countries的笛卡尔积。可以自己运行程序查看结果。</p>
-
-<p><strong>注：示例二中字典推导的结果和示例一中字典推导的结果是不一样的，示例一是正常的一个代号对应一个国家的字典展示，示例二中country_code2是country_code3的一部分，即一个代号对应的所有国家的结果</strong></p>
-
-<h2 id="toc_5">常见的映射方法</h2>
-
-<p>collections模块中有两个字典的变种类型，分别是defaultdict和OrderedDict，它们和dict类型也是有共同的方法。具体可以看下表的内容：</p>
-
-<table>
-<thead>
-<tr>
-<th>方法列表</th>
-<th>dict</th>
-<th>defaultdict</th>
-<th>OrderedDict</th>
-<th>备注</th>
-</tr>
-</thead>
-
-<tbody>
-<tr>
-<td><code>d.clear()</code></td>
-<td>✅</td>
-<td>✅</td>
-<td>✅</td>
-<td>移除所有的元素</td>
-</tr>
-<tr>
-<td><code>d.__contains__(k)</code></td>
-<td>✅</td>
-<td>✅</td>
-<td>✅</td>
-<td>检查k是否在d中</td>
-</tr>
-<tr>
-<td><code>d.copy()</code></td>
-<td>✅</td>
-<td>✅</td>
-<td>✅</td>
-<td>浅复制</td>
-</tr>
-<tr>
-<td><code>d.__copy__()</code></td>
-<td></td>
-<td>✅</td>
-<td></td>
-<td>用于支持浅复制</td>
-</tr>
-<tr>
-<td><code>d.default_factory</code></td>
-<td></td>
-<td>✅</td>
-<td></td>
-<td>在<code>__mising__</code>函数中被调用的函数，用于给未找到的元素设置值</td>
-</tr>
-<tr>
-<td><code>d.__delitem__(k)</code></td>
-<td>✅</td>
-<td>✅</td>
-<td>✅</td>
-<td><code>del d(k)</code>, 移除键为k的元素</td>
-</tr>
-<tr>
-<td><code>d.fromkeys(it, [initial])</code></td>
-<td>✅</td>
-<td>✅</td>
-<td>✅</td>
-<td>将迭代器it里的元素设置为映射里的键， 如果有initial参数，就把它设为这些键对应的值，默认为None</td>
-</tr>
-<tr>
-<td><code>d.get(k, [default])</code></td>
-<td>✅</td>
-<td>✅</td>
-<td>✅</td>
-<td>返回键k对应的值，如果字典中没有该键，则返回default的值或者None</td>
-</tr>
-<tr>
-<td><code>d.__getitem__(k)</code></td>
-<td>✅</td>
-<td>✅</td>
-<td>✅</td>
-<td>让字典d能用<code>d[k]</code>的形式返回k对应的值，如果k找不到会报错</td>
-</tr>
-<tr>
-<td><code>d.items()</code></td>
-<td>✅</td>
-<td>✅</td>
-<td>✅</td>
-<td>返回d中所有的键值对</td>
-</tr>
-<tr>
-<td><code>d.__iter__()</code></td>
-<td>✅</td>
-<td>✅</td>
-<td>✅</td>
-<td>返回键的迭代器</td>
-</tr>
-<tr>
-<td><code>d.keys()</code></td>
-<td>✅</td>
-<td>✅</td>
-<td>✅</td>
-<td>返回字典的所有键</td>
-</tr>
-<tr>
-<td><code>d.__len__()</code></td>
-<td>✅</td>
-<td>✅</td>
-<td>✅</td>
-<td>可以使用<code>len(d)</code>的形式得到字典的键值对数量</td>
-</tr>
-<tr>
-<td><code>d.__missing__(k)</code></td>
-<td></td>
-<td>✅</td>
-<td></td>
-<td>当<code>__getitem__()</code>找不到相应的值时，会调用该方法</td>
-</tr>
-<tr>
-<td><code>d.move_to_end(k, [last])</code></td>
-<td></td>
-<td></td>
-<td>✅</td>
-<td>把键为k的元素移动到字典的最前面或者最后面， last默认为True</td>
-</tr>
-<tr>
-<td><code>d.pop(k, [default])</code></td>
-<td>✅</td>
-<td>✅</td>
-<td>✅</td>
-<td>返回键k所对应的值，然后移除这个键值对，如果k没有找到，则返回default的值或者None</td>
-</tr>
-<tr>
-<td><code>d.popitem()</code></td>
-<td>✅</td>
-<td>✅</td>
-<td>✅</td>
-<td>随机返回一个键值对，并在字典中移除掉</td>
-</tr>
-<tr>
-<td><code>d.__reversed__()</code></td>
-<td></td>
-<td></td>
-<td>✅</td>
-<td>返回倒序的键的迭代器</td>
-</tr>
-<tr>
-<td><code>d.setdefault(k, [default])</code></td>
-<td>✅</td>
-<td>✅</td>
-<td>✅</td>
-<td>若字典中有键k，则把它对应的值设定为default的值，然后返回这个值若无，则让<code>d[k] = default</code>，然后返回default</td>
-</tr>
-<tr>
-<td><code>d.__setitem__(k, v)</code></td>
-<td>✅</td>
-<td>✅</td>
-<td>✅</td>
-<td>实现d[k] = v的操作</td>
-</tr>
-<tr>
-<td><code>d.update(m, [**kargs])</code></td>
-<td>✅</td>
-<td>✅</td>
-<td>✅</td>
-<td>m可以是映射或者键值对迭代器，用来更新d中对应的条目</td>
-</tr>
-<tr>
-<td><code>d.values()</code></td>
-<td>✅</td>
-<td>✅</td>
-<td>✅</td>
-<td>返回字典中的所有值</td>
-</tr>
-</tbody>
-</table>
-
-<h2 id="toc_6">处理找不到的键的方法</h2>
-
-<p>从上面的表中可以得知，查找一个字典的键对应的值有多种方法</p>
-
-<ul>
-<li><code>d[k]</code>方法在找不到键k时，Python会直接抛出异常</li>
-<li><code>d.get(k, [default])</code> 方法在找不到键k时，会返回None, 如果default参数被设定了，则会返回该参数的值</li>
-</ul>
-
-<h3 id="toc_7">使用setdefault</h3>
-
-<p>如果除了拿到这个值外，还想对该值进行更新操作，并且在没有键的情况下，则执行添加操作，那么setdefault方法是最好的选择</p>
-
-<p><code>d.setdefault()</code>方法的使用十分简单，下面来看使用这个方法和不使用的代码对比：</p>
-
-<pre><code class="language-python"># 从字典country_code1中搜索Korea对应的号码, 如果没有则赋值为99999
-import time
-start_time = time.time()
-if &quot;Korea&quot; not in country_code1:
-    country_code1[&quot;Korea&quot;] = 99999
-    print((time.time() - start_time)*10000)
-
-# 从字典country_code1中搜索Canada对应的号码, 如果没有则赋值为251
-start_time = time.time()
-country_code1.setdefault(&quot;Canada&quot;, 251)
-print((time.time() - start_time)*10000)
-print(country_code1)
-</code></pre>
-
-<p>在上述示例中，计算出了两种方法的执行时间，从时间来看，使用<code>setdefault()</code>方法所用的时间会更短。</p>
-
-<h3 id="toc_8">自定义__missing__方法</h3>
-
-<p>如果只是单纯的查找取值，除了<code>d[k]</code> 和 <code>d.get(k, [default])</code> 两种方法，defaultdict类型还提供了<code>__missing__</code>方法。</p>
-
-<p>defaultdict类型的基本使用示例：</p>
-
-<pre><code class="language-python">import collections
-dd = collections.defaultdict(tuple, **country_code1)
-print(dd[&#39;China&#39;])
-print(dd.get(&quot;C&quot;))
-print(dd[&quot;C&quot;])
-print(dd[&quot;B&quot;])
-print(dd.get(&quot;B&quot;))
-</code></pre>
-
-<p>从上示例的结果可以看出，当从字典中查询一个不存在的键时，defaultdict会对该键初始化一个空的tuple作为值，之后在查询该键，则会返回空的tuple。<br/>
-并且，<code>__missing__</code>方法只会在<code>__getitem__</code>里被调用，其他方法是不会发挥作用的。</p>
-
-<p>如果觉得defaultdict中的<code>__missing__</code>太有局限性了，可以自己定义一个雷然后实现该方法，从而达到目的。<br/>
-比如以下示例：</p>
-
-<pre><code class="language-Python">class StrKeyDict0(dict):
-
-    def __missing__(self, key):
-        if isinstance(key, str):
-            raise KeyError(key)
-        return self[str(key)]
-
-    def get(self, key, default=None):
-        try:
-            return self[key]
-        except KeyError:
-            return default
-
-    def __contains__(self, item):
-        return item in self.keys() or str(item) in self.keys()
-
-d = StrKeyDict0([(&#39;2&#39;, &#39;two&#39;), (&#39;4&#39;, &#39;four&#39;)])
-print(d[&#39;2&#39;])
-print(d[4])
-print(d.get(&#39;2&#39;))
-print(d.get(4))
-print(d.get(1))
-print(2 in d)
-print(1 in d)
-print(d[1])
-</code></pre>
-
-<p>自定义类实现的功能是当请求的键是其他类型时，转换成字符串类型再去获取值。该类的实现有以下几点值得注意：</p>
-
-<ul>
-<li>get()方法把查找的工作以<code>self[key]</code>的形式进行处理，这样做可以在取值的时候调用<code>__getitem__()</code>方法，当获取不到键的时候，该方法会去调用<code>__missing__()</code>方法，于是就会触发将键的类型转换成字符串形式的操作。</li>
-<li>关于<code>__missing__()</code>方法中为什么还要判断key的类型是否是字符串，则是为了防止掉进无限递归的陷阱。<code>__missing__()</code>方法的返回还是使用<code>self[key]</code>的格式，该方法在获取不到键的时候会调用<code>__missing__()</code>方法，因此会形成一个无限递归。</li>
-<li>关于为什么会有<code>__contains__</code>方法，是因为在执行<code>in</code>操作的时候会用到该方法，但是dict中提供的这个方法不会在找不到键的时候调用<code>__missing__</code>方法。另外，在实现这个方法的时候，使用的是<code>key in self.keys()</code>的形式而不是<code>key in d</code>的形式，也是为了防止掉进无限递归的陷阱中。</li>
-</ul>
-
-<h2 id="toc_9">字典的变种</h2>
-
-<p>标准库collections模块中，有以下几种不同的映射类型：</p>
-
-<ul>
-<li>collections.OrderedDict</li>
-<li>collections.ChainMap</li>
-<li>collections.Counter</li>
-<li>collections.UserDict</li>
-</ul>
-
-<p>除此之外，Python3.3之后，types模块引入了一个封装类名叫<code>MappingProxyType</code>的不可变映射类型。如果给这个类一个映射，他会返回一个只读视图，但是这个视图也是动态的。因此可以直接对原映射做出改变，但是不能通过视图对原映射做出改变。</p>
-
-                        
-                      </div>
-                  </div>
-                </a>
-                <div class="read-more clearfix">
-                  <div class="more-left left">
-                  
-                    <span class="date">2017/7/26</span>
-                    <span>posted in&nbsp;</span> 
-          				  
-          					    <span class="posted-in"><a href='Fluent%20Python.html'>Fluent Python</a></span>
+          					    <span class="posted-in"><a href='Python.html'>Python</a></span>
           				   
                   </div>
                   <div class="more-right right">
@@ -1343,7 +792,7 @@ print(d[1])
     <div id="sidebar" class="sidebar">
           <div id="site-info" class="site-info">
             
-                <h1>挂在树上的兔子</h1>
+                <h1>零度燕窝</h1>
                 <div class="site-des"></div>
                 <div class="social">
 
@@ -1382,6 +831,10 @@ print(d[1])
         
             <a href="Fluent%20Python.html"><strong>Fluent Python</strong></a>
         
+            <a href="%E8%AF%BB%E4%B9%A6%E9%9A%8F%E7%AC%94.html"><strong>读书随笔</strong></a>
+        
+            <a href="%E6%9B%BE%E7%BB%8F%E6%9D%A5%E8%BF%87.html"><strong>曾经来过</strong></a>
+        
             <a href="PHP.html"><strong>PHP</strong></a>
         
             <a href="Ubuntu.html"><strong>Ubuntu</strong></a>
@@ -1401,31 +854,31 @@ print(d[1])
 	      
 		      
 			      <li class="post">
-			        <a href="15033291458720.html">使用一等函数实现设计模式</a>
+			        <a href="15406290433586.html">扎心！有人偷走了我的磁盘空间？！</a>
 			      </li>
 		     
 		  
 		      
 			      <li class="post">
-			        <a href="15018651943030.html">一等函数</a>
+			        <a href="15377924479103.html">记一次攒机经历</a>
 			      </li>
 		     
 		  
 		      
 			      <li class="post">
-			        <a href="15018646605864.html">文本和字节序列</a>
+			        <a href="15376924661136.html">SQL查询语句之坑</a>
 			      </li>
 		     
 		  
 		      
 			      <li class="post">
-			        <a href="15013419653919.html">集合的使用</a>
+			        <a href="15056428224967.html">![](http://cdn.blog.yanzl.net/2017-10-27-carthusian-2822971.jpg)</a>
 			      </li>
 		     
 		  
 		      
 			      <li class="post">
-			        <a href="15010832436363.html">字典的使用</a>
+			        <a href="15048580065601.html">Python內建类型对象的那些事</a>
 			      </li>
 		     
 		  

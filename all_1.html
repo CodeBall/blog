@@ -5,12 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>
     
-  挂在树上的兔子
+  零度燕窝
   
   </title>
   
   
-  <link href="atom.xml" rel="alternate" title="挂在树上的兔子" type="application/atom+xml">
+  <link href="atom.xml" rel="alternate" title="零度燕窝" type="application/atom+xml">
     <link rel="stylesheet" href="asset/css/foundation.min.css" />
     <link rel="stylesheet" href="asset/css/docs.css" />
     <script src="asset/js/vendor/modernizr.js"></script>
@@ -62,7 +62,7 @@
 
         <nav class="tab-bar show-for-small">
   <a href="javascript:void(0)" class="left-off-canvas-toggle menu-icon">
-    <span> &nbsp; 挂在树上的兔子</span>
+    <span> &nbsp; 零度燕窝</span>
   </a>
 </nav>
 
@@ -85,6 +85,10 @@
             <li><a href="%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84&%E7%AE%97%E6%B3%95.html">数据结构&算法</a></li>
         
             <li><a href="Fluent%20Python.html">Fluent Python</a></li>
+        
+            <li><a href="%E8%AF%BB%E4%B9%A6%E9%9A%8F%E7%AC%94.html">读书随笔</a></li>
+        
+            <li><a href="%E6%9B%BE%E7%BB%8F%E6%9D%A5%E8%BF%87.html">曾经来过</a></li>
         
             <li><a href="PHP.html">PHP</a></li>
         
@@ -111,332 +115,133 @@
 		<div class="markdown-body home-categories">
 		
 			<div class="article">
-                <a class="clearlink" href="15008213108914.html">
+                <a class="clearlink" href="15033291458720.html">
                 
-                  <h1>列表的使用</h1>
+                  <h1>使用一等函数实现设计模式</h1>
                   <div class="a-content">
                       
                       <div class="a-content-text">
                         
-                        	<h2 id="toc_0">序列</h2>
+                        	<h2 id="toc_0">使用函数实现“策略”模式</h2>
 
-<p>按照存放的数据，序列可以分为容器序列和扁平序列，区别在于容器序列存放的是他们所包含的任意类型的对象的引用，扁平序列存放的是值，因此扁平序列其实是一段连续的内存空间，但是扁平序列只能存放像字符，字节和数值这种基本类型。容器序列和扁平序列的举例如下：</p>
+<p>这里借助电商中的一个案例来实现“策略”模式，这个案例就是根据客户的订单和属性进行折扣的计算。<br/>
+该示例对具体的策略使用函数进行封装，然后将折扣策略应用到Order实例上，因此只需要将促销函数作为参数传入即可。</p>
 
-<ul>
-<li>容器序列： list, tuple, collections.deque</li>
-<li>扁平序列： str, bytes, bytearray, array.array</li>
-</ul>
+<pre><code class="language-python">from collections import namedtuple
 
-<p>按照存放数据能否被修改可以分为可变序列和不可变序列，顾名思义，可变序列就是存放的数值是可以被改变的，不可变序列就是值是不可以被改变的，如果被改变了，将会得到一个新的对象。可变序列和不可变序列的举例如下：</p>
+Customer = namedtuple(&#39;Customer&#39;, &#39;name fidelity&#39;)
 
-<ul>
-<li>可变序列： list, bytearray, array.array, collections.deque, memoryview</li>
-<li>不可变序列： tuple, str, bytes</li>
-</ul>
 
-<h2 id="toc_1">列表推导</h2>
+class LineItem:
+    def __init__(self, product, quantity, price):
+        self.product = product
+        self.quantity = quantity
+        self.price = price
 
-<p>列表推导是构建列表的快捷方式。废话不多说，直接上列表推导的示例：</p>
+    def total(self):
+        return self.price * self.quantity
 
-<pre><code class="language-Python">def symbol2ascii(symbols):
-    ascii_codes = [ord(symbol) for symbol in symbols]
-    print(ascii_codes)
 
+class Order:
 
-symbol2ascii(&quot;ABCDabcdEF&quot;)
-</code></pre>
+    def __init__(self, customer, cart, promotion = None):
+        self.customer = customer
+        self.cart = list(cart)
+        self.promotion = promotion
 
-<p>列表推导虽然可读性更好，代码运行更高效，但也不能够滥用，如果列表推导的代码超过了两行，就应该考虑使用for循环代替了。一般的原则是：只用列表推导来创建新的列表，并且尽量保持简短。</p>
+    def total(self):
+        if not hasattr(self, &#39;__total&#39;):
+            self.__total = sum(item.total() for item in self.cart)
 
-<h2 id="toc_2">生成器表达式</h2>
+        return self.__total
 
-<p>列表推倒的作用只是生成列表，如果希望生成其他类型的序列，可以使用生成器表达式，它能够创建其它任何类型的序列。另外，生成器表达式背后遵守了迭代器协议，可以逐个地产出元素，而不是先建立一个完整的列表，然后再把这个列表传递到某个构造函数里。<br/>
-生成器表达式的语法和列表很相似，不同之处是把方括号换成圆括号，并指明要生成的序列类型。</p>
+    def due(self):
+        if self.promotion is None:
+            discount = 0
+        else:
+            discount = self.promotion(self)
 
-<pre><code class="language-Python">def symbol2ascii_by_generator(symbols):
-    ascii_codes_generator = (ord(symbol) for symbol in symbols)
-    ascii_codes_tuple = tuple(ord(symbol) for symbol in symbols)
-    ascii_codes_list = list(ord(symbol) for symbol in symbols)
-    print(type(ascii_codes_generator))
-    print(type(ascii_codes_tuple))
-    print(type(ascii_codes_list))
-    
-symbol2ascii_by_generator(&quot;ABCDabcdEF&quot;)
-</code></pre>
+        return self.total() - discount
 
-<h2 id="toc_3">切片</h2>
-
-<h3 id="toc_4">为什么切片和区间会忽略最后一个元素</h3>
-
-<p>这样做的好处有以下几点：</p>
-
-<ul>
-<li>当只有最后一个位置时，我们也可以快速看出切片和区间有多少个元素，比如<code>my_list[:5]</code>有5个元素</li>
-<li>当起止位置信息都可见的时候，我们可以快速计算出区间的长度，即后一个数减去第一个数</li>
-<li>可以让我们使用任意一个数把区间分成两个部分，比如<code>my_list[:x]</code>和<code>my_list[x:]</code></li>
-</ul>
-
-<h3 id="toc_5">切片的使用方法</h3>
-
-<p>可以使用<code>my_list[a:b]</code>的形式对序列进行基本的切片操作，也可以用<code>my_list[a:b:c]</code>的形式对列表my_list在a和b之间以c间隔进行取值，c的值也可以是负值，代表反向取值，如下所示：</p>
-
-<pre><code class="language-python">def split_for_object(object_ex):
-    print(object_ex)
-    print(object_ex[2:5])
-    print(object_ex[:4])
-    print(object_ex[::3])
-    print(object_ex[::-1])
-    print(object_ex[::-2])
-   
-split_for_object(&quot;abcdefghijklmn&quot;)
-</code></pre>
-
-<p>程序运行的返回结果如下：</p>
-
-<pre><code class="language-Python">abcdefghijklmn
-cde
-abcd
-adgjm
-nmlkjihgfedcba
-nljhfdb
-</code></pre>
-
-<h2 id="toc_6">序列的+和*</h2>
-
-<p>+可用于两个序列的拼接操作，*用于一个序列重复n次的操作，这两个运算符都不修改原有的序列，而是产生一个新的序列。示例如下所示：</p>
-
-<pre><code class="language-python"># 序列的+运算
-def do_add(a, b):
-    print(a + b)
-
-
-# 序列的*运算
-def do_mul(a, n):
-    print(a * n)
-
-do_add(&quot;hello &quot;, &quot;world!&quot;)
-do_mul(&quot;ABB-&quot;, 4)
-</code></pre>
-
-<p>*的运用有一个需要注意的地方，即在执行<code>a*n</code>的过程中，如果a中有元素是对其他可变对象的引用，则运算完成之后就得到n个同样的引用，修改一处则会有多处进行修改。比如下面这个示例：</p>
-
-<pre><code class="language-python">def wrong_ex():
-    weird_board = [[&#39;_&#39;] * 3] * 3
-    print(weird_board)
-    weird_board[0][2] = &#39;A&#39;
-    print(weird_board)
-
-
-def right_ex():
-    weird_board = [[&#39;_&#39;] * 3 for i in range(3)]
-    print(weird_board)
-    weird_board[0][2] = &#39;A&#39;
-    print(weird_board)
-
-wrong_ex()
-right_ex()
-</code></pre>
-
-<p>上面示例的运行结果如下：</p>
-
-<pre><code class="language-python">[[&#39;_&#39;, &#39;_&#39;, &#39;_&#39;], [&#39;_&#39;, &#39;_&#39;, &#39;_&#39;], [&#39;_&#39;, &#39;_&#39;, &#39;_&#39;]]
-[[&#39;_&#39;, &#39;_&#39;, &#39;A&#39;], [&#39;_&#39;, &#39;_&#39;, &#39;A&#39;], [&#39;_&#39;, &#39;_&#39;, &#39;A&#39;]]
-[[&#39;_&#39;, &#39;_&#39;, &#39;_&#39;], [&#39;_&#39;, &#39;_&#39;, &#39;_&#39;], [&#39;_&#39;, &#39;_&#39;, &#39;_&#39;]]
-[[&#39;_&#39;, &#39;_&#39;, &#39;A&#39;], [&#39;_&#39;, &#39;_&#39;, &#39;_&#39;], [&#39;_&#39;, &#39;_&#39;, &#39;_&#39;]]
-
-</code></pre>
-
-<h2 id="toc_7">序列的增量赋值</h2>
-
-<h3 id="toc_8">就地加法</h3>
-
-<p>增量赋值的写法就是类似于<code>a += b</code>的样子，+=背后用到的特殊方法是<code>__iadd__</code>，但是如果一个类没有实现这个方法，python就会退而求其次，使用<code>__add__</code>方法。这两个方法还是有根本的区别的：</p>
-
-<ul>
-<li><code>__iadd__</code>方法也称‘就地加法’，因为在做运算的时候，a会就地改动，效果就像<code>a.extend(b)</code>一样，不会出现新的对象。</li>
-<li><code>__add__</code>方法在做加法运算的时候，会先计算<code>a + b</code>，然后将结果存到一个新的对象中，再将这个对象赋值给a。</li>
-</ul>
-
-<p>需要注意的是，就地加法只能运用在可变序列中，不可变序列不会在原地进行修改。如下示例所示：</p>
-
-<pre><code class="language-python"># 就地加法在可变序列和不可变序列中的应用
-def iadd_ex():
-    a = [1, 2, 3]
-    b = (4, 5, 6)
-    c = [7, 8, 9]
-    d = (10, 11, 12)
-    print(&quot;id for a :{}&quot;.format(id(a)))
-    print(&quot;id for b :{}&quot;.format(id(b)))
-
-    a += c
-    b += d
-    print(&quot;id for a after run a += c : {}&quot;.format(id(a)))
-    print(&quot;id for b after run b += c : {}&quot;.format(id(b)))
-
-iadd_ex()
-</code></pre>
-
-<p>示例结果如下：</p>
-
-<pre><code class="language-python">id for a :4324181576
-id for b :4324140952
-id for a after run a += c : 4324181576
-id for b after run b += c : 4324209000
-</code></pre>
-
-<p>由此可见：对不可变序列进行重复拼接操作的话，效率会变得很低，因为解释其需要把原来对象中的元素拷贝到新的位置，然后在执行拼接操作。</p>
-
-<p><strong>注意，str作为不可变序列，重复操作时没有效率降低的说法，因为对str类型数据做+=操作太普遍，python就对其进行了优化，在申请空间时，程序会预留可扩展空间给str，因此不会涉及到复制的操作，而是直接执行拼接</strong></p>
-
-<h3 id="toc_9">就地乘法</h3>
-
-<p>就地乘法的使用和就地加法很相似，只不过就地乘法用到而特殊方法是：<code>__imul__</code></p>
-
-<h2 id="toc_10">list.sort() and sorted()</h2>
-
-<ul>
-<li>list.sort()方法是就地排序，执行完这个方法后，原对象有可能发生了变化，同时，这个方法也不会返回任何值。</li>
-<li>sorted()方法做排序操作时，会新建一个列表作为返回值，这个方法可以接受任何形式的可迭代对象作为参数，也可以包括不可变对象和生成器，只是最后返回的都会是一个列表。</li>
-</ul>
-
-<p>list.sort()方法和sorted()方法虽然实现不同，但都有两个可选的关键字参数：</p>
-
-<ul>
-<li>reverse： 指明最终序列是升序还是降序，这个参数的默认值是False，代表升序。</li>
-<li>key： 一个只有一个参数的函数，这个函数会被用在序列里的每一个元素上，函数所产生的结果就是排序算法依赖的对比关键字。默认用元素自己的值来排序。</li>
-</ul>
-
-<pre><code class="language-python"># list.sort()方法和sorted()方法的使用
-def sort_and_sorted():
-    fruits = [&#39;grape&#39;, &#39;watermelon&#39;, &#39;apple&#39;, &#39;banana&#39;]
-    # 通过下面两个输出可以证明sorted()方法不改变原来的序列
-    print(sorted(fruits))
-    print(fruits)
-
-    # 按照元素本身进行降序排序,这里就是字母顺序
-    print(sorted(fruits, reverse=True))
-
-    # 按照长度进行升序排序
-    print(sorted(fruits, key=len))
-
-    # 按照长度进行降序排序
-    print(sorted(fruits, key=len, reverse=True))
-
-    # 通过下面两个打印可以证明list.sort()方法是就地排序
-    print(fruits)
-    fruits.sort()
-    print(fruits)
-
-sort_and_sorted()
-</code></pre>
-
-<p>程序的运行结果如下：</p>
-
-<pre><code class="language-python">[&#39;apple&#39;, &#39;banana&#39;, &#39;grape&#39;, &#39;watermelon&#39;]
-[&#39;grape&#39;, &#39;watermelon&#39;, &#39;apple&#39;, &#39;banana&#39;]
-[&#39;watermelon&#39;, &#39;grape&#39;, &#39;banana&#39;, &#39;apple&#39;]
-[&#39;grape&#39;, &#39;apple&#39;, &#39;banana&#39;, &#39;watermelon&#39;]
-[&#39;watermelon&#39;, &#39;banana&#39;, &#39;grape&#39;, &#39;apple&#39;]
-[&#39;grape&#39;, &#39;watermelon&#39;, &#39;apple&#39;, &#39;banana&#39;]
-[&#39;apple&#39;, &#39;banana&#39;, &#39;grape&#39;, &#39;watermelon&#39;]
-</code></pre>
-
-                        
-                      </div>
-                  </div>
-                </a>
-                <div class="read-more clearfix">
-                  <div class="more-left left">
-                  
-                    <span class="date">2017/7/23</span>
-                    <span>posted in&nbsp;</span> 
-          				  
-          					    <span class="posted-in"><a href='Fluent%20Python.html'>Fluent Python</a></span>
-          				   
-                  </div>
-                  <div class="more-right right">
-                  <span class="comments">
-                      
-
-                       
-                  </span>
-                  </div>
-                </div>
-              </div><!-- article -->
-        
-			<div class="article">
-                <a class="clearlink" href="15007111565327.html">
-                
-                  <h1>Python的特殊方法</h1>
-                  <div class="a-content">
-                      
-                      <div class="a-content-text">
-                        
-                        	<p>Python提供了各种各样的特殊方法,使用这些方法可以实现自定义的类。</p>
-
-<h2 id="toc_0">特殊方法的基本使用</h2>
-
-<p>特殊方法是给Python解释器调用的，我们不需要使用my_object.__len__()这种方法进行调用，而是写作len(my_object)的形式。</p>
-
-<p>很多时候，特殊方法的调用是隐式的，比如我们使用for对某个对象进行迭代的时候，会优先调用iter()方法，而iter()方法的背后是<code>__iter__</code>方法。</p>
-
-<h3 id="toc_1">利用特殊方法可以做哪些事情</h3>
-
-<p>不同的特殊方法可以实现不同的功能，下面列举一些简单的示例</p>
-
-<h4 id="toc_2">模拟数值类型</h4>
-
-<p>如果我们想实现向量的各种运算，可以创建一个向量类，利用特殊方法进行实现，如下代码所示：</p>
-
-<pre><code>from math import hypot
-
-class Vector:
-    def __init__(self, x = 0, y = 0):
-        self.x = x
-        self.y = y
-
-    def __add__(self, other):
-        x = self.x + other.x
-        y = self.y + other.y
-        return Vector(x, y)
-
-    def __mul__(self, other):
-        return Vector(self.x * other, self.y * other)
-
-    def __abs__(self):
-        # hypot 用来返回向量的模
-        return hypot(self.x, self.y)
-
-    def __bool__(self):
-        return bool(abs(self)) 
-        
     def __repr__(self):
-        return &quot;Vector ({}, {})&quot;.format(self.x, self.y)  
+        fmt = &#39;&lt;Order total: {:.2f} due: {:.2f}&gt;&#39;
+        return fmt.format(self.total(), self.due())
+
+
+def fidelity_promo(order):
+    &quot;&quot;&quot;为积分达到1000以上的客户提供5%折优惠&quot;&quot;&quot;
+    return order.total() * 0.05 if order.customer.fidelity &gt;= 1000 else 0
+
+
+def bulk_item_promo(order):
+    &quot;&quot;&quot;为单个商品达到20个的客户提供10%折优惠&quot;&quot;&quot;
+    discount = 0
+    for item in order.cart:
+        if item.quantity &gt;= 20:
+            discount += item.total() * .1
+
+    return discount
+
+
+def large_order_promo(order):
+    &quot;&quot;&quot;订单中的不同商品达到10个的客户提供7%折优惠&quot;&quot;&quot;
+    distinct_items = {item.product for item in order.cart}
+    if len(distinct_items) &gt;= 10:
+        return order.total() * .07
+
+    return 0
+
+
+joe = Customer(&#39;joe&#39;, 0)
+ann = Customer(&#39;ann&#39;, 1100)
+cart = [LineItem(&#39;banana&#39;, 4, .5),
+        LineItem(&#39;apple&#39;, 10, 1.5),
+        LineItem(&#39;mellon&#39;, 5, 5.0)
+        ]
+
+print(Order(joe, cart, fidelity_promo))
+print(Order(ann, cart, fidelity_promo))
+
+banana_cart = [LineItem(&#39;banana&#39;, 30, .5),
+               LineItem(&#39;apple&#39;, 10, 1.5)
+               ]
+
+print(Order(joe, banana_cart, bulk_item_promo))
+
+long_order = [LineItem(str(item_code), 1, 1.0) for item_code in range(10)]
+
+print(Order(joe, long_order, large_order_promo))
+print(Order(joe, cart, large_order_promo))
+
 </code></pre>
 
-<h4 id="toc_3">字符串表示形式</h4>
+<h2 id="toc_1">选择最佳策略</h2>
 
-<p>有时候，我们在控制台打印某个对象的时候，我们得到的会是类似于<code>&lt;Vector object at ...&gt;</code>的形式，因为该对象没有实现__repr__的方法。<br/>
-<code>__repr__</code>方法的作用是把一个对象用字符串的方式表示出来，当使用交互式控制台或者调试程序的时候会调用这个方法。<br/>
-<code>__str__</code>方法也会实现类似的功能，与<code>__repr__</code>方法不同的是该方法会被str()函数 ，或者使用print时调用，并且一个对象如果没有实现<code>__str__</code>方法，则会使用<code>__repr__</code>方法代替，反之则行不通。</p>
+<p>在上述实例中，我们手动给每个订单分配了相应的折扣。对客户来讲，他们会希望每次的折扣最大，因此我们需要在诸多的折扣策略中选择一个最优的。最佳策略的查询也可以通过一个简单的方法来实现，如下所示：</p>
 
-<h4 id="toc_4">算术运算符</h4>
+<pre><code class="language-python">promos = [fidelity_promo, bulk_item_promo, large_order_promo]
 
-<p>可以使用<code>__add__</code>，<code>__mul__</code>等方法实现运算符的操作，例如Vector的示例</p>
 
-<h4 id="toc_5">自定义布尔值</h4>
+def best_promo(order):
+    &quot;&quot;&quot;从所有折扣策略中选择最佳的&quot;&quot;&quot;
+    
+    return max(promo(order) for promo in promos)
+</code></pre>
 
-<p>python自定义的bool类型还是有一定的局限性，比如我们自己定义的类总会被认为真，如果我们对类的bool判断有新的规则，则可以使用<code>__bool__</code>方法进行实现，例如Vector的示例。</p>
+<h2 id="toc_2">找出全部策略</h2>
 
-<p><strong>注意 如果我们自定义的类中实现了__len__方法，使用python自带的bool进行判断时，该方法会调用__len__方法，如果__len__的返回值为0，则为假，其他的值返回真</strong> </p>
+<p>在选择最佳策略的时候，我们需要把所有的策略都集中在一个列表中，因此每增加一个策略，就要修改一次列表，这是非常麻烦的。<br/>
+python提供了一个内置函数：<code>globals</code>，这个函数会返回一个字典，表示当前的全局符号表，这个符号表始终针对当前模块，对函数或方法来说，当前模块就是定义他们的模块。<br/>
+该函数的使用方法如下所示：</p>
 
-<h3 id="toc_6">python 特殊方法一览</h3>
+<pre><code class="language-python">promos = [globals()[name] for name in globals() if name.endswith(&#39;_promo&#39;) and name != &#39;best_promo&#39;]
+</code></pre>
 
-<p><img src="http://cdn.blog.yanzl.net/2017-07-22-095117.jpg" alt=""/></p>
+<p>另一个解决方法是：将所有的策略方法放在同一个模块中，且该模块的方法只能是策略函数，我们假设这个模块是<code>promotions</code>，然后将该模块进入，借助<code>inspect</code>模块的<code>isfunction</code>方法获取所有的策略方法名。如下所示：</p>
 
-<p><img src="http://cdn.blog.yanzl.net/2017-07-22-magic_method2.png" alt=""/></p>
-
-<p><img src="http://cdn.blog.yanzl.net/2017-07-22-magic_method3.png" alt=""/></p>
+<pre><code class="language-python">import inspect
+promos = [func for name, func in inspect.getmembers(promotions, inspect.isfunction)]
+</code></pre>
 
                         
                       </div>
@@ -445,7 +250,7 @@ class Vector:
                 <div class="read-more clearfix">
                   <div class="more-left left">
                   
-                    <span class="date">2017/7/22</span>
+                    <span class="date">2017/8/21</span>
                     <span>posted in&nbsp;</span> 
           				  
           					    <span class="posted-in"><a href='Fluent%20Python.html'>Fluent Python</a></span>
@@ -462,22 +267,293 @@ class Vector:
               </div><!-- article -->
         
 			<div class="article">
-                <a class="clearlink" href="14830907697555.html">
+                <a class="clearlink" href="15018651943030.html">
                 
-                  <h1>MySQL数据库☞数据库编码</h1>
+                  <h1>一等函数</h1>
                   <div class="a-content">
                       
                       <div class="a-content-text">
                         
-                        	<h2 id="toc_0">概述</h2>
+                        	<h2 id="toc_0">一等对象的定义</h2>
 
-<p>MySQL是平时常用的数据库之一，在存储中文的时候，经常出现乱码的情况，今天总结一下关于乱码出现的原因以及解决方法。</p>
+<p>把一等对象定义为满足下述条件的程序实体：</p>
 
-<h2 id="toc_1">数据的存入取出</h2>
+<ul>
+<li>在运行时创建</li>
+<li>能赋值给变量或者数据结构中的元素</li>
+<li>能作为参数传给函数</li>
+<li>能作为函数的返回结果</li>
+</ul>
 
-<p>我们知道，MySQL的逻辑架构包括三层，最上表面一层是客户端，我们也是通过各类客户端来操作MySQL；中间一层是MySQL的核心所在，一般包括了查询解析、分析、优化、缓存、所有的内置函数、所有的跨存储引擎的功能（存储过程、触发器、视图等）都在这一层实现；最下面一层就是MySQL的存储引擎，包括我们熟悉的（InnoDB，MyIsAM等MySQL的内建存储引擎和第三方存储引擎）</p>
+<p>在python中，函数也是一等对象，可看如下示例：</p>
 
-<p>将数据存入MySQL的时候，</p>
+<pre><code class="language-Python">def factorial(n):
+    &quot;&quot;&quot;
+    计算阶乘
+    :param n:
+    :return:
+    &quot;&quot;&quot;
+    return 1 if n &lt; 2 else n * factorial(n-1)
+
+print(factorial(3))
+print(factorial.__doc__)
+x = factorial
+print(x(3))
+</code></pre>
+
+<h2 id="toc_1">高阶函数的定义</h2>
+
+<p>接收函数为参数，或者吧函数作为返回值的函数就是高阶函数。<br/>
+最为人熟知的高阶函数有：<code>map</code>, <code>filter</code>, <code>reduce</code>.</p>
+
+<p><code>reduce</code>在python2中时内置函数，在python3中，放在了functools模块中，这个函数最常用的场景是用来求和，如下示例：</p>
+
+<pre><code class="language-Python">from functools import reduce
+from operator import add
+
+print(reduce(add, range(100)))
+# 在计算求和方面,sum函数完全可以代替reduce进行计算
+print(sum(range(100)))
+</code></pre>
+
+<h2 id="toc_2">可调用对象列举</h2>
+
+<ul>
+<li>用户定义的函数：使用def语句或者lambda表达式创建的函数。</li>
+<li>内置函数：使用C语言实现的内置函数，如<code>len</code>,<code>time.strftime</code>。</li>
+<li>内置方法：使用C语言实现的方法，如<code>dict.get</code>。</li>
+<li>方法：在类的定义中定义的函数。</li>
+<li>类：调用类时会运行类的<code>__new__</code>方法来创建一个实例，然后运行<code>__init__</code>方法，初始化实例，最后把实例返回给调用方。因为Python没有new运算符，所以调用类相当于调用函数。</li>
+<li>类的实例：如果定义了<code>__call__</code>方法，那么它的实例可以作为函数调用。</li>
+<li>生成器函数：使用<code>yield</code>关键字的函数或方法。调用生成器函数，返回的是生成器对象。</li>
+</ul>
+
+<h2 id="toc_3">自定义可调用类型</h2>
+
+<p>任何Python对象都可以表现的像函数，只需要实现实例方法<code>__call__</code>，如下示例所示：</p>
+
+<pre><code class="language-Python">import random
+
+
+class BingoCage:
+    def __init__(self, items):
+        self.items = list(items)
+        random.shuffle(self.items)
+
+    def pick(self):
+        try:
+            return self.items.pop()
+        except IndexError:
+            raise LookupError(&#39;pick from empty BingoCage&#39;)
+
+    def __call__(self):
+        return self.pick()
+
+bingo = BingoCage(range(3))
+print(bingo.pick())
+print(bingo())
+print(callable(bingo))
+</code></pre>
+
+<h2 id="toc_4">定位参数和仅限关键字参数</h2>
+
+<p>如下示例所示：</p>
+
+<ul>
+<li>name是必选参数</li>
+<li>cls是可选参数，且只能通过关键字参数传入</li>
+<li>name后面的任意个参数，都会被content捕获，存入一个元组中，直到遇到cls参数，或者关键字参数。</li>
+<li>关键字参数必须放在参数列表的最后面，当形参中没有对应的关键字时，会被attr参数捕获，存进一个字典中。关键字参数可以传入一个字典，<code>**dic</code>的形式，当形参中含有键名时，会直接赋值，没有对应键名时，会被attr捕获。</li>
+</ul>
+
+<pre><code class="language-python">def tag(name, *content, cls=None, **attr):
+    print(&quot;this tag name is : {}&quot;.format(name))
+
+    if cls:
+        print(&quot;the class name is : {}&quot;.format(cls))
+
+    if content:
+        st = &quot;the content is : &quot;
+        for c in content:
+            st += &quot;{}, &quot;.format(c)
+        print(st)
+
+    if attr:
+        st = &quot;the style is : &quot;
+        for key, value in attr.items():
+            st += &quot;{} = {}, &quot;.format(key, value)
+        print(st)
+
+
+tag(&quot;p&quot;, &quot;hello&quot;, &quot;zerol&quot;, cls=&quot;class_p&quot;, id=&quot;p_class&quot;, color=&quot;red&quot;)
+tag(&quot;p&quot;, cls=&quot;class_p&quot;, id=&quot;p_class&quot;, color=&quot;red&quot;)
+dic = {&quot;cls&quot;: &quot;class_p&quot;, &quot;id&quot;: &quot;p_class&quot;, &quot;color&quot;: &quot;red&quot;}
+tag(&quot;p&quot;, **dic)
+
+</code></pre>
+
+<p>仅限关键字参数是Python3新加的特性，上述示例中的cls就是一个仅限关键字参数，实现仅限关键字参数的方法就是把该参数放在前面有*的参数后面，如果函数中不想支持数量不定的定位参数，但想支持仅限关键字参数，则可以直接写个<code>*</code>，如下所示：</p>
+
+<pre><code class="language-python">def f(a, *, b):
+    return a, b
+
+print(f(12, b=23))
+</code></pre>
+
+<h2 id="toc_5">获取参数信息(inspect.signature的使用)</h2>
+
+<p>函数对象有个<code>__defaults__</code>属性，其值是一个元组，里面保存着定位参数和关键字参数的默认值。仅限关键字参数的默认值在<code>__kwdefaults__</code>属性中。但是这里面仅包含了值，不包含参数名称，具体请看下述示例：</p>
+
+<pre><code class="language-python">def args_info(text, max_len=10, *, kw=17, kw1=23, kw2):
+
+    end = 100
+    
+    if len(text) &gt; max_len:
+        end = len(text)
+    else:
+        end = max_len
+
+    return end
+
+print(args_info.__defaults__)
+print(args_info.__kwdefaults__)
+print(args_info.__code__)
+print(args_info.__code__.co_varnames)
+print(args_info.__code__.co_argcount)
+
+# 代码运行的结果如下：
+(10,)
+{&#39;kw&#39;: 17, &#39;kw1&#39;: 23}
+&lt;code object args_info at 0x1010f4f60, file &quot;6_first_class_function.py&quot;, line 77&gt;
+(&#39;text&#39;, &#39;max_len&#39;, &#39;kw&#39;, &#39;kw1&#39;, &#39;kw2&#39;, &#39;end&#39;)
+2
+</code></pre>
+
+<p>从上述示例可以得出以下结论：</p>
+
+<ul>
+<li><code>__defaults__</code>中存放了定位参数和关键字参数的默认值</li>
+<li><code>__kwdefaults__</code>中存放了仅限关键字参数的默认值，这是一个字典</li>
+<li><code>__code__.co_varnames</code>中不仅存放了定位参数和关键字参数的名字，还存放了仅限关键字参数的名字，以及方法中局部变量的名字。</li>
+<li><code>__code__.co_argcount</code>中存放了定位参数和关键字参数的个数。</li>
+</ul>
+
+<p>上面的示例中，我们如果想得到参数默认值，必须同时知道参数的个数、名字和值，并且是从后向前对应的。这使用起来会很麻烦，所以用到了<code>inspect</code>模块中的<code>signature</code>方法。</p>
+
+<pre><code class="language-python">from inspect import signature
+
+
+def args_info_by_signature():
+    sig = signature(args_info)
+    print(sig)
+    str(sig)
+
+    for name, param in sig.parameters.items():
+        print(param.kind, &#39;:&#39;, name, &#39;=&#39;, param.default)
+
+args_info_by_signature()
+
+# 代码运行的结果如下：
+(text, max_len=10, *, kw=17, kw1=23, kw2)
+POSITIONAL_OR_KEYWORD : text = &lt;class &#39;inspect._empty&#39;&gt;
+POSITIONAL_OR_KEYWORD : max_len = 10
+KEYWORD_ONLY : kw = 17
+KEYWORD_ONLY : kw1 = 23
+KEYWORD_ONLY : kw2 = &lt;class &#39;inspect._empty&#39;&gt;
+</code></pre>
+
+<p>kind属性的值是_ParameterKind类中的5个值之一，这5个值分别是：</p>
+
+<ul>
+<li>POSITIONAL_OR_KEYWORD:可以通过定位参数和关键字参数传入的形参</li>
+<li>VAR_POSITIONAL:定位形参元组</li>
+<li>VAR_KEYWORD:关键字参数字典</li>
+<li>KEYWORD_ONLY:仅限关键字参数</li>
+<li>POSITIONAL_ONLY:仅限定位参数</li>
+</ul>
+
+<p><code>inspect.Signature</code>对象有个<code>bind</code>方法，可以把任意个参数绑定到签名中的形参上，于是可以使用这个方法在真正调用函数前验证参数。</p>
+
+<pre><code class="language-python">def use_bind():
+    sig = signature(args_info)
+    args = {&#39;text&#39;: &quot;hello,world&quot;, &#39;max_len&#39;: 30, &#39;kw2&#39;: 190}
+    bound_args = sig.bind(**args)
+
+    print(bound_args)
+    for name, value in bound_args.arguments.items():
+        print(name, &#39;=&#39;, value)
+
+    del args[&#39;text&#39;]
+    bound_args = sig.bind(**args)
+
+use_bind()
+
+#代码运行的结果如下：
+&lt;BoundArguments (text=&#39;hello,world&#39;, max_len=30, kw2=190)&gt;
+text = hello,world
+max_len = 30
+kw2 = 190
+Traceback (most recent call last):
+  File &quot;6_first_class_function.py&quot;, line 119, in &lt;module&gt;
+    use_bind()
+  File &quot;6_first_class_function.py&quot;, line 117, in use_bind
+    bound_args = sig.bind(**args)
+  File &quot;/Library/Frameworks/Python.framework/Versions/3.5/lib/python3.5/inspect.py&quot;, line 2921, in bind
+    return args[0]._bind(args[1:], kwargs)
+  File &quot;/Library/Frameworks/Python.framework/Versions/3.5/lib/python3.5/inspect.py&quot;, line 2836, in _bind
+    raise TypeError(msg) from None
+TypeError: missing a required argument: &#39;text&#39;
+</code></pre>
+
+<p>可以看到最后程序抛出了参数缺失的错误。这就达到了我们进行参数验证的目的。</p>
+
+<h2 id="toc_6">函数注解</h2>
+
+<pre><code class="language-python">def fun_annotation(test:str, max_len:&#39;int &gt; 0&#39;=80) -&gt; str:
+    return &quot;just text&quot;
+</code></pre>
+
+<p>上述示例的函数定义中，就用到了函数注解，有注解的函数声明有以下特点：</p>
+
+<ul>
+<li>函数声明中的各个参数可以在<code>:</code>之后添加注解表达式</li>
+<li>如果参数有默认值，注解的放在参数名和<code>=</code>之间</li>
+<li>如果想注解返回值，在<code>)</code>和函数声明末尾的<code>:</code>之间添加<code>-&gt;</code>和一个表达式，该表达式可以是任何类型。</li>
+<li>注解中最常用的类型是类（如：str，int）和字符串（如 &#39;int &gt; 0&#39;）</li>
+</ul>
+
+<p><strong>注：注解不会做任何处理，python对注解所做的唯一事情是，把他们存储在函数的<code>__annotations__</code>属性里。</strong></p>
+
+<p><code>inspect.signature（）</code>函数可以提取注解，如下所示：</p>
+
+<pre><code class="language-python">def read_annotation():
+    sig = signature(fun_annotation)
+    print(sig.return_annotation)
+
+    for param in sig.parameters.values():
+        note = repr(param.annotation).ljust(13)
+        print(note, &#39;:&#39;, param.name, &#39;=&#39;, param.default)
+
+read_annotation()
+
+# 代码运行的结果如下：
+&lt;class &#39;str&#39;&gt;
+&lt;class &#39;str&#39;&gt; : test = &lt;class &#39;inspect._empty&#39;&gt;
+&#39;int &gt; 0&#39;     : max_len = 80
+</code></pre>
+
+<h2 id="toc_7">支持函数式编程的包</h2>
+
+<h3 id="toc_8">functools.partial</h3>
+
+<pre><code class="language-python">from operator import mul
+from functools import partial
+
+triple = partial(mul, 3)
+print(triple(7))
+</code></pre>
+
+<p>partial的第一个参数是一个可调用对象，后面跟着任意个要绑定的定位参数或者关键字参数。</p>
 
                         
                       </div>
@@ -486,10 +562,10 @@ class Vector:
                 <div class="read-more clearfix">
                   <div class="more-left left">
                   
-                    <span class="date">2016/12/30</span>
+                    <span class="date">2017/8/5</span>
                     <span>posted in&nbsp;</span> 
           				  
-          					    <span class="posted-in"><a href='%E6%95%B0%E6%8D%AE%E5%BA%93.html'>数据库</a></span>
+          					    <span class="posted-in"><a href='Fluent%20Python.html'>Fluent Python</a></span>
           				   
                   </div>
                   <div class="more-right right">
@@ -503,121 +579,486 @@ class Vector:
               </div><!-- article -->
         
 			<div class="article">
-                <a class="clearlink" href="14830842110487.html">
+                <a class="clearlink" href="15018646605864.html">
                 
-                  <h1>MySQL数据库☞中文乱码问题</h1>
+                  <h1>文本和字节序列</h1>
                   <div class="a-content">
                       
                       <div class="a-content-text">
                         
-                        	<h2 id="toc_0">背景</h2>
+                        	<p>写在前面：这篇笔记只是简单地记录一下，因为对编码问题了解的比较少，所以在看的过程中并不算太懂，这里只把能够理解的以及应该记忆的列举出来。</p>
 
-<pre><code>show variables like &#39;character_set_%&#39;;
+<h2 id="toc_0">字符</h2>
+
+<p>字符的标识，即码位，是0~1114111的数字。<br/>
+字符的具体表述取决于编码，编码是在码位和字节序列之间转换时的算法。<br/>
+把码位转换成字节序列的过程是编码，把字节序列转换成码位的过程是解码。简单粗暴的来说，编码就是把人类可读的文本字符串转换成传输需要的字节序列，解码就是把字节序列转换成人类可读的本文字符串。</p>
+
+<h2 id="toc_1">字节</h2>
+
+<p>二进制序列各个字节的值可能会使用下列三种不同的方式展示：</p>
+
+<ul>
+<li>可打印的ASCII范围内的字节，使用ASCII字符本身。</li>
+<li>制表符、换行符、回车符和\对应的字节，使用转义序列\t、\n、\r和\</li>
+<li>其它字节的值使用十六进制转义序列（例如 \x00是空字节）</li>
+</ul>
+
+<h3 id="toc_2">构建bytes 和 bytearray实例</h3>
+
+<p>构建bytes 和 bytearray实例可以调用各自的构造方法，传入一下参数</p>
+
+<ul>
+<li>一个str对象和一个encoding关键字参数</li>
+<li>一个可迭代对象，提供0~255之间的数值</li>
+<li>一个实现了缓冲协议的对象（如：bytes, bytearray, memoryview, array.array()）;此时，把源对象中的字节序列复制到新建的二进制序列中</li>
+</ul>
+
+<h2 id="toc_3">处理UnicodeEncodeError</h2>
+
+<p>多数非UTF编解码器只能处理Unicode字符的一小部分，当我们把文本转换成字节序列时，如果目标编码中没有定义某个字符，就会抛出UnicodeEncodingError异常，除非把errors参数传给编码方法或函数。就像示例一样。</p>
+
+<pre><code class="language-python">city = &#39;São Paulo&#39;
+print(city.encode(&#39;utf_8&#39;))
+
+print(city.encode(&#39;utf_16&#39;))
+
+print(city.encode(&#39;iso8859_1&#39;))
+
+print(city.encode(&#39;cp437&#39;))
 </code></pre>
 
-<p>结果为：</p>
+<p>上述示例在运行到最后一个<code>print</code>语句的时候，程序会抛出UnicodeEncodeError，然后终止运行。如果希望程序能够自己解决这种编码问题。可以传递errors参数,告诉程序遇到无法编码的字符时的处理方法，如下面示例：</p>
+
+<pre><code class="language-python">city = &#39;São Paulo&#39;
+
+print(city.encode(&#39;cp437&#39;, errors=&#39;ignore&#39;))
+
+print(city.encode(&#39;cp437&#39;, errors=&#39;replace&#39;))
+
+print(city.encode(&#39;cp437&#39;, errors=&#39;xmlcharrefreplace&#39;))
+</code></pre>
+
+<p>上面示例的errors参数中的值都是已经注册好的，该参数的默认值是“strict”，该默认值的意思是直接抛出异常。另外，当遇到编码错误时，还可以使用自己注册的额外的字符串，方法是把一个名称和一个错误处理函数传给<code>codecs.register_error</code>函数。</p>
+
+<h2 id="toc_4">处理UnicodeDecodeError</h2>
+
+<p>不是每个字节都包含有效的ASCII字符，也不是每一个字符序列都是有效的UTF_8或UTF_16,当把二进制序列转换成文本时，如果是这两个编码中的一个，遇到无法转换的字节序列时，程序会抛出UnicodeDecodeError错误。</p>
+
+<pre><code class="language-python">octet = b&#39;Montr\xe9al&#39;
+print(octet.decode(&#39;cp1252&#39;))
+
+print(octet.decode(&#39;iso8859_7&#39;))
+
+print(octet.decode(&#39;koi8_r&#39;))
+
+print(octet.decode(&#39;utf_8&#39;))
+</code></pre>
+
+                        
+                      </div>
+                  </div>
+                </a>
+                <div class="read-more clearfix">
+                  <div class="more-left left">
+                  
+                    <span class="date">2017/8/5</span>
+                    <span>posted in&nbsp;</span> 
+          				  
+          					    <span class="posted-in"><a href='Fluent%20Python.html'>Fluent Python</a></span>
+          				   
+                  </div>
+                  <div class="more-right right">
+                  <span class="comments">
+                      
+
+                       
+                  </span>
+                  </div>
+                </div>
+              </div><!-- article -->
+        
+			<div class="article">
+                <a class="clearlink" href="15013419653919.html">
+                
+                  <h1>集合的使用</h1>
+                  <div class="a-content">
+                      
+                      <div class="a-content-text">
+                        
+                        	<h2 id="toc_0">集合和运算</h2>
+
+<ul>
+<li>集合的本质是许多唯一对象的聚集，因此，集合可以用来去重。</li>
+</ul>
+
+<pre><code class="language-python">l = [&#39;ABC&#39;, &#39;abc&#39;, &#39;ABC&#39;, &#39;def&#39;]
+print(set(l))
+</code></pre>
+
+<ul>
+<li>集合中的元素必须是散列的</li>
+<li>集合实现了很多中缀运算符，比如<code>a | b</code>代表求a和b的合集，<code>a &amp; b</code>代表求a和b的交集，<code>a - b</code>代表a和b的差集（属于a但是不属于b的元素组成的集合叫做a和b的差集）。</li>
+</ul>
+
+<pre><code class="language-python">l1 = {&#39;ABC&#39;, &#39;AYU&#39;}
+l2 = {&#39;ABC&#39;, &#39;DEF&#39;, &#39;abc&#39;, &#39;XYZ&#39;}
+print(l1 &amp; l2)
+# l1 和 l2的差集
+print(l1 - l2)
+# l2 和 l1 的差集
+print(l2 - l1)
+</code></pre>
+
+<h2 id="toc_1">集合字面量</h2>
+
+<p>集合的空集表示成：<code>set()</code><br/>
+集合其他形式的字面量展现为： <code>{1}, {1, 2}</code></p>
+
+<h2 id="toc_2">集合推导</h2>
+
+<p>和列表推导、字典推导一样，集合也可以通过集合推导的方式构建一个新的集合<br/>
+每一个字符都有自己的名字，下面的示例就是将名字中含有”SIGN“的字符构建一个集合，然后将这些字符的名字构成一个集合。</p>
+
+<pre><code class="language-python">from unicodedata import name
+l3 = {chr(i) for i in range(32, 256) if &#39;SIGN&#39; in name(chr(i), &#39;&#39;)}
+l4 = {name(chr(i)) for i in range(32, 256) if &#39;SIGN&#39; in name(chr(i), &#39;&#39;)}
+print(l3)
+print(l4)
+</code></pre>
+
+<h2 id="toc_3">集合的操作</h2>
+
+<h3 id="toc_4">集合的数学运算</h3>
 
 <table>
 <thead>
 <tr>
-<th>Variable_name</th>
-<th>Value</th>
+<th>数学符号</th>
+<th>Python运算符</th>
+<th>方法</th>
+<th>描述</th>
 </tr>
 </thead>
 
 <tbody>
 <tr>
-<td>character_set_client</td>
-<td>utf8</td>
+<td>S ∩ Z</td>
+<td>s &amp; z</td>
+<td><code>s.__and__(z)</code></td>
+<td>s 和 z 的交集</td>
 </tr>
 <tr>
-<td>character_set_connection</td>
-<td>utf8</td>
+<td>S ∩ Z</td>
+<td>z &amp; s</td>
+<td><code>s.__rand__(z)</code></td>
+<td>反向 &amp; 操作</td>
 </tr>
 <tr>
-<td>character_set_database</td>
-<td>utf8</td>
+<td>S ∩ Z</td>
+<td></td>
+<td><code>s.intersection(it, ...)</code></td>
+<td>把可迭代的it和其他所有参数转化为集合，然后求他们与s的交集</td>
 </tr>
 <tr>
-<td>character_set_filesystem</td>
-<td>binary</td>
+<td>S ∩ Z</td>
+<td>s &amp;= z</td>
+<td><code>s.__iand__(z)</code></td>
+<td>把s更新为s和z的交集</td>
 </tr>
 <tr>
-<td>character_set_results</td>
-<td>utf8</td>
+<td>S ∩ Z</td>
+<td></td>
+<td><code>s.intersection_update(it, ...)</code></td>
+<td>把可迭代的it和其他所有参数转化为集合，然后求他们与s的交集，然后把s更新为这个交集</td>
 </tr>
 <tr>
-<td>character_set_server</td>
-<td>utf8</td>
+<td>S ∪ Z</td>
+<td>s <code>|</code> z</td>
+<td><code>s.__or__(z)</code></td>
+<td>s和z的并集</td>
 </tr>
 <tr>
-<td>character_set_system</td>
-<td>utf8</td>
+<td>S ∪ Z</td>
+<td>z <code>|</code> s</td>
+<td><code>s.__ror__(z)</code></td>
+<td>并集的反向操作</td>
 </tr>
 <tr>
-<td>character_sets_dir</td>
-<td>/usr/local/Cellar/mysql/5.7.13/share/mysql/charsets/</td>
+<td>S ∪ Z</td>
+<td></td>
+<td><code>s.union(it, ...)</code></td>
+<td>把可迭代的it和其他所有参数转化为集合，然后求他们与s的并集</td>
+</tr>
+<tr>
+<td>S ∪ Z</td>
+<td>s <code>|=</code> z</td>
+<td><code>s.__ior__(z)</code></td>
+<td>把s更新为s和z的并集</td>
+</tr>
+<tr>
+<td>S ∪ Z</td>
+<td></td>
+<td><code>s.update(it, ...)</code></td>
+<td>把可迭代的it和其他所有参数转化为集合，然后求他们与s的并集，并把s更新为这个并集</td>
+</tr>
+<tr>
+<td>S \ Z</td>
+<td>s - z</td>
+<td><code>s.__sub__(z)</code></td>
+<td>s 和 z的差集，或者叫做相对补集</td>
+</tr>
+<tr>
+<td>S \ Z</td>
+<td>z - s</td>
+<td><code>s.__rsub__(z)</code></td>
+<td>差集的反向操作</td>
+</tr>
+<tr>
+<td>S \ Z</td>
+<td></td>
+<td><code>s.difference(it, ...)</code></td>
+<td>把可迭代的it和其他所有参数转化为集合，然后求他们与s的差集</td>
+</tr>
+<tr>
+<td>S \ Z</td>
+<td>s -= z</td>
+<td><code>s.__isub__(z)</code></td>
+<td>把s更新为它与z的差集</td>
+</tr>
+<tr>
+<td>S \ Z</td>
+<td></td>
+<td><code>s.difference_update(it, ...)</code></td>
+<td>把可迭代的it和其他所有参数转化为集合，然后求他们与s的差集，并把s更新成这个差集</td>
+</tr>
+<tr>
+<td>S △ Z</td>
+<td></td>
+<td><code>s.symmetric_difference(it)</code></td>
+<td>求s和set（it）的对称差集</td>
+</tr>
+<tr>
+<td>S △ Z</td>
+<td>s ^ z</td>
+<td><code>s.__xor__(z)</code></td>
+<td>求s和z的对称差集</td>
+</tr>
+<tr>
+<td>S △ Z</td>
+<td>z ^ s</td>
+<td><code>s.__rxor__(z)</code></td>
+<td>对称差集的反向操作</td>
+</tr>
+<tr>
+<td>S △ Z</td>
+<td></td>
+<td><code>s.symmetric_difference_update(it, ...)</code></td>
+<td>把可迭代的it和其他所有参数转化为集合，然后求他们与s的对称差集，然后把s更新成这个对称差集</td>
+</tr>
+<tr>
+<td>S △ Z</td>
+<td>s <sup>=</sup> z</td>
+<td><code>s.__ixor__(z)</code></td>
+<td>把s更新成它与z的对称差集</td>
 </tr>
 </tbody>
 </table>
 
-<p><strong>测试数据库的编码为：</strong> utf8</p>
+<h3 id="toc_5">集合的比较运算符，返回值是布尔类型</h3>
 
-<p><strong>创建数据表</strong></p>
+<table>
+<thead>
+<tr>
+<th>数学符号</th>
+<th>Python运算符</th>
+<th>方法</th>
+<th>描述</th>
+</tr>
+</thead>
 
-<pre><code class="language-mysql">CREATE TABLE `one` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(32) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=226 DEFAULT CHARSET=utf8 |
-</code></pre>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td><code>s.isdisjoint(z)</code></td>
+<td>查看s和z是否不相交（没有共同元素）</td>
+</tr>
+<tr>
+<td>e ∈ s</td>
+<td>e in s</td>
+<td><code>s.__contains__(e)</code></td>
+<td>元素e是否属于s</td>
+</tr>
+<tr>
+<td>S ⊆ Z</td>
+<td>s &lt;= z</td>
+<td><code>s.__le__(z)</code></td>
+<td>s 是否为 z 的子集</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td><code>s.issubset(it)</code></td>
+<td>把可迭代的it转换为集合，然后查看s是否是它的子集</td>
+</tr>
+<tr>
+<td>S ⊂ Z</td>
+<td>s &lt; z</td>
+<td><code>s.__lt__(z)</code></td>
+<td>s 是否为 z 的真子集</td>
+</tr>
+<tr>
+<td>S ⊇ Z</td>
+<td>s &gt;= z</td>
+<td><code>s.__ge__(z)</code></td>
+<td>s 是否为 z 的父集</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td><code>s.issuperset(it)</code></td>
+<td>把可迭代的it转换为集合，然后查看s是否是它的父集</td>
+</tr>
+<tr>
+<td>S ⊃ Z</td>
+<td>s &gt; z</td>
+<td><code>s.__gt__(z)</code></td>
+<td>s 是否为 z 的真父集</td>
+</tr>
+</tbody>
+</table>
 
-<p>在该状态下写入一条语句：</p>
+<h3 id="toc_6">集合类型的其他方法</h3>
 
-<pre><code class="language-mysql">insert into one (name) values(&quot;测试姓名&quot;);
-</code></pre>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>set</th>
+<th>frozenset</th>
+<th>描述</th>
+</tr>
+</thead>
 
-<p>&quot;测试名字&quot;数据是在所有的字符集都是utf8的情况下插入的<br/>
-&quot;测试名字123&quot;数据是在表的字符集属于latin1的情况下插入的<br/>
-“测试名字abc”数据是在表和连接的字符集是latin1的情况下插入的<br/>
-&quot;测试名字456&quot;数据是在连接的字符集是latin1的情况下插入的，</p>
+<tbody>
+<tr>
+<td><code>s.add(e)</code></td>
+<td>✅</td>
+<td></td>
+<td>把元素e添加到集合s中</td>
+</tr>
+<tr>
+<td><code>s.clear()</code></td>
+<td>✅</td>
+<td></td>
+<td>清空s集合</td>
+</tr>
+<tr>
+<td><code>s.copy()</code></td>
+<td>✅</td>
+<td>✅</td>
+<td>对s进行浅复制</td>
+</tr>
+<tr>
+<td><code>s.discard(e)</code></td>
+<td>✅</td>
+<td></td>
+<td>如果s中有e这个元素，则将其移除</td>
+</tr>
+<tr>
+<td><code>s.__iter__()</code></td>
+<td>✅</td>
+<td>✅</td>
+<td>返回s的迭代器</td>
+</tr>
+<tr>
+<td><code>s.__len__()</code></td>
+<td>✅</td>
+<td>✅</td>
+<td><code>len(s)</code></td>
+</tr>
+<tr>
+<td><code>s.pop()</code></td>
+<td>✅</td>
+<td></td>
+<td>从s中移除一个元素，并返回它的值，若s为空，则抛出KeyError异常</td>
+</tr>
+<tr>
+<td><code>s.remove(e)</code></td>
+<td>✅</td>
+<td></td>
+<td>从s中移除e元素，若e元素不存在，则抛出KeyError异常</td>
+</tr>
+</tbody>
+</table>
 
-<h2 id="toc_1">开始测试</h2>
+<h2 id="toc_7">字典中的散列表</h2>
 
-<h3 id="toc_2">测试单一非正常字符集对中文的影响</h3>
+<p>散列表其实是一个稀疏数组，散列表的单元通常叫做表元。Python会设法保证大概有三分之一的表元是空的，所以在快要达到这个阙值的时候，会将所有的散列表复制到一个更大的空间。<br/>
+在dict的散列表中，一个表元包含两部分，一个是键的引用，一个是值的引用，因为都是引用，所以表元的大小都是一致的，从而实现了通过偏移量读取表元。</p>
 
-<p>分别执行以下操作：</p>
+<h3 id="toc_8">散列值和相等性</h3>
 
-<pre><code>alter table one default character set latin1;
-set character_set_connection=latin1;
-alter database test default character set latin1;
-set character_set_client=latin1;
-</code></pre>
+<p>如果要将一个元素放进散列表中，则必须计算这个元素的散列值，内置的<code>hash()</code>可以用于所有的内置类型对象，也可以自己实现<code>__hash__()</code>方法，要保证的是如果两个对象在比较的时候是相等的，则其散列值必须相同。</p>
 
-<p>然后分别查询表中的中文数据，发现能够正常显示中文数据&quot;测试名字&quot;，可见中文乱码与其中一个非正常字符集是没有关系的。</p>
+<h3 id="toc_9">散列表算法</h3>
 
-<h3 id="toc_3">测试组合非正常字符集对中文的影响</h3>
+<p>从字典中取值的算法流程图如下所示：</p>
 
-<p>一起执行如下语句：</p>
+<p><img src="http://cdn.blog.yanzl.net/2017-07-30-hash_search.png" alt=""/></p>
 
-<pre><code>alter table one default character set latin1;
-set character_set_connection=latin1;
-alter database test default character set latin1;
-set character_set_client=latin1;
-</code></pre>
+<ul>
+<li>首先，python会调用<code>hash(search_key)</code>来计算search_key的散列值，然后把这个值最低的几位数字当做偏移量。</li>
+<li>根据计算出来的偏移量查找对应的表元</li>
+<li>如果表元不存在则抛出KeyError异常</li>
+<li>如果表元存在，则表元中会存在found_key:found_value,python会验证表元中的found_key是否和search_key相等，如果想等则返回found_value。</li>
+<li>如果<code>found_kay != search_key</code>，则发生了散列冲突，利用解决冲突的方法计算出下一个表元的位置，再次判断表元首否为空，直到抛出KeyError异常或者找到这个元素所在的表元为止。</li>
+</ul>
 
-<p>查询表中中文数据，发现能够正常显示数据“测试名字”,&quot;测试名字123&quot;</p>
+<h4 id="toc_10">关于散列冲突</h4>
 
-<pre><code>set character_set_connection=latin1;
-alter table one default character set latin1;
-</code></pre>
+<p>散列表所做的其实是把随机的元素映射到只有几位的数字上，而散列表本身的索引依赖于这个数字的一部分，为了解决散列冲突，算法会在散列值中另外再取几位，然后用特殊的方法处理一下，把新得到的数字在当做索引来寻找表元。</p>
 
-<p>查询表中中文数据，发现“测试名字”，“测试名字123”显示正常， “测试名字abc”乱码</p>
+<h3 id="toc_11">dict的实现及其导致的结果</h3>
 
-<pre><code>set character_set_connection=latin1;
-</code></pre>
+<h4 id="toc_12">键必须是可散列的</h4>
 
-<p>查询表中数据，发现&quot;测试名字&quot;， “测试名字123”显示正常， “测试名字abc”乱码</p>
+<p>一个可散列的对象必须满足以下要求：</p>
+
+<ul>
+<li>支持<code>hash()</code>函数，并且通过<code>__hash__()</code>所得到的散列值是不变的</li>
+<li>支持通过<code>__eq__()</code>方法来检测性等性</li>
+<li>若<code>a == b</code>为真，则<code>hash(a) == hash(b)</code>也为真</li>
+</ul>
+
+<h4 id="toc_13">字典在内存上的开销巨大</h4>
+
+<p>具体原因上面已经提到过，散列表是稀疏数组，空间的利用率比较低。因此，如果要存放数量巨大的对象，使用元组或者命名元组是比较好的选择，这样做一方面能够避免散列表所消耗的空间，另一方面也无需记录中字段的名字在每个元素里都存一遍。</p>
+
+<h4 id="toc_14">键查询很快</h4>
+
+<p>字典的实现就是用空间换时间，虽然字典在内存上的开销很大，但查询速度也是非常快的。</p>
+
+<h4 id="toc_15">键的次序取决于添加顺序</h4>
+
+<p>当往字典中添加新建而又发生散列冲突的时候，新建可能会被安排到另一个新的位置，这会造成以不同元素顺序存入的两个字典，在存储过程中如果发生了散列冲突，则字典是相等的，但是键在字典中出现的顺序是不一样的。</p>
+
+<h4 id="toc_16">往字典中添加新键可能会改变已有键的顺序</h4>
+
+<p>在往字典中添加新的元素时，字典会启动是否需要扩容的判断，在扩容执行的时候，可能会发生新的散列冲突，导致原有的键的顺序发生了变化。</p>
+
+<h3 id="toc_17">set的实现及其导致的结果</h3>
+
+<p>set 和 frozenaet的实现也依赖于散列表，只是表元中存储的只有元素的引用，其特点和上面提到的字典的特点是一样的，总结如下：</p>
+
+<ul>
+<li>集合中的元素必须是可散列的</li>
+<li>集合很消耗内存</li>
+<li>集合可以很高效地判断元素是否存在于某个集合中</li>
+<li>元素的次序取决于被添加到集合中的次序</li>
+<li>忘记何种添加元素，可能会改变集合中已有的元素的次序</li>
+</ul>
 
                         
                       </div>
@@ -626,10 +1067,10 @@ alter table one default character set latin1;
                 <div class="read-more clearfix">
                   <div class="more-left left">
                   
-                    <span class="date">2016/12/30</span>
+                    <span class="date">2017/7/29</span>
                     <span>posted in&nbsp;</span> 
           				  
-          					    <span class="posted-in"><a href='%E6%95%B0%E6%8D%AE%E5%BA%93.html'>数据库</a></span>
+          					    <span class="posted-in"><a href='Fluent%20Python.html'>Fluent Python</a></span>
           				   
                   </div>
                   <div class="more-right right">
@@ -643,165 +1084,76 @@ alter table one default character set latin1;
               </div><!-- article -->
         
 			<div class="article">
-                <a class="clearlink" href="14819928857822.html">
+                <a class="clearlink" href="14857050642793.html">
                 
-                  <h1>MySQL的基本命令☞数据表的基本管理</h1>
+                  <h1>PHP会话管理</h1>
                   <div class="a-content">
                       
                       <div class="a-content-text">
                         
-                        	<h2 id="toc_0">创建数据表</h2>
+                        	<p>概述</p>
 
-<pre><code>CREATE TABLE `table_name` (
-  `name` varchar(30) NOT NULL DEFAULT &#39;&#39;,
-  `age` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+<p>有时会在多个页面之间来共享数据，这样的话就用到了PHP的会话管理，在这里，有两种解决方案Cookie和Session。</p>
 
-CREATE TABLE `user` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `first_name` varchar(64) DEFAULT NULL,
-  `last_name` varchar(64) DEFAULT NULL,
-  `email` varchar(128) DEFAULT NULL,
-  `phone` varchar(32) DEFAULT NULL,
-  `city` varchar(128) DEFAULT NULL,
-  `country` varchar(128) DEFAULT NULL,
-  `notes` text,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=226 DEFAULT CHARSET=utf8;
+<p>Cookie的数据存放在浏览器端，不同的浏览器有不同的存放方式，浏览器端的程序就可以访问Cookie数据，如果在服务器端获取客户端的信息，就可以直接访问Cookie中的数据。但因为很多浏览器都会禁用Cookie，这时候就可以使用URL参数，即POST和GET方式。</p>
+
+<p>Session的数据会存在服务器端，当访问服务器的时候，就会打开一个页面，服务器端会为我们创建一个ID，这个ID用来标识每一个用户，而用户的信息是在服务器端以键值对的形式存放。该方式高效，安全，不依赖浏览器环境（不会被禁用）。</p>
+
+<p>Cookie</p>
+
+<p>个人认为，Cookie把数据存入浏览器，在另一个文件中使用的时候直接读取就可以了。</p>
+
+<p>正常状态下，是可以进行数据传送的，比如：</p>
+
+<p>一个文件下写：</p>
+
+<p>setcookie(&#39;name&#39;,&#39;zhangsan&#39;);//以键值对的形式存放<br/>
+header(&#39;Location:b.php&#39;);//使用此函数自动跳转<br/>
+在另一个文件b.php下写：</p>
+
+<pre><code>echo $_COOKIE[&#39;name&#39;];
 </code></pre>
 
-<h2 id="toc_1">添加一个主键字段</h2>
+<p>这样，在a.php中填写的信息就可以在b.php页面显示。</p>
 
-<p>添加主键其实是两个操作，一个是添加一个字段，另一个操作是设置该字段为主键</p>
+<p>还可以在html文档里用一个用一个对话框呈现一个数据</p>
 
-<pre><code>alter table table_name add id int not null auto_increment,
-add primary key (id);
+<pre><code>&lt;head lang = &quot;en&quot;&gt;
+    &lt;meta charset = &quot;UTF-8&quot;&gt;
+    &lt;script&gt;
+        alert(document.cookie);
+    &lt;/script&gt;
+&lt;/head&gt;
 </code></pre>
 
-<h2 id="toc_2">为一个字段添加主键</h2>
+<p>但是，有时候浏览器就会屏蔽Cookie数据，所以可以使用URL参数来传递数据</p>
 
-<pre><code>alter table table_name add primary key (age);
-</code></pre>
+<p>在a.php文件中写下面一行语句：</p>
 
-<h2 id="toc_3">添加一个普通字段</h2>
+<p>header(&quot;Location:b.php?name=zhangsan&quot;);//直接跳转至b.php<br/>
+这行语句实际上就相当于用get方式传递参数，所以在b.php中将传的参数打印出来</p>
 
-<pre><code>alter table table_name add user_id int not null;
-</code></pre>
+<p>echo $_GET[&#39;name&#39;];<br/>
+ Session</p>
 
-<h2 id="toc_4">删除一个字段</h2>
+<p>Session处理方法是将数据存放至服务器，可以在多个页面之间共享数据。在使用之前一定要启动session。</p>
 
-<pre><code>alter table user drop column phone;
-</code></pre>
+<p>可以在a.php文件中填入数据</p>
 
-<h2 id="toc_5">修改一个字段</h2>
+<p>session_start();//启用session<br/>
+//echo session_id();//获取客户端的id<br/>
+$_SESSION[&#39;name&#39;] = &quot;zhangsan&quot;;//存入数据<br/>
+header(&#39;Location:b.php&#39;);//执行页面跳转<br/>
+然后在b.php文件中访问数据</p>
 
-<p>只修改一个字段的类型：</p>
+<p>session_start();<br/>
+echo $_SESSION[&#39;name&#39;];<br/>
+这一数据处理的方法常用来记录用户的登录状态，如果用户退出登录（即清除掉session的所有存储数据），那么可以执行下述语句</p>
 
-<pre><code>alter table user modify city varchar(100);
-</code></pre>
-
-<p>修改字段的全部定义,该方法也用于重命名：</p>
-
-<pre><code>alter table user change city user_city varchar(128) not null default &#39;&#39;;
-</code></pre>
-
-<h2 id="toc_6">添加外键</h2>
-
-<p><strong>注意这里设置的外键字段（user_id）必须在表中存在</strong></p>
-
-<pre><code>alter table table_name add CONSTRAINT `table_name_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user`(`id`);
-</code></pre>
-
-<h2 id="toc_7">删除外键</h2>
-
-<p>删除外键用到的外键名是添加外键时指定的外键符号，即constraint 后面的单词，如果建表时没有指定外键符号，MySQL会自动创建，只需要通过<code>show create table table_name;</code> 进行查看就可以了。</p>
-
-<pre><code>alter table table_name drop foreign key table_name_ibfk_1;
-</code></pre>
-
-<p><strong>这里顺便写一下修改外键的方法：先删除原来的外键，再添加新的外键</strong></p>
-
-<h2 id="toc_8">添加唯一索引</h2>
-
-<pre><code>alter table table_name add unique (name);
-create unique index unique_index_name on table_name (name);
-</code></pre>
-
-<h2 id="toc_9">添加普通索引</h2>
-
-<pre><code>alter table table_name add index name_index (name);
-create index name_index on table_name (name);
-</code></pre>
-
-<h2 id="toc_10">添加全文索引</h2>
-
-<pre><code>ALTER TABLE `table_name` ADD FULLTEXT ( `name`);
-</code></pre>
-
-<h2 id="toc_11">添加联合索引</h2>
-
-<p><strong>注意联合索引是有顺序的</strong></p>
-
-<pre><code>ALTER TABLE `table_name` ADD INDEX union_index_name (`id`, `name`);
-</code></pre>
-
-<h2 id="toc_12">删除索引</h2>
-
-<p>除了删除主键索引需要用到<code>alter table table_name primary key</code>语句之外，删除其它索引都可以使用如下两种方法：</p>
-
-<pre><code>drop index union_index_name on table_name;
-alter table table_name drop index union_index_name;
-alter table table_name drop index name_index;
-alter table table_name drop index name;
-alter table table_name drop index name_2;
-</code></pre>
-
-<h2 id="toc_13">查看所有索引</h2>
-
-<pre><code>show index from table_name;
-show keys from table_name;
-</code></pre>
-
-<ul>
-<li>Table :表的名称。</li>
-<li>Non_unique :如果索引不能包括重复词，则为0。如果可以，则为1。</li>
-<li>Key_name :索引的名称。</li>
-<li>Seq_in_index :索引中的列序列号，从1开始。</li>
-<li>Column_name :列名称。</li>
-<li>Collation :列以什么方式存储在索引中。在MySQL中，有值‘A’（升序）或NULL（无分类）。</li>
-<li>Cardinality :索引中唯一值的数目的估计值。通过运行ANALYZE TABLE或myisamchk -a可以更新。基数根据被存储为整数的统计数据来计数，所以即使对于小型表，该值也没有必要是精确的。基数越大，当进行联合时，MySQL使用该索引的机会就越大。</li>
-<li>Sub_part :如果列只是被部分地编入索引，则为被编入索引的字符的数目。如果整列被编入索引，则为NULL。</li>
-<li>Packed :指示关键字如何被压缩。如果没有被压缩，则为NULL。</li>
-<li>Null :如果列含有NULL，则含有YES。如果没有，则该列含有NO。</li>
-<li>Index_type :用过的索引方法（BTREE, FULLTEXT, HASH, RTREE）。</li>
-<li>Comment</li>
-</ul>
-
-<h2 id="toc_14">修改表名</h2>
-
-<pre><code>ALTER  TABLE table_name RENAME TO test_table;
-</code></pre>
-
-<h2 id="toc_15">删除表</h2>
-
-<pre><code>drop table table_name
-</code></pre>
-
-<h2 id="toc_16">创建包含各种索引类型的表</h2>
-
-<pre><code>CREATE TABLE `test_table` (
-  `name` varchar(30) NOT NULL DEFAULT &#39;&#39;,
-  `age` int(11) NOT NULL,
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `unique_index_name` (`name`),
-  KEY `table_name_ibfk_1` (`user_id`),
-  KEY `name_index` (`name`),
-  KEY `union_index_name` (`id`,`name`),
-  FULLTEXT KEY `name` (`name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8
-</code></pre>
+<p>if(isset($_SESSION[&#39;name&#39;]))<br/>
+{<br/>
+    session_destroy();//销毁掉当前的session。<br/>
+}</p>
 
                         
                       </div>
@@ -810,10 +1162,10 @@ show keys from table_name;
                 <div class="read-more clearfix">
                   <div class="more-left left">
                   
-                    <span class="date">2016/12/18</span>
+                    <span class="date">2017/7/27</span>
                     <span>posted in&nbsp;</span> 
           				  
-          					    <span class="posted-in"><a href='%E6%95%B0%E6%8D%AE%E5%BA%93.html'>数据库</a></span>
+          					    <span class="posted-in"><a href='PHP.html'>PHP</a></span>
           				   
                   </div>
                   <div class="more-right right">
@@ -849,7 +1201,7 @@ show keys from table_name;
     <div id="sidebar" class="sidebar">
           <div id="site-info" class="site-info">
             
-                <h1>挂在树上的兔子</h1>
+                <h1>零度燕窝</h1>
                 <div class="site-des"></div>
                 <div class="social">
 
@@ -888,6 +1240,10 @@ show keys from table_name;
         
             <a href="Fluent%20Python.html"><strong>Fluent Python</strong></a>
         
+            <a href="%E8%AF%BB%E4%B9%A6%E9%9A%8F%E7%AC%94.html"><strong>读书随笔</strong></a>
+        
+            <a href="%E6%9B%BE%E7%BB%8F%E6%9D%A5%E8%BF%87.html"><strong>曾经来过</strong></a>
+        
             <a href="PHP.html"><strong>PHP</strong></a>
         
             <a href="Ubuntu.html"><strong>Ubuntu</strong></a>
@@ -907,31 +1263,31 @@ show keys from table_name;
 	      
 		      
 			      <li class="post">
-			        <a href="15033291458720.html">使用一等函数实现设计模式</a>
+			        <a href="15406290433586.html">扎心！有人偷走了我的磁盘空间？！</a>
 			      </li>
 		     
 		  
 		      
 			      <li class="post">
-			        <a href="15018651943030.html">一等函数</a>
+			        <a href="15377924479103.html">记一次攒机经历</a>
 			      </li>
 		     
 		  
 		      
 			      <li class="post">
-			        <a href="15018646605864.html">文本和字节序列</a>
+			        <a href="15376924661136.html">SQL查询语句之坑</a>
 			      </li>
 		     
 		  
 		      
 			      <li class="post">
-			        <a href="15013419653919.html">集合的使用</a>
+			        <a href="15056428224967.html">![](http://cdn.blog.yanzl.net/2017-10-27-carthusian-2822971.jpg)</a>
 			      </li>
 		     
 		  
 		      
 			      <li class="post">
-			        <a href="15010832436363.html">字典的使用</a>
+			        <a href="15048580065601.html">Python內建类型对象的那些事</a>
 			      </li>
 		     
 		  

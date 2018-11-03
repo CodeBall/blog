@@ -5,12 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>
     
-  挂在树上的兔子
+  零度燕窝
   
   </title>
   
   
-  <link href="atom.xml" rel="alternate" title="挂在树上的兔子" type="application/atom+xml">
+  <link href="atom.xml" rel="alternate" title="零度燕窝" type="application/atom+xml">
     <link rel="stylesheet" href="asset/css/foundation.min.css" />
     <link rel="stylesheet" href="asset/css/docs.css" />
     <script src="asset/js/vendor/modernizr.js"></script>
@@ -62,7 +62,7 @@
 
         <nav class="tab-bar show-for-small">
   <a href="javascript:void(0)" class="left-off-canvas-toggle menu-icon">
-    <span> &nbsp; 挂在树上的兔子</span>
+    <span> &nbsp; 零度燕窝</span>
   </a>
 </nav>
 
@@ -85,6 +85,10 @@
             <li><a href="%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84&%E7%AE%97%E6%B3%95.html">数据结构&算法</a></li>
         
             <li><a href="Fluent%20Python.html">Fluent Python</a></li>
+        
+            <li><a href="%E8%AF%BB%E4%B9%A6%E9%9A%8F%E7%AC%94.html">读书随笔</a></li>
+        
+            <li><a href="%E6%9B%BE%E7%BB%8F%E6%9D%A5%E8%BF%87.html">曾经来过</a></li>
         
             <li><a href="PHP.html">PHP</a></li>
         
@@ -111,83 +115,224 @@
 		<div class="markdown-body home-categories">
 		
 			<div class="article">
-                <a class="clearlink" href="14838675620286.html">
+                <a class="clearlink" href="14838699157833.html">
                 
-                  <h1>sscanf()、strcmp()、sort()、qsort()整理</h1>
+                  <h1>字典树</h1>
                   <div class="a-content">
                       
                       <div class="a-content-text">
                         
-                        	<h2 id="toc_0">1.sscanf（）函数</h2>
+                        	<p>定义</p>
 
-<p>作用：控制输入的格式</p>
+<p>字典树又称单词查找树，Trie树，是一种如图1所示的树形结构。</p>
 
-<p>示例：sscanf(xs,&quot;%s%s&quot;,trie[k].name1,trie[k].name2);  //将数组xs内的字符串赋值给trie[k].name1，再输入一个字符串赋值给trie[k].name</p>
+<p>字典树</p>
 
-<p>具体用法：点击之前写过的博客: <a href="http://blog.csdn.net/codeball/article/details/39858145">http://blog.csdn.net/codeball/article/details/39858145</a></p>
+<p><img src="media/14838699157833/zidianshu.jpg" alt="zidianshu"/></p>
 
-<h2 id="toc_1">2.strcmp（）函数</h2>
+<p>图1</p>
 
-<p>作用：比较两个字符串的大小，如果相等，返回0，如果前面大于后面（按字典序排列，越在前的字母，越小），返回1，否则返回-1.</p>
+<p>动态存储</p>
 
-<p>示例：strcmp(sz1,sz2);</p>
+<p>结构</p>
 
-<h2 id="toc_2">3.sort()函数</h2>
+<p>每棵字典树都有一个根节点，每一个结点都有26个指针，分别指向a到z26个字母，有一个数据域，存储要记录的数据，有一个标记域，标记字符串是否结束。</p>
 
-<p>作用：排序</p>
-
-<p>使用方法：sort(begin,end)，默认从小到大排序，或者sort(begin,end,compare)，compare为自定义的比较函数</p>
-
-<p>排序的数据类型不局限于整数，只要是给定了小于运算就可以</p>
-
-<h2 id="toc_3">4.qsort（）函数</h2>
-
-<p>作用：排序</p>
-
-<p>使用方法：qsort ( 数组名 ，元素个数，元素占用的空间(sizeof)，比较函数)</p>
-
-<p>比较函数：比较函数是一个自己写的函数  遵循 int com(const void *a,const void *b) 的格式。</p>
-
-<p>当a b关系为 &gt; &lt; = 时，分别返回正值 负值 零 （或者相反）。<br/>
-使用a b 时要强制转换类型，从void * 转换回应有的类型后，进行操作。<br/>
-数组下标从零开始,个数为N, 下标0-(n-1)。</p>
-
-<h3 id="toc_4">（1）对int数组排序：</h3>
-
-<pre><code>int num[100];
-int cmp ( const void *a , const void *b )
+<pre><code>struct Trie
 {
-    return *(int *)a - *(int *)b;
+    //因为next与字符有一一对应的关系，所以不需要存储数据
+    int sign;//标记字符串结尾
+    struct Trie *next[26];//指向下一个字符
+}*head,*p,*now;
+开辟新的存储空间
+
+Trie *new()
+{
+    Trie *p = new Trie;//开辟内存
+    for(i = 0;i &lt; 26;i++)//初始化操作
+    {
+        p-&gt;next[i] = NULL;
+    }
+    p-&gt;sign = 0;
+    return p;
 }
-qsort(num,100,sizeof(num[0]),cmp);
 </code></pre>
 
-<h3 id="toc_5">（2）对char数组排序  同int型，将int换为char</h3>
+<p>字典树的初始化</p>
 
-<h3 id="toc_6">（3）对double数组排序：（和int不同，特别注意）</h3>
+<p>下面的代码只是添加一个字符串，如果添加多个字符串，可以在调用函数中进行修改，也可以在下面的函数中加循环进行控制。</p>
 
-<pre><code>double in[100];
-int cmp( const void *a , const void *b )
+<pre><code>void init()
 {
-    return *(double *)a &gt; *(double *)b ? 1 : -1;
+    char sz[30];
+    int i,j,k,l;
+    scanf(&quot;%s&quot;,sz);
+    l = strlen(sz);
+    head = new();
+    p = head;
+    for(i = 0;i &lt; l;i++)
+    {
+        j = sz[i] - &#39;a&#39;;
+        if(p-&gt;next[j] == NULL)
+        {
+            now = new();
+            now-&gt;data = sz[i];
+            p-&gt;next[j] = now;//将新建的节点连接在字典树上
+        }
+            p = p-&gt;next[j];
+    }
+    p-&gt;sign = 1;
 }
-qsort(in,100,sizeof(in[0]),cmp);
 </code></pre>
 
-<h3 id="toc_7">（4）对字符串进行排序：</h3>
+<p>字符串的查找</p>
 
-<pre><code>struct In
+<p>给定一个字符串，询问该字符串是否已经出现过，即在原来建立的字典树上进行查找的过程。</p>
+
+<p>字符串查找的过程和建树的过程很相似，只不过需要判断节点是不是字符串的结束。</p>
+
+<pre><code>bool lookup()
 {
-    int data;
-    char str[100];
-} s[100];
-//按照结构体中字符串str的字典顺序排序
-int cmp ( const void *a , const void *b )
-{
-    return strcmp( (*(In *)a)-&gt;str , (*(In *)b)-&gt;str );
+    char sz[30];
+    int i,j,l;
+    scanf(&quot;%s&quot;,sz);
+    p = head;
+    l = strlen(sz);
+    for(i = 0;i &lt; l;i++)
+    {
+        j = sz[i] - &#39;a&#39;;
+        //没有这个字符，则下面都没有，返回失败
+        if(p-&gt;next[j] == NULL)
+            return false;
+        else
+            p = p-&gt;next[j];
+        //如果已是要查询的字符串最后一个字符，判断有没有结束标志
+        if(i == l - 1)
+        {
+            if(p-&gt;sign == 1)
+                return true;
+            else
+                return false;
+        }
+    }
 }
-qsort(s,100,sizeof(s[0]),cmp);
 </code></pre>
+
+<p>释放内存</p>
+
+<p>所有的这一组数据使用完之后，就要对其进行释放内存。</p>
+
+<pre><code>void delet(Trie *head)
+{
+    if(head)
+    {
+        for(int i = 0;i &lt; 26;i++)
+        {
+            if(head-&gt;next[i]!=NULL)
+                delet(head-&gt;next[i]);
+        }
+    }
+    delete head;
+    head = NULL;
+}
+</code></pre>
+
+<p>静态存储</p>
+
+<p>以上所讲述的字典树是动态开辟内存的方式，用完之后一定不要忘记释放内存，不然很容易就会MLE，当然，有些题目卡的就是动态存储，所以我们就要用到静态存储，接下来讲解静态存储。</p>
+
+<p>结构</p>
+
+<pre><code>//定义结构
+struct Trie
+{
+    int sign;
+    int next[26];
+}trie[MAX];
+int top = 0;
+</code></pre>
+
+<p>初始化新建的节点 并返回位置</p>
+
+<pre><code>Trie *newTrie()
+{
+    memset(trie[top].next,-1,sizeof(trie[top].next));
+    trie[top].sign = 0;
+    return top++;
+}
+</code></pre>
+
+<p>建立字典树</p>
+
+<pre><code>void init(int k,char *sz)
+{
+    int i,j,l;
+    l = strlen(sz);
+    for(i = 0;i &lt; l;i++)
+    {
+        j = sz[i] - &#39;a&#39;;
+        if(trie[k].next[j] == -1)
+        {
+            trie[k].next[j] = newTrie();
+        }
+        k = trie[k].next[j]; 
+    }
+    trie[k].sign = 1;
+}
+</code></pre>
+
+<p>查询有没有该字符串</p>
+
+<pre><code>int lookup(int k,char *sz)
+{
+    int i,j,l;
+    l = strlen(sz);
+    for(i = 0;i &lt; l;i++)
+    {
+        j = sz[i] - &#39;a&#39;;
+        if(trie[k].next[j] == -1)
+            return -1;
+        k = trie[k].next[j];
+    }
+    return trie[k].sign;
+}
+</code></pre>
+
+<p>字典树的性质</p>
+
+<p>（1）根节点不包含字符，除根节点外每一个结点都只包含一个字符</p>
+
+<p>（2）从根节点到某一个节点，路径上的节点连接起来就是一个字符串</p>
+
+<p>（3）每个节点的所有子节点包含的字符都不相同</p>
+
+<p>字典树的应用</p>
+
+<p>（1）串的检索</p>
+
+<p>给出一些已有的单词作为熟词，再给出一些词汇，找出这些词汇中没有在熟词里出现的词。</p>
+
+<p>可以用枚举，哈希，字典树进行搜索</p>
+
+<p>（2）“串”的排序</p>
+
+<p>给出一些互不相同的单词，按照字典序进行排列</p>
+
+<p>采用数组的方式创建字典树，这棵树的每个结点的儿子按照字母大小排序，再对这棵树进行先序遍历。</p>
+
+<p>（3）最长公共前缀</p>
+
+<p>查找任意两个字符串的最长公共前缀</p>
+
+<p>对所有串建立字典树，对于两个串的最长公共前缀的长度即他们所在的结点的公共祖先个数，于是，问题就转化为当时公共祖先问题。</p>
+
+<p>拓展：</p>
+
+<p>本文中用到的函数memset()</p>
+
+<p>void *memset(void *s, int ch, size_t n);<br/>
+函数解释：将s中前n个字节 （typedef unsigned int size_t ）用 ch 替换并返回 s 。<br/>
+memset：作用是在一段内存块中填充某个给定的值，它是对较大的结构体或数组进行清零操作的一种最快方法</p>
 
                         
                       </div>
@@ -196,7 +341,7 @@ qsort(s,100,sizeof(s[0]),cmp);
                 <div class="read-more clearfix">
                   <div class="more-left left">
                   
-                    <span class="date">2014/11/26</span>
+                    <span class="date">2015/1/17</span>
                     <span>posted in&nbsp;</span> 
           				  
           					    <span class="posted-in"><a href='%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84&%E7%AE%97%E6%B3%95.html'>数据结构&算法</a></span>
@@ -213,310 +358,381 @@ qsort(s,100,sizeof(s[0]),cmp);
               </div><!-- article -->
         
 			<div class="article">
-                <a class="clearlink" href="14838667759459.html">
+                <a class="clearlink" href="14838698180972.html">
                 
-                  <h1>STL</h1>
+                  <h1>哈希表</h1>
                   <div class="a-content">
                       
                       <div class="a-content-text">
                         
-                        	<p>STL包含六大组件：容器，算法，迭代器，仿函数，适配器，空间配置器</p>
+                        	<p>概念</p>
 
-<h2 id="toc_0">1.容器：</h2>
+<p>为了方便查找，在存储位置和关键字之间建立一个确定的关系，当查找关键字的时候，根据建立的关系对存储位置进行访问，有效地减少了多次比较带来的时间的浪费。这个关系称为哈希函数，这种思想称为哈希思想。</p>
 
-<h3 id="toc_1">（1）向量vector：向量 vector 是一种对象实体, 能够容纳许多其他类型相同的元素,可以广义上认为是数组的增强版。</h3>
+<p>哈希函数是一个映像，可以灵活得定义。但是，对于不同的关键字，经过相同的哈希函数的处理后，有可能得到相同的地址，这种现象称为冲突，并且，一般情况下，冲突只能尽可能的减少，而不能完全避免。</p>
 
-<p>在使用它时, 需要包含头文件 vector, #include<vector><br/>
-vector 容器与数组相比其优点在于它能够根据需要随时自动调整自身的大小以便容下所要放入的元素。此外, vector 也提供了许多的方法来对自身进行操作。</p>
+<p>哈希函数的构造方法</p>
 
-<p>vector向量的声明和初始化方法：</p>
+<p>（1）直接定址法</p>
 
-<pre><code>vector&lt;int&gt; a ; //声明一个int型向量a
-vector&lt;int&gt; a(10) ; //声明一个初始大小为10的向量
-vector&lt;int&gt; a(10, 1) ; //声明一个初始大小为10且初始值都为1的向量
-vector&lt;int&gt; b(a) ; //声明并用向量a初始化向量b
-vector&lt;int&gt; b(a.begin(), a.begin()+3) ; //将a向量中从第0个到第2个(共3个)作为向量b的初始值
-int n[] = {1, 2, 3, 4, 5} ;
-vector&lt;int&gt; a(n, n+5) ; //将数组n的前5个元素作为向量a的初值
-vector&lt;int&gt; a(&amp;n[1], &amp;n[4]) ; //将n[1] - n[4]范围内的元素作为向量a的初值
+<p>去关键字或关键字的某个线性函数作为哈希函数，由此计算哈希地址的方法。</p>
+
+<p>H(key) = key或H(key) = a*key + b(a,b为常数)。</p>
+
+<p>（2）数字分析法</p>
+
+<p>假设关键字是R进制数，并且哈希表中可能出现的关键字都是事先知道的，则可取关键字的若干数位组成哈希地址。</p>
+
+<p>（3）平方取中法</p>
+
+<p>取关键字平方后的中间几位作为哈希地址。</p>
+
+<p>（4）折叠法</p>
+
+<p>将关键字分割成位数相同的几部分（最后一部分的位数可以不同），然后取这几部分的叠加和作为哈希地址的方法。</p>
+
+<p>适用于关键字位数很多，而且关键字中每一位上数字分布大致均匀。</p>
+
+<p>（5）除留余数法（最简单，最常用）</p>
+
+<p>取关键字被某个不大于哈希表表长m的数p除后所得余数为哈希地址。H（key） = key % p;</p>
+
+<p>在选取p的时候，一般选质数或者不包含小于20的质因数的和数。</p>
+
+<p>（6）随机数法</p>
+
+<p>选择一个随机函数，取关键字的随机函数值为它的哈希地址。</p>
+
+<p>冲突的处理</p>
+
+<p>（1）开放定址法</p>
+
+<p>Hi = （H（key）+di）%m;i = 1,2,...,k（k &lt;= m-1）</p>
+
+<p>H（key）为哈希函数，m为哈希表表长，di为递增序列</p>
+
+<p>di有三种取法</p>
+
+<p>线性探测再散列：di = 1,2,3,...,m-1;保证只要哈希表未填满，总能找到一个不发生冲突的地址</p>
+
+<p>二次探测再散列：di = 1<em>1,-1</em>-1,2<em>2,-2</em>-2,3<em>3,...,k</em>k,-k<em>-k;只有在哈希表长满足4</em>j+3一形式的素数时才会将冲突处理好。</p>
+
+<p>伪随机探测再散列：di = 伪随机数序列。</p>
+
+<p>二次聚集  在处理冲突过程中发生的两个第一个哈希地址不同的记录争夺同一个后记哈希地址的现象，即在处理同义词的冲突过程中又添加了非同义词的冲突。</p>
+
+<p>（2）再哈希表</p>
+
+<p>Hi = R*Hi(key)，i = 1,2,3。。。k;</p>
+
+<p>R*Hi(key)均是不相同的哈希函数，即在同义词产生地址冲突时计算另一个哈希函数，直到不产生地址冲突为止。</p>
+
+<p>（3）链地址法（方便，常用）</p>
+
+<p>将所有关键字为同义词的记录存储在同一线性链表中。假设某哈希函数产生的哈希地址在区间【0,m-1】中，则建立一个头链表。每个链结的初始状态都是空指针，当有关键字对应一个链结的时候，在该链结后加关键字，如图</p>
+
+<p><img src="media/14838698180972/haxibiao.png" alt="haxibiao"/></p>
+
+<p>（4）建立一个公共溢出区</p>
+
+<p>一个基本表，每个分量存放一个记录，另设一个溢出表，所有关键字和基本表中关键字为同义词的记录，不管哈希地址是什么，一旦发生冲突，都填入溢出表。</p>
+
+<p>哈希表的查找</p>
+
+<p>给定K值，根据建表时设定的哈希函数求得哈希地址，若表中此位置上没有记录，则查找不成功，否则比较关键字，如果给定的K和表中记录相等，则查找成功；否则根据建表时设定的冲突处理的方法进行下一个地址的查找，直到哈希表的某个位置为空或者找到为止。</p>
+
+<p>查找过程中需和给定值进行比较的关键字的个数取决于三个因素：哈希函数，处理冲突的方法和哈希表的装填因子。</p>
+
+<p>装填因子：a = （表中填入的记录数）/（哈希表的长度）。标志哈希表的装满程度。</p>
+
+                        
+                      </div>
+                  </div>
+                </a>
+                <div class="read-more clearfix">
+                  <div class="more-left left">
+                  
+                    <span class="date">2014/12/28</span>
+                    <span>posted in&nbsp;</span> 
+          				  
+          					    <span class="posted-in"><a href='%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84&%E7%AE%97%E6%B3%95.html'>数据结构&算法</a></span>
+          				   
+                  </div>
+                  <div class="more-right right">
+                  <span class="comments">
+                      
+
+                       
+                  </span>
+                  </div>
+                </div>
+              </div><!-- article -->
+        
+			<div class="article">
+                <a class="clearlink" href="14838696378349.html">
+                
+                  <h1>平衡二叉树</h1>
+                  <div class="a-content">
+                      
+                      <div class="a-content-text">
+                        
+                        	<p>基本概念</p>
+
+<p>平衡二叉树又称AVL树，它的左子树和右子树都是平衡二叉树，并且左子树和右子树的深度之差的绝对值不超过1.</p>
+
+<p>平衡因子：该结点的左子树的深度减去该结点的右子树的深度，所以平衡二叉树上的所有结点的平衡因子只可能是-1，0 ，1三种情况。只要平衡因子的绝对值大于1，则该二叉树就不是平衡的。</p>
+
+<p>失衡调节</p>
+
+<p>平衡二叉树的平均查找长度：log(n)</p>
+
+<p>空树是平衡二叉树，在不断加点的过程中，平衡二叉树由平衡逐渐变得不平衡，如果想让平衡二叉树继续平衡，就需要根据导致不平衡的不同原因执行不同的操作，从而进行调正。</p>
+
+<p>但是，无论哪种情况，首先需要处理的结点是插入新的结点后，所有祖宗结点中，距离新结点最近的节点。</p>
+
+<p>一、单向右旋型(LL旋转)</p>
+
+<p>原因：新插入的结点在不平衡结点的左子树的左子树中。</p>
+
+<p>处理：将不平衡的结点所在的子树进行一次向右顺时针旋转的操作。</p>
+
+<p>二、单向左旋型（RR旋转）</p>
+
+<p>原因：新插入的结点在不平衡结点的右子树的右子树中。</p>
+
+<p>处理：处理：将不平衡的结点所在的子树进行一次向左逆时针旋转的操作。</p>
+
+<p>LLRR<br/>
+<img src="media/14838696378349/LLRR.jpg" alt="LLR"/></p>
+
+<p>三、先右后左型（RL旋转）</p>
+
+<p>原因：新插入的结点在不平衡结点的右子树的左子树中。</p>
+
+<p>处理：先围绕不平衡结点的左孩子进行逆时针左旋，在围绕不平衡结点进行顺时针右旋。</p>
+
+<p>四、先左后右型（LR旋转）</p>
+
+<p>原因：新插入的结点在不平衡结点的左子树的右子树中。</p>
+
+<p>处理：先围绕不平衡结点的左孩子进行逆时针左旋，在围绕不平衡结点进行顺时针右旋。</p>
+
+<p><img src="media/14838696378349/RLLR-300x172.png" alt="RLLR-300x172"/></p>
+
+                        
+                      </div>
+                  </div>
+                </a>
+                <div class="read-more clearfix">
+                  <div class="more-left left">
+                  
+                    <span class="date">2014/12/27</span>
+                    <span>posted in&nbsp;</span> 
+          				  
+          					    <span class="posted-in"><a href='%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84&%E7%AE%97%E6%B3%95.html'>数据结构&算法</a></span>
+          				   
+                  </div>
+                  <div class="more-right right">
+                  <span class="comments">
+                      
+
+                       
+                  </span>
+                  </div>
+                </div>
+              </div><!-- article -->
+        
+			<div class="article">
+                <a class="clearlink" href="14838691956495.html">
+                
+                  <h1>BST 二叉排序（查找）树</h1>
+                  <div class="a-content">
+                      
+                      <div class="a-content-text">
+                        
+                        	<p>1.定义：除了空树之外，拥有下列性质的二叉树为二叉排序树：（1）.若它的左子树不空，则左子树上所有节点的值均小于它的根结点的值。（2）.若它的右子树不空，则它的右子树上所有的节点的值均大于它的根结点的值。（3）.它的左右子树也分别为二叉排序树。</p>
+
+<p>首先先看一下链表节点的定义：</p>
+
+<pre><code>struct node
+{
+    int data;
+    node *lc;
+    node *rc;
+}*head;
+int num[16] = {78,45,12,98,566,563,568};
 </code></pre>
 
-<p>元素的输入和访问可以像操作普通数组那样，用下标控制；还可以使用迭代器进行输出控制，</p>
+<p>2.二叉排序树的查找：</p>
 
-<p>在向量中遍历器的类型为: vector<int>::iterator。 迭代器不但表示元素位置, 还可以在容器中前后移动。</p>
+<p>不断地和结点值相比较，如果关键字大于结点值，则指针指向右孩子继续比较，如果小于结点值，则指针指向左孩子，继续比较。如果关键字和结点值相等，则返回查找成功，否则查找不成功。</p>
 
-<pre><code>//全部输出
-vector&lt;int&gt;::iterator t ;
-for(t=a.begin(); t!=a.end(); t++)
-cout&lt;&lt;*t&lt;&lt;&quot; &quot; ;
+<pre><code>bool Search_BST(int key,int i)
+{
+    if(BST[i] == key)
+        return true;
+    if(i &gt; (pow(2,15/2+1))-1)//这个地方一定要注意，因为数组建树是满二叉树
+        //所以判断没有找到的一定要注意区间范围
+        return false;
+    if(BST[i] &gt; key)
+        Insert_BST(key,i*2);
+    else
+        Insert_BST(key,i*2+1);
+}
 </code></pre>
 
-<p>*t 为指针的间接访问形式, 意思是访问t所指向的元素值。</p>
+<p>现在用链表来实现查找：</p>
 
-<p>向量vector的基本操作：</p>
+<pre><code>node *findnode(int data,node *root)
+{
+    if(root == NULL)
+        return NULL;
 
-<ul>
-<li> a.size() //获取向量中的元素个数</li>
-<li> a.empty() //判断向量是否为空</li>
-<li> a.clear() //清空向量中的元素</li>
-<li> 复制    a = b ; //将b向量复制到a向量中</li>
-<li> 比较<br/>
-保持 ==、!=、&gt;、&gt;=、&lt;、&lt;= 的惯有含义 ;<br/>
-如: a == b ; //a向量与b向量比较, 相等则返回1</li>
-<li>插入 - insert
-
-<ul>
-<li>①、 a.insert(a.begin(), 1000); //将1000插入到向量a的起始位置前</li>
-<li>②、 a.insert(a.begin(), 3, 1000) ; //将1000分别插入到向量元素位置的0-2处(共3个元素)</li>
-<li>③、 vector<int> a(5, 1) ;<br/>
-vector<int> b(10) ;<br/>
-b.insert(b.begin(), a.begin(), a.end()) ; //将a.begin(), a.end()之间的全部元素插入到b.begin()前</li>
-</ul></li>
-<li>删除 - erase
-
-<ul>
-<li>①、 b.erase(b.begin()) ; //将起始位置的元素删除</li>
-<li>②、 b.erase(b.begin(), b.begin()+3) ; //将(b.begin(), b.begin()+3)之间的元素删除</li>
-</ul></li>
-<li> 交换 - swap<br/>
-b.swap(a) ; //a向量与b向量进行交换</li>
-</ul>
-
-<h4 id="toc_2">二维向量：</h4>
-
-<p>就像二维数组一样，vector也可以开成二维的，如10*5的二维数组，可以声明为：</p>
-
-<pre><code>vector&lt; vector&lt;int&gt; &gt; b(10, vector&lt;int&gt;(5, 0)) ;
-//全部输出
-16         int m, n ;
-17         for(m=0; m&lt;b.size(); m++)           //b.size()获取行向量的大小
-18         {
-19             for(n=0; n&lt;b[m].size(); n++)    //获取向量中具体每个向量的大小
-20                 cout&lt;&lt;b[m][n]&lt;&lt;&quot; &quot; ;
-21             cout&lt;&lt;&quot;\n&quot; ;
-22         }
+    if(data == root-&gt;data)
+        return root;
+    else if(data &lt; root-&gt;data)
+        return findnode(data,root-&gt;lc);//递归返回
+    else
+        return findnode(data,root-&gt;rc);
+}
 </code></pre>
 
-<h3 id="toc_3">（2）双端队列deque:</h3>
+<p>3.二叉排序树的建树（插入）：</p>
 
-<p>基本操作：</p>
+<p>创建二叉排序树和插入关键字相似，都是先查找，如果找不到就和查找的最后一个节点相比较，如果关键字大于结点值，则插到结点的右孩子的位置，如果关键字小于结点值，则插到结点的左孩子的位置。</p>
 
-<p>创建</p>
+<p>//在查找插入的过程中建树，注意这种用数组表示的方法<br/>
+//是满二叉树，所以BST数组中为0的元素代表了没有着一个结点</p>
 
-<p>（1）deque() </p>
-
-<p>创建一个没有任何元素的deque对象。此构造函数的更一般形式是“deque(const A&amp; a = A())”，A是一个内存分配器，可缺省。如deque<int> d;</p>
-
-<p>（2）deque(size_type n) </p>
-
-<p>创建一个具有n个元素的deque对象，每个元素采用它的类型下的默认值。deque<int> d(10); //默认值为0</p>
-
-<p>（3）deque(size_type n, const T&amp; value) </p>
-
-<p>创建一个具有n个元素的deque对象，这些元素的初始值为value。</p>
-
-<p>（4）deque(const deque&amp;) </p>
-
-<p>deque的拷贝构造函数，通过拷贝一个deque对象的元素值，创建一个新的deque对象。此时，新旧deque对象具有相同块数的deque块，各自内部的元素也对应相等。</p>
-
-<p>deque<char> d1(5,&#39;k&#39;）;</p>
-
-<p>deque<char> d2(d1);</p>
-
-<p>（5）deque(const InputIterator first, const InputIterator last, const A&amp; a=A()) </p>
-
-<p>将迭代器区间[first,last)所指的元素拷贝到一个新创建的deque对象中，其中内存分配器可缺省。 </p>
-
-<p>//利用int数组iArray，创建了一个deque对象d </p>
-
-<p>int iArray [] = {11, 13, 19, 23, 27};</p>
-
-<p>deque<int> d(iArray, iArray + 5);</p>
-
-<p>初始化</p>
-
-<p>利用deque提供的push_back()函数，可在尾部压入新元素value，常用作deque容器的初始化赋值。</p>
-
-<p>访问</p>
-
-<p>deque的元素同样可采用数组和迭代器方式进行访问，用“d[i]”取得deque对象d的第i个元素（0≤i＜d.size()），或用迭代器i的“<em>”操作“</em>i”取得i所指向的元素。</p>
-
-<p>（1）iterator begin()</p>
-
-<p>（2）iterator end() </p>
-
-<p>可反向遍历deque双端队列中元素迭代器： </p>
-
-<p>（1）reverse_iterator rbegin() </p>
-
-<p>（2）reverse_iterator rend()   </p>
-
-<p>插入</p>
-
-<p>1）deque 具有高效的头部插入元素的函数push_front()。 </p>
-
-<p>void push_front(const T&amp;)</p>
-
-<p>2）将在pos位置之前，插入新元素x。 </p>
-
-<p>iterator insert(iterator pos, const T&amp; x)</p>
-
-<p>删除</p>
-
-<p>（1）void pop_front() </p>
-
-<p>删除deque的第一个元素。 </p>
-
-<p>（2）void pop_back() </p>
-
-<p>删除deque的最后一个元素。 </p>
-
-<p>（3）iterator erase(iterator pos) </p>
-
-<p>删除pos所指向的元素。 </p>
-
-<p>（4）iterator erase(iterator first, iterator last)</p>
-
-<p>删除迭代器区间[first,last)所指向的所有元素。 </p>
-
-<p>（5）void clear() </p>
-
-<p>删除所有元素。</p>
-
-<p>交换</p>
-
-<p>void swap(deque&amp;)</p>
-
-<p>如d1.swap(d2);</p>
-
-<p>其它</p>
-
-<p>（1）bool empty() </p>
-
-<p>判断deque容器是否已有元素，是则返回true，否则返回false。 </p>
-
-<p>（2）size_type size() </p>
-
-<p>当前deque容器的元素个数。 </p>
-
-<p>（3）size_type max_size() </p>
-
-<p>系统所支持的deque容器的最大元素个数。</p>
-
-<p>（4）reference front() </p>
-
-<p>deque容器的首元素（引用返回），要求deque不为空。 </p>
-
-<p>（5）reference back() </p>
-
-<p>deque容器的末元素（引用返回），要求deque不为空。</p>
-
-<h3 id="toc_4">（3）表list</h3>
-
-<p>和字符串不同的是，列表可以包含任何种类的对象：数字、字符串、自定义对象甚至其他列表，列表是可变对象，支持在原处修改，可以通过指定的偏移值和分片、列表方法调用、删除语句等方法实现。</p>
-
-<p>列表的常用方法：</p>
-
-<p>1.append(x)      ：把一个元素添加到列表的结尾。</p>
-
-<pre><code>&gt;&gt;&gt; list=[1,2,3,4,5,6]
-&gt;&gt;&gt; print list
-[1, 2, 3, 4, 5, 6]
-&gt;&gt;&gt; list.append(7)  //7添加到列表尾部
-&gt;&gt;&gt; print list
-[1, 2, 3, 4, 5, 6, 7]
-&gt;&gt;&gt;
+<pre><code>int BST[10000];
+void Insert_BST(int key,int i)
+{
+    if(BST[i] == 0)
+    {
+        BST[i] = key;
+        return ;
+    }
+    if(BST[i] &gt; key)
+        Insert_BST(key,i*2);
+    else
+        Insert_BST(key,i*2+1);
+}
 </code></pre>
 
-<p>2.extend(L)        ：通过添加指定列表的所有元素来扩充列表</p>
+<p>用链表来实现插入：</p>
 
-<pre><code>&gt;&gt;&gt; list
-[1, 2, 3, 4, 5, 6, 7, 8, 10, 11, 12]
-&gt;&gt;&gt; L=[100,200,300,400]
-&gt;&gt;&gt; list.extend(L)
-&gt;&gt;&gt; print list
-[1, 2, 3, 4, 5, 6, 7, 8, 10, 11, 12, 100, 200, 300, 400]
+<pre><code>void inst(node *rt,node *root)
+{
+    if(rt-&gt;data &lt; root-&gt;data)
+    {
+        if(root-&gt;lc == NULL)
+        {
+            root-&gt;lc = rt;
+            return ;
+        }
+        inst(rt,root-&gt;lc);
+    }
+    else
+    {
+        if(root-&gt;rc == NULL)
+        {
+            root-&gt;rc = rt;
+            return ;
+        }
+        inst(rt,root-&gt;rc);//这个地方应该是RC，hypo写错了
+    }
+}
 </code></pre>
 
-<p>3.insert(i,x)        ：在指定位置插入一个元素。第一个参数是准备插入到其前面的那个元素的索引。</p>
+<p>还有一个操作，是借助插入来完成的，就是最初二叉排序表的建立：</p>
 
-<pre><code>&gt;&gt;&gt; print list
-[1, 2, 3, 4, 5, 6, 7, 8, 10, 11, 12, 100, 200, 300, 400]
-&gt;&gt;&gt; list.insert(2,1000)
-&gt;&gt;&gt; print list
-[1, 2, 1000, 3, 4, 5, 6, 7, 8, 10, 11, 12, 100, 200, 300, 400]
-&gt;&gt;&gt;
+<pre><code>node *build()
+{
+    node *root = NULL;
+    int i = 0;
+    while(i &lt; 7)
+    {
+        node *rt = new node;
+        rt-&gt;data = num[i];
+        rt-&gt;lc = NULL;
+        rt-&gt;rc = NULL;
+        if(root == NULL)
+            root = rt;
+        else
+            inst(rt,root);
+        i++;
+    }
+    return root;
+}
 </code></pre>
 
-<p>4.remove(x)        ：删除链表中值为x的第一个元素。如果没有这样的元素，就会返回一个错误。</p>
+<p>4.二叉排序树的删除</p>
 
-<pre><code>&gt;&gt;&gt;&gt; print list
-[1, 2, 1000, 3, 4, 5, 6, 7, 8, 10, 11, 12, 100, 200, 300, 400]
-&gt;&gt;&gt; list.remove(1000)
-&gt;&gt;&gt; list
-[1, 2, 3, 4, 5, 6, 7, 8, 10, 11, 12, 100, 200, 300, 400]
-</code></pre>
+<p>首先需要明白，二叉排序树是有顺序的，如果随意删除一个结点，有可能会导致二叉排序树的顺序被破坏。如果要删除一个结点，则根据这个结点所在的位置进行讨论。</p>
 
-<p>5.pop(i)               ：从链表的指定位置删除元素，并将其返回。如果没有指定索引，a.pop()返回最后一个元素。元素随即从链表中被删除。</p>
+<p>如果要删除的结点是叶子结点，不用顾及，尽管删除哈！！</p>
 
-<pre><code>&gt;&gt;&gt;&gt; list
-[1, 2, 3, 4, 5, 6, 7, 8, 10, 11, 12, 100, 200, 300, 400]
-&gt;&gt;&gt; list.pop(3)
-4
-&gt;&gt;&gt; list
-[1, 2, 3, 5, 6, 7, 8, 10, 11, 12, 100, 200, 300, 400]
-</code></pre>
+<p>如果要删除的结点只有一个孩子结点，左孩子也好，右孩子也好，总之把该结点删了，孩子代替父母位置就好了。</p>
 
-<p>6.index(x)          ：返回链表中第一个值为x的元素的索引。</p>
+<p>如果要删除的结点很强大，既有左孩子，又有右孩子（好强大的结点呀）。在这种情况下，就要进行中序遍历，找到要删除结点的前驱，可以进行两种操作，一种：如果要删除的节点在父节点的左子树，令删除结点的左子树为父结点的左子树，删除结点的右子树为前驱结点的右子树；如果要删除的结点在父节点的右子树上，则把删除结点的右子树放在删除节点的位置，删除结点的左子树为右子树最左边的结点的左子树。第二种是将前驱结点拿到要删除结点的位置，并且删除前驱结点。相比之下，个人认为还是第二种方法好用，(<em><sup>__^</sup></em>) 嘻嘻。</p>
 
-<pre><code>&gt;&gt;&gt;&gt; list
-[1, 2, 3, 5, 6, 7, 8, 10, 11, 12, 100, 200, 300]
-&gt;&gt;&gt; list.index(6)
-4
-</code></pre>
+<pre><code>node * delnode(node *root)//接收的结点是要删除结点的父结点
+{
+    node *rnt;
+    if(root-&gt;lc-&gt;data == data)
+        //判断删除的是父结点的左孩子还是右孩子还是根节点
+        rnt = root-&gt;lc;
+    else if(root-&gt;rc-&gt;data == data)
+        rnt = root-&gt;rc;
+    else
+        rnt = root;//rnt是当前要删除的结点
+        node *rt;
+    //采用的删除方法是第二种：
+    //找到前驱结点，拿到要删除的位置，再将前驱结点删除
+    if (rnt-&gt;lc)
+    {
+        rt = rnt-&gt;lc;
+        node *qian = rt;
+        while(rt-&gt;rc != NULL)
+        {
+            qian = rt;
+            rt = rt-&gt;rc;
+        }
+        if(rt-&gt;lc)
+        {
+            qian-&gt;rc = rt-&gt;lc;
+        }
+        rt-&gt;rc = rnt-&gt;rc;
+        rt-&gt;lc = rnt-&gt;lc;
+    }
+    else
+    {
+        rt = rnt-&gt;rc;
+    }
+    if(root-&gt;lc-&gt;data == data)
+        root-&gt;lc = rt;
+    else if(root-&gt;rc-&gt;data == data)
+        root-&gt;rc = rt;
+    delete(rnt);
+    return root;
+}
 
-<p>7.count(x)         ：返回x在链表中出现的次数。</p>
-
-<pre><code>&gt;&gt;&gt;&gt; list
-[1, 2, 3, 3, 3, 5, 6, 7, 8, 10, 11, 12, 100, 200, 300]
-&gt;&gt;&gt; list.count(3)
-3
-</code></pre>
-
-<p>8.sort()            ：对链表中的元素进行适当的排序。</p>
-
-<p>9.reverse()       ：倒排链表中的元素。</p>
-
-<p>把列表当作堆栈使用</p>
-
-<p>链表方法使得链表可以很方便的做为一个堆栈来使用，堆栈作为特定的数据结构，最先进入的元素最后一个被释放（后进先出）。用append() 方法可以把一个元素添加到堆栈顶。用不指定索引的pop() 方法可以把一个元素从堆栈顶释放出来。</p>
-
-<p>把列表当作队列使用</p>
-
-<p>也可以把链表当做队列使用，队列作为特定的数据结构，最先进入的元素最先释放（先进先出）。使用append()方法可以把元素添加到队列最后，以0为参数调用pop() 方法可以把最先进入的元素释放出来。</p>
-
-<p>列表删除元素：用del，还可以成段删除。</p>
-
-<pre><code>&gt;&gt;&gt; list
-[1, 2, 3, 3, 3, 5, 6, 7, 8, 10, 11, 12, 100, 200, 300]
-&gt;&gt;&gt; del list[2:4]
-&gt;&gt;&gt; list
-[1, 2, 3, 5, 6, 7, 8, 10, 11, 12, 100, 200, 300]
-&gt;&gt;&gt; del list[0]
-&gt;&gt;&gt; list
-[2, 3, 5, 6, 7, 8, 10, 11, 12, 100, 200, 300]
-&gt;&gt;&gt; del list[5:]
-&gt;&gt;&gt; list
-[2, 3, 5, 6, 7]
-&gt;&gt;&gt; del list[0:]
-&gt;&gt;&gt; list
-[]
-&gt;&gt;&gt; list.append(1)
-&gt;&gt;&gt; list.append(2)
-&gt;&gt;&gt; list.append(3)
-&gt;&gt;&gt; list
-[1, 2, 3]
-&gt;&gt;&gt;
+node *finddlenode(int data,node *root)
+{
+    if(root)
+    {
+        if((root-&gt;lc &amp;&amp; root-&gt;lc-&gt;data == data) || (root-&gt;rc &amp;&amp; root-&gt;rc-&gt;data == data) || root-&gt;data == data)
+            root = delnode(root);//找到删除结点的父结点
+        else//查找要删除结点的父结点
+        {
+            if(data &lt; root-&gt;data)
+                root-&gt;lc = finddlenode(data,root-&gt;lc);
+            else
+                root-&gt;rc = finddlenode(data,root-&gt;rc);
+        }
+    }
+    return root;
+}
 </code></pre>
 
                         
@@ -526,10 +742,53 @@ b.swap(a) ; //a向量与b向量进行交换</li>
                 <div class="read-more clearfix">
                   <div class="more-left left">
                   
-                    <span class="date">2014/10/19</span>
+                    <span class="date">2014/12/25</span>
                     <span>posted in&nbsp;</span> 
           				  
           					    <span class="posted-in"><a href='%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84&%E7%AE%97%E6%B3%95.html'>数据结构&算法</a></span>
+          				   
+                  </div>
+                  <div class="more-right right">
+                  <span class="comments">
+                      
+
+                       
+                  </span>
+                  </div>
+                </div>
+              </div><!-- article -->
+        
+			<div class="article">
+                <a class="clearlink" href="14838683777518.html">
+                
+                  <h1>回忆过去，展望未来</h1>
+                  <div class="a-content">
+                      
+                      <div class="a-content-text">
+                        
+                        	<p>时间走得真快，不知不觉，我进入集训队已经满满一周年了。前几天参加13，14级的选拔赛，感觉又回到了过去，我还是那个样子，即便已经学习了一年的算法，可是做起题来还和当初参加选拔赛时一个样，没有自信，总是觉得自己做不出来，开了很多题目，不知道要做那一道好。。。。。。</p>
+
+<p>去年寒假，大家一起参加集训，每天早上7点起床，上午学长讲讲知识点，自己就开始自学根本听不懂学长在讲些什么的东西，然后做相应的练习题目，晚上10点左右回到宿舍，有时候做做CF，有时候看看书，12点左右准时睡觉。那个时候，感觉真的很忙，但是却很充实，我有着明确的目标，因为我什么都不懂，但是我学的劲头很足。寒假结束了，接下来就是自己系统的安排时间，边学学校开的课程，边复习寒假学的算法。那个时候，我有一个小小的目标，那就是争取到参加省赛的机会，每天都努力呀努力。最后打星参加省赛，我们队还做了5道题目，当时小小的心瞬间就得到了满足，拿着我们的气球，抱着我们的队牌，好兴奋呀。</p>
+
+<p>转折点发生在暑假集训，我们学习的算法由基础转到了高级，我慢慢地就学不动了，和前边人的差距越来越大。每天就几道题目还做不完，我逐渐对自己失去了信心，曾经的我，是那么的阳光，认为不管如何困难，我总是能够学会。是什么，让我开始怀疑自己，而这种怀疑，潜移默化的付诸行动？是心，是我那颗不再坚定，不再踏实的心。大约从暑假开始，我的心变得浮躁，效率开始下降，再加上一点点的自卑，就这么一点一点地落了下来，知道网络赛结束，身边的同学都去打现场赛，我才意识到，我到底错过了什么。我对自己说：“我错过了网络赛，不能再错过省赛”。</p>
+
+<p>11月份，我给自己定了一个月的计划，将暑假里学的东西大体地过了一遍，有些东西还是不能更加深入下去，只会一点皮毛，如果说灵活的运用还是做不到。12月，当我准备过第二遍的时候，海波给了我一套计划，是UVA上的小白书的计划，他要按照小白书的顺序，把各种知识点再过一遍，时间为2个月，23场比赛。于是，我们几个人就开启了小白书之旅，为此，我们专门建立了属于自己的讨论群组，边刷题边讨论，有时感觉题目太恶心了，还会在群里一通吐槽。我感觉，我又回到了之前的状态，我感觉，有目标的感觉真好。能够开开心心的刷题，慢慢的，静下心来推导的感觉真好。</p>
+
+<p>经过一年的历练与变故，我走到了今天。如今的我，不再是大一时什么都不懂的孩子，我要有自己的目标。呆在实验室，认认真真的搞算法。就利用两个月的时间，结束23场比赛，期间不断的总结，不断的充实自己，对于不好的地方作出改进。这些工作做完之后，我还有POJ上的题目没有做完，回去把该做的题目补上。而这些题目，就有一些是暑假里学的高级算法，边学习边刷题，慢慢领悟。虽然我很笨，但只要我能够静下心来，一点一点地啃，在注意提高效率，我总能够学会的。</p>
+
+<p>回忆过去，展望未来。曾经，我迷失过自己，就将那些失败当做警钟，提醒自己，该做些什么。未来，加油！！</p>
+
+                        
+                      </div>
+                  </div>
+                </a>
+                <div class="read-more clearfix">
+                  <div class="more-left left">
+                  
+                    <span class="date">2014/12/16</span>
+                    <span>posted in&nbsp;</span> 
+          				  
+          					    <span class="posted-in"><a href='%E9%9A%8F%E6%83%B3.html'>随想</a></span>
           				   
                   </div>
                   <div class="more-right right">
@@ -553,7 +812,7 @@ b.swap(a) ; //a向量与b向量进行交换</li>
 			  </div>
 			  <div class="large-6 columns">
 			<p class="text-right" style="padding-top:25px;">
-			
+			 <a href="all_16.html">&raquo; Next Page</a> 
 			</p>
 			  </div>
 			</div>
@@ -565,7 +824,7 @@ b.swap(a) ; //a向量与b向量进行交换</li>
     <div id="sidebar" class="sidebar">
           <div id="site-info" class="site-info">
             
-                <h1>挂在树上的兔子</h1>
+                <h1>零度燕窝</h1>
                 <div class="site-des"></div>
                 <div class="social">
 
@@ -604,6 +863,10 @@ b.swap(a) ; //a向量与b向量进行交换</li>
         
             <a href="Fluent%20Python.html"><strong>Fluent Python</strong></a>
         
+            <a href="%E8%AF%BB%E4%B9%A6%E9%9A%8F%E7%AC%94.html"><strong>读书随笔</strong></a>
+        
+            <a href="%E6%9B%BE%E7%BB%8F%E6%9D%A5%E8%BF%87.html"><strong>曾经来过</strong></a>
+        
             <a href="PHP.html"><strong>PHP</strong></a>
         
             <a href="Ubuntu.html"><strong>Ubuntu</strong></a>
@@ -623,31 +886,31 @@ b.swap(a) ; //a向量与b向量进行交换</li>
 	      
 		      
 			      <li class="post">
-			        <a href="15033291458720.html">使用一等函数实现设计模式</a>
+			        <a href="15406290433586.html">扎心！有人偷走了我的磁盘空间？！</a>
 			      </li>
 		     
 		  
 		      
 			      <li class="post">
-			        <a href="15018651943030.html">一等函数</a>
+			        <a href="15377924479103.html">记一次攒机经历</a>
 			      </li>
 		     
 		  
 		      
 			      <li class="post">
-			        <a href="15018646605864.html">文本和字节序列</a>
+			        <a href="15376924661136.html">SQL查询语句之坑</a>
 			      </li>
 		     
 		  
 		      
 			      <li class="post">
-			        <a href="15013419653919.html">集合的使用</a>
+			        <a href="15056428224967.html">![](http://cdn.blog.yanzl.net/2017-10-27-carthusian-2822971.jpg)</a>
 			      </li>
 		     
 		  
 		      
 			      <li class="post">
-			        <a href="15010832436363.html">字典的使用</a>
+			        <a href="15048580065601.html">Python內建类型对象的那些事</a>
 			      </li>
 		     
 		  

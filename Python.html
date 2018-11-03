@@ -5,12 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>
     
-  Python - 挂在树上的兔子
+  Python - 零度燕窝
   
   </title>
   
   
-  <link href="atom.xml" rel="alternate" title="挂在树上的兔子" type="application/atom+xml">
+  <link href="atom.xml" rel="alternate" title="零度燕窝" type="application/atom+xml">
     <link rel="stylesheet" href="asset/css/foundation.min.css" />
     <link rel="stylesheet" href="asset/css/docs.css" />
     <script src="asset/js/vendor/modernizr.js"></script>
@@ -62,7 +62,7 @@
 
         <nav class="tab-bar show-for-small">
   <a href="javascript:void(0)" class="left-off-canvas-toggle menu-icon">
-    <span> &nbsp; 挂在树上的兔子</span>
+    <span> &nbsp; 零度燕窝</span>
   </a>
 </nav>
 
@@ -85,6 +85,10 @@
             <li><a href="%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84&%E7%AE%97%E6%B3%95.html">数据结构&算法</a></li>
         
             <li><a href="Fluent%20Python.html">Fluent Python</a></li>
+        
+            <li><a href="%E8%AF%BB%E4%B9%A6%E9%9A%8F%E7%AC%94.html">读书随笔</a></li>
+        
+            <li><a href="%E6%9B%BE%E7%BB%8F%E6%9D%A5%E8%BF%87.html">曾经来过</a></li>
         
             <li><a href="PHP.html">PHP</a></li>
         
@@ -110,6 +114,41 @@
 	<div class="large-8 medium-8 columns">
 		<div class="markdown-body home-categories">
 		
+			<div class="article">
+                <a class="clearlink" href="15048580065601.html">
+                
+                  <h1>Python內建类型对象的那些事</h1>
+                  <div class="a-content">
+                      
+                      <div class="a-content-text">
+                        
+                        	<h2 id="toc_0">Python所有对象的基础</h2>
+
+<p>在Python中，一切皆对象，这些对象都有一个共同的基础，即<code>PyObject</code>，我们来看一下</p>
+
+                        
+                      </div>
+                  </div>
+                </a>
+                <div class="read-more clearfix">
+                  <div class="more-left left">
+                  
+                    <span class="date">2017/9/8</span>
+                    <span>posted in&nbsp;</span> 
+          				  
+          					    <span class="posted-in"><a href='Python.html'>Python</a></span>
+          				   
+                  </div>
+                  <div class="more-right right">
+                  <span class="comments">
+                      
+
+                       
+                  </span>
+                  </div>
+                </div>
+              </div><!-- article -->
+        
 			<div class="article">
                 <a class="clearlink" href="14745361920074.html">
                 
@@ -961,82 +1000,6 @@ encode()方法可以将Unicode编码转换成指定的编码格式，这里是�
                 </div>
               </div><!-- article -->
         
-			<div class="article">
-                <a class="clearlink" href="14702800236946.html">
-                
-                  <h1>jQuery中的ajax实现异步请求</h1>
-                  <div class="a-content">
-                      
-                      <div class="a-content-text">
-                        
-                        	<h2 id="toc_0">使用背景</h2>
-
-<p>在页面显示中，我们希望点击一个按钮获取到相应数据后，在当前页面显示数据而不是跳转到新的页面去显示数据。或者在做一个操作后（比如删除，修改等操作），当前页面不会重新加载，但是会将操作传递到后台进行操作，这个时候我们就会用到异步请求。使用jQuery集成的ajax进行异步操作还是蛮方便的。</p>
-
-<h2 id="toc_1">常用参数</h2>
-
-<p><strong>注 ajax的请求参数都是以键值对的方式存在的</strong></p>
-
-<ul>
-<li>url：发送请求的路径</li>
-<li>type：请求的类型，get，post（jQuery有对这两种请求类型的封装：\(.get()，\).post()），delete，put，head，trach，请求类型是可以自定义的，但有的浏览器是不支持的</li>
-<li>dataType：告诉服务器要返回的数据类型，一般类型为：xml, html, json(必须是正确的格式，否则会抛出解析错误异常), script(响应结果当做javascript执行，在跨域请求时，请求方式强制为GET)，text，jsonp</li>
-<li>async：默认会为True，即发送异步请求，如果发送同步请求，将此项改为False（不过此方法在jQuery1.8之后好像过时了）</li>
-<li>cache：默认会为True，即浏览器缓存此页面，如果是False（dataType为script和jsonp会默认False）</li>
-<li>contentType：发送信息至服务器时内容编码类型，默认值是“application/x-www-form-urlencoded; charset=UTF-8”，有时要在服务器端进行适当的解码</li>
-<li>crossDomain：同域请求为False，跨域请求为True，默认为False</li>
-<li>data：发送到服务器的数据，会自动转化为请求字符串格式，键值对形式存在</li>
-<li>beforeSend：请求发送前的回调函数，一般会用来设置自定义和http请求头信息，在该函数中返回false会取消这个请求</li>
-<li>success：请求成功后会回调该函数</li>
-<li>error：请求失败后会回调该函数</li>
-<li>headers：设置请求头的信息，如果在beforeSend中也设置了相应头信息，则headers中会被覆盖</li>
-<li>password：用于响应http访问认证请求的密码</li>
-<li>username：用于响应http访问认证请求的用户名。</li>
-</ul>
-
-<h2 id="toc_2">使用示例</h2>
-
-<pre><code class="language-javascript">&lt;script language=&quot;javascript&quot; type=&quot;text/javascript&quot;&gt;
-        function get_comment(button) {
-            var id = button.getAttribute(&quot;id&quot;);
-            $.ajax({
-                type: &quot;GET&quot;,
-                url: &quot;/api/user/detail&quot;,
-                data: {
-                    &#39;id&#39;: id
-                },
-                dataType: &#39;json&#39;,
-                success: function (result) {
-                    console.log(&quot;请求成功，获取数据&quot;)
-                }
-            });
-        }
-    &lt;/script&gt;
-</code></pre>
-
-                        
-                      </div>
-                  </div>
-                </a>
-                <div class="read-more clearfix">
-                  <div class="more-left left">
-                  
-                    <span class="date">2016/8/4</span>
-                    <span>posted in&nbsp;</span> 
-          				  
-          					    <span class="posted-in"><a href='Python.html'>Python</a></span>
-          				   
-                  </div>
-                  <div class="more-right right">
-                  <span class="comments">
-                      
-
-                       
-                  </span>
-                  </div>
-                </div>
-              </div><!-- article -->
-        
               
 
 
@@ -1060,7 +1023,7 @@ encode()方法可以将Unicode编码转换成指定的编码格式，这里是�
     <div id="sidebar" class="sidebar">
           <div id="site-info" class="site-info">
             
-                <h1>挂在树上的兔子</h1>
+                <h1>零度燕窝</h1>
                 <div class="site-des"></div>
                 <div class="social">
 
@@ -1099,6 +1062,10 @@ encode()方法可以将Unicode编码转换成指定的编码格式，这里是�
         
             <a href="Fluent%20Python.html"><strong>Fluent Python</strong></a>
         
+            <a href="%E8%AF%BB%E4%B9%A6%E9%9A%8F%E7%AC%94.html"><strong>读书随笔</strong></a>
+        
+            <a href="%E6%9B%BE%E7%BB%8F%E6%9D%A5%E8%BF%87.html"><strong>曾经来过</strong></a>
+        
             <a href="PHP.html"><strong>PHP</strong></a>
         
             <a href="Ubuntu.html"><strong>Ubuntu</strong></a>
@@ -1118,31 +1085,31 @@ encode()方法可以将Unicode编码转换成指定的编码格式，这里是�
 	      
 		      
 			      <li class="post">
-			        <a href="15033291458720.html">使用一等函数实现设计模式</a>
+			        <a href="15406290433586.html">扎心！有人偷走了我的磁盘空间？！</a>
 			      </li>
 		     
 		  
 		      
 			      <li class="post">
-			        <a href="15018651943030.html">一等函数</a>
+			        <a href="15377924479103.html">记一次攒机经历</a>
 			      </li>
 		     
 		  
 		      
 			      <li class="post">
-			        <a href="15018646605864.html">文本和字节序列</a>
+			        <a href="15376924661136.html">SQL查询语句之坑</a>
 			      </li>
 		     
 		  
 		      
 			      <li class="post">
-			        <a href="15013419653919.html">集合的使用</a>
+			        <a href="15056428224967.html">![](http://cdn.blog.yanzl.net/2017-10-27-carthusian-2822971.jpg)</a>
 			      </li>
 		     
 		  
 		      
 			      <li class="post">
-			        <a href="15010832436363.html">字典的使用</a>
+			        <a href="15048580065601.html">Python內建类型对象的那些事</a>
 			      </li>
 		     
 		  

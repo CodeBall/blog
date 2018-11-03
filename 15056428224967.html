@@ -1,0 +1,668 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+    
+  ![](http://cdn.blog.yanzl.net/2017-10-27-carthusian-2822971.jpg) - 零度燕窝
+  
+  </title>
+  
+  
+  <link href="atom.xml" rel="alternate" title="零度燕窝" type="application/atom+xml">
+    <link rel="stylesheet" href="asset/css/foundation.min.css" />
+    <link rel="stylesheet" href="asset/css/docs.css" />
+    <script src="asset/js/vendor/modernizr.js"></script>
+    <script src="asset/js/vendor/jquery.js"></script>
+  <script src="asset/highlightjs/highlight.pack.js"></script>
+  <link href="asset/highlightjs/styles/github.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script>hljs.initHighlightingOnLoad();</script>
+<script type="text/javascript">
+  function before_search(){
+    var searchVal = 'site:blog.yanzl.net ' + document.getElementById('search_input').value;
+    document.getElementById('search_q').value = searchVal;
+    return true;
+  }
+</script>
+  </head>
+  <body class="antialiased hide-extras">
+    
+    <div class="marketing off-canvas-wrap" data-offcanvas>
+      <div class="inner-wrap">
+
+
+<nav class="top-bar docs-bar hide-for-small" data-topbar>
+
+
+  <section class="top-bar-section">
+  <div class="row">
+      <div style="position: relative;width:100%;"><div style="position: absolute; width:100%;">
+        <ul id="main-menu" class="left">
+        
+        <li id=""><a target="self" href="index.html">Home</a></li>
+        
+        <li id=""><a target="_self" href="archives.html">Archives</a></li>
+        
+        </ul>
+
+        <ul class="right" id="search-wrap">
+          <li>
+<form target="_blank" onsubmit="return before_search();" action="http://google.com/search" method="get">
+    <input type="hidden" id="search_q" name="q" value="" />
+    <input tabindex="1" type="search" id="search_input"  placeholder="Search"/>
+</form>
+</li>
+          </ul>
+      </div></div>
+  </div>
+  </section>
+
+</nav>
+
+        <nav class="tab-bar show-for-small">
+  <a href="javascript:void(0)" class="left-off-canvas-toggle menu-icon">
+    <span> &nbsp; 零度燕窝</span>
+  </a>
+</nav>
+
+<aside class="left-off-canvas-menu">
+      <ul class="off-canvas-list">
+       
+       <li><a href="index.html">HOME</a></li>
+    <li><a href="archives.html">Archives</a></li>
+    <li><a href="about.html">ABOUT</a></li>
+
+    <li><label>Categories</label></li>
+
+        
+            <li><a href="%E6%95%B0%E6%8D%AE%E5%BA%93.html">数据库</a></li>
+        
+            <li><a href="Python.html">Python</a></li>
+        
+            <li><a href="%E9%9A%8F%E6%83%B3.html">随想</a></li>
+        
+            <li><a href="%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84&%E7%AE%97%E6%B3%95.html">数据结构&算法</a></li>
+        
+            <li><a href="Fluent%20Python.html">Fluent Python</a></li>
+        
+            <li><a href="%E8%AF%BB%E4%B9%A6%E9%9A%8F%E7%AC%94.html">读书随笔</a></li>
+        
+            <li><a href="%E6%9B%BE%E7%BB%8F%E6%9D%A5%E8%BF%87.html">曾经来过</a></li>
+        
+            <li><a href="PHP.html">PHP</a></li>
+        
+            <li><a href="Ubuntu.html">Ubuntu</a></li>
+         
+
+      </ul>
+    </aside>
+
+<a class="exit-off-canvas" href="#"></a>
+
+
+        <section id="main-content" role="main" class="scroll-container">
+        
+       
+
+ <script type="text/javascript">
+  $(function(){
+    $('#menu_item_index').addClass('is_active');
+  });
+</script>
+<div class="row">
+  <div class="large-8 medium-8 columns">
+      <div class="markdown-body article-wrap">
+       <div class="article">
+          
+          <h1>![](http://cdn.blog.yanzl.net/2017-10-27-carthusian-2822971.jpg)</h1>
+     
+        <div class="read-more clearfix">
+          <span class="date">2017/9/17</span>
+
+          <span>posted in&nbsp;</span> 
+          
+              <span class="posted-in"><a href='Fluent%20Python.html'>Fluent Python</a></span>
+           
+         
+          <span class="comments">
+            
+
+            
+          </span>
+
+        </div>
+      </div><!-- article -->
+
+      <div class="article-content">
+      <h1 id="toc_0">摘要</h1>
+
+<p>运算符的重载可以让用户自定义的对象使用运算符完成特定的操作。如果不能够正确的重载运算符，有可能会导致一些缺陷甚至意料之外的性能瓶颈。本文将借助两个示例，从一元运算符和中缀运算符着手，开启重载运算符的大门。</p>
+
+<h2 id="toc_1">python中对运算符重载的限制</h2>
+
+<p>为了更好的平衡灵活性、可用性和安全性，python对运算符的重载施加了一些限制：</p>
+
+<ul>
+<li>不能重载内置类型的运算符</li>
+<li>只能重载现有运算符，不能新建运算符</li>
+<li>某些运算符不能重载——（ <code>is, and, or, not</code> ）</li>
+</ul>
+
+<h2 id="toc_2">重载向量加法运算符</h2>
+
+<p>下面，我们先来看一个基础的示例，在此示例的基础上，我们将实现向量加法运算符的重载。</p>
+
+<pre><code class="language-python">class Vector:
+    typecode = &#39;d&#39;
+
+    def __init__(self, components):
+       self._components = array(self.typecode, components)
+
+    def __iter__(self):
+        return iter(self._components)
+
+    def __repr__(self):
+        components = reprlib.repr(self._components)
+        components = components[components.find(&#39;[&#39;):-1]
+        return &#39;Vector({})&#39;.format(components)
+    
+    def __len__(self):
+        return len(self._components)
+
+    def __eq__(self, other):
+        return (len(self) == len(other) and 
+                all(a == b for a, b in zip(self, other))) 
+</code></pre>
+
+<p>通过上面这个示例，我们可以创建多维向量的实例，可以查看向量的值，但是如果想计算向量的加法，上面的示例是无法满足的，所以需要按照向量的加法运算法则，重载加法运算符<code>+</code>。<br/>
+根据向量的加法运算法则，我们只需要将向量的每个维度分别相加，返回一个新的向量就可以了；但是有一点要考虑到，进行加法运算的两个向量维度不一定相同，可以根据实际情况采取不同的措施，在本示例中，采取了用零填充较短向量的方法（当然，也可以直接报错）。具体的实现如下所示：</p>
+
+<pre><code class="language-Python">def __add__(self, other):
+    # pairs是一个生成器，它会生成 （a, b）形式的元组
+    pairs = itertools.zip_longest(self, other, fillvalue=0.0)
+    # 重载一元运算符和中缀运算符一定不能修改操作数，因为使用这些运算符的表达式会期待结果是一个新对象
+    return Vector(a + b for a, b in pairs)
+</code></pre>
+
+<p>由此，我们不仅实现了两个不同维度的向量加法运算，而且还可以计算一个向量和一个可迭代对象的加法运算。测试示例及结果如下所示：</p>
+
+<pre><code class="language-Python"># 测试示例
+t1 = (1, 2, 3)
+v1 = Vector([3, 4, 5])
+v2 = Vector([6, 7, 8])
+v3 = Vector([1, 2, 3, 4, 5])
+print(v1 + v2)
+print(v1 + v3)
+print(v1 + t1)
+print(t1 + v1)
+
+# 运算结果
+Vector([9.0, 11.0, 13.0])
+Vector([4.0, 6.0, 8.0, 4.0, 5.0])
+Vector([4.0, 6.0, 8.0])
+Traceback (most recent call last):
+  File &quot;8_overload_operator.py&quot;, line 42, in &lt;module&gt;
+    print(t1 + v1)
+TypeError: can only concatenate tuple (not &quot;Vector&quot;) to tuple
+</code></pre>
+
+<p>在此测试示例中，我们看到 <code>v1 + t1</code> 可以正确执行，而 <code>t1 + v1</code> 却会报错， 这是因为在执行加法运算的时候，前面的操作数会作为 <code>self</code> ，后面的操作数作为 <code>other</code> 传入 <code>__add__</code> 方法中。<br/>
+再讲解决方法之前，我们需要了解为了支持涉及不同类型的运算，python为中缀运算符特殊方法提供的特殊的分派机制，对表达式 <code>a + b</code> 来说，python解释器执行操作的流程图如下所示：</p>
+
+<p><img src="http://cdn.blog.yanzl.net/2017-09-17-a-b%E8%BF%90%E7%AE%97%E6%B5%81%E7%A8%8B%E5%9B%BE.png" alt=""/></p>
+
+<p>由运算流程可知，如果想解决上面的问题，我们可以实现 <code>__radd__</code> 方法，这是 <code>__add__</code> 方法的反向特殊方法，在我们这个类中承担的作用就是交换操作数的顺序，调用适当的运算符进行运算。如下所示：</p>
+
+<pre><code class="language-python">def __radd__(self, other):
+    return self + other
+        
+# 再运行一遍上面的测试示例，可以看到程序会输出我们想要的结果
+Vector([9.0, 11.0, 13.0])
+Vector([4.0, 6.0, 8.0, 4.0, 5.0])
+Vector([4.0, 6.0, 8.0])
+Vector([4.0, 6.0, 8.0])
+</code></pre>
+
+<p>上面曾经提到，在实现了 <code>__add__</code> 方法之后，可以计算一个向量和一个可迭代对象的和，也就是说如果提供的对象不可迭代，<code>__add__</code> 方法就无法处理；另外，如果这个可迭代对象中的元素本身就不能和浮点数做加法运算，<code>__add__</code> 方法同样无法处理。如下所示：</p>
+
+<pre><code class="language-python"># 测试向量和不可迭代对象相加
+print(v1 + 1)
+
+Traceback (most recent call last):
+  File &quot;8_overload_operator.py&quot;, line 48, in &lt;module&gt;
+    print(v1 + 1)
+  File &quot;8_overload_operator.py&quot;, line 32, in __add__
+    pairs = itertools.zip_longest(self, other, fillvalue=0.0)
+TypeError: zip_longest argument #2 must support iteration
+
+# 测试向量和元素无法进行加法运算的可迭代对象相加
+print(v1 + &#39;ABC&#39;)
+
+Traceback (most recent call last):
+  File &quot;8_overload_operator.py&quot;, line 50, in &lt;module&gt;
+    print(v1 + &#39;ABC&#39;)
+  File &quot;8_overload_operator.py&quot;, line 33, in __add__
+    return Vector(a + b for a, b in pairs)
+  File &quot;8_overload_operator.py&quot;, line 12, in __init__
+    self._components = array(self.typecode, components)
+  File &quot;8_overload_operator.py&quot;, line 33, in &lt;genexpr&gt;
+    return Vector(a + b for a, b in pairs)
+TypeError: unsupported operand type(s) for +: &#39;float&#39; and &#39;str&#39;
+</code></pre>
+
+<p>上面两个示例其实是因为类型不兼容导致运算符特殊方法无法返回有效的结果，因此程序抛出了异常，同时也终止了运算符分派机制。为了能够继续运行运算符分派机制，让解释器能够尝试调用反向运算符方法，多给该运算操作一次机会，我们可以捕获这个异常，返回 <code>NotImplement</code> 。如下所示：</p>
+
+<pre><code class="language-python">def __add__(self, other):
+    try:
+        pairs = itertools.zip_longest(self, other, fillvalue=0.0)
+        return Vector(a + b for a, b in pairs)
+    except TypeError:
+        return NotImplemented
+</code></pre>
+
+<p>重载加法运算符可以作为重载中缀运算符的一个模板，其他的中缀运算符，像 <code>-, *, /, //, %</code> 等，都可以通过实现正向特殊方法和反向特殊方法来实现运算符的重载。</p>
+
+<h2 id="toc_3">重载比较运算符</h2>
+
+<p>python解释器对众多比较运算符（ <code>==, !=, &gt;, &lt;, &gt;=, &lt;=</code> ）的处理与前面讲到的中缀运算符相似，但是在下面两个方面有很大的区别：</p>
+
+<ul>
+<li>对 <code>==</code> 和 <code>!=</code> 来说，通常反向调用失败，python会比较对象的ID，而不抛出 <code>TypeError</code></li>
+<li>正向和反向调用使用的是同一系列方法，如下表所示：</li>
+</ul>
+
+<table>
+<thead>
+<tr>
+<th>中缀运算符</th>
+<th>正向方法调用</th>
+<th>反向方法调用</th>
+<th>后备机制</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><code>a == b</code></td>
+<td><code>a.__eq__(b)</code></td>
+<td><code>b.__eq__(a)</code></td>
+<td>返回<code>id(a) == id (b)</code></td>
+</tr>
+<tr>
+<td><code>a != b</code></td>
+<td><code>a.__ne__(b)</code></td>
+<td><code>b.__ne__(a)</code></td>
+<td>返回<code>not (a == b)</code></td>
+</tr>
+<tr>
+<td><code>a &gt; b</code></td>
+<td><code>a.__gt__(b)</code></td>
+<td><code>b.__lt__(a)</code></td>
+<td>抛出<code>TypeError</code></td>
+</tr>
+<tr>
+<td><code>a &lt; b</code></td>
+<td><code>a.__lt__(b)</code></td>
+<td><code>b.__gt__(a)</code></td>
+<td>抛出<code>TypeError</code></td>
+</tr>
+<tr>
+<td><code>a &gt;= b</code></td>
+<td><code>a.__ge__(b)</code></td>
+<td><code>b.__le__(a)</code></td>
+<td>抛出<code>TypeError</code></td>
+</tr>
+<tr>
+<td><code>a &lt;= b</code></td>
+<td><code>a.__le__(b)</code></td>
+<td><code>b.__ge__(a)</code></td>
+<td>抛出<code>TypeError</code></td>
+</tr>
+</tbody>
+</table>
+
+<p>在Vector类中，我们定义了 <code>__eq__</code> 方法，由此可以判断两个向量是否相等，下面是测试示例及结果：</p>
+
+<pre><code class="language-python"># 测试示例
+v4 = Vector(range(3, 6))
+t2 = (3, 4, 5)
+
+print(v1 == v4)
+print(v1 == t2)
+
+# 结果
+True
+True
+</code></pre>
+
+<h2 id="toc_4">重载增量赋值运算符</h2>
+
+<p>如果一个类没有实现增量赋值运算符，则增量赋值运算符就只是语法糖，即 <code>a += b</code> 和 <code>a = a + b</code> 作用是完全一样的，对不可变类型来说，这也是正常的行为。但是对于可变类型来说，我们希望增量赋值运算符的行为是直接修改左操作符，而不是创建一个新对象作为结果。<br/>
+下面，对比不可变类型和可变类型的增量赋值运算符的操作结果。</p>
+
+<h3 id="toc_5">不可变类型</h3>
+
+<p>我们可以直接使用之前定义的Vector类进行增量加法运算，如下所示：</p>
+
+<pre><code class="language-python"># 测试示例
+v5 = Vector([1, 2, 3])
+print(v5, id(v5))
+v5 += Vector([2, 3, 4])
+print(v5, id(v5))
+
+# 结果
+Vector([1.0, 2.0, 3.0]) 4322352880
+Vector([3.0, 5.0, 7.0]) 4322353104
+</code></pre>
+
+<p>由此示例可知：<code>+=</code> 运算符调用了 <code>__add__</code> 方法，并生成了一个新的对象作为结果返回。</p>
+
+<h3 id="toc_6">可变类型</h3>
+
+<p>先来创建一个类：</p>
+
+<pre><code class="language-python">import random
+
+class BingoCage:
+
+    def __init__(self, items):
+        self._randomizer = random.SystemRandom()
+        self._items = []
+        self.load(items)
+
+    def load(self, items):
+        self._items.extend(items)
+        self._randomizer.shuffle(self._items)
+
+    def pick(self):
+        try:
+            return self._items.pop()
+        except IndexError:
+            raise LookupError(&#39;pick from empty BingoCage&#39;)
+
+    def inspect(self):
+        &quot;&quot;&quot;Return a sorted tuple with the items currently inside.&quot;&quot;&quot;
+        items = []
+        while True:
+            try:
+                items.append(self.pick())
+            except LookupError:
+                break
+        self.load(items)
+        return tuple(sorted(items))
+
+    def __add__(self, other):
+        if isinstance(other, BingoCage):
+            return BingoCage(self.inspect() + other.inspect())
+        else:
+            return NotImplemented
+
+    def __iadd__(self, other):
+        if isinstance(other, BingoCage):
+            other_iterable = other.inspect()
+        else:
+            try:
+                other_iterable = iter(other)
+            except TypeError:
+                self_cls = type(self).__name__
+                msg = &quot;right operand in += must be {!r} or an iterable&quot;
+                raise TypeError(msg.format(self_cls))
+        self.load(other_iterable)
+        return self
+</code></pre>
+
+<p>该类的实例类型是一个可变类型，下面来执行 <code>+</code> 和 <code>+=</code> 运算</p>
+
+<pre><code class="language-python"># 测试示例
+globe = BingoCage(&quot;ABCDE&quot;)
+print(id(globe), globe.inspect())
+globe2 = BingoCage(&quot;XYZ&quot;)
+globe3 = globe
+globe = globe + globe2
+print(id(globe), id(globe2), globe.inspect())
+
+print(id(globe3), globe3.inspect())
+globe3 += globe2
+print(id(globe3), globe3.inspect())
+
+# 结果
+4320285360 (&#39;A&#39;, &#39;B&#39;, &#39;C&#39;, &#39;D&#39;, &#39;E&#39;)
+4320285584 4320285416 (&#39;A&#39;, &#39;B&#39;, &#39;C&#39;, &#39;D&#39;, &#39;E&#39;, &#39;X&#39;, &#39;Y&#39;, &#39;Z&#39;)
+4320285360 (&#39;A&#39;, &#39;B&#39;, &#39;C&#39;, &#39;D&#39;, &#39;E&#39;)
+4320285360 (&#39;A&#39;, &#39;B&#39;, &#39;C&#39;, &#39;D&#39;, &#39;E&#39;, &#39;X&#39;, &#39;Y&#39;, &#39;Z&#39;)
+</code></pre>
+
+<p>由上述示例的运行结果可知：如果一个类中实现了增量赋值运算符，则会直接修改左操作数，而不会生成新对象。</p>
+
+<p>由此，在我们自定义一个类时，如果数据类型是不可变的，则不需要定义增量赋值运算符，直接复用对应的中缀运算符的方法即可。如果数据类型是可变的，则根据应用场景决定是否定义增量赋值运算符就好。</p>
+
+<h2 id="toc_7">总结</h2>
+
+<p>通过重载 <code>+</code> 运算符，我们可以总结出：</p>
+
+<ul>
+<li>不同的中缀运算符都有对应的特殊方法提供支持，如果想支持某一运算，只需要实现对应的特殊方法即可</li>
+<li>一元运算符和中缀运算符的结果应该是新对象，并且绝对不能修改操作数</li>
+<li>为了支持其他类型的运算，可以返回特殊的 <code>NotImplemented</code> 值，并实现反向特殊方法，以供解释器尝试对调操作数</li>
+</ul>
+
+<p>对于各种比较运算符，需要注意的是python会特别处理 <code>==</code> 和 <code>!=</code> 的后备机制，即会比较对象的ID，而不是抛出错误</p>
+
+<p>对于重载增量赋值运算符，可以做以下总结：</p>
+
+<ul>
+<li>对可变对象来说，可以通过实现就地特殊方法，修改左操作数的值</li>
+<li>python处理增量赋值运算符的方式是把它们当做常规的运算符加上赋值操作，因此 <code>a += b</code> 会当成 <code>a = a + b</code> 处理，而这样的结果是始终创建新的对象，对可变类型和不可变类型都适用</li>
+</ul>
+
+
+    
+
+      </div>
+
+      <div class="row">
+        <div class="large-6 columns">
+        <p class="text-left" style="padding:15px 0px;">
+      
+          <a href="15376924661136.html" 
+          title="Previous Post: SQL查询语句之坑">&laquo; SQL查询语句之坑</a>
+      
+        </p>
+        </div>
+        <div class="large-6 columns">
+      <p class="text-right" style="padding:15px 0px;">
+      
+          <a  href="15048580065601.html" 
+          title="Next Post: Python內建类型对象的那些事">Python內建类型对象的那些事 &raquo;</a>
+      
+      </p>
+        </div>
+      </div>
+      <div class="comments-wrap">
+        <div class="share-comments">
+          
+
+          
+
+          
+        </div>
+      </div>
+    </div><!-- article-wrap -->
+  </div><!-- large 8 -->
+
+
+
+
+ <div class="large-4 medium-4 columns">
+  <div class="hide-for-small">
+    <div id="sidebar" class="sidebar">
+          <div id="site-info" class="site-info">
+            
+                <h1>零度燕窝</h1>
+                <div class="site-des"></div>
+                <div class="social">
+
+
+
+
+
+
+
+
+
+
+
+  <a target="_blank" class="rss" href="atom.xml" title="RSS">RSS</a>
+                
+              	 </div>
+          	</div>
+
+             
+
+              <div id="site-categories" class="side-item ">
+                <div class="side-header">
+                  <h2>Categories</h2>
+                </div>
+                <div class="side-content">
+
+      	<p class="cat-list">
+        
+            <a href="%E6%95%B0%E6%8D%AE%E5%BA%93.html"><strong>数据库</strong></a>
+        
+            <a href="Python.html"><strong>Python</strong></a>
+        
+            <a href="%E9%9A%8F%E6%83%B3.html"><strong>随想</strong></a>
+        
+            <a href="%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84&%E7%AE%97%E6%B3%95.html"><strong>数据结构&算法</strong></a>
+        
+            <a href="Fluent%20Python.html"><strong>Fluent Python</strong></a>
+        
+            <a href="%E8%AF%BB%E4%B9%A6%E9%9A%8F%E7%AC%94.html"><strong>读书随笔</strong></a>
+        
+            <a href="%E6%9B%BE%E7%BB%8F%E6%9D%A5%E8%BF%87.html"><strong>曾经来过</strong></a>
+        
+            <a href="PHP.html"><strong>PHP</strong></a>
+        
+            <a href="Ubuntu.html"><strong>Ubuntu</strong></a>
+         
+        </p>
+
+
+                </div>
+              </div>
+
+              <div id="site-categories" class="side-item">
+                <div class="side-header">
+                  <h2>Recent Posts</h2>
+                </div>
+                <div class="side-content">
+                <ul class="posts-list">
+	      
+		      
+			      <li class="post">
+			        <a href="15406290433586.html">扎心！有人偷走了我的磁盘空间？！</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="15377924479103.html">记一次攒机经历</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="15376924661136.html">SQL查询语句之坑</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="15056428224967.html">![](http://cdn.blog.yanzl.net/2017-10-27-carthusian-2822971.jpg)</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="15048580065601.html">Python內建类型对象的那些事</a>
+			      </li>
+		     
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		   
+		  		</ul>
+                </div>
+              </div>
+        </div><!-- sidebar -->
+      </div><!-- hide for small -->
+</div><!-- large 4 -->
+
+</div><!-- row -->
+
+ <div class="page-bottom clearfix">
+  <div class="row">
+   <p class="copyright">Copyright &copy; 2015
+Powered by <a target="_blank" href="http://www.mweb.im">MWeb</a>,&nbsp; 
+Theme used <a target="_blank" href="http://github.com">GitHub CSS</a>.</p>
+  </div>
+</div>
+
+        </section>
+      </div>
+    </div>
+
+  
+    
+
+    <script src="asset/js/foundation.min.js"></script>
+    <script>
+      $(document).foundation();
+      function fixSidebarHeight(){
+        var w1 = $('.markdown-body').height();
+          var w2 = $('#sidebar').height();
+          if (w1 > w2) { $('#sidebar').height(w1); };
+      }
+      $(function(){
+        fixSidebarHeight();
+      })
+      $(window).load(function(){
+          fixSidebarHeight();
+      });
+     
+    </script>
+
+    <script src="asset/chart/all-min.js"></script><script type="text/javascript">$(function(){    var mwebii=0;    var mwebChartEleId = 'mweb-chart-ele-';    $('pre>code').each(function(){        mwebii++;        var eleiid = mwebChartEleId+mwebii;        if($(this).hasClass('language-sequence')){            var ele = $(this).addClass('nohighlight').parent();            $('<div id="'+eleiid+'"></div>').insertAfter(ele);            ele.hide();            var diagram = Diagram.parse($(this).text());            diagram.drawSVG(eleiid,{theme: 'simple'});        }else if($(this).hasClass('language-flow')){            var ele = $(this).addClass('nohighlight').parent();            $('<div id="'+eleiid+'"></div>').insertAfter(ele);            ele.hide();            var diagram = flowchart.parse($(this).text());            diagram.drawSVG(eleiid);        }    });});</script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script type="text/x-mathjax-config">MathJax.Hub.Config({TeX: { equationNumbers: { autoNumber: "AMS" } }});</script>
+
+
+  </body>
+</html>
