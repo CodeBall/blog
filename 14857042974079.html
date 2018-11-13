@@ -137,112 +137,119 @@
       <div class="article-content">
       <p>最近在写一个小项目,其中用到了mongodb数据库,python中使用pymongo操作mongodb数据库.所以将学习的一些知识点记录下来,方便以后查阅.</p>
 
-<p>引用pymongo</p>
+<h2 id="toc_0">引用pymongo</h2>
 
-<p>import pymongo<br/>
-建立连接</p>
+<pre><code>import pymongo
+</code></pre>
 
-<p>client = pymongo.MongoClient()<br/>
-连接数据库</p>
+<h2 id="toc_1">建立连接</h2>
 
-<p>db = client.数据库名<br/>
-db = client.words<br/>
-选择集合</p>
+<pre><code>client = pymongo.MongoClient()
+</code></pre>
 
-<p>collect = db.集合名<br/>
-collect = db.word<br/>
-添加数据</p>
+<h2 id="toc_2">连接数据库</h2>
 
-<h1 id="toc_0">添加一条数据</h1>
+<pre><code>db = client.数据库名
+db = client.words
+</code></pre>
 
-<p>word = {&quot;word_name&quot;:&quot;beaytiful&quot;,&quot;paraphrase&quot;:&quot;adj,美丽的,出色的,迷人的&quot;,&quot;exam_sent&quot;:&quot;She was a beautiful girl&quot;}<br/>
-collect.insert(word)</p>
+<h2 id="toc_3">选择集合</h2>
 
-<h1 id="toc_1">添加多条数据</h1>
+<pre><code>collect = db.集合名
+collect = db.word
+</code></pre>
 
-<p>words = [{&quot;word_name&quot;:&quot;like&quot;,&quot;paraphrase&quot;:&quot;vt,喜欢,愿意;vi,喜欢,希望;adv,可能&quot;,&quot;exam_sent&quot;:&quot;What did she look like?&quot;},{&quot;word_name&quot;:&quot;handsome&quot;,&quot;paraphrase&quot;:&quot;adj,英俊的,大方的,慷慨的,健美而端庄的&quot;,&quot;exam_sent&quot;:&quot;They will make a handsome profit on the property&quot;,&quot;exam_sent2&quot;:&quot;He is a handsomw sheep farmer.&quot;}]<br/>
-collect.insert(words)<br/>
-修改数据</p>
+<h2 id="toc_4">添加数据</h2>
 
-<h1 id="toc_2">更新数据,为handsome单词所在的记录添加一个唯一标识</h1>
+<h3 id="toc_5">添加一条数据</h3>
 
-<p>collect.update({&quot;word_name&quot;:&quot;handsome&quot;},{&quot;$set&quot;:{&quot;word_id&quot;:1}})</p>
+<pre><code>word = {&quot;word_name&quot;:&quot;beaytiful&quot;,&quot;paraphrase&quot;:&quot;adj,美丽的,出色的,迷人的&quot;,&quot;exam_sent&quot;:&quot;She was a beautiful girl&quot;}
+collect.insert(word)
+</code></pre>
 
-<h1 id="toc_3">更新数据,为word_id为1的数据修改名字为China</h1>
+<h3 id="toc_6">添加多条数据</h3>
 
-<p>collect.update({&quot;word_id&quot;:1},{&quot;$set&quot;:{&quot;word_name&quot;:&quot;China&quot;}})<br/>
-删除数据</p>
+<pre><code>words = [{&quot;word_name&quot;:&quot;like&quot;,&quot;paraphrase&quot;:&quot;vt,喜欢,愿意;vi,喜欢,希望;adv,可能&quot;,&quot;exam_sent&quot;:&quot;What did she look like?&quot;},{&quot;word_name&quot;:&quot;handsome&quot;,&quot;paraphrase&quot;:&quot;adj,英俊的,大方的,慷慨的,健美而端庄的&quot;,&quot;exam_sent&quot;:&quot;They will make a handsome profit on the property&quot;,&quot;exam_sent2&quot;:&quot;He is a handsomw sheep farmer.&quot;}]
+collect.insert(words)
+</code></pre>
 
-<h1 id="toc_4">删除所选择的集合中的指定数据</h1>
+<h2 id="toc_7">修改数据</h2>
 
-<p>collect.remove({&quot;word_id&quot;:1})</p>
+<h3 id="toc_8">更新数据,为handsome单词所在的记录添加一个唯一标识</h3>
 
-<h1 id="toc_5">删除所选择的集合中的所有数据</h1>
+<pre><code>collect.update({&quot;word_name&quot;:&quot;handsome&quot;},{&quot;$set&quot;:{&quot;word_id&quot;:1}})
+</code></pre>
 
-<p>collect.remove()<br/>
-查询数据</p>
+<h3 id="toc_9">更新数据,为word_id为1的数据修改名字为China</h3>
 
-<h1 id="toc_6">查看集合中的指定数据</h1>
+<pre><code>collect.update({&quot;word_id&quot;:1},{&quot;$set&quot;:{&quot;word_name&quot;:&quot;China&quot;}})
+</code></pre>
 
-<p>collect.find_one({&quot;word_id&quot;:1})</p>
+<h2 id="toc_10">删除数据</h2>
 
-<h1 id="toc_7">查看集合中某个数据的某些字段的值.前一个花括号写查找的数据的查找条件,后一个花括号写查询那些字段值,1为显示,0为不显示默,认_id默认显示如果不想显示则可置为0</h1>
+<h3 id="toc_11">删除所选择的集合中的指定数据</h3>
 
-<p>collect.find_one({&quot;word_id&quot;:2},{&quot;word_name&quot;:1,&quot;_id&quot;:0})<br/>
-collect.find_one({&quot;word_id&quot;:2},{&quot;word_name&quot;:1,&quot;exam_sent&quot;:1})</p>
+<pre><code>collect.remove({&quot;word_id&quot;:1})
+</code></pre>
 
-<h1 id="toc_8">查看多条数据</h1>
+<h3 id="toc_12">删除所选择的集合中的所有数据</h3>
 
-<p>for i in collect.find():<br/>
-    i</p>
+<pre><code>collect.remove()
+</code></pre>
 
-<h1 id="toc_9">查看word_id大于1的数据的word_name,如果结果数目不止一个,采用循环打印</h1>
+<h2 id="toc_13">查询数据</h2>
 
-<p>collect.find({&quot;word_id&quot;:{&quot;$gt&quot;:1}},{&quot;word_name&quot;:1,&quot;_id&quot;:0})</p>
+<h3 id="toc_14">查看集合中的指定数据</h3>
 
-<h1 id="toc_10">查看word_id大于等于1的数据的word_name,如果结果数目不止一个,采用循环打印</h1>
+<pre><code>collect.find_one({&quot;word_id&quot;:1})
+</code></pre>
 
-<p>collect.find({&quot;word_id&quot;:{&quot;$gte&quot;:1}},{&quot;word_name&quot;:1,&quot;_id&quot;:0})</p>
+<h3 id="toc_15">查看集合中某个数据的某些字段的值.</h3>
 
-<h1 id="toc_11">查看word_id小于等于1的数据的word_name,如果结果数目不止一个,采用循环打印</h1>
+<p>前一个花括号写查找的数据的查找条件,后一个花括号写查询那些字段值,1为显示,0为不显示默,认_id默认显示如果不想显示则可置为0<br/>
+<code><br/>
+collect.find_one({&quot;word_id&quot;:2},{&quot;word_name&quot;:1,&quot;_id&quot;:0})<br/>
+collect.find_one({&quot;word_id&quot;:2},{&quot;word_name&quot;:1,&quot;exam_sent&quot;:1})<br/>
+</code></p>
 
-<p>collect.find({&quot;word_id&quot;:{&quot;$lte&quot;:1}},{&quot;word_name&quot;:1,&quot;_id&quot;:0})</p>
+<h3 id="toc_16">查看word_id大于1的数据的word_name</h3>
 
-<h1 id="toc_12">查看word_id小于3的数据的word_name,如果结果数目不止一个,采用循环打印</h1>
+<pre><code>collect.find({&quot;word_id&quot;:{&quot;$gt&quot;:1}},{&quot;word_name&quot;:1,&quot;_id&quot;:0})
+</code></pre>
 
-<p>collect.find({&quot;word_id&quot;:{&quot;$lt&quot;:3}},{&quot;word_name&quot;:1,&quot;_id&quot;:0})</p>
+<h3 id="toc_17">查看word_id大于等于1的数据的word_name</h3>
 
-<h1 id="toc_13">查看word_id不等于2的数据的word_name,如果结果数目不止一个,采用循环打印</h1>
+<pre><code>collect.find({&quot;word_id&quot;:{&quot;$gte&quot;:1}},{&quot;word_name&quot;:1,&quot;_id&quot;:0})
+</code></pre>
 
-<p>collect.find({&quot;word_id&quot;:{&quot;$ne&quot;:2}},{&quot;word_name&quot;:1,&quot;_id&quot;:0})</p>
+<h3 id="toc_18">查看word_id小于等于1的数据的word_name</h3>
 
-<h1 id="toc_14">对查询结果进行升序排序,默认为升序</h1>
+<pre><code>collect.find({&quot;word_id&quot;:{&quot;$lte&quot;:1}},{&quot;word_name&quot;:1,&quot;_id&quot;:0})
+</code></pre>
 
-<p>for i in collect.find().sort(&quot;word_id&quot;,pymongo.ASCENDING):<br/>
-    i</p>
+<h3 id="toc_19">查看word_id小于3的数据的word_name</h3>
 
-<h1 id="toc_15">对查询结果进行降序排序</h1>
+<pre><code>collect.find({&quot;word_id&quot;:{&quot;$lt&quot;:3}},{&quot;word_name&quot;:1,&quot;_id&quot;:0})
+</code></pre>
 
-<p>for i in collect.find().sort(&quot;word_id&quot;,pymongo.DESCENDING):<br/>
-    i</p>
+<h3 id="toc_20">查看word_id不等于2的数据的word_name</h3>
 
-<h1 id="toc_16">对查询的结果进行多列排序</h1>
+<pre><code>collect.find({&quot;word_id&quot;:{&quot;$ne&quot;:2}},{&quot;word_name&quot;:1,&quot;_id&quot;:0})
+</code></pre>
 
-<p>for i in collect.find({},{&quot;word_id&quot;:1,&quot;word_name&quot;:1,&quot;_id&quot;:0}).sort([(&quot;word_name&quot;,pymongo.DESCENDING),(&quot;word_id&quot;,pymongo.DESCENDING)]):<br/>
-    i<br/>
-查看一个集合中的数据总数</p>
+<h2 id="toc_21">模糊查询</h2>
 
-<p>collect.find().count()<br/>
-模糊查询</p>
+<h3 id="toc_22">和更新数据是一样,$regex是指定该查询为模糊查询的关键,同时指定对哪一个字段进行模糊查询</h3>
 
-<h1 id="toc_17">和更新数据是一样,$regex是指定该查询为模糊查询的关键,同时指定对哪一个字段进行模糊查询</h1>
+<pre><code>Word = collect.find({&quot;word_name&quot;:{&quot;$regex&quot;:&quot;l&quot;}})
+</code></pre>
 
-<p>Word = collect.find({&quot;word_name&quot;:{&quot;$regex&quot;:&quot;l&quot;}})</p>
+<h3 id="toc_23">多条件模糊查询</h3>
 
-<h1 id="toc_18">多条件模糊查询</h1>
-
-<p>Word = collect.find({&quot;word_name&quot;:{&quot;\(regex&quot;:&quot;l&quot;},&quot;exam_sent&quot;:{&quot;\)regex&quot;:&quot;like&quot;}})<br/>
-Word = collect.find({&quot;word_name&quot;:{&quot;\(regex&quot;:&quot;l&quot;},&quot;word_name&quot;:{&quot;\)regex&quot;:&quot;b&quot;}})</p>
+<pre><code>Word = collect.find({&quot;w
+ord_name&quot;:{&quot;$regex&quot;:&quot;l&quot;},&quot;exam_sent&quot;:{&quot;$regex&quot;:&quot;like&quot;}})
+Word = collect.find({&quot;word_name&quot;:{&quot;$regex&quot;:&quot;l&quot;},&quot;word_name&quot;:{&quot;$regex&quot;:&quot;b&quot;}})
+</code></pre>
 
 
     
@@ -377,6 +384,12 @@ s.setAttribute('data-timestamp', +new Date());
 	      
 		      
 			      <li class="post">
+			        <a href="15421053722232.html">Flask 流式相应实现文件下载及常见问题总结</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
 			        <a href="15406290433586.html">扎心！有人偷走了我的磁盘空间？！</a>
 			      </li>
 		     
@@ -396,12 +409,6 @@ s.setAttribute('data-timestamp', +new Date());
 		      
 			      <li class="post">
 			        <a href="15056428224967.html">Python 运算符操作</a>
-			      </li>
-		     
-		  
-		      
-			      <li class="post">
-			        <a href="15048580065601.html">Python內建类型对象的那些事</a>
 			      </li>
 		     
 		  

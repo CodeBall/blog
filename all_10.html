@@ -115,114 +115,6 @@
 		<div class="markdown-body home-categories">
 		
 			<div class="article">
-                <a class="clearlink" href="14857038289810.html">
-                
-                  <h1>MySQL学习笔记（2）——数据类型及数据表操作</h1>
-                  <div class="a-content">
-                      
-                      <div class="a-content-text">
-                        
-                        	<p>数据类型</p>
-
-<p>1.整数类型：tinyint(8位)；smallint(16位)；mediumint(24位)；int(32位)；bigint(64位)。</p>
-
-<p>2.浮点类型：float(m,d)；double(m,d)。m代表总共的位数,d代表小数的位数</p>
-
-<p>3.字符类型：char(m),0-255,定长类型，不够的空格补齐；varchar(m),0-65535,不定长类型；tinytext(8)；text(16)；mediumtext(24)；longtext(32)；enum(&#39;value1&#39;,&#39;value2&#39;,&#39;value3&#39;,...),枚举类型，取决于枚举的个数，最多65535个；set(&#39;value1&#39;,&#39;value2&#39;,...),最多64个。</p>
-
-<p>4.日期类型：year(默认为4为，从1970年到2069年)；time(-8385959-8385959)；date(1000.1.1-9999.12.31)；datetime(1000.1.1 0:0:0-9999.12.31 12:59:59),timestamp(时间戳，从1970.1.1 0:0:0-2037)</p>
-
-<p>注意：所谓的数据优化，就是在建表的时候，选择最合适的数据类型而不是选择最大的数据类型。</p>
-
-<p>数据表操作</p>
-
-<p>1.创建数据表：create table [if not exists] 数据表名(字段1和字段1定义,字段2和字段2定义,..)</p>
-
-<p>这种方法只是创建了一个空表，如果在建表的时候，想根据其他表的内容对新表添加数据，则可以采用create select语法结构，</p>
-
-<p>create table [if not exists] table_name(字段和数据类型) select<br/>
-例如：在建立产品品牌表（goods_brands）的时候，根据产品表(goods)中的产品品牌对新表进行数据填充：</p>
-
-<p>create table goods_brands(<br/>
-brand_id smallint unsigned primary key auto_increment,<br/>
-brand_name varchar(40) not null)ENGINE=InnoDB DEFAULT CHARSET=utf8<br/>
-selest brand_name from goods group by brand_name;<br/>
-2.查看数据表：show tables [from 数据库名];选择数据库名即可查看当前数据库之外的其他数据库的数据表信息，否则只能查看本数据库的表信息。</p>
-
-<p>3.查看数据表结构：(1).desc 表名 (2).show columns from 表名 (3).describe 表名 (4).show create table 表名</p>
-
-<p>4.查看数据表的创建命令</p>
-
-<p>show create table 表名;</p>
-
-<p>定义字段</p>
-
-<p>定义字段除了之明字段名称，字段类型之外，还包括以下几点</p>
-
-<p>1.记录的唯一性：为字段添加auto_increment属性，指明该字段自动增长，默认情况下从1开始，增量为1，可以自行设置。该属性必须与接下来涉及到的主键配合使用。</p>
-
-<p>2.无符号属性：unsigned指明该字段的数据类型是无符号的。</p>
-
-<p>3.约束：约束是为了保证数据完整性和一致性而设定的，根据数据列的数目可以将约束分为表级约束和列级约束，表级约束即为一个约束包含了多个字段，列级约束为一个约束包含了一个字段；根据功能，约束有以下5种</p>
-
-<p>a.主键约束：primary key 声明该字段为主键，每张表有且只有一个主键，而这个主键可以包含多个字段，自动为not null，声明了主键的字段值是不会重复的。</p>
-
-<p>b.唯一约束：unique key声明该字段有唯一约束，字段值是不能够重复的，但是可以出现一次null，每张表可以有多个唯一约束。</p>
-
-<p>c.默认约束：default指明字段的默认值，如：set varchar(6) enum(&#39;男&#39;,&#39;女&#39;,&#39;保密&#39;) default &#39;保密&#39;</p>
-
-<p>d.非空约束：null为允许该字段出现空值，not null为不允许字段出现空值</p>
-
-<p>e.外键约束：foreign key实现数据表一对一和一对多的关系，使用外键约束，外键字段和参照字段必须创建索引，如果参照字段没有索引，系统会自动创建。除此之外，外键字段和参照字段必须有相似的字段定义。而且，有外键的表称为子表，子表参照的表为父表。外键的定义格式为：foreign key (字段名) reference 父表名（参照字段）。</p>
-
-<p>拓展外键约束的参照操作</p>
-
-<p>更新表之后，子表是否进行相应的操作，在物理结构上可以通过外键约束的参照操作实现。</p>
-
-<p>（1）cascade:从父表删除或更新记录时同步到子表相应数据中，</p>
-
-<p>如：foreign key(字段名) reference 父表名（参照字段） on delete cascade on update cascade</p>
-
-<p>（2）set null:从父表删除或更新数据之后，子表中的相应数据置为null，如果使用该项，必须保证子表中该字段可以置为空值。</p>
-
-<p>（3）restrict:拒绝对父表的删除和更新操作</p>
-
-<p>（4）no action:与rectrict相同</p>
-
-<p>注意：</p>
-
-<p>外键约束只有innodb这种存储引擎才能支持，其他的存储引擎是不支持这种物理的外键约束的，所以在开发过程中，一般都使用逻辑的外键约束。</p>
-
-<p>修改数据表默认的存储引擎：找到MySQL配置文件my.ini，修改default-storage-engin = 存储引擎，外键约束必须依赖INNODB存储引擎，修改完成之后重启MySQL服务。</p>
-
-<p>查看表中索引</p>
-
-<p>show index from 表名</p>
-
-                        
-                      </div>
-                  </div>
-                </a>
-                <div class="read-more clearfix">
-                  <div class="more-left left">
-                  
-                    <span class="date">2016/1/20</span>
-                    <span>posted in&nbsp;</span> 
-          				  
-          					    <span class="posted-in"><a href='%E6%95%B0%E6%8D%AE%E5%BA%93.html'>数据库</a></span>
-          				   
-                  </div>
-                  <div class="more-right right">
-                  <span class="comments">
-                      
-
-                       
-                  </span>
-                  </div>
-                </div>
-              </div><!-- article -->
-        
-			<div class="article">
                 <a class="clearlink" href="14857038052908.html">
                 
                   <h1>MySQL学习笔记（1）——概述</h1>
@@ -508,6 +400,49 @@ alias [别名]=[需要定义别名的命令]       注意，如果命令中有�
                 </div>
               </div><!-- article -->
         
+			<div class="article">
+                <a class="clearlink" href="14857036563095.html">
+                
+                  <h1>ThinkPHP奇葩现象:数据表新增字段无法存储数据</h1>
+                  <div class="a-content">
+                      
+                      <div class="a-content-text">
+                        
+                        	<p>之前写的一个已经发布的网站中,需要根据用户登录账号判断投稿者,于是就在数据表中添加了一个字段,无奈在本机可以正常获取数据,但是上传到网站上却不能获取.</p>
+
+<p>通过一步步的排查问题发现,从用户输入的数据可以正常获取,但是存储数据库的时候却不能够将新添加的字段数据更新进去,因为更新的SqL语句中根本没有这一项数据.</p>
+
+<p>感觉真的是好奇怪,本来还以为apache出了问题,重启了一下,还是不能解决.于是在网上百度了以下这个状况,还真有前辈遇到了此问题并成功解决.</p>
+
+<p>文章中提到这是ThinkPHP缓存文件Runtime导致的,将这个文件整个都删除就可以了.删除语句为:rm -fr Runtime/ 就成功解决了此问题,而删除语句中-fr参数的具体用法详见此文章:<a href="http://yanzl.net/1122.html">http://yanzl.net/1122.html</a>.</p>
+
+<p>其中,有一个现象和参考文章作者遇到的现象是一样的,那就是在本机运行的时候,开启的是开发模式,即:Debug＝true,而上传到网站上之后,开启的是运行模式,即:Debug＝false,在运行模式下,运行缓存文件Runtime没有得到更新,所以该程序不认为又新添加了字段,故没有将该字段的数据存入数据库,把缓存文件删除之后,在此更新网站,会产生新的缓存文件,于是就将问题解决了.</p>
+
+<p>现在献上解决问题的参考文章:<a href="http://www.xcoder.cn/index.php/archives/1100">http://www.xcoder.cn/index.php/archives/1100</a></p>
+
+                        
+                      </div>
+                  </div>
+                </a>
+                <div class="read-more clearfix">
+                  <div class="more-left left">
+                  
+                    <span class="date">2015/11/17</span>
+                    <span>posted in&nbsp;</span> 
+          				  
+          					    <span class="posted-in"><a href='PHP.html'>PHP</a></span>
+          				   
+                  </div>
+                  <div class="more-right right">
+                  <span class="comments">
+                      
+
+                       
+                  </span>
+                  </div>
+                </div>
+              </div><!-- article -->
+        
               
 
 
@@ -595,6 +530,12 @@ alias [别名]=[需要定义别名的命令]       注意，如果命令中有�
 	      
 		      
 			      <li class="post">
+			        <a href="15421053722232.html">Flask 流式相应实现文件下载及常见问题总结</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
 			        <a href="15406290433586.html">扎心！有人偷走了我的磁盘空间？！</a>
 			      </li>
 		     
@@ -614,12 +555,6 @@ alias [别名]=[需要定义别名的命令]       注意，如果命令中有�
 		      
 			      <li class="post">
 			        <a href="15056428224967.html">Python 运算符操作</a>
-			      </li>
-		     
-		  
-		      
-			      <li class="post">
-			        <a href="15048580065601.html">Python內建类型对象的那些事</a>
 			      </li>
 		     
 		  

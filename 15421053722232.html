@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>
     
-  MySQL数据库☞数据库编码 - 零度燕窝
+  Flask 流式相应实现文件下载及常见问题总结 - 零度燕窝
   
   </title>
   
@@ -115,14 +115,14 @@
       <div class="markdown-body article-wrap">
        <div class="article">
           
-          <h1>MySQL数据库☞数据库编码</h1>
+          <h1>Flask 流式相应实现文件下载及常见问题总结</h1>
      
         <div class="read-more clearfix">
-          <span class="date">2016/12/30</span>
+          <span class="date">2018/11/13</span>
 
           <span>posted in&nbsp;</span> 
           
-              <span class="posted-in"><a href='%E6%95%B0%E6%8D%AE%E5%BA%93.html'>数据库</a></span>
+              <span class="posted-in"><a href='Python.html'>Python</a></span>
            
          
           <span class="comments">
@@ -135,15 +135,117 @@
       </div><!-- article -->
 
       <div class="article-content">
-      <h2 id="toc_0">概述</h2>
+      <h2 id="toc_0">前言</h2>
 
-<p>MySQL是平时常用的数据库之一，在存储中文的时候，经常出现乱码的情况，今天总结一下关于乱码出现的原因以及解决方法。</p>
+<p>实现文件下载的时候，为了能够更快地响应，可以采用流式响应的方式，服务端可以边执行边将结果返回给客户端，一方面客户端可以更快进入数据接收阶段，另一方面也有效避免了服务端处理时间过长导致连接中断的情况。本文记录了 flask 采用流式响应的方式实现文件下载，以及在下载的过程中可能遇到的问题。</p>
 
-<h2 id="toc_1">数据的存入取出</h2>
+<h2 id="toc_1">流式响应实现文件下载</h2>
 
-<p>我们知道，MySQL的逻辑架构包括三层，最上表面一层是客户端，我们也是通过各类客户端来操作MySQL；中间一层是MySQL的核心所在，一般包括了查询解析、分析、优化、缓存、所有的内置函数、所有的跨存储引擎的功能（存储过程、触发器、视图等）都在这一层实现；最下面一层就是MySQL的存储引擎，包括我们熟悉的（InnoDB，MyIsAM等MySQL的内建存储引擎和第三方存储引擎）</p>
+<h3 id="toc_2">如何做</h3>
 
-<p>将数据存入MySQL的时候，</p>
+<p>在处理函数中写一个内联函数，通过这个内联函数生成数据，并把这个函数传递给一个响应对象。如下所示：</p>
+
+<pre><code class="language-python">from flask import Response
+def download(self):
+    file_name = &#39;test.csv&#39;
+    def statistic():
+        sql = &#39;select * from user&#39;
+        results = db.session.execute(sql)
+        fieldnames = [&#39;姓名&#39;, &#39;年龄&#39;, &#39;性别&#39;, &#39;邮箱&#39;, &#39;备注&#39;]
+        yield (&#39;,&#39;.join(fieldnames) + &#39;\n&#39;)
+            
+        for result in results:
+            yield (&#39;,&#39;.join(result) + &#39;\n&#39;)
+    return Response(statistic(), mimetype=&#39;text/csv&#39;,headers={&quot;Content-Disposition&quot;: &quot;attachment; filename={0};&quot;.format(file_name)})
+</code></pre>
+
+<p>以上写法只是最基础的处理，如果放在生产环境中，在生成流内容的时候，请求环境已经在函数执行时消失了，因此会遇到如下所示的错误：</p>
+
+<pre><code>RuntimeError: application not registered on db instance and no application bound to current context
+</code></pre>
+
+<p>这种情况下，可以考虑在代码中添加 <code>with app.app_context():</code> 语句，不过这样看起来似乎有些笨拙，如果使用的 Flask 版本在 0.9 以上，可以直接使用 flask 提供的 <code>stream_with_context</code> 方法，具体使用方式如下所示：</p>
+
+<pre><code class="language-python">from flask import stream_with_context, Response
+def download(self):
+    def statistic():
+        pass
+    return Response(stream_with_context(statistic()), mimetype=&#39;text/csv&#39;,headers={&quot;Content-Disposition&quot;: &quot;attachment; filename={0};&quot;.format(file_name)})
+</code></pre>
+
+<h3 id="toc_3">为什么要这么写</h3>
+
+<h4 id="toc_4">WSGI 标准要求 WSGI Application 返回迭代器</h4>
+
+<p>Flask 作为一个 Web 框架，如果要与 Web 服务器更好的组合，就要遵循 WSGI（Web Server Gateway Interface）接口规范。WSGI 标准本身就要求 WSGI Application 返回的是迭代器：</p>
+
+<p>The application object is simply a callable object that accepts two arguments. The term &quot;object&quot; should not be misconstrued as requiring an actual object instance: a function, method, class, or instance with a call method are all acceptable for use as an application object. Application objects must be able to be invoked more than once, as virtually all servers/gateways (other than CGI) will make such repeated requests.</p>
+
+<h4 id="toc_5">Flask 视图函数不能是生成器函数</h4>
+
+<p>如果在 Flask 视图函数中使用 <code>yield</code>，会触发一个 <code>TypeError</code> 的异常，提示我们 <code>&#39;generator&#39; object is not callable</code>，即 Flask 要求视图函数返回的结果是可调用的。这要怎么办呢？<br/>
+这个问题在网上是可以找到一些解决方法的，如下所示：</p>
+
+<pre><code class="language-python">from flask import Response
+
+   @app.route(&#39;/foo&#39;)
+   def foo():
+       def generate():
+           yield &#39;first part&#39;
+           yield &#39;second part&#39;
+       return Response(generate())
+</code></pre>
+
+<h2 id="toc_6">常见问题</h2>
+
+<h3 id="toc_7">下载带有中文文件名的文件</h3>
+
+<p>有时候下载的文件名一定要是中文名，此时上述的方式是不能够满足需求的，查看服务端运行日志可以看到如下所示的报错信息：</p>
+
+<pre><code>Traceback (most recent call last):
+  File &quot;/home/deploy/weini_py3/lib/python3.4/site-packages/gunicorn/workers/gthread.py&quot;, line 274, in handle
+    keepalive = self.handle_request(req, conn)
+  File &quot;/home/deploy/weini_py3/lib/python3.4/site-packages/gunicorn/workers/gthread.py&quot;, line 329, in handle_request
+    resp.write(item)
+  File &quot;/home/deploy/weini_py3/lib/python3.4/site-packages/gunicorn/http/wsgi.py&quot;, line 327, in write
+    self.send_headers()
+  File &quot;/home/deploy/weini_py3/lib/python3.4/site-packages/gunicorn/http/wsgi.py&quot;, line 323, in send_headers
+    util.write(self.sock, util.to_bytestring(header_str, &quot;ascii&quot;))
+  File &quot;/home/deploy/weini_py3/lib/python3.4/site-packages/gunicorn/util.py&quot;, line 511, in to_bytestring
+    return value.encode(encoding)
+UnicodeEncodeError: &#39;ascii&#39; codec can&#39;t encode characters in position 140-143: ordinal not in range(128)
+</code></pre>
+
+<h4 id="toc_8">为什么会报错</h4>
+
+<p>在返回数据给客户端的时候，在 Header 中添加了一些内容，包括 <code>&quot;Content-Disposition&quot;: &quot;attachment;</code> 实现强制文件下载，<code>filename=test.csv;</code> 指定下载的文件的文件名，而 header 中的文本数据必须是 ASCII 编码的， TEXT 中若要使用其他字符集，必须按照规则将字符串编码为 ASCII 码。</p>
+
+<h4 id="toc_9">怎么办</h4>
+
+<p>解决这个问题可以分成两个步骤。</p>
+
+<h5 id="toc_10">编码文件名</h5>
+
+<p>既然文件名是不可识别的，可以通过一定的方法将文件名编码成可识别字符串。根据报错原因，可以联想到 URL 也只是允许一部分 ASCII 字符（数字字母和部分符号，看起来要比 header 中文本的要求更严格），如果含有汉字这种不合 URL 标准的，为了能够正常做请求，浏览器会进行 URL 编码， 把需要编码的字符转化为 <code>%xx</code> 的形式。在这里，同样也可以将文件名进行 URL 编码。<br/>
+python3 中的 <code>urllib.parse</code> 模块中提供了一个方法 <code>quote</code>,对该方法的官方解释如下所示：</p>
+
+<p>Replace special characters in string using the %xx escape. Letters, digits, and the characters &#39;_.-&#39; are never quoted. By default, this function is intended for quoting the path section of URL. The optional safe parameter specifies additional ASCII characters that should not be quoted — its default value is &#39;/&#39;.</p>
+
+<p>由此，就可以完成对文件名的编码，示例代码如下：</p>
+
+<pre><code class="language-python">from urllib.parse import quote
+file_name = &#39;测试.csv&#39;
+file_name = quote(file_name)
+</code></pre>
+
+<h5 id="toc_11">确保浏览器正确解码</h5>
+
+<p>HTTP 标准中，规定了浏览器至少应该支持 ASCII 和 UTF-8 两种编码处理方式，在数据返回给客户端的时候，需要告知浏览器文件名是什么编码方式，以确保浏览器能够正常完成解码。</p>
+
+<p>由此，在 header 中给出具体设置即可。示例如下所示：</p>
+
+<pre><code class="language-python">return Response(statistic(), mimetype=&#39;text/csv&#39;,headers={&quot;Content-Disposition&quot;: &quot;attachment; filename={0};filename*=utf-8&#39;&#39;{0}&quot;.format(file_name)})
+</code></pre>
 
 
     
@@ -154,16 +256,13 @@
         <div class="large-6 columns">
         <p class="text-left" style="padding:15px 0px;">
       
-          <a href="14903342825833.html" 
-          title="Previous Post: 《摆渡人》">&laquo; 《摆渡人》</a>
-      
         </p>
         </div>
         <div class="large-6 columns">
       <p class="text-right" style="padding:15px 0px;">
       
-          <a  href="14830842110487.html" 
-          title="Next Post: MySQL数据库☞中文乱码问题">MySQL数据库☞中文乱码问题 &raquo;</a>
+          <a  href="15406290433586.html" 
+          title="Next Post: 扎心！有人偷走了我的磁盘空间？！">扎心！有人偷走了我的磁盘空间？！ &raquo;</a>
       
       </p>
         </div>
@@ -278,6 +377,12 @@ s.setAttribute('data-timestamp', +new Date());
 	      
 		      
 			      <li class="post">
+			        <a href="15421053722232.html">Flask 流式相应实现文件下载及常见问题总结</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
 			        <a href="15406290433586.html">扎心！有人偷走了我的磁盘空间？！</a>
 			      </li>
 		     
@@ -297,12 +402,6 @@ s.setAttribute('data-timestamp', +new Date());
 		      
 			      <li class="post">
 			        <a href="15056428224967.html">Python 运算符操作</a>
-			      </li>
-		     
-		  
-		      
-			      <li class="post">
-			        <a href="15048580065601.html">Python內建类型对象的那些事</a>
 			      </li>
 		     
 		  

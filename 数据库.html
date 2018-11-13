@@ -315,47 +315,6 @@ count = db.session.query(db.func.count(accountModel.Id)).filter(accountModel.age
               </div><!-- article -->
         
 			<div class="article">
-                <a class="clearlink" href="14830907697555.html">
-                
-                  <h1>MySQL数据库☞数据库编码</h1>
-                  <div class="a-content">
-                      
-                      <div class="a-content-text">
-                        
-                        	<h2 id="toc_0">概述</h2>
-
-<p>MySQL是平时常用的数据库之一，在存储中文的时候，经常出现乱码的情况，今天总结一下关于乱码出现的原因以及解决方法。</p>
-
-<h2 id="toc_1">数据的存入取出</h2>
-
-<p>我们知道，MySQL的逻辑架构包括三层，最上表面一层是客户端，我们也是通过各类客户端来操作MySQL；中间一层是MySQL的核心所在，一般包括了查询解析、分析、优化、缓存、所有的内置函数、所有的跨存储引擎的功能（存储过程、触发器、视图等）都在这一层实现；最下面一层就是MySQL的存储引擎，包括我们熟悉的（InnoDB，MyIsAM等MySQL的内建存储引擎和第三方存储引擎）</p>
-
-<p>将数据存入MySQL的时候，</p>
-
-                        
-                      </div>
-                  </div>
-                </a>
-                <div class="read-more clearfix">
-                  <div class="more-left left">
-                  
-                    <span class="date">2016/12/30</span>
-                    <span>posted in&nbsp;</span> 
-          				  
-          					    <span class="posted-in"><a href='%E6%95%B0%E6%8D%AE%E5%BA%93.html'>数据库</a></span>
-          				   
-                  </div>
-                  <div class="more-right right">
-                  <span class="comments">
-                      
-
-                       
-                  </span>
-                  </div>
-                </div>
-              </div><!-- article -->
-        
-			<div class="article">
                 <a class="clearlink" href="14830842110487.html">
                 
                   <h1>MySQL数据库☞中文乱码问题</h1>
@@ -365,7 +324,7 @@ count = db.session.query(db.func.count(accountModel.Id)).filter(accountModel.age
                         
                         	<h2 id="toc_0">背景</h2>
 
-<pre><code>show variables like &#39;character_set_%&#39;;
+<pre><code class="language-sql">show variables like &#39;character_set_%&#39;;
 </code></pre>
 
 <p>结果为：</p>
@@ -418,7 +377,7 @@ count = db.session.query(db.func.count(accountModel.Id)).filter(accountModel.age
 
 <p><strong>创建数据表</strong></p>
 
-<pre><code class="language-mysql">CREATE TABLE `one` (
+<pre><code class="language-sql">CREATE TABLE `one` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(32) DEFAULT NULL,
   PRIMARY KEY (`id`)
@@ -427,7 +386,7 @@ count = db.session.query(db.func.count(accountModel.Id)).filter(accountModel.age
 
 <p>在该状态下写入一条语句：</p>
 
-<pre><code class="language-mysql">insert into one (name) values(&quot;测试姓名&quot;);
+<pre><code class="language-sql">insert into one (name) values(&quot;测试姓名&quot;);
 </code></pre>
 
 <p>&quot;测试名字&quot;数据是在所有的字符集都是utf8的情况下插入的<br/>
@@ -441,7 +400,7 @@ count = db.session.query(db.func.count(accountModel.Id)).filter(accountModel.age
 
 <p>分别执行以下操作：</p>
 
-<pre><code>alter table one default character set latin1;
+<pre><code class="language-sql">alter table one default character set latin1;
 set character_set_connection=latin1;
 alter database test default character set latin1;
 set character_set_client=latin1;
@@ -453,7 +412,7 @@ set character_set_client=latin1;
 
 <p>一起执行如下语句：</p>
 
-<pre><code>alter table one default character set latin1;
+<pre><code class="language-sql">alter table one default character set latin1;
 set character_set_connection=latin1;
 alter database test default character set latin1;
 set character_set_client=latin1;
@@ -461,13 +420,13 @@ set character_set_client=latin1;
 
 <p>查询表中中文数据，发现能够正常显示数据“测试名字”,&quot;测试名字123&quot;</p>
 
-<pre><code>set character_set_connection=latin1;
+<pre><code class="language-sql">set character_set_connection=latin1;
 alter table one default character set latin1;
 </code></pre>
 
 <p>查询表中中文数据，发现“测试名字”，“测试名字123”显示正常， “测试名字abc”乱码</p>
 
-<pre><code>set character_set_connection=latin1;
+<pre><code>set chasqlracter_set_connection=latin1;
 </code></pre>
 
 <p>查询表中数据，发现&quot;测试名字&quot;， “测试名字123”显示正常， “测试名字abc”乱码</p>
@@ -679,6 +638,127 @@ show keys from table_name;
                 </div>
               </div><!-- article -->
         
+			<div class="article">
+                <a class="clearlink" href="14857043647727.html">
+                
+                  <h1>Redis</h1>
+                  <div class="a-content">
+                      
+                      <div class="a-content-text">
+                        
+                        	<p>第一次使用redis进行数据缓存,现在把从安装到使用做一下笔记,方便以后看.</p>
+
+<h2 id="toc_0">安装redis</h2>
+
+<p>通过wget下载压缩包,可以先查询最新的redis版本,然后再修改版本号下载<br/>
+<code><br/>
+wget http://download.redis.io/releases/redis-3.0.7.tar.gz<br/>
+</code></p>
+
+<h2 id="toc_1">解压</h2>
+
+<pre><code>tar -xvf redis-3.0.7.tar.gz
+</code></pre>
+
+<h2 id="toc_2">进入到文件夹,执行编译</h2>
+
+<pre><code>make
+</code></pre>
+
+<p>进入到src文件夹下,这里介绍6个可执行文件:</p>
+
+<ul>
+<li><p>redis-server:  Redis服务器的deamon启动程序</p></li>
+<li><p>redis-cli:     Redis命令行执行操作</p></li>
+<li><p>redis-benchmark:    Redis性能测试工具</p></li>
+<li><p>redis-check-aof:     更新日志检测</p></li>
+<li><p>redis-check-dump:    用于本地数据库监测</p></li>
+<li><p>redis-sentinel:   Redis实例的监控工具,通知和实例失效备援服务,是Redis集群的管理工具</p></li>
+</ul>
+
+<h2 id="toc_3">回到redis-3.0.7目录下执行安装</h2>
+
+<pre><code>make install
+</code></pre>
+
+<p>输入red并按下Teb键后会看到刚才介绍的执行文件.</p>
+
+<h2 id="toc_4">修改配置文件</h2>
+
+<p>将源码目录下redis配置文件redis.conf拷贝到/etc/redis目录下。</p>
+
+<p>修改配置项，根据需要；如果不修改，使用默认配置也可以；</p>
+
+<h2 id="toc_5">运行数据库</h2>
+
+<p>执行redis-server命令就可以成功启动数据库了(特别注意:数据库只有成功启动了才能够进行连接,写入数据,取出数据等一系列操作.因为该数据库是运行在内存中的,所以当数据库关闭之后,存储的数据也会删除.)</p>
+
+<h2 id="toc_6">PHP安装redis扩展</h2>
+
+<p>如果不安装扩展,就会显示系统不支持的错误,Ubuntu下使用apt-get安装扩展很方便.</p>
+
+<pre><code>sudo apt-get install php5-redis 
+</code></pre>
+
+<h2 id="toc_7">然后重启下apache</h2>
+
+<pre><code>sudo /etc/init.d/apache2 restart
+</code></pre>
+
+<h2 id="toc_8">ThinkPHP使用redis配置</h2>
+
+<p>在配置文件中写入以下配置就可以正常使用redis了.</p>
+
+<pre><code>    //数据缓存设置 
+    &#39;DATA_CACHE_TIME&#39;       =&gt;  1,             //长连接时间,REDIS_PERSISTENT为1时有效
+    &#39;DATA_CACHE_PREFIX&#39;     =&gt;  &#39;&#39;,            // 缓存前缀
+    &#39;DATA_CACHE_TYPE&#39;       =&gt;  &#39;Redis&#39;,       //数据缓存类型
+    &#39;DATA_EXPIRE&#39;           =&gt;  0,               //数据缓存有效期(单位:秒) 0表示永久缓存
+    &#39;DATA_PERSISTENT&#39;      =&gt;  1,               //是否长连接
+
+    //Redis缓存配置
+    &#39;DATA_REDIS_HOST&#39;            =&gt;  &#39;127.0.0.1&#39;, //分布式Redis,默认第一个为主服务器
+    &#39;DATA_REDIS_PORT&#39;            =&gt;  &#39;6379&#39;,           //端口,如果相同只填一个,用英文逗号分隔
+    &#39;DATA_REDIS_AUTH&#39;            =&gt;  &#39;&#39;,    //Redis auth认证(密钥中不能有逗号),如果相同只填一个,用英文逗号分隔
+    &#39;REDIS_CTYPE&#39;           =&gt; 1, //连接类型 1:普通连接 2:长连接
+    &#39;REDIS_TIMEOUT&#39;         =&gt; 0, //连接超时时间(S) 0:永不超时
+    &#39;REDIS_PERSISTENT&#39;      =&gt;1,
+ThinkPHP3.2.X 使用Redis进行缓存数据
+
+//添加缓存数据       
+ S(&#39;name&#39;,&quot;This is test value&quot;);
+//读取缓存数据
+$value = S(&#39;name&#39;);
+//打印缓存数据
+print_r($value);
+//删除缓存数据
+S(&#39;name&#39;,null);
+
+</code></pre>
+
+                        
+                      </div>
+                  </div>
+                </a>
+                <div class="read-more clearfix">
+                  <div class="more-left left">
+                  
+                    <span class="date">2016/3/27</span>
+                    <span>posted in&nbsp;</span> 
+          				  
+          					    <span class="posted-in"><a href='%E6%95%B0%E6%8D%AE%E5%BA%93.html'>数据库</a></span>
+          				   
+                  </div>
+                  <div class="more-right right">
+                  <span class="comments">
+                      
+
+                       
+                  </span>
+                  </div>
+                </div>
+              </div><!-- article -->
+        
               
 
 
@@ -766,6 +846,12 @@ show keys from table_name;
 	      
 		      
 			      <li class="post">
+			        <a href="15421053722232.html">Flask 流式相应实现文件下载及常见问题总结</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
 			        <a href="15406290433586.html">扎心！有人偷走了我的磁盘空间？！</a>
 			      </li>
 		     
@@ -785,12 +871,6 @@ show keys from table_name;
 		      
 			      <li class="post">
 			        <a href="15056428224967.html">Python 运算符操作</a>
-			      </li>
-		     
-		  
-		      
-			      <li class="post">
-			        <a href="15048580065601.html">Python內建类型对象的那些事</a>
 			      </li>
 		     
 		  

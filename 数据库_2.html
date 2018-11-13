@@ -115,133 +115,6 @@
 		<div class="markdown-body home-categories">
 		
 			<div class="article">
-                <a class="clearlink" href="14857038899615.html">
-                
-                  <h1>MySQL学习笔记（4）——查询</h1>
-                  <div class="a-content">
-                      
-                      <div class="a-content-text">
-                        
-                        	<p>为什么要存储数据呢？当然是为了查询啦~~~嘿嘿，小小无聊一下。。。接下来进入正题——查询的各种方法</p>
-
-<p>where条件查询</p>
-
-<p>条件查询的适用范围比较广，更新，删除都用到了where条件查询，只需要在where之后添加要查询的条件即可。</p>
-
-<p>group by语句对查询结果进行分组</p>
-
-<p>group by {字段名|字段位置}[asc|desc]<br/>
-该语句是对查询结果进行分组，分组完成之后也可以进行排序，asc是升序（默认），desc是降序，可以按照多个字段作为分组条件，字段之间以逗号分隔。</p>
-
-<p>字段位置是select 语句中查询字段所在的位置（从1开始），并不是表中字段所在的位置，不建议这么做。</p>
-
-<p>group by语句有时也需要对分组进行条件确定，这时候配合使用having语句，在having之后设置分组条件，从而确定要进行分组的都有那些数据。</p>
-
-<p>group by {字段名|字段位置} [asc|desc] having 分组条件<br/>
-having语句进行条件选择的时候，只有两种情况，一种是条件涉及到的字段出现在select语句中（即是查询的字段之一），另一种是聚合函数（比如sum(),count()等等，这些函数之所以称为聚合函数，是因为它们永远只有一个返回值）。如果不是这两种情况，查询条件就要使用where条件查询。</p>
-
-<p>order by 语句</p>
-
-<p>order by {字段名|字段位置} [asc|desc]<br/>
-asc是默认的升序，desc是降序。也可以根据多个字段进行排序，进行排序时，先看前面的字段，前面相同再继续往下判断。</p>
-
-<p>limit限制</p>
-
-<p>limit限制查询结果返回的数量，一般语法结构为：</p>
-
-<p>select * from 表名 limit n<br/>
-select * from 表名 limit m,n<br/>
-Limit后面如果只有一个数字，即默认返回前n条数据，如果有两个数字(m,n)（数字之间以逗号分隔），则表示从第m条数据开始（从0开始计数，该计数是物理计数，和任何编号数据没有关系）,显示n条数据（包括第m条）。</p>
-
-<p>查询示例</p>
-
-<p>结合上述所学知识点进行小小的查询测试</p>
-
-<p>select username,age,sex<br/>
-from users<br/>
-group by age having sex is ‘男’<br/>
-order by age desc<br/>
-limit 5 ;<br/>
-子查询</p>
-
-<p>子查询是指嵌套在查询内部，以小括号括起来的完整的查询，子查询的外层查询可以是select,insert,update,delete,set或do都是可以的。</p>
-
-<p>子查询返回可以是一个标量，可以是一行，一列或者是一个子查询。</p>
-
-<p>由比较运算符引发的子查询</p>
-
-<p>比较运算符有：=,&gt;,&lt;,&gt;=,&lt;=,&lt;&gt;,!=,&lt;=&gt;...</p>
-
-<p>例如：查询价格在所有产品平均价格之上的产品名称和价格：</p>
-
-<p>select goods_name as 产品名称,goods_price as 产品价格<br/>
-from goods<br/>
-where goods_price &gt;=(<br/>
-select avg(goods_price) from goods);<br/>
-带有any,some,all修饰的比较运算符引发的子查询</p>
-
-<p>在子查询的返回结果中，有可能会有多个结果，而比较运算符只有确定和哪一个结果进行比较才可以正常运算，这时候就要用到any任何一个，some也是任何一个，all符合全部来进行修饰比较运算符。</p>
-
-<p>例如：查询产品价格比任何一个超极本电脑价格都贵的产品名称和价格:</p>
-
-<p>select goods_name as 产品名称,goods_price as 价格<br/>
-from goods<br/>
-where goods_price &gt; any(<br/>
-select goods_price from goods where goods_cate = &#39;超级本&#39;);<br/>
-由[not] in/exists引发的子查询</p>
-
-<p>In 和 not in代表是否在子查询的结果里面，exists 和 not exists代表查询数据是否存在，如果存在，则返回true，不存在返回false</p>
-
-<p>表的连接</p>
-
-<p>一张表不可能存储所有的数据，在读取表内容的时候，我们需要根据一张表读取另一张表的内容，就用到了表的连接</p>
-
-<p>使用on关键字来设定连接条件，where关键字进行结果集记录的过滤</p>
-
-<p>内连接：inner join，仅显示符合连接条件的记录</p>
-
-<p>左外连接：left join，显示左表中的全部和右表中的符合条件的数据，如果左表中数据在右表中没有符合条件的字段，则显示为null</p>
-
-<p>右外链接：right join，和左外连接相反</p>
-
-<p>无限级分类的表设计</p>
-
-<p>其实也是很简单的，表结构中除了原有的id,name等字段之外，再添加一个字段，那就是该分类的父类id。例如：</p>
-
-<p>CREATE TABLE tdb_goods_types(<br/>
-     type_id   SMALLINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,<br/>
-     type_name VARCHAR(20) NOT NULL,<br/>
-     parent_id SMALLINT UNSIGNED NOT NULL DEFAULT 0<br/>
-  );<br/>
-自身连接进行无限级分类的查找，找出每一个分类的自身id，自身名称，父类名称，这里将一张表想象成两张表进行左外连接（为什么选用左外连接呢？因为顶级分类是没有父级分类的，但是我们不能够不查询出来，所以采用左外连接，将子表设为左表）</p>
-
-<p>Select s.type_id as 自身id,s.type_name as 自身名称,p.type_name as 父类名称<br/>
-From tdb_goods_types as s left join tdb_goods_types as p on s.parent_id = p.type_id;</p>
-
-                        
-                      </div>
-                  </div>
-                </a>
-                <div class="read-more clearfix">
-                  <div class="more-left left">
-                  
-                    <span class="date">2016/1/23</span>
-                    <span>posted in&nbsp;</span> 
-          				  
-          					    <span class="posted-in"><a href='%E6%95%B0%E6%8D%AE%E5%BA%93.html'>数据库</a></span>
-          				   
-                  </div>
-                  <div class="more-right right">
-                  <span class="comments">
-                      
-
-                       
-                  </span>
-                  </div>
-                </div>
-              </div><!-- article -->
-        
-			<div class="article">
                 <a class="clearlink" href="14857038593747.html">
                 
                   <h1>MySQL学习笔记（3）——修改数据表及写数据</h1>
@@ -655,6 +528,12 @@ selest brand_name from goods group by brand_name;<br/>
 	      
 		      
 			      <li class="post">
+			        <a href="15421053722232.html">Flask 流式相应实现文件下载及常见问题总结</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
 			        <a href="15406290433586.html">扎心！有人偷走了我的磁盘空间？！</a>
 			      </li>
 		     
@@ -674,12 +553,6 @@ selest brand_name from goods group by brand_name;<br/>
 		      
 			      <li class="post">
 			        <a href="15056428224967.html">Python 运算符操作</a>
-			      </li>
-		     
-		  
-		      
-			      <li class="post">
-			        <a href="15048580065601.html">Python內建类型对象的那些事</a>
 			      </li>
 		     
 		  

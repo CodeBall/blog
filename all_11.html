@@ -115,49 +115,6 @@
 		<div class="markdown-body home-categories">
 		
 			<div class="article">
-                <a class="clearlink" href="14857036563095.html">
-                
-                  <h1>ThinkPHP奇葩现象:数据表新增字段无法存储数据</h1>
-                  <div class="a-content">
-                      
-                      <div class="a-content-text">
-                        
-                        	<p>之前写的一个已经发布的网站中,需要根据用户登录账号判断投稿者,于是就在数据表中添加了一个字段,无奈在本机可以正常获取数据,但是上传到网站上却不能获取.</p>
-
-<p>通过一步步的排查问题发现,从用户输入的数据可以正常获取,但是存储数据库的时候却不能够将新添加的字段数据更新进去,因为更新的SqL语句中根本没有这一项数据.</p>
-
-<p>感觉真的是好奇怪,本来还以为apache出了问题,重启了一下,还是不能解决.于是在网上百度了以下这个状况,还真有前辈遇到了此问题并成功解决.</p>
-
-<p>文章中提到这是ThinkPHP缓存文件Runtime导致的,将这个文件整个都删除就可以了.删除语句为:rm -fr Runtime/ 就成功解决了此问题,而删除语句中-fr参数的具体用法详见此文章:<a href="http://yanzl.net/1122.html">http://yanzl.net/1122.html</a>.</p>
-
-<p>其中,有一个现象和参考文章作者遇到的现象是一样的,那就是在本机运行的时候,开启的是开发模式,即:Debug＝true,而上传到网站上之后,开启的是运行模式,即:Debug＝false,在运行模式下,运行缓存文件Runtime没有得到更新,所以该程序不认为又新添加了字段,故没有将该字段的数据存入数据库,把缓存文件删除之后,在此更新网站,会产生新的缓存文件,于是就将问题解决了.</p>
-
-<p>现在献上解决问题的参考文章:<a href="http://www.xcoder.cn/index.php/archives/1100">http://www.xcoder.cn/index.php/archives/1100</a></p>
-
-                        
-                      </div>
-                  </div>
-                </a>
-                <div class="read-more clearfix">
-                  <div class="more-left left">
-                  
-                    <span class="date">2015/11/17</span>
-                    <span>posted in&nbsp;</span> 
-          				  
-          					    <span class="posted-in"><a href='PHP.html'>PHP</a></span>
-          				   
-                  </div>
-                  <div class="more-right right">
-                  <span class="comments">
-                      
-
-                       
-                  </span>
-                  </div>
-                </div>
-              </div><!-- article -->
-        
-			<div class="article">
                 <a class="clearlink" href="14857035303375.html">
                 
                   <h1>Python count()方法\replace()方法</h1>
@@ -483,6 +440,376 @@ print c.strip(&#39;12&#39;)</p>
                 </div>
               </div><!-- article -->
         
+			<div class="article">
+                <a class="clearlink" href="14857034052603.html">
+                
+                  <h1>Python中列表List使用</h1>
+                  <div class="a-content">
+                      
+                      <div class="a-content-text">
+                        
+                        	<p>创建一个列表</p>
+
+<p>the_count = [1,2,3,4,5]<br/>
+fruits = [&#39;apples&#39;,&#39;oranges&#39;,&#39;pears&#39;,&#39;banana&#39;]<br/>
+change = [1,&#39;pennies&#39;,2,&#39;dimes&#39;,3,&#39;quarters&#39;]<br/>
+访问列表中的值</p>
+
+<p>(1)使用索引进行访问</p>
+
+<p>print &quot;change[0]: &quot;, change[0]<br/>
+print &quot;change[1:5]: &quot;, change[1:5]</p>
+
+<p>以上输出结果为:<br/>
+change[0]:  1<br/>
+change[1:5]:  <a href="2">&#39;pennies&#39;, 2, &#39;dimes&#39;, 3</a>for循环进行访问</p>
+
+<p>for number in the_count:<br/>
+     print &quot;This is count %d&quot; %number</p>
+
+<p>以上输出结果为:<br/>
+This is count 1<br/>
+This is count 2<br/>
+This is count 3<br/>
+This is count 4<br/>
+This is count 5<br/>
+更新列表</p>
+
+<p>对列表的数据项进行修改</p>
+
+<h1 id="toc_0">更新列表</h1>
+
+<p>print &quot;the_count[3]:&quot;,the_count[3]<br/>
+the_count[3] = 2015<br/>
+print &quot;the_count[3]:&quot;,the_count[3]<br/>
+the_count[3] = &#39;The_count&#39;<br/>
+print &quot;the_count[3]:&quot;,the_count[3]</p>
+
+<p>第一次打印是初始值,第二次和第三次打印是修改了两次之后的值,结果如下<br/>
+the_count[3]: 4<br/>
+the_count[3]: 2015<br/>
+the_count[3]: The_count</p>
+
+<p>删除列表元素</p>
+
+<p>print the_count<br/>
+del the_count[3]<br/>
+print &quot;After deleting value at index 3 : &quot;<br/>
+print the_count</p>
+
+<p>该段代码执行之后的结果如下<br/>
+[1, 2, 3, &#39;The_count&#39;, 5]<br/>
+After deleting value at index 3 : <br/>
+[1, 2, 3, 5]<br/>
+计算列表元素个数</p>
+
+<p>#计算the_count列表的长度<br/>
+print len(the_count)</p>
+
+<p>输出结果为<br/>
+4<br/>
+因为上面已经对the_count列表执行了删除下标为3的元素的操作</p>
+
+<p>组合两个列表</p>
+
+<h1 id="toc_1">组合两个列表</h1>
+
+<p>list1 = the_count + fruits<br/>
+print list1</p>
+
+<p>输出结果为:<br/>
+[1, 2, 3, 5, &#39;apples&#39;, &#39;oranges&#39;, &#39;pears&#39;, &#39;banana&#39;]<br/>
+重复列表内容</p>
+
+<h1 id="toc_2">循环列表元素</h1>
+
+<p>list2 = fruits * 3<br/>
+print list2</p>
+
+<p>输出结果为:<br/>
+[&#39;apples&#39;, &#39;oranges&#39;, &#39;pears&#39;, &#39;banana&#39;, &#39;apples&#39;, &#39;oranges&#39;, &#39;pears&#39;, &#39;banana&#39;, &#39;apples&#39;, &#39;oranges&#39;, &#39;pears&#39;, &#39;banana&#39;]<br/>
+这事将整个列表元素都进行了重复<br/>
+查看元素是否存在于列表中</p>
+
+<h1 id="toc_3">查看某一个元素是否存在于列表中</h1>
+
+<p>flag = 7 in the_count<br/>
+print flag<br/>
+flag = &#39;banana&#39; in fruits<br/>
+print flag</p>
+
+<p>第一个是判断7是否在列表the_count中<br/>
+第二个是判断&#39;banana&#39;字符串是否在fruits列表中<br/>
+两次的输出结果为:<br/>
+False<br/>
+True<br/>
+元素迭代</p>
+
+<p>#迭代效果<br/>
+ for x in change:<br/>
+      print x</p>
+
+<p>将change列表中的元素都赋值给x,然后依次打印x<br/>
+打印结果为:<br/>
+1<br/>
+pennies<br/>
+2<br/>
+dimes<br/>
+3<br/>
+quarters<br/>
+比较两个列表</p>
+
+<p>cmp函数用于比较两个列表</p>
+
+<p>如果比较的元素是同类型的,则比较其值,返回结果。</p>
+
+<p>如果两个元素不是同一种类型,则检查它们是否是数字。</p>
+
+<p>如果是数字,执行必要的数字强制类型转换,然后比较。<br/>
+如果有一方的元素是数字,则另一方的元素&quot;大&quot;(数字是&quot;最小的&quot;)<br/>
+否则,通过类型名字的字母顺序进行比较。<br/>
+如果有一个列表首先到达末尾,则另一个长一点的列表&quot;大&quot;。</p>
+
+<p>如果我们用尽了两个列表的元素而且所 有元素都是相等的,那么结果就是个平局,就是说返回一个 0。</p>
+
+<p>前者大于后者,返回1,前者小于后者,返回-1.</p>
+
+<h1 id="toc_4">比较两个列表的元素</h1>
+
+<p>print &quot;Compare the_count and fruits&quot;<br/>
+print cmp(the_count,fruits)<br/>
+print &quot;Compare the_count and the_count&quot;<br/>
+print cmp(the_count,the_count)<br/>
+print &quot;Compare fruits and the_count&quot;<br/>
+print cmp(fruits,the_count)</p>
+
+<p>执行结果为:<br/>
+Compare the_count and fruits<br/>
+-1<br/>
+Compare the_count and the_count<br/>
+0<br/>
+Compare fruits and the_count<br/>
+1<br/>
+列表元素最大最小值</p>
+
+<h1 id="toc_5">返回列表元素最大最小值</h1>
+
+<p>print &quot;change max is:&quot;,max(change)<br/>
+print &quot;change min is:&quot;,min(change)</p>
+
+<p>运行结果如下:<br/>
+change max is: quarters<br/>
+change min is: 1<br/>
+在列表末尾添加新的对象</p>
+
+<p>在列表末尾添加新的对象<br/>
+change.append(2015)<br/>
+print &quot;new change is:&quot;,change</p>
+
+<p>添加完新的对象输出结果是:<br/>
+new change is: [1, &#39;pennies&#39;, 2, &#39;dimes&#39;, 3, &#39;quarters&#39;, 2015]<br/>
+统计某个元素在列表中出现的次数</p>
+
+<p>统计某个元素在列表中出现的次数<br/>
+print change.count(1)</p>
+
+<p>数字1出现的次数为:<br/>
+1<br/>
+在列表中一次性追加另一个序列的多个值</p>
+
+<p>在列表末尾一次性追加另一个序列的多个值<br/>
+print &quot;old change is :&quot;,change<br/>
+change.extend(the_count)<br/>
+print &quot;new change is :&quot;,change</p>
+
+<p>新旧数列对比如下:<br/>
+old change is : [1, &#39;pennies&#39;, 2, &#39;dimes&#39;, 3, &#39;quarters&#39;, 2015]<br/>
+new change is : [1, &#39;pennies&#39;, 2, &#39;dimes&#39;, 3, &#39;quarters&#39;, 2015, 1, 2, 3, 5]<br/>
+从列表中找出某一个元素第一次出现的索引位置</p>
+
+<p>从列表中找出某个值第一个匹配项的索引位置</p>
+
+<p>print &quot;the first 1 in change is :&quot;,change.index(1)</p>
+
+<p>输出结果为:<br/>
+the first 1 in change is : 0<br/>
+将对象插入列表</p>
+
+<p>将对象插入列表<br/>
+指在第一个参数的位置插入第二个参数<br/>
+change.insert(3,&#39;love&#39;)<br/>
+print change</p>
+
+<p>插入之后的列表为:<br/>
+[1, &#39;pennies&#39;, 2, &#39;love&#39;, &#39;dimes&#39;, 3, &#39;quarters&#39;, 2015, 1, 2, 3, 5]<br/>
+移除最后一个元素,并返回该元素的值</p>
+
+<p>移除列表中的一个元素（默认最后一个元素），并且返回该元素的值<br/>
+print change.pop()</p>
+
+<p>返回值为:<br/>
+5<br/>
+移除列表中某一个元素的第一个匹配项</p>
+
+<p>移除列表中某个值的第一个匹配项<br/>
+change.remove(3)<br/>
+print change;</p>
+
+<p>移除之后的列表为:<br/>
+[1, &#39;pennies&#39;, 2, &#39;love&#39;, &#39;dimes&#39;, &#39;quarters&#39;, 2015, 1, 2, 3]<br/>
+将列表元素反向</p>
+
+<p>反向列表中元素</p>
+
+<p>change.reverse()<br/>
+print change;</p>
+
+<p>反向之后的列表元素如下:<br/>
+[3, 2, 1, 2015, &#39;quarters&#39;, &#39;dimes&#39;, &#39;love&#39;, 2, &#39;pennies&#39;, 1]<br/>
+对列表元素进行从小到大排序</p>
+
+<p>对原列表进行排序,默认按照从小到大顺序<br/>
+change.sort()<br/>
+print change</p>
+
+<p>排序之后的列表如下:<br/>
+[1, 1, 2, 2, 3, 2015, &#39;dimes&#39;, &#39;love&#39;, &#39;pennies&#39;, &#39;quarters&#39;]</p>
+
+<p>该文章中所用到的完整示例如下:</p>
+
+<h1 id="toc_6">-<em>- coding: utf-8 -</em>-</h1>
+
+<p>the_count = [1,2,3,4,5]<br/>
+fruits = [&#39;apples&#39;,&#39;oranges&#39;,&#39;pears&#39;,&#39;banana&#39;]<br/>
+change = [1,&#39;pennies&#39;,2,&#39;dimes&#39;,3,&#39;quarters&#39;]</p>
+
+<p>print &quot;change[0]: &quot;, change[0]<br/>
+print &quot;change[2:5]: &quot;, change[2:5] </p>
+
+<h1 id="toc_7">this first kind of for-loop goes through a list</h1>
+
+<p>for number in the_count:<br/>
+    print &quot;This is count %d&quot; %number</p>
+
+<p>print &quot;the_count[3]:&quot;,the_count[3]<br/>
+the_count[3] = 2015<br/>
+print &quot;the_count[3]:&quot;,the_count[3]<br/>
+the_count[3] = &#39;The_count&#39;<br/>
+print &quot;the_count[3]:&quot;,the_count[3]</p>
+
+<p>print the_count<br/>
+del the_count[3]<br/>
+print &quot;After deleting value at index 3 : &quot;<br/>
+print the_count</p>
+
+<h1 id="toc_8">计算the_count列表的长度</h1>
+
+<p>print len(the_count)</p>
+
+<h1 id="toc_9">组合两个列表</h1>
+
+<p>list1 = the_count + fruits<br/>
+print list1</p>
+
+<h1 id="toc_10">循环列表元素</h1>
+
+<p>list2 = fruits * 3<br/>
+print list2</p>
+
+<h1 id="toc_11">查看某一个元素是否存在于列表中</h1>
+
+<p>flag = 7 in the_count<br/>
+print flag<br/>
+flag = &#39;banana&#39; in fruits<br/>
+print flag</p>
+
+<h1 id="toc_12">迭代效果</h1>
+
+<p>for x in change:<br/>
+    print x</p>
+
+<h1 id="toc_13">比较两个列表的元素</h1>
+
+<p>print &quot;Compare the_count and fruits&quot;<br/>
+print cmp(the_count,fruits)<br/>
+print &quot;Compare the_count and the_count&quot;<br/>
+print cmp(the_count,the_count)<br/>
+print &quot;Compare fruits and the_count&quot;<br/>
+print cmp(fruits,the_count)</p>
+
+<h1 id="toc_14">返回列表元素最大最小值</h1>
+
+<p>print &quot;change max is:&quot;,max(change)<br/>
+print &quot;change min is:&quot;,min(change)</p>
+
+<h1 id="toc_15">在列表末尾添加新的对象</h1>
+
+<p>change.append(2015)<br/>
+print &quot;new change is:&quot;,change</p>
+
+<h1 id="toc_16">统计某个元素在列表中出现的次数</h1>
+
+<p>print change.count(1)</p>
+
+<h1 id="toc_17">在列表末尾一次性追加另一个序列的多个值</h1>
+
+<p>print &quot;old change is :&quot;,change<br/>
+change.extend(the_count)<br/>
+print &quot;new change is :&quot;,change</p>
+
+<h1 id="toc_18">从列表中找出某个值第一个匹配项的索引位置</h1>
+
+<p>print &quot;the first 1 in change is :&quot;,change.index(1)</p>
+
+<h1 id="toc_19">将对象插入列表</h1>
+
+<h1 id="toc_20">指在第一个参数的位置插入第二个参数</h1>
+
+<p>change.insert(3,&#39;love&#39;)<br/>
+print change</p>
+
+<h1 id="toc_21">移除列表中的一个元素（默认最后一个元素），并且返回该元素的值</h1>
+
+<p>print change.pop()</p>
+
+<h1 id="toc_22">移除列表中某个值的第一个匹配项</h1>
+
+<p>change.remove(3)<br/>
+print change;</p>
+
+<h1 id="toc_23">反向列表中元素</h1>
+
+<p>change.reverse()<br/>
+print change;</p>
+
+<h1 id="toc_24">对原列表进行排序,默认按照从小到大顺序</h1>
+
+<p>change.sort()<br/>
+print change</p>
+
+                        
+                      </div>
+                  </div>
+                </a>
+                <div class="read-more clearfix">
+                  <div class="more-left left">
+                  
+                    <span class="date">2015/10/21</span>
+                    <span>posted in&nbsp;</span> 
+          				  
+          					    <span class="posted-in"><a href='Python.html'>Python</a></span>
+          				   
+                  </div>
+                  <div class="more-right right">
+                  <span class="comments">
+                      
+
+                       
+                  </span>
+                  </div>
+                </div>
+              </div><!-- article -->
+        
               
 
 
@@ -570,6 +897,12 @@ print c.strip(&#39;12&#39;)</p>
 	      
 		      
 			      <li class="post">
+			        <a href="15421053722232.html">Flask 流式相应实现文件下载及常见问题总结</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
 			        <a href="15406290433586.html">扎心！有人偷走了我的磁盘空间？！</a>
 			      </li>
 		     
@@ -589,12 +922,6 @@ print c.strip(&#39;12&#39;)</p>
 		      
 			      <li class="post">
 			        <a href="15056428224967.html">Python 运算符操作</a>
-			      </li>
-		     
-		  
-		      
-			      <li class="post">
-			        <a href="15048580065601.html">Python內建类型对象的那些事</a>
 			      </li>
 		     
 		  

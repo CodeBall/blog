@@ -115,74 +115,6 @@
 		<div class="markdown-body home-categories">
 		
 			<div class="article">
-                <a class="clearlink" href="14857040510109.html">
-                
-                  <h1>MySQL学习笔记（7）——存储引擎</h1>
-                  <div class="a-content">
-                      
-                      <div class="a-content-text">
-                        
-                        	<p>存储引擎在之前学习过程中接触过一点，现在再写一些涉及到的更多的知识</p>
-
-<p>并发控制</p>
-
-<p>当多个连接对记录进行修改时保证数据的一致性和完整性，锁系统能够实现并发控制。</p>
-
-<p>锁系统</p>
-
-<p>锁系统是用来进行并发控制的，有两种锁，一种是共享锁（读锁）：在同一个时间内，多个用户可以读取同一个资源，因为不会对数据进行修改，所以是可以共同使用资源的，另一种是排它锁（写锁）：在任何时候只能有一个用户写入资源，当进行写锁时会阻塞其他的读锁或者写锁操作</p>
-
-<p>锁也有作用范围的大小，称为锁颗粒。比如表锁：是一种开销最小的锁，行锁：是一种开销最大的锁，支持的并发处理也是最大的。这里的开销，其实是锁的个数，表锁只对这张表加一个锁就可以了，所以开销最小，行锁要对相应的行加锁，所以开销最大。</p>
-
-<p>事务处理</p>
-
-<p>事务的主要作用为保证数据的完整性，事务有四大特性：原子性，一致性，隔离性，持久性；这四大特性简写为：ACID</p>
-
-<p>存储引擎的定义</p>
-
-<p>MySQL将数据以不同的技术存储在文件（内存）中，这种技术称为存储引擎。每一种存储引擎都是用不同的存储机制，索引技巧，锁定水平，最终提供广泛且不同的功能。</p>
-
-<p>MySQL支持的存储引擎</p>
-
-<p>MyISAM</p>
-
-<p>InnoDB</p>
-
-<p>Memory</p>
-
-<p>CSV：以逗号分隔</p>
-
-<p>Archive</p>
-
-<p>BlackHole:黑洞引擎，写入的数据都会消失，一般用作数据复制的中继</p>
-
-<p>这些存储引擎的特点如下图所示：<br/>
-<img src="media/14857040510109/mysql-suo.png" alt="mysql-suo"/></p>
-
-                        
-                      </div>
-                  </div>
-                </a>
-                <div class="read-more clearfix">
-                  <div class="more-left left">
-                  
-                    <span class="date">2016/1/25</span>
-                    <span>posted in&nbsp;</span> 
-          				  
-          					    <span class="posted-in"><a href='%E6%95%B0%E6%8D%AE%E5%BA%93.html'>数据库</a></span>
-          				   
-                  </div>
-                  <div class="more-right right">
-                  <span class="comments">
-                      
-
-                       
-                  </span>
-                  </div>
-                </div>
-              </div><!-- article -->
-        
-			<div class="article">
                 <a class="clearlink" href="14857040317702.html">
                 
                   <h1>MySQL学习笔记（6）——存储过程</h1>
@@ -190,11 +122,11 @@
                       
                       <div class="a-content-text">
                         
-                        	<p>MySQL命令的执行流程</p>
+                        	<h2 id="toc_0">MySQL命令的执行流程</h2>
 
 <p>对于我们输入的sql命令，MySQL引擎会先进行语法分析，确定语法正确之后对sql命令进行编译，编译成可识别的命令，然后才执行语句，并将执行的结果返回给客户端。</p>
 
-<p>存储过程的定义</p>
+<h2 id="toc_1">存储过程的定义</h2>
 
 <p>存储过程是sql语句和控制语句的预编译集合，以一个名称存储并作为一个存储单元处理，存储过程存储在数据库内，可以由应用程序调用执行，允许用户声明变量以及进行流程控制。</p>
 
@@ -202,15 +134,15 @@
 
 <p>存储过程是预编译的，当第一次调用的时候，MySQL引擎会对其进行语法分析，编译等操作，并把结果存储在内存中。之后再调用，就直接从内存中执行。</p>
 
-<p>存储过程的优点</p>
+<h2 id="toc_2">存储过程的优点</h2>
 
-<p>增强sql语句的功能和灵活性：因为可以写控制语句，所以存储过程可以完成复杂的判断以及较复杂的运算</p>
+<ul>
+<li>增强sql语句的功能和灵活性：因为可以写控制语句，所以存储过程可以完成复杂的判断以及较复杂的运算</li>
+<li>实现了较快的执行速度</li>
+<li>减少网络流量：由原来的传递一整条语句到之后的传递参数，传递的字符量变小了。</li>
+</ul>
 
-<p>实现了较快的执行速度</p>
-
-<p>减少网络流量：由原来的传递一整条语句到之后的传递参数，传递的字符量变小了。</p>
-
-<p>存储过程语法结构</p>
+<h2 id="toc_3">存储过程语法结构</h2>
 
 <p>create <br/>
 [definer = {当前用户|创建该存储过程的用户}]//如果不写则默认为当前用户<br/>
@@ -218,64 +150,71 @@ procedure 存储过程名称(参数，可以有0个到多个)<br/>
 过程体<br/>
 存储过程参数有3个写法，in代表这个参数的值必须是在调用存储过程时指定，存储过程中，该值不能被返回。out代表该参数的值可以被存储过程中的代码改变，可以返回。Inout表示在调用存储过程时指定，可以被改变和返回.</p>
 
-<p>调用存储过程</p>
+<h2 id="toc_4">调用存储过程</h2>
 
 <p>Call 存储过程名</p>
 
 <p>Call 存储过程名(参数)</p>
 
-<p>修改存储过程</p>
+<h2 id="toc_5">修改存储过程</h2>
 
 <p>修改存储过程只能修改注释，内容的类型，不能够修改过程体，如果想修改过程体，则只能删除重建存储过程。</p>
 
-<p>删除存储过程</p>
+<h2 id="toc_6">删除存储过程</h2>
 
-<p>delete procedure 存储过程名<br/>
-创建不带参数的存储过程</p>
+<p>delete procedure 存储过程名</p>
+
+<h2 id="toc_7">创建不带参数的存储过程</h2>
 
 <p>创建存储过程，获取当前MySQL版本</p>
 
-<p>create procedure sp1()select version();<br/>
-创建带有in类型参数的存储过程</p>
+<pre><code>create procedure sp1()select version();
+</code></pre>
 
-<p>创建存储过程，用于删除特定的记录</p>
+<h2 id="toc_8">创建带有in类型参数的存储过程</h2>
 
-<p>如果存储体中有多条语句，则记得修改终止符：delimiter //，写完之后再修改回来</p>
+<p>创建存储过程，用于删除特定的记录<br/>
+如果存储体中有多条语句，则记得修改终止符：delimiter //，写完之后再修改回来<br/>
+特别注意：参数名称和字段名称不要相同，否则会引起歧义而错删数据。</p>
 
-<p>特别注意：参数名称和字段名称不要相同，否则会引起歧义而错删数据。</p>
+<pre><code>create procedure removeUserById(in id int unsigned)
+begin
+delete from tdb_goods where goods_id = id;
+end//
+</code></pre>
 
-<p>create procedure removeUserById(in id int unsigned)<br/>
-begin<br/>
-delete from tdb_goods where goods_id = id;<br/>
-end//<br/>
-创建带有in类型和out类型的存储过程</p>
+<h2 id="toc_9">创建带有in类型和out类型的存储过程</h2>
 
 <p>删除固定的记录，返回剩余的记录</p>
 
-<p>create procedure removeUserAndRetuen(in p_id int unsigned,out username int unsigned)<br/>
-begin<br/>
-delete from tdb_goods where goods_id = pid;<br/>
-select count(goods_id) from tdb_goods into username;<br/>
-end//<br/>
-在调用该存储方法的时候，因为有一个返回值，所以要使用变量存储，MySQL中声明变量的方法为@符号加变量名，该变量是用户变量，跟MySQL客户端绑定，只对当前用户所使用的客户端。如下所示：</p>
+<pre><code>create procedure removeUserAndRetuen(in p_id int unsigned,out username int unsigned)
+begin
+delete from tdb_goods where goods_id = pid;
+select count(goods_id) from tdb_goods into username;
+end//
+</code></pre>
 
-<p>call removeUserAndRetuen(2,@nums);<br/>
-select @nums;<br/>
-创建带有多个out类型参数的存储过程</p>
+<p>在调用该存储方法的时候，因为有一个返回值，所以要使用变量存储，MySQL中声明变量的方法为@符号加变量名，该变量是用户变量，跟MySQL客户端绑定，只对当前用户所使用的客户端。如下所示：</p>
+
+<pre><code>call removeUserAndRetuen(2,@nums);
+select @nums;
+</code></pre>
+
+<h2 id="toc_10">创建带有多个out类型参数的存储过程</h2>
 
 <p>根据价格进行删除，然后返回删除的数据个数和剩余的数据个数</p>
 
-<p>delimiter //<br/>
-create procedure deleteUserByMoney(in money int,out deleteNum int,out nums int)<br/>
-begin<br/>
-delete from tdb_goods where goods_price = money;<br/>
-select row_count() into deleteNum;<br/>
-select count(goods_id) from tdb_goods into nums;<br/>
-end//<br/>
-delimiter ;<br/>
-row_count()函数</p>
+<pre><code>delimiter //
+create procedure deleteUserByMoney(in money int,out deleteNum int,out nums int)
+begin
+delete from tdb_goods where goods_price = money;
+select row_count() into deleteNum;
+select count(goods_id) from tdb_goods into nums;
+end//
+delimiter ;
+</code></pre>
 
-<p>该函数是用来返回受影响的记录总数</p>
+<p><code>row_count()</code>函数是用来返回受影响的记录总数</p>
 
                         
                       </div>
@@ -761,6 +700,114 @@ where t1.goods_id &gt; t2.goods_id;</p>
                 </div>
               </div><!-- article -->
         
+			<div class="article">
+                <a class="clearlink" href="14857038289810.html">
+                
+                  <h1>MySQL学习笔记（2）——数据类型及数据表操作</h1>
+                  <div class="a-content">
+                      
+                      <div class="a-content-text">
+                        
+                        	<p>数据类型</p>
+
+<p>1.整数类型：tinyint(8位)；smallint(16位)；mediumint(24位)；int(32位)；bigint(64位)。</p>
+
+<p>2.浮点类型：float(m,d)；double(m,d)。m代表总共的位数,d代表小数的位数</p>
+
+<p>3.字符类型：char(m),0-255,定长类型，不够的空格补齐；varchar(m),0-65535,不定长类型；tinytext(8)；text(16)；mediumtext(24)；longtext(32)；enum(&#39;value1&#39;,&#39;value2&#39;,&#39;value3&#39;,...),枚举类型，取决于枚举的个数，最多65535个；set(&#39;value1&#39;,&#39;value2&#39;,...),最多64个。</p>
+
+<p>4.日期类型：year(默认为4为，从1970年到2069年)；time(-8385959-8385959)；date(1000.1.1-9999.12.31)；datetime(1000.1.1 0:0:0-9999.12.31 12:59:59),timestamp(时间戳，从1970.1.1 0:0:0-2037)</p>
+
+<p>注意：所谓的数据优化，就是在建表的时候，选择最合适的数据类型而不是选择最大的数据类型。</p>
+
+<p>数据表操作</p>
+
+<p>1.创建数据表：create table [if not exists] 数据表名(字段1和字段1定义,字段2和字段2定义,..)</p>
+
+<p>这种方法只是创建了一个空表，如果在建表的时候，想根据其他表的内容对新表添加数据，则可以采用create select语法结构，</p>
+
+<p>create table [if not exists] table_name(字段和数据类型) select<br/>
+例如：在建立产品品牌表（goods_brands）的时候，根据产品表(goods)中的产品品牌对新表进行数据填充：</p>
+
+<p>create table goods_brands(<br/>
+brand_id smallint unsigned primary key auto_increment,<br/>
+brand_name varchar(40) not null)ENGINE=InnoDB DEFAULT CHARSET=utf8<br/>
+selest brand_name from goods group by brand_name;<br/>
+2.查看数据表：show tables [from 数据库名];选择数据库名即可查看当前数据库之外的其他数据库的数据表信息，否则只能查看本数据库的表信息。</p>
+
+<p>3.查看数据表结构：(1).desc 表名 (2).show columns from 表名 (3).describe 表名 (4).show create table 表名</p>
+
+<p>4.查看数据表的创建命令</p>
+
+<p>show create table 表名;</p>
+
+<p>定义字段</p>
+
+<p>定义字段除了之明字段名称，字段类型之外，还包括以下几点</p>
+
+<p>1.记录的唯一性：为字段添加auto_increment属性，指明该字段自动增长，默认情况下从1开始，增量为1，可以自行设置。该属性必须与接下来涉及到的主键配合使用。</p>
+
+<p>2.无符号属性：unsigned指明该字段的数据类型是无符号的。</p>
+
+<p>3.约束：约束是为了保证数据完整性和一致性而设定的，根据数据列的数目可以将约束分为表级约束和列级约束，表级约束即为一个约束包含了多个字段，列级约束为一个约束包含了一个字段；根据功能，约束有以下5种</p>
+
+<p>a.主键约束：primary key 声明该字段为主键，每张表有且只有一个主键，而这个主键可以包含多个字段，自动为not null，声明了主键的字段值是不会重复的。</p>
+
+<p>b.唯一约束：unique key声明该字段有唯一约束，字段值是不能够重复的，但是可以出现一次null，每张表可以有多个唯一约束。</p>
+
+<p>c.默认约束：default指明字段的默认值，如：set varchar(6) enum(&#39;男&#39;,&#39;女&#39;,&#39;保密&#39;) default &#39;保密&#39;</p>
+
+<p>d.非空约束：null为允许该字段出现空值，not null为不允许字段出现空值</p>
+
+<p>e.外键约束：foreign key实现数据表一对一和一对多的关系，使用外键约束，外键字段和参照字段必须创建索引，如果参照字段没有索引，系统会自动创建。除此之外，外键字段和参照字段必须有相似的字段定义。而且，有外键的表称为子表，子表参照的表为父表。外键的定义格式为：foreign key (字段名) reference 父表名（参照字段）。</p>
+
+<p>拓展外键约束的参照操作</p>
+
+<p>更新表之后，子表是否进行相应的操作，在物理结构上可以通过外键约束的参照操作实现。</p>
+
+<p>（1）cascade:从父表删除或更新记录时同步到子表相应数据中，</p>
+
+<p>如：foreign key(字段名) reference 父表名（参照字段） on delete cascade on update cascade</p>
+
+<p>（2）set null:从父表删除或更新数据之后，子表中的相应数据置为null，如果使用该项，必须保证子表中该字段可以置为空值。</p>
+
+<p>（3）restrict:拒绝对父表的删除和更新操作</p>
+
+<p>（4）no action:与rectrict相同</p>
+
+<p>注意：</p>
+
+<p>外键约束只有innodb这种存储引擎才能支持，其他的存储引擎是不支持这种物理的外键约束的，所以在开发过程中，一般都使用逻辑的外键约束。</p>
+
+<p>修改数据表默认的存储引擎：找到MySQL配置文件my.ini，修改default-storage-engin = 存储引擎，外键约束必须依赖INNODB存储引擎，修改完成之后重启MySQL服务。</p>
+
+<p>查看表中索引</p>
+
+<p>show index from 表名</p>
+
+                        
+                      </div>
+                  </div>
+                </a>
+                <div class="read-more clearfix">
+                  <div class="more-left left">
+                  
+                    <span class="date">2016/1/20</span>
+                    <span>posted in&nbsp;</span> 
+          				  
+          					    <span class="posted-in"><a href='%E6%95%B0%E6%8D%AE%E5%BA%93.html'>数据库</a></span>
+          				   
+                  </div>
+                  <div class="more-right right">
+                  <span class="comments">
+                      
+
+                       
+                  </span>
+                  </div>
+                </div>
+              </div><!-- article -->
+        
               
 
 
@@ -848,6 +895,12 @@ where t1.goods_id &gt; t2.goods_id;</p>
 	      
 		      
 			      <li class="post">
+			        <a href="15421053722232.html">Flask 流式相应实现文件下载及常见问题总结</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
 			        <a href="15406290433586.html">扎心！有人偷走了我的磁盘空间？！</a>
 			      </li>
 		     
@@ -867,12 +920,6 @@ where t1.goods_id &gt; t2.goods_id;</p>
 		      
 			      <li class="post">
 			        <a href="15056428224967.html">Python 运算符操作</a>
-			      </li>
-		     
-		  
-		      
-			      <li class="post">
-			        <a href="15048580065601.html">Python內建类型对象的那些事</a>
 			      </li>
 		     
 		  

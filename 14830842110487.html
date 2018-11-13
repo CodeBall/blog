@@ -137,7 +137,7 @@
       <div class="article-content">
       <h2 id="toc_0">背景</h2>
 
-<pre><code>show variables like &#39;character_set_%&#39;;
+<pre><code class="language-sql">show variables like &#39;character_set_%&#39;;
 </code></pre>
 
 <p>结果为：</p>
@@ -190,7 +190,7 @@
 
 <p><strong>创建数据表</strong></p>
 
-<pre><code class="language-mysql">CREATE TABLE `one` (
+<pre><code class="language-sql">CREATE TABLE `one` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(32) DEFAULT NULL,
   PRIMARY KEY (`id`)
@@ -199,7 +199,7 @@
 
 <p>在该状态下写入一条语句：</p>
 
-<pre><code class="language-mysql">insert into one (name) values(&quot;测试姓名&quot;);
+<pre><code class="language-sql">insert into one (name) values(&quot;测试姓名&quot;);
 </code></pre>
 
 <p>&quot;测试名字&quot;数据是在所有的字符集都是utf8的情况下插入的<br/>
@@ -213,7 +213,7 @@
 
 <p>分别执行以下操作：</p>
 
-<pre><code>alter table one default character set latin1;
+<pre><code class="language-sql">alter table one default character set latin1;
 set character_set_connection=latin1;
 alter database test default character set latin1;
 set character_set_client=latin1;
@@ -225,7 +225,7 @@ set character_set_client=latin1;
 
 <p>一起执行如下语句：</p>
 
-<pre><code>alter table one default character set latin1;
+<pre><code class="language-sql">alter table one default character set latin1;
 set character_set_connection=latin1;
 alter database test default character set latin1;
 set character_set_client=latin1;
@@ -233,13 +233,13 @@ set character_set_client=latin1;
 
 <p>查询表中中文数据，发现能够正常显示数据“测试名字”,&quot;测试名字123&quot;</p>
 
-<pre><code>set character_set_connection=latin1;
+<pre><code class="language-sql">set character_set_connection=latin1;
 alter table one default character set latin1;
 </code></pre>
 
 <p>查询表中中文数据，发现“测试名字”，“测试名字123”显示正常， “测试名字abc”乱码</p>
 
-<pre><code>set character_set_connection=latin1;
+<pre><code>set chasqlracter_set_connection=latin1;
 </code></pre>
 
 <p>查询表中数据，发现&quot;测试名字&quot;， “测试名字123”显示正常， “测试名字abc”乱码</p>
@@ -253,8 +253,8 @@ alter table one default character set latin1;
         <div class="large-6 columns">
         <p class="text-left" style="padding:15px 0px;">
       
-          <a href="14830907697555.html" 
-          title="Previous Post: MySQL数据库☞数据库编码">&laquo; MySQL数据库☞数据库编码</a>
+          <a href="14903342825833.html" 
+          title="Previous Post: 《摆渡人》">&laquo; 《摆渡人》</a>
       
         </p>
         </div>
@@ -377,6 +377,12 @@ s.setAttribute('data-timestamp', +new Date());
 	      
 		      
 			      <li class="post">
+			        <a href="15421053722232.html">Flask 流式相应实现文件下载及常见问题总结</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
 			        <a href="15406290433586.html">扎心！有人偷走了我的磁盘空间？！</a>
 			      </li>
 		     
@@ -396,12 +402,6 @@ s.setAttribute('data-timestamp', +new Date());
 		      
 			      <li class="post">
 			        <a href="15056428224967.html">Python 运算符操作</a>
-			      </li>
-		     
-		  
-		      
-			      <li class="post">
-			        <a href="15048580065601.html">Python內建类型对象的那些事</a>
 			      </li>
 		     
 		  
