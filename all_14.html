@@ -115,6 +115,267 @@
 		<div class="markdown-body home-categories">
 		
 			<div class="article">
+                <a class="clearlink" href="14857044682676.html">
+                
+                  <h1>最小生成树（总结）</h1>
+                  <div class="a-content">
+                      
+                      <div class="a-content-text">
+                        
+                        	<p>定义</p>
+
+<p>一个有 n 个结点的连通图的生成树是原图的极小连通子图，且包含原图中的所有 n 个结点，并且有保持图连通的最少的边。</p>
+
+<p>准则</p>
+
+<p>构成最小生成树的准则有3条：</p>
+
+<p>（1）必须是应该网络的边来构造最小生成树，不可以凭空捏造边哦。</p>
+
+<p>（2）必须使用且仅使用n-1条边来连接网络中的n个顶点。</p>
+
+<p>（3）不能使用产生回路的边。</p>
+
+<p>构成最小生成树的主要算法有：克鲁斯卡尔（Kruskal）算法，普利姆（Prim）算法，和Boruvka算法</p>
+
+<p>普利姆（Prim）算法</p>
+
+<p>基本思想</p>
+
+<p>以顶点为主导地位，从起始顶点出发，通过选择当前可用的最小权值边依次把其他顶点加入到生成树中来。</p>
+
+<p>具体操作</p>
+
+<p>设连通无向网为G（V,E），在该算法中，将点集合分成两个子集合T,T&#39;，T代表在最小生成树里的点的集合，T&#39;代表不在当前生成树里的点的集合。</p>
+
+<p>（1）从连通网G中选择一个起始顶点u0，首先将它加入到集合T中，然后选择与u0关联的，具有最小权值的边（u0，v），将顶点v加入到集合T中。</p>
+
+<p>（2） 以后的每一步从一个顶点在T中，另一个顶点在T&#39;中 的各条边中选择权值最小的边（u,v），把顶点v加入到T中，如此继续，直到网络中的所有顶点都加入到集合T中。</p>
+
+<p><img src="media/14857044682676/shu.jpg" alt="shu"/></p>
+
+<p>接下来以上图为例讲解prim算法的实现过程</p>
+
+<p>（1）将顶点v1放入集合T中，此时，T中只有一个顶点，一个顶点在T,另一个顶点在T’中的边中权值最小的为1，即v1连接的v3顶点，这样，将v3顶点放入T集合中。</p>
+
+<p>（2）现在T集合中就有2个顶点v1,v3了，一个点在T中，另一个点在T&#39;中的边权值最少的是4，即v3和v6相连的边，所以v6也进入集合T中。</p>
+
+<p>（3）现在集合T中有3个顶点v1,v3,v6，一个点在T中，另一个点在T&#39;中的边权值最少的是2，即v4和v6连的边，所以v4也进入集合T中。</p>
+
+<p>（4）现在集合T中有4个顶点v1,v3,v6,v4,一个顶点在T中，另一个顶点在T&#39;中的边的权值最少的是5，即v3和v2相连的边，所以v2也加入到集合T中。</p>
+
+<p>（5）现在，T&#39;中只剩下一个顶点v5，也就是看，所有和v5 相连的边中权值最小的，我们找到了v5和v2相连的边，权值为3，所以v5也加入到了集合T中。</p>
+
+<p>（6）这样，最小生成树就建成功了。</p>
+
+<p>Prim的算法实现</p>
+
+<p>Prim算法一般应用于稠密图，所以一般采用邻接矩阵来存储图，在运算的过程中，我们需要知道的是存放顶点集合T‘内各顶点到顶点集合T内各顶点权值最小的边的权值，用lowcost[]存储，还需要知道的是顶点集合T&#39;内各顶点距离顶点集合T内哪个顶点最近，用nearvex[]存储，当nearvex[i]存储的值是-1的时候，表示i点已经放入T中。</p>
+
+<p>实现过程：</p>
+
+<p>（1）初始化：最初的时候T中只有一个顶点1，所以在nearvex[]数组中将nearvex[1] = -1,其他元素值都是1，lowcost[]数组初始值就是顶点1到其它点的距离。</p>
+
+<p>接下来重复一下步骤：</p>
+
+<p>（2）在lowcost[]数组中寻找权值最小的顶点并且该顶点没有加入到生成树中，用v进行标记。</p>
+
+<p>（3）将nearvex[v]更改为-1，代表已经将v点加入到生成树中，相应的对该边进行操作，比如加和，输出权值等操作。</p>
+
+<p>（4）修改lowost数组，因为加入新的顶点之后，就相当于新增加了和该点相邻的边，那么原来记录的T中顶点到T&#39;中顶点最短的距离可能就会发生变化，所以要更新距离数组。</p>
+
+<p>lowcost[10000];<br/>
+nearvex[10000];<br/>
+void Prim()<br/>
+{<br/>
+    int i,j,sum = 0;<br/>
+    memset(nearvex,-1,sizeof(nearvex));<br/>
+    nearvex[1] = 1;<br/>
+    for(i = 1;i &lt;= n;i++)<br/>
+    {<br/>
+        lowcost[i] = mapp[1][i];<br/>
+    }<br/>
+    for(j = 1;j &lt; n;j++)<br/>
+    {<br/>
+        mi = 0x3f3f3f3f;<br/>
+        bj = 0;<br/>
+        for(i = 1;i &lt;= n;i++)<br/>
+        {<br/>
+            if(lowcost[i] &lt; mi &amp;&amp; nearvex[i] == -1)<br/>
+            {<br/>
+                bj = i;<br/>
+                mi = lowcost[i];<br/>
+            }<br/>
+        }<br/>
+        if(mi == 0x3f3f3f3f)<br/>
+            break;<br/>
+        sum += mi;<br/>
+        nearvex[bj] = 1;<br/>
+        for(i = 1;i &lt;= n;i++)<br/>
+        {<br/>
+            if(nearvex[i] == -1 &amp;&amp; mapp[bj][i] &lt; lowcost[i])<br/>
+            {<br/>
+                lowcost[i] = mapp[bj][i];<br/>
+            }<br/>
+        }<br/>
+    }<br/>
+}<br/>
+ 克鲁斯卡尔（Kruskal）算法</p>
+
+<p>基本思想</p>
+
+<p>以边为主导地位，始终都是选择当前可用的最小权值的边。</p>
+
+<p>具体操作</p>
+
+<p>（1）设一个有n个顶点的联通网络为G（V,E），最初先构造一个只有n个顶点，没有边的非联通图T = {V,空}，图中每个顶点自称一个联通分量。</p>
+
+<p>（2）当在E中选择一条具有最小权值的边时，如果该边的权值落在不同的联通分量上，则将此边加入T中;否则，即这条边的两个顶点落在同一个联通分量上，则将此边舍去，重新选择一条权值最小的边。</p>
+
+<p>（3）重复上面的过程，直到所有顶点都在同一个联通分量上为止。</p>
+
+<p>从这三步的具体操作中，我们可以看出最重要的就是不断地向生成树中加边的过程，这个过程有两个最关键的步骤：</p>
+
+<p>（1）从E中选择当前权值最小的边(u,v)，实现时可以用两种方法，一种是最小堆存放边，另一种是将边的信息（顶点，权值）存放进一个结构体数组中，并将数组中的元素按照权值从小到大排序，然后按照先后顺序选用边。</p>
+
+<p>（2）当选取好一条边之后，需要查找这条边的两个顶点是不是在同一个连通分量中，如果是，则需要舍去，如果不是，那么将这两个顶点归并到同一个连通分量中。这个步骤的实现，就用到了之前讲过的并查集。这里对并查集的基础概念就不细写了，着重介绍并查集的搜索合并以及路径压缩。</p>
+
+<p>并查集简单应用</p>
+
+<p>并查集数据结构有3个主要的函数，一个是初始化，一个是根节点的查找，最后一个是合并集合，其中合并集合调用了根节点的查找函数。</p>
+
+<p>声明：这里运用的并查集父节点中存储的值是一个负数，其绝对值代表这棵树上节点的总个数，以此来记录总结点，判断是否所有节点都已经加进最小生成树中。</p>
+
+<p>void UFset()//初始化<br/>
+{<br/>
+    for(int i = 0;i &lt; n;i++)<br/>
+    {<br/>
+        parent[i] = -1;<br/>
+    }<br/>
+}</p>
+
+<p>int Find(int x)<br/>
+{<br/>
+    int s = x;<br/>
+    while(s &gt;= 0)s = parent[s];//查找根节点<br/>
+    //接下来是路径压缩，将x到其根节点的所有节点的父亲都归到根节点中去，<br/>
+    //减少生成树的高度，方便以后的遍历查找<br/>
+    while(s != x)<br/>
+    {<br/>
+        int tmp = parent[x];<br/>
+        parent[x] = s;<br/>
+        s = parent[x];<br/>
+    }<br/>
+}</p>
+
+<p>void Union(int x,int y)<br/>
+{<br/>
+    int fx = Find(x);//查找x的根节点<br/>
+    int fy = Find(y);//查找y的根节点<br/>
+    //记录两个联通变量的总结点个数（显示为负数）<br/>
+    int sum = parent[fx] + parent[fy];<br/>
+    if(fx != fy)<br/>
+    {<br/>
+        //如果x所在的树总结点大于y所在的树的总节点<br/>
+        //那么就吧y所在的树连接到x所在的树上<br/>
+        //因为个数是用负数展现的，所以这里是小于号<br/>
+        if(parent[fx] &lt; parent[fy])//这是优化方案——加权法则<br/>
+        {<br/>
+            parent[fy] = fx;//将y所在的树连接到x所在的树上<br/>
+            parent[fx] = sum;//更改总结点个数<br/>
+        }<br/>
+        else<br/>
+        {<br/>
+            parent[fx] = fy;<br/>
+            parent[fy] = sum;<br/>
+        }<br/>
+    }<br/>
+}<br/>
+ Kruskal算法实现</p>
+
+<p>我们就以下面的示例图片进行讲解</p>
+
+<p><img src="media/14857044682676/shu-kruskal.jpg" alt="shu-kruska"/></p>
+
+<p>从图中，我们看出一共有6个顶点，10条边，边的权值从小到大依次为1（v1,v3），2（v4,v6），3（v2,v5），4（v3,v6），5（v1,v4）,5（v3,v4）,5（v2,v3）,6（v3,v5）,6（v1,v2）,6（v5,v6）。</p>
+
+<p>（1）初始状态下，每个顶点自成一个集合，和自己联通。</p>
+
+<p>（2）加入第一条边1（v1,v3）,调用并查集函数，发现v1,v3在不同的分量中，将他们两个连通，现在只有v1,v3连通。</p>
+
+<p>（3）加入第二条边2（v4,v6），调用函数发现v4,v6在不同的两个分量中，将他们连通，现在有v1,v3连通，v4,v6连通。</p>
+
+<p>（4）加入第三条边3（v2,v5）,调用函数发现v2,v5在不同的两个分量中，将他们连通，现在有v1,v3连通，v4,v6连通，v2,v5连通。</p>
+
+<p>（5）加入第四条边4（v3,v6）,调用函数发现v3,v6在不同的分量中，并且v3和v1连通，v6和v4连通，即v3所在的树有两个节点，v6所在的树有两个节点，将v6连接在v3所在的树上，现在有v1，v3，v4，v6连通，v2，v5连通。</p>
+
+<p>（6）加入第五条边5（v1,v4），调用函数发现v1,v4已经在同一个分量中了，所以不需要加这条边。</p>
+
+<p>（7）加入第六条边5（v3,v4）,调用函数发现v3,v4已经在同一个分量中了，所以不需要加这条边。</p>
+
+<p>（8）加入第七条边5（v2,v4），调用函数发现v4所在的树中有4个顶点，v2所在的树中有2个顶点，将v2所在的树连接到v4所在的树，现在有v1，v3，v4，v6，v2，v5连通，到现在为止，6个顶点全部连通，不需要之后的加边过程，最小生成树结束。</p>
+
+<p>（9）根据题目要求输出各种数据（总权值等）。</p>
+
+<p>下面是克鲁斯卡尔的代码实现过程：</p>
+
+<p>struct E<br/>
+{<br/>
+    int i,j;<br/>
+    int quan;<br/>
+};<br/>
+E edge[1000];</p>
+
+<p>int cmp(E a,E b)<br/>
+{<br/>
+    return a.quan &lt; b.quan;<br/>
+}</p>
+
+<p>void kruskal ()<br/>
+{<br/>
+    int i,j,k,u,v;<br/>
+    int sum = 0,num = 0;<br/>
+    sort(edge,edge+m,cmp);//对边进行从小到大排序<br/>
+    UFset();//对parent数组初始化<br/>
+    for(i = 0;i &lt; m;i++)<br/>
+    {<br/>
+        u = edge[i].i;v = edge[i].j;<br/>
+        if(Find(u) != Find(v))<br/>
+        {<br/>
+            sum += edge[i].quan;<br/>
+            num++;<br/>
+            union(u,v);<br/>
+        }<br/>
+        if(num &gt;= n-1)<br/>
+            break;<br/>
+    }<br/>
+    printf(&quot;%d\n&quot;,sum);<br/>
+}</p>
+
+                        
+                      </div>
+                  </div>
+                </a>
+                <div class="read-more clearfix">
+                  <div class="more-left left">
+                  
+                    <span class="date">2015/1/31</span>
+                    <span>posted in&nbsp;</span> 
+          				  
+          					    <span class="posted-in"><a href='%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84&%E7%AE%97%E6%B3%95.html'>数据结构&算法</a></span>
+          				   
+                  </div>
+                  <div class="more-right right">
+                  <span class="comments">
+                      
+
+                       
+                  </span>
+                  </div>
+                </div>
+              </div><!-- article -->
+        
+			<div class="article">
                 <a class="clearlink" href="14838710892101.html">
                 
                   <h1>Union-Find（并查集）总结</h1>
@@ -1054,249 +1315,6 @@ LGraph lg;
                 </div>
               </div><!-- article -->
         
-			<div class="article">
-                <a class="clearlink" href="14838699157833.html">
-                
-                  <h1>字典树</h1>
-                  <div class="a-content">
-                      
-                      <div class="a-content-text">
-                        
-                        	<p>定义</p>
-
-<p>字典树又称单词查找树，Trie树，是一种如图1所示的树形结构。</p>
-
-<p>字典树</p>
-
-<p><img src="media/14838699157833/zidianshu.jpg" alt="zidianshu"/></p>
-
-<p>图1</p>
-
-<p>动态存储</p>
-
-<p>结构</p>
-
-<p>每棵字典树都有一个根节点，每一个结点都有26个指针，分别指向a到z26个字母，有一个数据域，存储要记录的数据，有一个标记域，标记字符串是否结束。</p>
-
-<pre><code>struct Trie
-{
-    //因为next与字符有一一对应的关系，所以不需要存储数据
-    int sign;//标记字符串结尾
-    struct Trie *next[26];//指向下一个字符
-}*head,*p,*now;
-开辟新的存储空间
-
-Trie *new()
-{
-    Trie *p = new Trie;//开辟内存
-    for(i = 0;i &lt; 26;i++)//初始化操作
-    {
-        p-&gt;next[i] = NULL;
-    }
-    p-&gt;sign = 0;
-    return p;
-}
-</code></pre>
-
-<p>字典树的初始化</p>
-
-<p>下面的代码只是添加一个字符串，如果添加多个字符串，可以在调用函数中进行修改，也可以在下面的函数中加循环进行控制。</p>
-
-<pre><code>void init()
-{
-    char sz[30];
-    int i,j,k,l;
-    scanf(&quot;%s&quot;,sz);
-    l = strlen(sz);
-    head = new();
-    p = head;
-    for(i = 0;i &lt; l;i++)
-    {
-        j = sz[i] - &#39;a&#39;;
-        if(p-&gt;next[j] == NULL)
-        {
-            now = new();
-            now-&gt;data = sz[i];
-            p-&gt;next[j] = now;//将新建的节点连接在字典树上
-        }
-            p = p-&gt;next[j];
-    }
-    p-&gt;sign = 1;
-}
-</code></pre>
-
-<p>字符串的查找</p>
-
-<p>给定一个字符串，询问该字符串是否已经出现过，即在原来建立的字典树上进行查找的过程。</p>
-
-<p>字符串查找的过程和建树的过程很相似，只不过需要判断节点是不是字符串的结束。</p>
-
-<pre><code>bool lookup()
-{
-    char sz[30];
-    int i,j,l;
-    scanf(&quot;%s&quot;,sz);
-    p = head;
-    l = strlen(sz);
-    for(i = 0;i &lt; l;i++)
-    {
-        j = sz[i] - &#39;a&#39;;
-        //没有这个字符，则下面都没有，返回失败
-        if(p-&gt;next[j] == NULL)
-            return false;
-        else
-            p = p-&gt;next[j];
-        //如果已是要查询的字符串最后一个字符，判断有没有结束标志
-        if(i == l - 1)
-        {
-            if(p-&gt;sign == 1)
-                return true;
-            else
-                return false;
-        }
-    }
-}
-</code></pre>
-
-<p>释放内存</p>
-
-<p>所有的这一组数据使用完之后，就要对其进行释放内存。</p>
-
-<pre><code>void delet(Trie *head)
-{
-    if(head)
-    {
-        for(int i = 0;i &lt; 26;i++)
-        {
-            if(head-&gt;next[i]!=NULL)
-                delet(head-&gt;next[i]);
-        }
-    }
-    delete head;
-    head = NULL;
-}
-</code></pre>
-
-<p>静态存储</p>
-
-<p>以上所讲述的字典树是动态开辟内存的方式，用完之后一定不要忘记释放内存，不然很容易就会MLE，当然，有些题目卡的就是动态存储，所以我们就要用到静态存储，接下来讲解静态存储。</p>
-
-<p>结构</p>
-
-<pre><code>//定义结构
-struct Trie
-{
-    int sign;
-    int next[26];
-}trie[MAX];
-int top = 0;
-</code></pre>
-
-<p>初始化新建的节点 并返回位置</p>
-
-<pre><code>Trie *newTrie()
-{
-    memset(trie[top].next,-1,sizeof(trie[top].next));
-    trie[top].sign = 0;
-    return top++;
-}
-</code></pre>
-
-<p>建立字典树</p>
-
-<pre><code>void init(int k,char *sz)
-{
-    int i,j,l;
-    l = strlen(sz);
-    for(i = 0;i &lt; l;i++)
-    {
-        j = sz[i] - &#39;a&#39;;
-        if(trie[k].next[j] == -1)
-        {
-            trie[k].next[j] = newTrie();
-        }
-        k = trie[k].next[j]; 
-    }
-    trie[k].sign = 1;
-}
-</code></pre>
-
-<p>查询有没有该字符串</p>
-
-<pre><code>int lookup(int k,char *sz)
-{
-    int i,j,l;
-    l = strlen(sz);
-    for(i = 0;i &lt; l;i++)
-    {
-        j = sz[i] - &#39;a&#39;;
-        if(trie[k].next[j] == -1)
-            return -1;
-        k = trie[k].next[j];
-    }
-    return trie[k].sign;
-}
-</code></pre>
-
-<p>字典树的性质</p>
-
-<p>（1）根节点不包含字符，除根节点外每一个结点都只包含一个字符</p>
-
-<p>（2）从根节点到某一个节点，路径上的节点连接起来就是一个字符串</p>
-
-<p>（3）每个节点的所有子节点包含的字符都不相同</p>
-
-<p>字典树的应用</p>
-
-<p>（1）串的检索</p>
-
-<p>给出一些已有的单词作为熟词，再给出一些词汇，找出这些词汇中没有在熟词里出现的词。</p>
-
-<p>可以用枚举，哈希，字典树进行搜索</p>
-
-<p>（2）“串”的排序</p>
-
-<p>给出一些互不相同的单词，按照字典序进行排列</p>
-
-<p>采用数组的方式创建字典树，这棵树的每个结点的儿子按照字母大小排序，再对这棵树进行先序遍历。</p>
-
-<p>（3）最长公共前缀</p>
-
-<p>查找任意两个字符串的最长公共前缀</p>
-
-<p>对所有串建立字典树，对于两个串的最长公共前缀的长度即他们所在的结点的公共祖先个数，于是，问题就转化为当时公共祖先问题。</p>
-
-<p>拓展：</p>
-
-<p>本文中用到的函数memset()</p>
-
-<p>void *memset(void *s, int ch, size_t n);<br/>
-函数解释：将s中前n个字节 （typedef unsigned int size_t ）用 ch 替换并返回 s 。<br/>
-memset：作用是在一段内存块中填充某个给定的值，它是对较大的结构体或数组进行清零操作的一种最快方法</p>
-
-                        
-                      </div>
-                  </div>
-                </a>
-                <div class="read-more clearfix">
-                  <div class="more-left left">
-                  
-                    <span class="date">2015/1/17</span>
-                    <span>posted in&nbsp;</span> 
-          				  
-          					    <span class="posted-in"><a href='%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84&%E7%AE%97%E6%B3%95.html'>数据结构&算法</a></span>
-          				   
-                  </div>
-                  <div class="more-right right">
-                  <span class="comments">
-                      
-
-                       
-                  </span>
-                  </div>
-                </div>
-              </div><!-- article -->
-        
               
 
 
@@ -1384,6 +1402,12 @@ memset：作用是在一段内存块中填充某个给定的值，它是对较�
 	      
 		      
 			      <li class="post">
+			        <a href="15463298937289.html">人生第一次30公里复盘总结</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
 			        <a href="15421053722232.html">Flask 流式相应实现文件下载及常见问题总结</a>
 			      </li>
 		     
@@ -1403,12 +1427,6 @@ memset：作用是在一段内存块中填充某个给定的值，它是对较�
 		      
 			      <li class="post">
 			        <a href="15376924661136.html">SQL查询语句之坑</a>
-			      </li>
-		     
-		  
-		      
-			      <li class="post">
-			        <a href="15056428224967.html">Python 运算符操作</a>
 			      </li>
 		     
 		  

@@ -115,6 +115,146 @@
 		<div class="markdown-body home-categories">
 		
 			<div class="article">
+                <a class="clearlink" href="14830842110487.html">
+                
+                  <h1>MySQL数据库☞中文乱码问题</h1>
+                  <div class="a-content">
+                      
+                      <div class="a-content-text">
+                        
+                        	<h2 id="toc_0">背景</h2>
+
+<pre><code class="language-sql">show variables like &#39;character_set_%&#39;;
+</code></pre>
+
+<p>结果为：</p>
+
+<table>
+<thead>
+<tr>
+<th>Variable_name</th>
+<th>Value</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>character_set_client</td>
+<td>utf8</td>
+</tr>
+<tr>
+<td>character_set_connection</td>
+<td>utf8</td>
+</tr>
+<tr>
+<td>character_set_database</td>
+<td>utf8</td>
+</tr>
+<tr>
+<td>character_set_filesystem</td>
+<td>binary</td>
+</tr>
+<tr>
+<td>character_set_results</td>
+<td>utf8</td>
+</tr>
+<tr>
+<td>character_set_server</td>
+<td>utf8</td>
+</tr>
+<tr>
+<td>character_set_system</td>
+<td>utf8</td>
+</tr>
+<tr>
+<td>character_sets_dir</td>
+<td>/usr/local/Cellar/mysql/5.7.13/share/mysql/charsets/</td>
+</tr>
+</tbody>
+</table>
+
+<p><strong>测试数据库的编码为：</strong> utf8</p>
+
+<p><strong>创建数据表</strong></p>
+
+<pre><code class="language-sql">CREATE TABLE `one` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(32) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=226 DEFAULT CHARSET=utf8 |
+</code></pre>
+
+<p>在该状态下写入一条语句：</p>
+
+<pre><code class="language-sql">insert into one (name) values(&quot;测试姓名&quot;);
+</code></pre>
+
+<p>&quot;测试名字&quot;数据是在所有的字符集都是utf8的情况下插入的<br/>
+&quot;测试名字123&quot;数据是在表的字符集属于latin1的情况下插入的<br/>
+“测试名字abc”数据是在表和连接的字符集是latin1的情况下插入的<br/>
+&quot;测试名字456&quot;数据是在连接的字符集是latin1的情况下插入的，</p>
+
+<h2 id="toc_1">开始测试</h2>
+
+<h3 id="toc_2">测试单一非正常字符集对中文的影响</h3>
+
+<p>分别执行以下操作：</p>
+
+<pre><code class="language-sql">alter table one default character set latin1;
+set character_set_connection=latin1;
+alter database test default character set latin1;
+set character_set_client=latin1;
+</code></pre>
+
+<p>然后分别查询表中的中文数据，发现能够正常显示中文数据&quot;测试名字&quot;，可见中文乱码与其中一个非正常字符集是没有关系的。</p>
+
+<h3 id="toc_3">测试组合非正常字符集对中文的影响</h3>
+
+<p>一起执行如下语句：</p>
+
+<pre><code class="language-sql">alter table one default character set latin1;
+set character_set_connection=latin1;
+alter database test default character set latin1;
+set character_set_client=latin1;
+</code></pre>
+
+<p>查询表中中文数据，发现能够正常显示数据“测试名字”,&quot;测试名字123&quot;</p>
+
+<pre><code class="language-sql">set character_set_connection=latin1;
+alter table one default character set latin1;
+</code></pre>
+
+<p>查询表中中文数据，发现“测试名字”，“测试名字123”显示正常， “测试名字abc”乱码</p>
+
+<pre><code>set chasqlracter_set_connection=latin1;
+</code></pre>
+
+<p>查询表中数据，发现&quot;测试名字&quot;， “测试名字123”显示正常， “测试名字abc”乱码</p>
+
+                        
+                      </div>
+                  </div>
+                </a>
+                <div class="read-more clearfix">
+                  <div class="more-left left">
+                  
+                    <span class="date">2016/12/30</span>
+                    <span>posted in&nbsp;</span> 
+          				  
+          					    <span class="posted-in"><a href='%E6%95%B0%E6%8D%AE%E5%BA%93.html'>数据库</a></span>
+          				   
+                  </div>
+                  <div class="more-right right">
+                  <span class="comments">
+                      
+
+                       
+                  </span>
+                  </div>
+                </div>
+              </div><!-- article -->
+        
+			<div class="article">
                 <a class="clearlink" href="14819928857822.html">
                 
                   <h1>MySQL的基本命令☞数据表的基本管理</h1>
@@ -1017,138 +1157,6 @@ l[索引] = 修改的值
                 </div>
               </div><!-- article -->
         
-			<div class="article">
-                <a class="clearlink" href="14857054898000.html">
-                
-                  <h1>python3  获取中文的首字母</h1>
-                  <div class="a-content">
-                      
-                      <div class="a-content-text">
-                        
-                        	<p>前话</p>
-
-<p>python 3中只有unicode str，所以把decode方法去掉了，所以如果要获取中文的首字母就不需要繁琐的decode转换方法。<br/>
-encode()方法可以将Unicode编码转换成指定的编码格式，这里是将Unicode转换成gbk的编码，如果是中文的话，也可以指定gb2312，不过gbk支持的中文会更多<br/>
-应该知道的一点是每个中文占两个字节<br/>
-基本思路</p>
-
-<p>首先把中文字符串转换成gbk格式的编码，这个时候会是一串字节码<br/>
-循环遍历字节码,每一个循环会得到每个字节相应的ascii码,判断是否对应大小写字母，如果是字母，则直接转换<br/>
-如果是汉字，则每两个字节做一次汉字转换，获取首字母<br/>
-存在的问题</p>
-
-<p>因为不熟悉汉字中的每个字节对应的ascii关系，所以这里只处理了汉字和字母，如果字符串中存在英文字符，则无法显示正确结果，如果有大神知道解决方案，欢迎给出评论指导，博主也会尽快查找资料填补这部分漏洞。</p>
-
-<p>执行代码</p>
-
-<p>def get_head_letter(str_input):<br/>
-    str_input = str_input.encode(&#39;gbk&#39;)<br/>
-    print(type(str_input))<br/>
-    print(str_input)<br/>
-    return_list = []<br/>
-    num = 0<br/>
-    for one_unicode in str_input:<br/>
-        if (one_unicode &gt;= 97 and one_unicode &lt;= 122) or (one_unicode &gt;= 65 and one_unicode &lt;= 90):<br/>
-            return_list.append(chr(one_unicode))<br/>
-            continue<br/>
-        print(type(one_unicode))<br/>
-        print(one_unicode)<br/>
-        if num == 0:<br/>
-            first = one_unicode<br/>
-            num += 1<br/>
-        elif num == 1:<br/>
-            last = one_unicode<br/>
-            num += 1<br/>
-        if num == 2:<br/>
-            num = 0<br/>
-            return_list.append(single_letter(first, last))<br/>
-    return return_list</p>
-
-<p>def single_letter(first, last):<br/>
-    asc = first * 256 + last - 65536<br/>
-    if asc &gt;= -20319 and asc &lt;= -20284:<br/>
-        return &#39;a&#39;<br/>
-    if asc &gt;= -20283 and asc &lt;= -19776:<br/>
-        return &#39;b&#39;<br/>
-    if asc &gt;= -19775 and asc &lt;= -19219:<br/>
-        return &#39;c&#39;<br/>
-    if asc &gt;= -19218 and asc &lt;= -18711:<br/>
-        return &#39;d&#39;<br/>
-    if asc &gt;= -18710 and asc &lt;= -18527:<br/>
-        return &#39;e&#39;<br/>
-    if asc &gt;= -18526 and asc &lt;= -18240:<br/>
-        return &#39;f&#39;<br/>
-    if asc &gt;= -18239 and asc &lt;= -17923:<br/>
-        return &#39;g&#39;<br/>
-    if asc &gt;= -17922 and asc &lt;= -17418:<br/>
-        return &#39;h&#39;<br/>
-    if asc &gt;= -17417 and asc &lt;= -16475:<br/>
-        return &#39;j&#39;<br/>
-    if asc &gt;= -16474 and asc &lt;= -16213:<br/>
-        return &#39;k&#39;<br/>
-    if asc &gt;= -16212 and asc &lt;= -15641:<br/>
-        return &#39;l&#39;<br/>
-    if asc &gt;= -15640 and asc &lt;= -15166:<br/>
-        return &#39;m&#39;<br/>
-    if asc &gt;= -15165 and asc &lt;= -14923:<br/>
-        return &#39;n&#39;<br/>
-    if asc &gt;= -14922 and asc &lt;= -14915:<br/>
-        return &#39;o&#39;<br/>
-    if asc &gt;= -14914 and asc &lt;= -14631:<br/>
-        return &#39;p&#39;<br/>
-    if asc &gt;= -14630 and asc &lt;= -14150:<br/>
-        return &#39;q&#39;<br/>
-    if asc &gt;= -14149 and asc &lt;= -14091:<br/>
-        return &#39;r&#39;<br/>
-    if asc &gt;= -14090 and asc &lt;= -13119:<br/>
-        return &#39;s&#39;<br/>
-    if asc &gt;= -13118 and asc &lt;= -12839:<br/>
-        return &#39;t&#39;<br/>
-    if asc &gt;= -12838 and asc &lt;= -12557:<br/>
-        return &#39;w&#39;<br/>
-    if asc &gt;= -12556 and asc &lt;= -11848:<br/>
-        return &#39;x&#39;<br/>
-    if asc &gt;= -11847 and asc &lt;= -11056:<br/>
-        return &#39;y&#39;<br/>
-    if asc &gt;= -11055 and asc &lt;= -10247:<br/>
-        return &#39;z&#39;<br/>
-    return &#39;&#39;</p>
-
-<p>def main(str_input):<br/>
-    a = get_head_letter(str_input)<br/>
-    print(a)<br/>
-    b = &#39;&#39;<br/>
-    for i in a:<br/>
-        b = b + i<br/>
-    print(b)</p>
-
-<p>if <strong>name</strong> == &quot;__main__&quot;:<br/>
-    str_input = &#39;A测试获取c中文首字母,js&#39;<br/>
-    main(str_input)</p>
-
-                        
-                      </div>
-                  </div>
-                </a>
-                <div class="read-more clearfix">
-                  <div class="more-left left">
-                  
-                    <span class="date">2016/8/21</span>
-                    <span>posted in&nbsp;</span> 
-          				  
-          					    <span class="posted-in"><a href='Python.html'>Python</a></span>
-          				   
-                  </div>
-                  <div class="more-right right">
-                  <span class="comments">
-                      
-
-                       
-                  </span>
-                  </div>
-                </div>
-              </div><!-- article -->
-        
               
 
 
@@ -1236,6 +1244,12 @@ encode()方法可以将Unicode编码转换成指定的编码格式，这里是�
 	      
 		      
 			      <li class="post">
+			        <a href="15463298937289.html">人生第一次30公里复盘总结</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
 			        <a href="15421053722232.html">Flask 流式相应实现文件下载及常见问题总结</a>
 			      </li>
 		     
@@ -1255,12 +1269,6 @@ encode()方法可以将Unicode编码转换成指定的编码格式，这里是�
 		      
 			      <li class="post">
 			        <a href="15376924661136.html">SQL查询语句之坑</a>
-			      </li>
-		     
-		  
-		      
-			      <li class="post">
-			        <a href="15056428224967.html">Python 运算符操作</a>
 			      </li>
 		     
 		  

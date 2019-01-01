@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>
     
-  PHP语法基础总结 - 零度燕窝
+  随想 - 零度燕窝
   
   </title>
   
@@ -106,237 +106,72 @@
        
 
  <script type="text/javascript">
-  $(function(){
-    $('#menu_item_index').addClass('is_active');
-  });
+	$(function(){
+		$('#menu_item_index').addClass('is_active');
+	});
 </script>
 <div class="row">
-  <div class="large-8 medium-8 columns">
-      <div class="markdown-body article-wrap">
-       <div class="article">
-          
-          <h1>PHP语法基础总结</h1>
-     
-        <div class="read-more clearfix">
-          <span class="date">2017/7/20</span>
+	<div class="large-8 medium-8 columns">
+		<div class="markdown-body home-categories">
+		
+			<div class="article">
+                <a class="clearlink" href="14838679269640.html">
+                
+                  <h1>挑战自我</h1>
+                  <div class="a-content">
+                      
+                      <div class="a-content-text">
+                        
+                        	<p>不知不觉已经是12月了，这个学期还有不到两个月的时间，回想起来，我除了上课似乎什么也没有做，但是每天都看起来是那么的忙。</p>
 
-          <span>posted in&nbsp;</span> 
-          
-              <span class="posted-in"><a href='PHP.html'>PHP</a></span>
-           
-         
-          <span class="comments">
-            
+<p>本学期几乎没有逃过课，除了上课，就是写作业，然后就是看书，写笔记。。。。。。训练一点点的耽误下来，感觉就是这么瞎忙了3个月。本来自己能力就不行，如果再这样继续瞎捣鼓下去，后果真的不堪设想。马上就要进入12月了，在这一年快要结束之际，我总是要做点什么，证明这一年我没有白忙。波波在华中科技大学VJ上加了22场比赛，都是小白书里的配套训练，准备12月一个月做完。对我来说，这将是一次挑战，31天完成300多题目，一天10道，这看起来似乎是不可能的；但是，如果我能够按期完成，我在算法的学习上将会是一个质的跨跃。</p>
 
-            
-          </span>
+<p>我不能再这么浑浑噩噩地，漫无目的地在实验室里混日子。从今天开始，我要经得起各种诱惑（睡觉，逛街，KTV，水群，手机游戏，空间。。。。。。），静下心来，好好奋斗一个月！！</p>
 
-        </div>
-      </div><!-- article -->
+<p>写完这篇文章就要进入刷题模式了，每一套题包含的知识点将会以总结的形式写出来。</p>
 
-      <div class="article-content">
-      <p>PHP语法标记符</p>
+<p>笨鸟先飞，笨球先滚，现在开滚，为时不晚！！</p>
 
-<p>PHP程序以“&lt;?PHP” 开头，以“&gt;”结尾。</p>
+                        
+                      </div>
+                  </div>
+                </a>
+                <div class="read-more clearfix">
+                  <div class="more-left left">
+                  
+                    <span class="date">2014/11/30</span>
+                    <span>posted in&nbsp;</span> 
+          				  
+          					    <span class="posted-in"><a href='%E9%9A%8F%E6%83%B3.html'>随想</a></span>
+          				   
+                  </div>
+                  <div class="more-right right">
+                  <span class="comments">
+                      
 
-<p>变量和常量</p>
-
-<p>变量是在运行过程中能够被修改，常量只能被赋值一次，在运行过程中不能够被修改。</p>
-
-<p>&lt;?php<br/>
-//变量的使用<br/>
-\(a = 10;<br/>
-echo &quot;a = \)a<br />&quot;;<br/>
-\(b = 30;<br/>
-\)a = 20;<br/>
-\(c = \)a+\(b;<br/>
-echo &quot;a + b = \)c<br />&quot;;<br/>
-//常量的使用<br/>
-const x = 5;<br/>
-echo &quot;x = &quot;;<br/>
-echo x;<br/>
-//x = 10;这里不能够再重复对x进行赋值，因为已经声明它是常量<br/>
-//const x = 10;这句话在这里也是不可以的，因为重复定义了同一个常量<br/>
-//还有一种声明常量的方法<br/>
-define(&#39;y&#39;,100);<br/>
-echo y;<br/>
-?&gt;<br/>
-函数的使用</p>
-
-<p>有时候，一些代码会反复被使用很多次，这时候把这些代码封装进函数里，使用的时候直接调用即可。</p>
-
-<p>&lt;?php<br/>
-function wucan()//没有参数的函数，直接输出要输出的内容<br/>
-{<br/>
-    echo &quot;hello world!!<br />&quot;;<br/>
-}<br/>
-function onecan(\(name)//带有一个参数的函数，接收一个参数，执行相应操作<br/>
-{<br/>
-    echo &#39;hello &#39;.\)name.&#39;<br />&#39;;<br/>
-}<br/>
-function twocan(\(a,\)b)//带有多个参数的函数<br/>
-{<br/>
-    \(b += \)a;<br/>
-    echo &#39;a + b = &#39;. \(b.&#39;&lt;br /&gt;&#39;;<br/>
-}<br/>
-function fanhui(\)a,\(b)//带有返回值的函数<br/>
-{<br/>
-    echo &quot;a = \)a,b = \(b,a - b = &quot;;<br/>
-    return \)a - $b;<br/>
-}<br/>
-//四种函数的调用<br/>
-wucan();<br/>
-onecan(&#39;zhangsan&#39;);<br/>
-twocan(2,6);<br/>
-echo fanhui(10,7).&#39;<br />&#39;;<br/>
-?&gt;<br/>
-选择语句</p>
-
-<p>在PHP语言中有两种选择语句，switch语句和if...elseif...语句</p>
-
-<p>&lt;?php<br/>
- function if_chouse(\(source)<br/>
- {<br/>
-     if(\)source&gt;=90)<br/>
-         return &quot;优秀&quot;;<br/>
-     elseif(\(source &gt;= 70)<br/>
-         return &quot;良好&quot;;<br/>
-     elseif(\)source &gt;= 60)<br/>
-         return &quot;及格&quot;;<br/>
-     else<br/>
-         return &quot;不及格&quot;;<br/>
- }<br/>
-function switch_chouse(\(source)<br/>
-{<br/>
-    //这里如果不将小数转换成整数，在case中写起来就会很麻烦，转换成整数之后就相当于划定了一个区间。<br/>
-    switch(intval(\)source / 10))//intval()是一个将小数转换成整数的方法，直接接取整数部分，没有四舍五入的规则。<br/>
-    {<br/>
-        case 10:<br/>
-        case 9:<br/>
-            return &quot;优秀&quot;;<br/>
-        case 8:<br/>
-        case 7:<br/>
-            return &quot;良好&quot;;<br/>
-        case 6:<br/>
-            return &quot;及格&quot;;<br/>
-        default://指剩余的情况<br/>
-            return &quot;不及格&quot;;<br/>
-    }<br/>
-}<br/>
-echo if_chouse(50).&quot;<br />&quot;;<br/>
-echo switch_chouse(100);<br/>
-?&gt;<br/>
-循环语句</p>
-
-<p>循环语句在PHP中有3种，while循环，for循环，do......while循环</p>
-
-<p>while循环是先判断条件，在执行循环体内的语句。</p>
-
-<p>do......while循环是先执行一遍循环体内的语句然后再判断条件，看是否继续执行。</p>
-
-<p>&lt;?php<br/>
-for(\(i = 0;\)i &lt; 10;\(i++)<br/>
-{<br/>
-    echo &quot;hello&quot;.\)i.&quot;<br />&quot;;<br/>
-    if(\(i == 5)<br/>
-        continue;//continue的作用是停止当前这一次的循环，继续下一次的循环<br/>
-    echo &quot;run one&quot;.\)i.&quot;<br />&quot;;<br/>
-}<br/>
-\(i = 0;<br/>
-while(\)i &lt; 20)<br/>
-{<br/>
-    echo &quot;while hello&quot;.\(i.&quot;&lt;br /&gt;&quot;;<br/>
-    if(\)i == 10)<br/>
-        break;//直接跳出循环语句<br/>
-    \(i++;<br/>
-}<br/>
-do//先执行一次<br/>
-{<br/>
-    echo &quot;do.while hello&quot;.\)i.&quot;<br />&quot;;<br/>
-}while(i &lt; 10);//再对条件进行判断<br/>
-?&gt;<br/>
-逻辑语句</p>
-
-<p>PHP的逻辑语句有：与（&amp;&amp;），或（||），非（！）</p>
-
-<p>&lt;?php<br/>
-for(\(i = 0;\)i &lt; 50;\(i++) {<br/>
-if(\)i % 2 == 0 &amp;&amp; \(i % 3 == 0)//输出是2的倍数并且也是3的倍数的数字<br/>
-    echo \)i.&#39;<br />&#39;;<br/>
-}<br/>
-for(\(i = 0;\)i &lt; 50;\(i++) {<br/>
-    if(\)i % 2 == 0 || \(i % 3 == 0)//输出是2的倍数或者是3的倍数的数字<br/>
-        echo \)i.&#39;<br />&#39;;<br/>
-}<br/>
-for(\(i = 0;\)i &lt; 10;\(i++) {<br/>
-    if(\)i != 9)//输出不等于9的数字<br/>
-        echo $i.&#39;<br />&#39;;<br/>
-}<br/>
-?&gt;</p>
+                       
+                  </span>
+                  </div>
+                </div>
+              </div><!-- article -->
+        
+              
 
 
-    
-
-      </div>
-
-      <div class="row">
-        <div class="large-6 columns">
-        <p class="text-left" style="padding:15px 0px;">
-      
-          <a href="14857050897980.html" 
-          title="Previous Post: PHP与MySQL（上篇）">&laquo; PHP与MySQL（上篇）</a>
-      
-        </p>
-        </div>
-        <div class="large-6 columns">
-      <p class="text-right" style="padding:15px 0px;">
-      
-          <a  href="14857051137850.html" 
-          title="Next Post: PHP与MySQL（下篇）">PHP与MySQL（下篇） &raquo;</a>
-      
-      </p>
-        </div>
-      </div>
-      <div class="comments-wrap">
-        <div class="share-comments">
-          <div id="disqus_thread"></div>
-<script>
-
-/**
-*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
-*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
-/*
-var disqus_config = function () {
-this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
-this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
-};
-*/
-(function() { // DON'T EDIT BELOW THIS LINE
-var d = document, s = d.createElement('script');
-s.src = 'https://ling-du-yan-wo.disqus.com/embed.js';
-s.setAttribute('data-timestamp', +new Date());
-(d.head || d.body).appendChild(s);
-})();
-</script>
-<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-
-<script id="dsq-count-scr" src="//ling-du-yan-wo.disqus.com/count.js" async></script>
-
-<!-- Go to www.addthis.com/dashboard to customize your tools -->
-<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5bddba92d21c0fb4"></script>
-
-
-
-          
-
-          
-        </div>
-      </div>
-    </div><!-- article-wrap -->
-  </div><!-- large 8 -->
-
-
-
+			<div class="row">
+			  <div class="large-6 columns">
+			  <p class="text-left" style="padding-top:25px;">
+			   <a href="随想_1.html">&laquo; Prev Page</a>  
+			  </p>
+			  </div>
+			  <div class="large-6 columns">
+			<p class="text-right" style="padding-top:25px;">
+			
+			</p>
+			  </div>
+			</div>
+		</div>
+	</div><!-- large 8 -->
 
  <div class="large-4 medium-4 columns">
   <div class="hide-for-small">

@@ -115,6 +115,103 @@
 		<div class="markdown-body home-categories">
 		
 			<div class="article">
+                <a class="clearlink" href="15007111565327.html">
+                
+                  <h1>Python的特殊方法</h1>
+                  <div class="a-content">
+                      
+                      <div class="a-content-text">
+                        
+                        	<p>Python提供了各种各样的特殊方法,使用这些方法可以实现自定义的类。</p>
+
+<h2 id="toc_0">特殊方法的基本使用</h2>
+
+<p>特殊方法是给Python解释器调用的，我们不需要使用my_object.__len__()这种方法进行调用，而是写作len(my_object)的形式。</p>
+
+<p>很多时候，特殊方法的调用是隐式的，比如我们使用for对某个对象进行迭代的时候，会优先调用iter()方法，而iter()方法的背后是<code>__iter__</code>方法。</p>
+
+<h3 id="toc_1">利用特殊方法可以做哪些事情</h3>
+
+<p>不同的特殊方法可以实现不同的功能，下面列举一些简单的示例</p>
+
+<h4 id="toc_2">模拟数值类型</h4>
+
+<p>如果我们想实现向量的各种运算，可以创建一个向量类，利用特殊方法进行实现，如下代码所示：</p>
+
+<pre><code>from math import hypot
+
+class Vector:
+    def __init__(self, x = 0, y = 0):
+        self.x = x
+        self.y = y
+
+    def __add__(self, other):
+        x = self.x + other.x
+        y = self.y + other.y
+        return Vector(x, y)
+
+    def __mul__(self, other):
+        return Vector(self.x * other, self.y * other)
+
+    def __abs__(self):
+        # hypot 用来返回向量的模
+        return hypot(self.x, self.y)
+
+    def __bool__(self):
+        return bool(abs(self)) 
+        
+    def __repr__(self):
+        return &quot;Vector ({}, {})&quot;.format(self.x, self.y)  
+</code></pre>
+
+<h4 id="toc_3">字符串表示形式</h4>
+
+<p>有时候，我们在控制台打印某个对象的时候，我们得到的会是类似于<code>&lt;Vector object at ...&gt;</code>的形式，因为该对象没有实现__repr__的方法。<br/>
+<code>__repr__</code>方法的作用是把一个对象用字符串的方式表示出来，当使用交互式控制台或者调试程序的时候会调用这个方法。<br/>
+<code>__str__</code>方法也会实现类似的功能，与<code>__repr__</code>方法不同的是该方法会被str()函数 ，或者使用print时调用，并且一个对象如果没有实现<code>__str__</code>方法，则会使用<code>__repr__</code>方法代替，反之则行不通。</p>
+
+<h4 id="toc_4">算术运算符</h4>
+
+<p>可以使用<code>__add__</code>，<code>__mul__</code>等方法实现运算符的操作，例如Vector的示例</p>
+
+<h4 id="toc_5">自定义布尔值</h4>
+
+<p>python自定义的bool类型还是有一定的局限性，比如我们自己定义的类总会被认为真，如果我们对类的bool判断有新的规则，则可以使用<code>__bool__</code>方法进行实现，例如Vector的示例。</p>
+
+<p><strong>注意 如果我们自定义的类中实现了__len__方法，使用python自带的bool进行判断时，该方法会调用__len__方法，如果__len__的返回值为0，则为假，其他的值返回真</strong> </p>
+
+<h3 id="toc_6">python 特殊方法一览</h3>
+
+<p><img src="http://cdn.blog.yanzl.net/2017-07-22-095117.jpg" alt=""/></p>
+
+<p><img src="http://cdn.blog.yanzl.net/2017-07-22-magic_method2.png" alt=""/></p>
+
+<p><img src="http://cdn.blog.yanzl.net/2017-07-22-magic_method3.png" alt=""/></p>
+
+                        
+                      </div>
+                  </div>
+                </a>
+                <div class="read-more clearfix">
+                  <div class="more-left left">
+                  
+                    <span class="date">2017/7/22</span>
+                    <span>posted in&nbsp;</span> 
+          				  
+          					    <span class="posted-in"><a href='Fluent%20Python.html'>Fluent Python</a></span>
+          				   
+                  </div>
+                  <div class="more-right right">
+                  <span class="comments">
+                      
+
+                       
+                  </span>
+                  </div>
+                </div>
+              </div><!-- article -->
+        
+			<div class="article">
                 <a class="clearlink" href="14857049281168.html">
                 
                   <h1>PHP的常用功能</h1>
@@ -741,47 +838,6 @@ else<br/>
                 </div>
               </div><!-- article -->
         
-			<div class="article">
-                <a class="clearlink" href="14974041579745.html">
-                
-                  <h1>《新参者》</h1>
-                  <div class="a-content">
-                      
-                      <div class="a-content-text">
-                        
-                        	<p>当时买这本书时，推荐是这么写的：“这是一个靠逻辑破不了的案子，情才可以；一本让人读后热泪盈眶的推理小说；在这本推理小说里，推理不是重点，而是要找出人们各种行为的原因，找到凶手也不是最终目的，而是要彻查案件的原因，否则就不能真正救赎”。我想感受一下热泪盈眶的感觉，于是就买了下来。清晨起来无事，便拿起枕边的这本书开始读起来，渐渐地，我被里面的故事所吸引。</p>
-
-<p>整个故事的主线是在东京日本桥，一个单身女人在公寓内被杀，警方发现她刚刚搬到这里不久（“新参者”在日语中的意思就是刚加入的人），负责这个案件的刑警加贺依次走访了这附件的一家家店铺，于是，一个个的故事浮现出来，每一个故事都很温暖。</p>
-
-<p>加贺走访的第一家是仙贝店，嫌疑人田仓来这家店中取聪子（仙贝店女孩的奶奶，前几天刚刚出院，女孩从小跟奶奶长大）的住院申请补贴，然后回公司办理补贴手续，但是时间和警方在公司其它同事那里了解到的并不一致，准确的说是田仓办理补贴的时间要早于来仙贝店拿申请书的时间，而当天田仓也出现在被害人的家里，所以警方怀疑田仓有作案的时间。经过各种跟踪调查之后，警方发现这中间隐藏了一个可以证明田仓清白的秘密：女孩的奶奶患的是不治之症，但是这病情不能让女孩和奶奶知道，奶奶却要亲自把住院证明材料交给田仓，所以父亲委托医院写了一份假的住院证明交给奶奶，而真正的住院证明就由父亲交给田仓，然后田仓再来到仙贝店拿这份假的材料。为了不让奶奶和女孩知道病情的真相，田仓选择将这个能证明自己清白的证据隐藏起来。也是因为他的这份善举，让这段小故事有了一个完美的结局。</p>
-
-<p>加贺走访的第二家店是高级料亭。伙计替老板秘密地买了人形烧，但是这人形烧却出现在了被害者的房间里，于是买人形烧的伙计成了嫌疑人。伙计被警察询问，但因为涉及到了老板的秘密，他没有说人形烧给了老板，只能说自己吃掉了。但他的措辞和行动简直是漏洞百出，伙计很担心老板就是那个杀人凶手，老板听说后，为了打消伙计的顾虑，带他见了自己的小情人。与此同时，故事有了新的发展，加贺和老板娘进行谈话，原来，老板娘知道丈夫在外面有小情人，而小情人为了讨老板开心，说自己喜欢吃人形烧，实际上却很讨厌，才把老板送的人形烧送给了被害人。伙计也因为自己的守信得到了老板和老板娘的认可。虽然故事很温馨，却又感觉怪怪的，自己的丈夫出轨，却不生气，真是不懂大人们的世界啊。</p>
-
-<p>加贺走访的第三家是。</p>
-
-                        
-                      </div>
-                  </div>
-                </a>
-                <div class="read-more clearfix">
-                  <div class="more-left left">
-                  
-                    <span class="date">2017/6/14</span>
-                    <span>posted in&nbsp;</span> 
-          				  
-          					    <span class="posted-in"><a href='%E8%AF%BB%E4%B9%A6%E9%9A%8F%E7%AC%94.html'>读书随笔</a></span>
-          				   
-                  </div>
-                  <div class="more-right right">
-                  <span class="comments">
-                      
-
-                       
-                  </span>
-                  </div>
-                </div>
-              </div><!-- article -->
-        
               
 
 
@@ -869,6 +925,12 @@ else<br/>
 	      
 		      
 			      <li class="post">
+			        <a href="15463298937289.html">人生第一次30公里复盘总结</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
 			        <a href="15421053722232.html">Flask 流式相应实现文件下载及常见问题总结</a>
 			      </li>
 		     
@@ -888,12 +950,6 @@ else<br/>
 		      
 			      <li class="post">
 			        <a href="15376924661136.html">SQL查询语句之坑</a>
-			      </li>
-		     
-		  
-		      
-			      <li class="post">
-			        <a href="15056428224967.html">Python 运算符操作</a>
 			      </li>
 		     
 		  

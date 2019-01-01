@@ -115,6 +115,101 @@
 		<div class="markdown-body home-categories">
 		
 			<div class="article">
+                <a class="clearlink" href="14857050642793.html">
+                
+                  <h1>PHP会话管理</h1>
+                  <div class="a-content">
+                      
+                      <div class="a-content-text">
+                        
+                        	<p>概述</p>
+
+<p>有时会在多个页面之间来共享数据，这样的话就用到了PHP的会话管理，在这里，有两种解决方案Cookie和Session。</p>
+
+<p>Cookie的数据存放在浏览器端，不同的浏览器有不同的存放方式，浏览器端的程序就可以访问Cookie数据，如果在服务器端获取客户端的信息，就可以直接访问Cookie中的数据。但因为很多浏览器都会禁用Cookie，这时候就可以使用URL参数，即POST和GET方式。</p>
+
+<p>Session的数据会存在服务器端，当访问服务器的时候，就会打开一个页面，服务器端会为我们创建一个ID，这个ID用来标识每一个用户，而用户的信息是在服务器端以键值对的形式存放。该方式高效，安全，不依赖浏览器环境（不会被禁用）。</p>
+
+<p>Cookie</p>
+
+<p>个人认为，Cookie把数据存入浏览器，在另一个文件中使用的时候直接读取就可以了。</p>
+
+<p>正常状态下，是可以进行数据传送的，比如：</p>
+
+<p>一个文件下写：</p>
+
+<p>setcookie(&#39;name&#39;,&#39;zhangsan&#39;);//以键值对的形式存放<br/>
+header(&#39;Location:b.php&#39;);//使用此函数自动跳转<br/>
+在另一个文件b.php下写：</p>
+
+<pre><code>echo $_COOKIE[&#39;name&#39;];
+</code></pre>
+
+<p>这样，在a.php中填写的信息就可以在b.php页面显示。</p>
+
+<p>还可以在html文档里用一个用一个对话框呈现一个数据</p>
+
+<pre><code>&lt;head lang = &quot;en&quot;&gt;
+    &lt;meta charset = &quot;UTF-8&quot;&gt;
+    &lt;script&gt;
+        alert(document.cookie);
+    &lt;/script&gt;
+&lt;/head&gt;
+</code></pre>
+
+<p>但是，有时候浏览器就会屏蔽Cookie数据，所以可以使用URL参数来传递数据</p>
+
+<p>在a.php文件中写下面一行语句：</p>
+
+<p>header(&quot;Location:b.php?name=zhangsan&quot;);//直接跳转至b.php<br/>
+这行语句实际上就相当于用get方式传递参数，所以在b.php中将传的参数打印出来</p>
+
+<p>echo $_GET[&#39;name&#39;];<br/>
+ Session</p>
+
+<p>Session处理方法是将数据存放至服务器，可以在多个页面之间共享数据。在使用之前一定要启动session。</p>
+
+<p>可以在a.php文件中填入数据</p>
+
+<p>session_start();//启用session<br/>
+//echo session_id();//获取客户端的id<br/>
+$_SESSION[&#39;name&#39;] = &quot;zhangsan&quot;;//存入数据<br/>
+header(&#39;Location:b.php&#39;);//执行页面跳转<br/>
+然后在b.php文件中访问数据</p>
+
+<p>session_start();<br/>
+echo $_SESSION[&#39;name&#39;];<br/>
+这一数据处理的方法常用来记录用户的登录状态，如果用户退出登录（即清除掉session的所有存储数据），那么可以执行下述语句</p>
+
+<p>if(isset($_SESSION[&#39;name&#39;]))<br/>
+{<br/>
+    session_destroy();//销毁掉当前的session。<br/>
+}</p>
+
+                        
+                      </div>
+                  </div>
+                </a>
+                <div class="read-more clearfix">
+                  <div class="more-left left">
+                  
+                    <span class="date">2017/7/27</span>
+                    <span>posted in&nbsp;</span> 
+          				  
+          					    <span class="posted-in"><a href='PHP.html'>PHP</a></span>
+          				   
+                  </div>
+                  <div class="more-right right">
+                  <span class="comments">
+                      
+
+                       
+                  </span>
+                  </div>
+                </div>
+              </div><!-- article -->
+        
+			<div class="article">
                 <a class="clearlink" href="15010832436363.html">
                 
                   <h1>字典的使用</h1>
@@ -1008,103 +1103,6 @@ Person::sayhello();//调用类方法<br/>
                 </div>
               </div><!-- article -->
         
-			<div class="article">
-                <a class="clearlink" href="15007111565327.html">
-                
-                  <h1>Python的特殊方法</h1>
-                  <div class="a-content">
-                      
-                      <div class="a-content-text">
-                        
-                        	<p>Python提供了各种各样的特殊方法,使用这些方法可以实现自定义的类。</p>
-
-<h2 id="toc_0">特殊方法的基本使用</h2>
-
-<p>特殊方法是给Python解释器调用的，我们不需要使用my_object.__len__()这种方法进行调用，而是写作len(my_object)的形式。</p>
-
-<p>很多时候，特殊方法的调用是隐式的，比如我们使用for对某个对象进行迭代的时候，会优先调用iter()方法，而iter()方法的背后是<code>__iter__</code>方法。</p>
-
-<h3 id="toc_1">利用特殊方法可以做哪些事情</h3>
-
-<p>不同的特殊方法可以实现不同的功能，下面列举一些简单的示例</p>
-
-<h4 id="toc_2">模拟数值类型</h4>
-
-<p>如果我们想实现向量的各种运算，可以创建一个向量类，利用特殊方法进行实现，如下代码所示：</p>
-
-<pre><code>from math import hypot
-
-class Vector:
-    def __init__(self, x = 0, y = 0):
-        self.x = x
-        self.y = y
-
-    def __add__(self, other):
-        x = self.x + other.x
-        y = self.y + other.y
-        return Vector(x, y)
-
-    def __mul__(self, other):
-        return Vector(self.x * other, self.y * other)
-
-    def __abs__(self):
-        # hypot 用来返回向量的模
-        return hypot(self.x, self.y)
-
-    def __bool__(self):
-        return bool(abs(self)) 
-        
-    def __repr__(self):
-        return &quot;Vector ({}, {})&quot;.format(self.x, self.y)  
-</code></pre>
-
-<h4 id="toc_3">字符串表示形式</h4>
-
-<p>有时候，我们在控制台打印某个对象的时候，我们得到的会是类似于<code>&lt;Vector object at ...&gt;</code>的形式，因为该对象没有实现__repr__的方法。<br/>
-<code>__repr__</code>方法的作用是把一个对象用字符串的方式表示出来，当使用交互式控制台或者调试程序的时候会调用这个方法。<br/>
-<code>__str__</code>方法也会实现类似的功能，与<code>__repr__</code>方法不同的是该方法会被str()函数 ，或者使用print时调用，并且一个对象如果没有实现<code>__str__</code>方法，则会使用<code>__repr__</code>方法代替，反之则行不通。</p>
-
-<h4 id="toc_4">算术运算符</h4>
-
-<p>可以使用<code>__add__</code>，<code>__mul__</code>等方法实现运算符的操作，例如Vector的示例</p>
-
-<h4 id="toc_5">自定义布尔值</h4>
-
-<p>python自定义的bool类型还是有一定的局限性，比如我们自己定义的类总会被认为真，如果我们对类的bool判断有新的规则，则可以使用<code>__bool__</code>方法进行实现，例如Vector的示例。</p>
-
-<p><strong>注意 如果我们自定义的类中实现了__len__方法，使用python自带的bool进行判断时，该方法会调用__len__方法，如果__len__的返回值为0，则为假，其他的值返回真</strong> </p>
-
-<h3 id="toc_6">python 特殊方法一览</h3>
-
-<p><img src="http://cdn.blog.yanzl.net/2017-07-22-095117.jpg" alt=""/></p>
-
-<p><img src="http://cdn.blog.yanzl.net/2017-07-22-magic_method2.png" alt=""/></p>
-
-<p><img src="http://cdn.blog.yanzl.net/2017-07-22-magic_method3.png" alt=""/></p>
-
-                        
-                      </div>
-                  </div>
-                </a>
-                <div class="read-more clearfix">
-                  <div class="more-left left">
-                  
-                    <span class="date">2017/7/22</span>
-                    <span>posted in&nbsp;</span> 
-          				  
-          					    <span class="posted-in"><a href='Fluent%20Python.html'>Fluent Python</a></span>
-          				   
-                  </div>
-                  <div class="more-right right">
-                  <span class="comments">
-                      
-
-                       
-                  </span>
-                  </div>
-                </div>
-              </div><!-- article -->
-        
               
 
 
@@ -1192,6 +1190,12 @@ class Vector:
 	      
 		      
 			      <li class="post">
+			        <a href="15463298937289.html">人生第一次30公里复盘总结</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
 			        <a href="15421053722232.html">Flask 流式相应实现文件下载及常见问题总结</a>
 			      </li>
 		     
@@ -1211,12 +1215,6 @@ class Vector:
 		      
 			      <li class="post">
 			        <a href="15376924661136.html">SQL查询语句之坑</a>
-			      </li>
-		     
-		  
-		      
-			      <li class="post">
-			        <a href="15056428224967.html">Python 运算符操作</a>
 			      </li>
 		     
 		  

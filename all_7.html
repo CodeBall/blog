@@ -115,6 +115,113 @@
 		<div class="markdown-body home-categories">
 		
 			<div class="article">
+                <a class="clearlink" href="14690965374529.html">
+                
+                  <h1>python发送邮件☞flask-mail扩展</h1>
+                  <div class="a-content">
+                      
+                      <div class="a-content-text">
+                        
+                        	<h2 id="toc_0">简介</h2>
+
+<p>Python的扩展库，采用SMTP协议完成邮件的发送，需要自己安装。</p>
+
+<h2 id="toc_1">安装方法</h2>
+
+<p>一种方法是通过pip进行安装</p>
+
+<pre><code class="language-python">pip install Flask-Mail
+</code></pre>
+
+<p>另一种方法是下载源码，通过python解释安装</p>
+
+<pre><code class="language-python">python setup.py install
+</code></pre>
+
+<h2 id="toc_2">选项配置</h2>
+
+<p>通过配置，可以指定邮件发送的参数选项</p>
+
+<pre><code>MAIL_SERVER: SMTP服务器主机，可以指定主机IP地址，也可以是域名
+MAIL_PORT: SMTP服务使用的端口号，一般会是25
+MAIL_USERNAME:登录服务器的账号名
+MAIL_PASSWORD:登录服务器的密码
+MAIL_DEFAULT_SENDER:默认发送方
+MAIL_MAX_EMAILS:支持一次连接时最大发送邮件数目，默认会是None，即无限制
+</code></pre>
+
+<h2 id="toc_3">创建邮件发送实例</h2>
+
+<pre><code class="language-python">from flask import Flask
+from flask_mail import Mail
+
+app = Flask(__name__)
+mail = Mail()
+mail.init_app(app)#使用Flask的current_app中的配置项进行发送
+</code></pre>
+
+<h2 id="toc_4">创建文本文件内容</h2>
+
+<pre><code class="language-python">from flask.ext.mail import Message
+#创建消息对象，参数依次为标题，发送方（如果配置中有默认发送方，这里可以不写.另外，sender可以是一个二元组，代表姓名和邮件地址），接收方（列表类型，可以有多个接收者）
+msg = Message(&#39;title&#39;, sender=([sender_name], sender_email), recipients=receivers)
+#可以通过add_recipient()方法添加接收者
+msg.add_recipient(&quot;new_email@email.com&quot;)
+msg.body = &quot;这里是邮件体，即要发送的邮件的内容&quot;
+msg.html = &quot;如果是html格式，使用html属性进行添加邮件体&quot;
+</code></pre>
+
+<h2 id="toc_5">创建带有附件的邮件内容</h2>
+
+<pre><code class="language-python">from ××× import app
+with app.open_resource(&quot;附件路径&quot;) as fp:
+    msg.attach(&quot;附件名，可更换&quot;, &quot;附件类型&quot;, fp.read())
+#附件类型这里可以说一下，博主一共用到了两种类型，一种是图片：image/png;另一种是文件：application/octet-stream；如有问题，欢迎更正，如要添加，更是欢迎！！
+</code></pre>
+
+<h2 id="toc_6">直接发送邮件</h2>
+
+<pre><code class="language-python">mail.send(msg)
+</code></pre>
+
+<h2 id="toc_7">扩展☞发送大量邮件</h2>
+
+<p>有时候会向多人发送邮件，并且邮件的内容会稍有不同，比如称呼什么的，这时候可以采用以下方式进行发送</p>
+
+<pre><code class="language-python">with mail.connect() as conn:
+    for user in users:
+        message = &quot;.....一堆邮件body&quot;
+        subject = &quot;hello, {}&quot;.format(user.name)
+        msg = Message(recipients=user.email,body=message, subject=subject)
+        conn.send(msg)
+</code></pre>
+
+<p>参考文档：<a href="https://pythonhosted.org/Flask-Mail/">Flask-Mail</a></p>
+
+                        
+                      </div>
+                  </div>
+                </a>
+                <div class="read-more clearfix">
+                  <div class="more-left left">
+                  
+                    <span class="date">2016/7/21</span>
+                    <span>posted in&nbsp;</span> 
+          				  
+          					    <span class="posted-in"><a href='Python.html'>Python</a></span>
+          				   
+                  </div>
+                  <div class="more-right right">
+                  <span class="comments">
+                      
+
+                       
+                  </span>
+                  </div>
+                </div>
+              </div><!-- article -->
+        
+			<div class="article">
                 <a class="clearlink" href="14857055156581.html">
                 
                   <h1>Laravel5 自定义路由页面无法访问</h1>
@@ -481,56 +588,6 @@ S(&#39;name&#39;,null);
                 </div>
               </div><!-- article -->
         
-			<div class="article">
-                <a class="clearlink" href="14857043305129.html">
-                
-                  <h1>curl命令传递请求数据</h1>
-                  <div class="a-content">
-                      
-                      <div class="a-content-text">
-                        
-                        	<p>最近常常用到curl命令发送请求来测试程序服务端,无奈脑仁子不太好使,总是记不住应该怎么用,好记性不如烂笔头,看来还是写篇博客记录下来比较好.</p>
-
-<p>默认curl使用get方式请求数据,所以这种方式下可以通过URL传递数据</p>
-
-<p>curl <a href="http://yanzl.net">http://yanzl.net</a><br/>
-post方式传递数据是通过--data/-d方式来指定使用的</p>
-
-<p>除了通过get和post协议之外,还可以通过-X来指定其他的协议</p>
-
-<p>使用-X指定put协议</p>
-
-<p>在这里,-H是自定义头信息,因为传递给服务器的是json数据</p>
-
-<p>curl -H &#39;Content-Type: application/json&#39; -X PUT -d &#39;{&quot;word_id&quot;:1,&quot;paraphrase&quot;:&quot;测试,释义&quot;}&#39; <a href="http://127.0.0.1:5000/words">http://127.0.0.1:5000/words</a></p>
-
-<p>post方式</p>
-
-<p>post方式和put类似</p>
-
-                        
-                      </div>
-                  </div>
-                </a>
-                <div class="read-more clearfix">
-                  <div class="more-left left">
-                  
-                    <span class="date">2016/3/7</span>
-                    <span>posted in&nbsp;</span> 
-          				  
-          					    <span class="posted-in"><a href='Ubuntu.html'>Ubuntu</a></span>
-          				   
-                  </div>
-                  <div class="more-right right">
-                  <span class="comments">
-                      
-
-                       
-                  </span>
-                  </div>
-                </div>
-              </div><!-- article -->
-        
               
 
 
@@ -618,6 +675,12 @@ post方式传递数据是通过--data/-d方式来指定使用的</p>
 	      
 		      
 			      <li class="post">
+			        <a href="15463298937289.html">人生第一次30公里复盘总结</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
 			        <a href="15421053722232.html">Flask 流式相应实现文件下载及常见问题总结</a>
 			      </li>
 		     
@@ -637,12 +700,6 @@ post方式传递数据是通过--data/-d方式来指定使用的</p>
 		      
 			      <li class="post">
 			        <a href="15376924661136.html">SQL查询语句之坑</a>
-			      </li>
-		     
-		  
-		      
-			      <li class="post">
-			        <a href="15056428224967.html">Python 运算符操作</a>
 			      </li>
 		     
 		  

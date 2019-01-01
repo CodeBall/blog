@@ -115,6 +115,138 @@
 		<div class="markdown-body home-categories">
 		
 			<div class="article">
+                <a class="clearlink" href="14857054898000.html">
+                
+                  <h1>python3  获取中文的首字母</h1>
+                  <div class="a-content">
+                      
+                      <div class="a-content-text">
+                        
+                        	<p>前话</p>
+
+<p>python 3中只有unicode str，所以把decode方法去掉了，所以如果要获取中文的首字母就不需要繁琐的decode转换方法。<br/>
+encode()方法可以将Unicode编码转换成指定的编码格式，这里是将Unicode转换成gbk的编码，如果是中文的话，也可以指定gb2312，不过gbk支持的中文会更多<br/>
+应该知道的一点是每个中文占两个字节<br/>
+基本思路</p>
+
+<p>首先把中文字符串转换成gbk格式的编码，这个时候会是一串字节码<br/>
+循环遍历字节码,每一个循环会得到每个字节相应的ascii码,判断是否对应大小写字母，如果是字母，则直接转换<br/>
+如果是汉字，则每两个字节做一次汉字转换，获取首字母<br/>
+存在的问题</p>
+
+<p>因为不熟悉汉字中的每个字节对应的ascii关系，所以这里只处理了汉字和字母，如果字符串中存在英文字符，则无法显示正确结果，如果有大神知道解决方案，欢迎给出评论指导，博主也会尽快查找资料填补这部分漏洞。</p>
+
+<p>执行代码</p>
+
+<p>def get_head_letter(str_input):<br/>
+    str_input = str_input.encode(&#39;gbk&#39;)<br/>
+    print(type(str_input))<br/>
+    print(str_input)<br/>
+    return_list = []<br/>
+    num = 0<br/>
+    for one_unicode in str_input:<br/>
+        if (one_unicode &gt;= 97 and one_unicode &lt;= 122) or (one_unicode &gt;= 65 and one_unicode &lt;= 90):<br/>
+            return_list.append(chr(one_unicode))<br/>
+            continue<br/>
+        print(type(one_unicode))<br/>
+        print(one_unicode)<br/>
+        if num == 0:<br/>
+            first = one_unicode<br/>
+            num += 1<br/>
+        elif num == 1:<br/>
+            last = one_unicode<br/>
+            num += 1<br/>
+        if num == 2:<br/>
+            num = 0<br/>
+            return_list.append(single_letter(first, last))<br/>
+    return return_list</p>
+
+<p>def single_letter(first, last):<br/>
+    asc = first * 256 + last - 65536<br/>
+    if asc &gt;= -20319 and asc &lt;= -20284:<br/>
+        return &#39;a&#39;<br/>
+    if asc &gt;= -20283 and asc &lt;= -19776:<br/>
+        return &#39;b&#39;<br/>
+    if asc &gt;= -19775 and asc &lt;= -19219:<br/>
+        return &#39;c&#39;<br/>
+    if asc &gt;= -19218 and asc &lt;= -18711:<br/>
+        return &#39;d&#39;<br/>
+    if asc &gt;= -18710 and asc &lt;= -18527:<br/>
+        return &#39;e&#39;<br/>
+    if asc &gt;= -18526 and asc &lt;= -18240:<br/>
+        return &#39;f&#39;<br/>
+    if asc &gt;= -18239 and asc &lt;= -17923:<br/>
+        return &#39;g&#39;<br/>
+    if asc &gt;= -17922 and asc &lt;= -17418:<br/>
+        return &#39;h&#39;<br/>
+    if asc &gt;= -17417 and asc &lt;= -16475:<br/>
+        return &#39;j&#39;<br/>
+    if asc &gt;= -16474 and asc &lt;= -16213:<br/>
+        return &#39;k&#39;<br/>
+    if asc &gt;= -16212 and asc &lt;= -15641:<br/>
+        return &#39;l&#39;<br/>
+    if asc &gt;= -15640 and asc &lt;= -15166:<br/>
+        return &#39;m&#39;<br/>
+    if asc &gt;= -15165 and asc &lt;= -14923:<br/>
+        return &#39;n&#39;<br/>
+    if asc &gt;= -14922 and asc &lt;= -14915:<br/>
+        return &#39;o&#39;<br/>
+    if asc &gt;= -14914 and asc &lt;= -14631:<br/>
+        return &#39;p&#39;<br/>
+    if asc &gt;= -14630 and asc &lt;= -14150:<br/>
+        return &#39;q&#39;<br/>
+    if asc &gt;= -14149 and asc &lt;= -14091:<br/>
+        return &#39;r&#39;<br/>
+    if asc &gt;= -14090 and asc &lt;= -13119:<br/>
+        return &#39;s&#39;<br/>
+    if asc &gt;= -13118 and asc &lt;= -12839:<br/>
+        return &#39;t&#39;<br/>
+    if asc &gt;= -12838 and asc &lt;= -12557:<br/>
+        return &#39;w&#39;<br/>
+    if asc &gt;= -12556 and asc &lt;= -11848:<br/>
+        return &#39;x&#39;<br/>
+    if asc &gt;= -11847 and asc &lt;= -11056:<br/>
+        return &#39;y&#39;<br/>
+    if asc &gt;= -11055 and asc &lt;= -10247:<br/>
+        return &#39;z&#39;<br/>
+    return &#39;&#39;</p>
+
+<p>def main(str_input):<br/>
+    a = get_head_letter(str_input)<br/>
+    print(a)<br/>
+    b = &#39;&#39;<br/>
+    for i in a:<br/>
+        b = b + i<br/>
+    print(b)</p>
+
+<p>if <strong>name</strong> == &quot;__main__&quot;:<br/>
+    str_input = &#39;A测试获取c中文首字母,js&#39;<br/>
+    main(str_input)</p>
+
+                        
+                      </div>
+                  </div>
+                </a>
+                <div class="read-more clearfix">
+                  <div class="more-left left">
+                  
+                    <span class="date">2016/8/21</span>
+                    <span>posted in&nbsp;</span> 
+          				  
+          					    <span class="posted-in"><a href='Python.html'>Python</a></span>
+          				   
+                  </div>
+                  <div class="more-right right">
+                  <span class="comments">
+                      
+
+                       
+                  </span>
+                  </div>
+                </div>
+              </div><!-- article -->
+        
+			<div class="article">
                 <a class="clearlink" href="14701068705193.html">
                 
                   <h1>Flask-RESTful 请求解析 ☞ reqparse</h1>
@@ -1178,113 +1310,6 @@ smtpObj.sendmail(sender, receivers, msg.as_string())
                 </div>
               </div><!-- article -->
         
-			<div class="article">
-                <a class="clearlink" href="14690965374529.html">
-                
-                  <h1>python发送邮件☞flask-mail扩展</h1>
-                  <div class="a-content">
-                      
-                      <div class="a-content-text">
-                        
-                        	<h2 id="toc_0">简介</h2>
-
-<p>Python的扩展库，采用SMTP协议完成邮件的发送，需要自己安装。</p>
-
-<h2 id="toc_1">安装方法</h2>
-
-<p>一种方法是通过pip进行安装</p>
-
-<pre><code class="language-python">pip install Flask-Mail
-</code></pre>
-
-<p>另一种方法是下载源码，通过python解释安装</p>
-
-<pre><code class="language-python">python setup.py install
-</code></pre>
-
-<h2 id="toc_2">选项配置</h2>
-
-<p>通过配置，可以指定邮件发送的参数选项</p>
-
-<pre><code>MAIL_SERVER: SMTP服务器主机，可以指定主机IP地址，也可以是域名
-MAIL_PORT: SMTP服务使用的端口号，一般会是25
-MAIL_USERNAME:登录服务器的账号名
-MAIL_PASSWORD:登录服务器的密码
-MAIL_DEFAULT_SENDER:默认发送方
-MAIL_MAX_EMAILS:支持一次连接时最大发送邮件数目，默认会是None，即无限制
-</code></pre>
-
-<h2 id="toc_3">创建邮件发送实例</h2>
-
-<pre><code class="language-python">from flask import Flask
-from flask_mail import Mail
-
-app = Flask(__name__)
-mail = Mail()
-mail.init_app(app)#使用Flask的current_app中的配置项进行发送
-</code></pre>
-
-<h2 id="toc_4">创建文本文件内容</h2>
-
-<pre><code class="language-python">from flask.ext.mail import Message
-#创建消息对象，参数依次为标题，发送方（如果配置中有默认发送方，这里可以不写.另外，sender可以是一个二元组，代表姓名和邮件地址），接收方（列表类型，可以有多个接收者）
-msg = Message(&#39;title&#39;, sender=([sender_name], sender_email), recipients=receivers)
-#可以通过add_recipient()方法添加接收者
-msg.add_recipient(&quot;new_email@email.com&quot;)
-msg.body = &quot;这里是邮件体，即要发送的邮件的内容&quot;
-msg.html = &quot;如果是html格式，使用html属性进行添加邮件体&quot;
-</code></pre>
-
-<h2 id="toc_5">创建带有附件的邮件内容</h2>
-
-<pre><code class="language-python">from ××× import app
-with app.open_resource(&quot;附件路径&quot;) as fp:
-    msg.attach(&quot;附件名，可更换&quot;, &quot;附件类型&quot;, fp.read())
-#附件类型这里可以说一下，博主一共用到了两种类型，一种是图片：image/png;另一种是文件：application/octet-stream；如有问题，欢迎更正，如要添加，更是欢迎！！
-</code></pre>
-
-<h2 id="toc_6">直接发送邮件</h2>
-
-<pre><code class="language-python">mail.send(msg)
-</code></pre>
-
-<h2 id="toc_7">扩展☞发送大量邮件</h2>
-
-<p>有时候会向多人发送邮件，并且邮件的内容会稍有不同，比如称呼什么的，这时候可以采用以下方式进行发送</p>
-
-<pre><code class="language-python">with mail.connect() as conn:
-    for user in users:
-        message = &quot;.....一堆邮件body&quot;
-        subject = &quot;hello, {}&quot;.format(user.name)
-        msg = Message(recipients=user.email,body=message, subject=subject)
-        conn.send(msg)
-</code></pre>
-
-<p>参考文档：<a href="https://pythonhosted.org/Flask-Mail/">Flask-Mail</a></p>
-
-                        
-                      </div>
-                  </div>
-                </a>
-                <div class="read-more clearfix">
-                  <div class="more-left left">
-                  
-                    <span class="date">2016/7/21</span>
-                    <span>posted in&nbsp;</span> 
-          				  
-          					    <span class="posted-in"><a href='Python.html'>Python</a></span>
-          				   
-                  </div>
-                  <div class="more-right right">
-                  <span class="comments">
-                      
-
-                       
-                  </span>
-                  </div>
-                </div>
-              </div><!-- article -->
-        
               
 
 
@@ -1372,6 +1397,12 @@ with app.open_resource(&quot;附件路径&quot;) as fp:
 	      
 		      
 			      <li class="post">
+			        <a href="15463298937289.html">人生第一次30公里复盘总结</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
 			        <a href="15421053722232.html">Flask 流式相应实现文件下载及常见问题总结</a>
 			      </li>
 		     
@@ -1391,12 +1422,6 @@ with app.open_resource(&quot;附件路径&quot;) as fp:
 		      
 			      <li class="post">
 			        <a href="15376924661136.html">SQL查询语句之坑</a>
-			      </li>
-		     
-		  
-		      
-			      <li class="post">
-			        <a href="15056428224967.html">Python 运算符操作</a>
 			      </li>
 		     
 		  
